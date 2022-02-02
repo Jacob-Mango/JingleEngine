@@ -1,0 +1,52 @@
+{
+	entities: [
+		{
+			position: "0 0 0",
+			orientation: "0 0 0",
+			type: "PlanetType",
+		},
+		{
+			position: "0 0 0",
+			orientation: "0 0 0",
+			type: "CameraType",
+			children: [
+				{
+					position: "0 0 -5",
+					orientation: "0 0 0",
+					type: "LightType",
+				},
+			],
+		},
+	],
+	types: {
+		EntityType: {
+		},
+		MeshType: EntityType {
+			model: "assets/models/box/test.obj",
+			material: "assets/models/box/test.material",
+		},
+		DebugType: MeshType {
+			model: "assets/models/box/test.obj",
+			material: "assets/models/box/test.material",
+		},
+		CameraType: EntityType {
+			movementSpeed: 20.0,
+			movementBoostModifier: 2.0,
+			mouseSpeed: 20.0,
+		},
+		LightType: EntityType {
+			type: 2,
+			color: "1.0 1.0 1.0",
+			constant: 1.0,
+			linear: 0.0014,
+			quadratic: 0.000007,
+		},
+		PlanetType: EntityType {
+			quadType: "PlanetQuadType",
+			radius: 500.0,
+		},
+		PlanetQuadType: EntityType {
+			material: "assets/models/box/test.material",
+		},
+	},
+}
