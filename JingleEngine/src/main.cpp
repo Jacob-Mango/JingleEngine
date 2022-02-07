@@ -29,8 +29,6 @@ public:
 
 	virtual void OnStart() override;
 	virtual void OnTick(double DeltaTime) override;
-
-	void UpdateOSD();
 };
 
 int SpaceGame::Init()
@@ -128,24 +126,6 @@ void SpaceGame::OnStart()
 	std::cout << "Loaded config " << std::endl;
 }
 
-void SpaceGame::UpdateOSD()
-{
-	SDL_DisplayMode dm;
-	SDL_GetCurrentDisplayMode(0, &dm);
-
-	DrawText("FPS: " + std::to_string(GetFPS()));
-
-	if (m_OSDMode)
-	{
-		auto [w, h] = GetSize();
-		DrawText("Buffer: " + (m_BufferIndex >= 0 ? m_Framebuffers[m_BufferIndex]->GetName() : "NONE"));
-		DrawText("Display: " + std::to_string(dm.refresh_rate) + "hz " + "width=" + std::to_string(w) + " height=" + std::to_string(h));
-		DrawText("Depth Testing: " + std::string(m_DepthTesting ? "On" : "Off"));
-		DrawText("Backface Culling: " + std::string(m_BackFaceCulling ? "On" : "Off"));
-		DrawText("VSync: " + std::string(IsVsync() ? "On" : "Off"));
-	}
-}
-
 void SpaceGame::OnTick(double DeltaTime)
 {
 	Application::OnTick(DeltaTime);
@@ -222,8 +202,6 @@ void SpaceGame::OnTick(double DeltaTime)
 		m_BufferIndex = m_Framebuffers.size() - 1;
 	else if (m_BufferIndex >= m_Framebuffers.size())
 		m_BufferIndex = -1;
-
-	UpdateOSD();
 
 	GetScene()->OnSimulate(DeltaTime, m_Renderer);
 

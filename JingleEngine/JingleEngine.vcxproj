@@ -73,7 +73,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{e1d53bb2-caa1-4a70-a3ad-1f9482573642}</ProjectGuid>
-    <RootNamespace>Sample</RootNamespace>
+    <RootNamespace>JingleEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
