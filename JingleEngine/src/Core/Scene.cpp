@@ -87,6 +87,8 @@ void Scene::OnStop()
 
 void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 {
+	ImGui::Begin("Another Window");
+
 	auto camera = GetCamera();
 	glm::dvec3 cameraPos(0.0f);
 	if (camera)
@@ -106,8 +108,9 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 		Ref<Entity> entity = m_Entities[i];
 
 		entity->OnSimulate(DeltaTime);
-		
-		//m_Application->DrawText("[" + std::to_string(i) + "]: " + entity->AsString());
+
+		std::string entStr = "[" + std::to_string(i) + "]: " + entity->AsString();
+		ImGui::Text(entStr.c_str());
 
 		if (!entity->IsVisible())
 			continue;
@@ -120,6 +123,8 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 
 		Renderer->SubmitStaticMesh(mesh, transform);
 	}
+
+	ImGui::End();
 }
 
 Ref<Camera> Scene::GetCamera()

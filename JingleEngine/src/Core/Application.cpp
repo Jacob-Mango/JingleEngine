@@ -16,6 +16,10 @@
 #include "../Rendering/Material.h"
 #include "../Rendering/Renderer.h"
 
+#include <imgui.h>
+#include <imgui_impl_sdl.h>
+#include <imgui_impl_opengl3.h>
+
 Application* g_Application;
 
 Application::Application(std::string title, bool fullscreen, int width, int height) : m_Title(title), m_Fullscreen(fullscreen), m_WindowWidth(width), m_WindowHeight(height)
@@ -26,6 +30,10 @@ Application::Application(std::string title, bool fullscreen, int width, int heig
 Application::~Application()
 {
 	AssetManager::Destroy();
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
 
 	SDL_GL_DeleteContext(m_GLContext);
 	SDL_DestroyRenderer(m_SDLRenderer);
@@ -144,6 +152,22 @@ int Application::Init()
 
 	m_Renderer = new Renderer();
 
+
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplSDL2_InitForOpenGL(m_SDLWindow, m_GLContext);
+	ImGui_ImplOpenGL3_Init("#version 130");
+
 	return 0;
 }
 void Application::RegisterBaseEntityType(std::string name, EntityType* type)
@@ -242,10 +266,21 @@ void Application::Start()
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
+			ImGui_ImplSDL2_ProcessEvent(&event);
 			HandleEvents(event);
 		}
+		// Start the Dear ImGui frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplSDL2_NewFrame();
+		ImGui::NewFrame();
+
 
 		OnTick((float)m_DeltaTime);
+
+
+		ImGui::Render();
+
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		SDL_GL_SwapWindow(m_SDLWindow);
 	}

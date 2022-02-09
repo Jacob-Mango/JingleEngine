@@ -2,6 +2,8 @@
 
 #include "Application.h"
 
+#include <imgui.h>
+
 void Binding::UpdateState()
 {
 	BindingState previousState = m_State;
@@ -72,6 +74,8 @@ void BindingManager::Destroy()
 
 void BindingManager::OnEvent(SDL_Event& event)
 {
+	ImGuiIO& io = ImGui::GetIO();
+
 	switch (event.type)
 	{
 	case SDL_KEYDOWN:
@@ -79,13 +83,16 @@ void BindingManager::OnEvent(SDL_Event& event)
 		OnKeyboardEventEvent(event.key);
 		break;
 	case SDL_MOUSEMOTION:
+		if (!io.WantCaptureMouse)
 		OnMouseMotionEvent(event.motion);
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 	case SDL_MOUSEBUTTONUP:
+	if (!io.WantCaptureMouse)
 		OnMouseButtonEvent(event.button);
 		break;
 	case SDL_MOUSEWHEEL:
+		if (!io.WantCaptureMouse)
 		OnMouseWheelEvent(event.wheel);
 		break;
 	}

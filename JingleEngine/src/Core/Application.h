@@ -21,6 +21,8 @@ struct GLTtext;
 #include "Logging.h"
 #include "Reference.h"
 
+#include <imgui.h>
+
 class Application
 {
 private:

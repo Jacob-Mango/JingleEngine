@@ -4,6 +4,8 @@
 
 #include "../Platform/OpenGL/glad.h"
 
+#include <imgui.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
