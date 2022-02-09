@@ -1,6 +1,6 @@
 #include "GUID.h"
 
-#include "AssetManager.h"
+#include "AssetModule.h"
 
 GUID::GUID(GUIDv id) : m_Value(id)
 {
@@ -9,7 +9,7 @@ GUID::GUID(GUIDv id) : m_Value(id)
 
 GUID::GUID(std::string path) : m_Path(path)
 {
-	m_Value = AssetManager::ConvertPath(m_Path);
+	m_Value = AssetModule::ConvertPath(m_Path);
 }
 
 std::string GUID::GetPath()

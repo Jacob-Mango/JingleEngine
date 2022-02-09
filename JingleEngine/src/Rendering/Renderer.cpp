@@ -9,21 +9,38 @@ void Renderer::SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform)
 	m_StaticMeshes[shader].push_back({ shader, mesh, transform });
 }
 
-void Renderer::Render(Scene* Scene)
+void Renderer::OnTick(double DeltaTime)
 {
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glClearColor(0.0, 0.0, 0.5, 1.0);
+	glClearDepth(1.0f);
+
+	auto [width, height] = Application::Get()->GetWindow()->GetSize();
+
+	//m_Scene->SetProjectionMatrix(glm::perspective(glm::radians(90.0f), (GLfloat)width / (GLfloat)height, 0.001f, 1000.0f));
+
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, width, height);
+
 	for (auto& [shader, commands] : m_StaticMeshes)
 	{
 		shader->Bind();
 
-		shader->Set("u_ProjectionMatrix", Scene->GetProjectionMatrix());
-		shader->Set("u_ViewMatrix", Scene->GetViewMatrix());
-		shader->Set("u_CameraPosition", Scene->GetCamera() ? glm::vec3(Scene->GetCamera()->GetPosition()) : glm::vec3(0));
+		shader->Set("u_ProjectionMatrix", m_Scene->GetProjectionMatrix());
+		shader->Set("u_ViewMatrix", m_Scene->GetViewMatrix());
+		shader->Set("u_CameraPosition", m_Scene->GetCamera() ? glm::vec3(m_Scene->GetCamera()->GetPosition()) : glm::vec3(0));
 
 		int numDirectionalLights = 0;
 		int numPointLights = 0;
 
 		int index = 0;
-		for (auto& light : Scene->m_Lights)
+		for (auto& light : m_Scene->m_Lights)
 		{
 			light->Process(shader, numPointLights, numDirectionalLights);
 

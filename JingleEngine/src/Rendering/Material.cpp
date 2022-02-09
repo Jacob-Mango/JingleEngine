@@ -19,22 +19,22 @@ bool Material::OnLoad()
 	std::cout << "MATERIAL:: " << config->AsString() << std::endl;
 
 	std::string shader = (*config)["shader"].String;
-	m_Shader = AssetManager::Get<Shader>(shader);
+	m_Shader = AssetModule::Get<Shader>(shader);
 
 	std::string ambient = (*config)["ambient"]["path"].String;
-	m_Ambient = AssetManager::Get<Texture>(ambient);
+	m_Ambient = AssetModule::Get<Texture>(ambient);
 
 	std::string diffuse = (*config)["diffuse"]["path"].String;
-	m_Diffuse = AssetManager::Get<Texture>(diffuse);
+	m_Diffuse = AssetModule::Get<Texture>(diffuse);
 
 	std::string metallic = (*config)["metallic"]["path"].String;
-	m_Metallic = AssetManager::Get<Texture>(metallic);
+	m_Metallic = AssetModule::Get<Texture>(metallic);
 
 	std::string normal = (*config)["normal"]["path"].String;
-	m_Normal = AssetManager::Get<Texture>(normal);
+	m_Normal = AssetModule::Get<Texture>(normal);
 
 	std::string roughness = (*config)["roughness"]["path"].String;
-	m_Roughness = AssetManager::Get<Texture>(roughness);
+	m_Roughness = AssetModule::Get<Texture>(roughness);
 
 
 	#if 0
@@ -42,42 +42,42 @@ bool Material::OnLoad()
 		auto shader = (*config)["shader"];
 		auto path = shader.String;
 
-		m_Shader = AssetManager::Get<Shader>(path);
+		m_Shader = AssetModule::Get<Shader>(path);
 	}
 
 	{
 		auto ambient = (*config)["ambient"];
 		auto path = ambient["path"].String;
 
-		m_Ambient = AssetManager::Get<Texture>(path);
+		m_Ambient = AssetModule::Get<Texture>(path);
 	}
 
 	{
 		auto diffuse = (*config)["diffuse"];
 		auto path = diffuse["path"].String;
 
-		m_Diffuse = AssetManager::Get<Texture>(path);
+		m_Diffuse = AssetModule::Get<Texture>(path);
 	}
 
 	{
 		auto metallic = (*config)["metallic"];
 		auto path = metallic["path"].String;
 
-		m_Metallic = AssetManager::Get<Texture>(path);
+		m_Metallic = AssetModule::Get<Texture>(path);
 	}
 
 	{
 		auto normal = (*config)["normal"];
 		auto path = normal["path"].String;
 
-		m_Normal = AssetManager::Get<Texture>(path);
+		m_Normal = AssetModule::Get<Texture>(path);
 	}
 
 	{
 		auto roughness = (*config)["roughness"];
 		auto path = roughness["path"].String;
 
-		m_Roughness = AssetManager::Get<Texture>(path);
+		m_Roughness = AssetModule::Get<Texture>(path);
 	}
 	#endif
 

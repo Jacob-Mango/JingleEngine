@@ -165,7 +165,10 @@ void SDLWindow::PollEvents()
 
 			KeyPressEventArgs args;
 			args.Key = event.key.keysym.sym;
+
 			Application::Get()->OnKeyPress.Invoke(this, args);
+			Application::Get()->OnEvent(this, args);
+
 			break;
 		}
 		case SDL_KEYUP:
@@ -174,7 +177,10 @@ void SDLWindow::PollEvents()
 
 			KeyReleaseEventArgs args;
 			args.Key = event.key.keysym.sym;
+
 			Application::Get()->OnKeyRelease.Invoke(this, args);
+			Application::Get()->OnEvent(this, args);
+
 			break;
 		}
 		case SDL_MOUSEMOTION:
@@ -184,7 +190,10 @@ void SDLWindow::PollEvents()
 			MouseMoveEventArgs args;
 			args.X = event.motion.x;
 			args.Y = event.motion.y;
+
 			Application::Get()->OnMouseMove.Invoke(this, args);
+			Application::Get()->OnEvent(this, args);
+
 			break;
 		}
 		case SDL_MOUSEBUTTONDOWN:
@@ -193,7 +202,10 @@ void SDLWindow::PollEvents()
 
 			MouseButtonPressEventArgs args;
 			args.Button = event.button.button;
+
 			Application::Get()->OnMouseButtonPress.Invoke(this, args);
+			Application::Get()->OnEvent(this, args);
+
 			break;
 		}
 		case SDL_MOUSEBUTTONUP:
@@ -202,7 +214,10 @@ void SDLWindow::PollEvents()
 
 			MouseButtonReleaseEventArgs args;
 			args.Button = event.button.button;
+
 			Application::Get()->OnMouseButtonRelease.Invoke(this, args);
+			Application::Get()->OnEvent(this, args);
+
 			break;
 		}
 		case SDL_MOUSEWHEEL:
@@ -213,13 +228,19 @@ void SDLWindow::PollEvents()
 			args.Direction = event.wheel.direction;
 			args.X = event.wheel.x;
 			args.Y = event.wheel.y;
+
 			Application::Get()->OnMouseScroll.Invoke(this, args);
+			Application::Get()->OnEvent(this, args);
+
 			break;
 		}
 		case SDL_QUIT:
 		{
 			WindowCloseEventArgs args;
+
 			Application::Get()->OnWindowClose.Invoke(this, args);
+			Application::Get()->OnEvent(this, args);
+
 			break;
 		}
 		case SDL_WINDOWEVENT:
@@ -232,7 +253,10 @@ void SDLWindow::PollEvents()
 
 				args.Width = event.window.data1;
 				args.Height = event.window.data2;
+				
 				Application::Get()->OnWindowResize.Invoke(this, args);
+				Application::Get()->OnEvent(this, args);
+
 				break;
 			}
 			}

@@ -8,14 +8,14 @@ void MeshEntityType::Load(Config& config)
 		auto model = config["model"];
 		auto path = model.String;
 
-		Model = AssetManager::Get<MeshAsset>(path);
+		Model = AssetModule::Get<MeshAsset>(path);
 	}
 
 	{
 		auto model = config["material"];
 		auto path = model.String;
 
-		Material = AssetManager::Get<::Material>(path);
+		Material = AssetModule::Get<::Material>(path);
 	}
 }
 

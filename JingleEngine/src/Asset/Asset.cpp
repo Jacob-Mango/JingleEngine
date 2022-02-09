@@ -1,6 +1,6 @@
 #include "Asset.h"
 
-#include "AssetManager.h"
+#include "AssetModule.h"
 
 #include <string>
 
@@ -10,7 +10,7 @@ Asset::Asset(const GUID &guid) : m_GUID(guid)
 
 Asset::~Asset()
 {
-	AssetManager::Unload(GetGUID());
+	AssetModule::Unload(GetGUID());
 }
 
 std::string Asset::GetPath()

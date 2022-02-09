@@ -1,6 +1,6 @@
 #include "Framebuffer.h"
 
-#include "Asset/AssetManager.h"
+#include "Asset/AssetModule.h"
 
 #include "Rendering/Texture.h"
 
@@ -119,7 +119,7 @@ void Framebuffer::AttachColor(TextureFormat format)
 {
 	unsigned int attachment = GL_COLOR_ATTACHMENT0 + m_NumColorAttachment++;
 
-	Ref<Texture> texture = AssetManager::Get<Texture>(GUID(m_Name + std::to_string(attachment)));
+	Ref<Texture> texture = AssetModule::Get<Texture>(GUID(m_Name + std::to_string(attachment)));
 	texture->Create(format, m_Width, m_Height, m_CubeMap);
 	m_Attachments[attachment] = texture;
 
@@ -141,7 +141,7 @@ void Framebuffer::AttachDepth(TextureFormat format)
 {
 	unsigned int attachment = GL_DEPTH_ATTACHMENT;
 
-	Ref<Texture> texture = AssetManager::Get<Texture>(GUID(m_Name + std::to_string(attachment)));
+	Ref<Texture> texture = AssetModule::Get<Texture>(GUID(m_Name + std::to_string(attachment)));
 	texture->Create(format, m_Width, m_Height, m_CubeMap);
 	m_Attachments[attachment] = texture;
 

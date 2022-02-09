@@ -4,7 +4,7 @@
 #include "Core/Reference.h"
 
 #include "Asset/Asset.h"
-#include "Asset/AssetManager.h"
+#include "Asset/AssetModule.h"
 
 #include "Rendering/Texture.h"
 #include "Rendering/Shader.h"

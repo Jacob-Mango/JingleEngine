@@ -9,8 +9,10 @@
 #include "Shader.h"
 #include "Mesh.h"
 
-class Renderer
+class Renderer : public Module
 {
+	MODULE(Renderer)
+
 private:
 	struct MeshCommand
 	{
@@ -21,7 +23,10 @@ private:
 
 	std::map<Shader*, std::vector<MeshCommand>> m_StaticMeshes;
 
+	Ref<Scene> m_Scene;
+
 public:
 	void SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform);
-	void Render(class Scene* Scene);
+
+	virtual void OnTick(double DeltaTime) override;
 };

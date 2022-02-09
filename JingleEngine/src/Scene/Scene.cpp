@@ -8,7 +8,7 @@
 #include "Core/Application.h"
 #include "Core/Binding.h"
 
-#include "Asset/AssetManager.h"
+#include "Asset/AssetModule.h"
 
 #include "Rendering/Camera.h"
 #include "Rendering/Mesh.h"

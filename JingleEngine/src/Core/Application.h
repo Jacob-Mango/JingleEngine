@@ -19,6 +19,7 @@ enum class TextureFormat;
 #include "Window.h"
 
 #include "Event.h"
+#include "Module.h"
 
 #include <imgui.h>
 
@@ -35,12 +36,12 @@ private:
 	uint64_t m_FPS = 0;
 	double m_DeltaTime = 0;
 
-	Ref<Scene> m_Scene;
-
 	Window* m_Window;
 
 	//todo: move into a material module
 	std::map<std::string, Ref<Material>> m_Materials;
+
+	std::vector<Module*> m_Modules;
 
 public:
 	EventHandler<KeyPressEventArgs> OnKeyPress;
@@ -65,6 +66,20 @@ public:
 
 	static Application* Get();
 
+	template<typename T>
+	T* RegisterModule()
+	{
+		T* module = new T();
+		m_Modules.push_back(module);
+		return module;
+	}
+
+	template<typename T>
+	T* GetModule()
+	{
+
+	}
+
 	//todo: move into a material module
 	void AddMaterial(Config* config);
 	Ref<Material> GetMaterial(std::string material);
@@ -72,8 +87,7 @@ public:
 	//todo: make framebuffers a type of entity?
 	Ref<Framebuffer> CreateFramebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width = 512, unsigned int height = 512, bool cubeMap = false);
 
-	void Start();
-	void Stop();
+	void Run();
 
 	void RequestExit();
 	void ClearExitRequest();
@@ -84,13 +98,12 @@ public:
 
 	uint64_t GetFPS() const;
 
-	void SetScene(Ref<Scene> Scene);
-	Ref<Scene> GetScene() const;
-
 	Window* GetWindow();
 
-	virtual int Init();
-	virtual void OnStart();
-	virtual void OnStop();
-	virtual void OnTick(double DeltaTime);
+	int Init();
+
+	void OnEvent(BaseClass* sender, const EventArgs& args);
+	void OnTick(double DeltaTime);
+
+
 };

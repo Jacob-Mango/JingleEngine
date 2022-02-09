@@ -1,31 +1,33 @@
 #pragma once
 
-#include "Reference.h"
-#include "Core.h"
 #include <functional>
 
-#define EVENT_DEFAULT(type, value)                                             \
-	static EventType EventType##type = value;                                  \
-	class type##EventArgs : public EventArgs                                   \
-	{                                                                          \
-	public:                                                                    \
-		static EventType StaticTypeID() { return EventType##type; }           \
-		virtual EventType GetType() const override { return StaticTypeID(); } \
+#include "Core/Reference.h"
+#include "Core/Core.h"
+
+#define EVENT_DEFAULT(type, value)												\
+	static const EventType EventType##type = value;								\
+	class type##EventArgs : public EventArgs									\
+	{																			\
+	public:																		\
+		static EventType StaticTypeID() { return EventType##type; }				\
+		virtual EventType GetType() const override { return StaticTypeID(); }	\
 		virtual std::string GetName() const override { return #type; }
 
-#define EVENT(type, base, value)                                               \
-	static EventType EventType##type = value;                                  \
-	class type##EventArgs : public base##EventArgs                             \
-	{                                                                          \
-	public:                                                                    \
-		static EventType StaticTypeID() { return EventType##type; }           \
-		virtual EventType GetType() const override { return StaticTypeID(); } \
+#define EVENT(type, base, value)												\
+	static const EventType EventType##type = value;								\
+	class type##EventArgs : public base##EventArgs								\
+	{																			\
+	public:																		\
+		static EventType StaticTypeID() { return EventType##type; }				\
+		virtual EventType GetType() const override { return StaticTypeID(); }	\
 		virtual std::string GetName() const override { return #type; }
 
 typedef unsigned int EventType;
 
 class EventArgs : public BaseClass
 {
+public:
 	virtual EventType GetType() const = 0;
 	virtual std::string GetName() const = 0;
 
@@ -40,22 +42,22 @@ class EventArgs : public BaseClass
 	}
 };
 
-typedef std::function<void(BaseClass *, EventArgs &)> Event;
+typedef std::function<void(BaseClass*, EventArgs&)> Event;
 
 template <typename T>
 class EventHandler
 {
 private:
-	std::vector<std::function<void(BaseClass *, T &)>> m_Events;
+	std::vector<std::function<void(BaseClass*, T&)>> m_Events;
 
 public:
-	EventHandler &operator+=(const std::function<void(BaseClass *, T &)> &event)
+	EventHandler& operator+=(const std::function<void(BaseClass*, T&)> &event)
 	{
 		m_Events.push_back(event);
 		return *this;
 	}
 
-	void Invoke(BaseClass *sender, T &args)
+	void Invoke(BaseClass* sender, T& args)
 	{
 		for (auto event : m_Events)
 		{

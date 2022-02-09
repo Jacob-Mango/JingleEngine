@@ -3,7 +3,7 @@
 #include "Core/Core.h"
 
 #include "Asset/Asset.h"
-#include "Asset/AssetManager.h"
+#include "Asset/AssetModule.h"
 
 class Shader;
 

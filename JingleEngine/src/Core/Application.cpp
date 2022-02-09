@@ -1,10 +1,11 @@
 #include "Application.h"
 
-#include "Asset/AssetManager.h"
+#include "Asset/AssetModule.h"
 
 #include "Core/Core.h"
 #include "Core/Binding.h"
 #include "Core/Config.h"
+#include "Core/Event.h"
 
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"
@@ -23,7 +24,6 @@ Application::Application()
 Application::~Application()
 {
 	BindingManager::Destroy();
-	AssetManager::Destroy();
 }
 
 Application* Application::Get()
@@ -49,9 +49,6 @@ int Application::Init()
 	};
 
 	BindingManager::Init();
-	AssetManager::Init();
-
-	m_Renderer = new Renderer();
 
 	return 0;
 }
@@ -82,33 +79,19 @@ double ElapsedTime(Time* time)
 	return delta;
 }
 
-void Application::Start()
+void Application::Run()
 {
-	if (m_IsRunning)
-	{
-		std::cout << "Failed to start Application, already running." << std::endl;
-		return;
-	}
-
-	if (Init() != 0)
-	{
-		std::cout << "Failed to start Application, initialize failed." << std::endl;
-		return;
-	}
-
 	m_IsRunning = true;
-
-	OnStart();
-
-	if (m_Scene != nullptr)
-	{
-		m_Scene->OnStart();
-	}
 
 	Time time = CurrentTime();
 
 	double frameTime = 0;
 	uint64_t frames = 0;
+
+	for (auto module : m_Modules)
+	{
+		module->OnCreate();
+	}
 
 	while (m_IsRunning)
 	{
@@ -134,30 +117,16 @@ void Application::Start()
 
 		m_Window->End();
 
+		if (m_RequestingExit)
+		{
+			m_IsRunning = false;
+			m_RequestingExit = false;
+		}
 	}
 
-	if (m_IsRunning)
+	for (auto module : m_Modules)
 	{
-		Stop();
-	}
-}
-
-void Application::Stop()
-{
-	if (!m_IsRunning)
-	{
-		std::cout << "Failed to stop Application, already stopped." << std::endl;
-		return;
-	}
-
-	m_IsRunning = false;
-	m_RequestingExit = false;
-
-	OnStop();
-
-	if (m_Scene != nullptr)
-	{
-		m_Scene->OnStop();
+		module->OnDestroy();
 	}
 }
 
@@ -196,36 +165,42 @@ uint64_t Application::GetFPS() const
 	return m_FPS;
 }
 
-void Application::SetScene(Ref<Scene> Scene)
+void Application::OnEvent(BaseClass* sender, const EventArgs& args)
 {
-	if (m_IsRunning && m_Scene != nullptr)
+	for (auto module : m_Modules)
 	{
-		m_Scene->OnStop();
+		module->OnEvent(sender, args);
 	}
-
-	m_Scene = Scene;
-
-	if (m_IsRunning && m_Scene != nullptr)
-	{
-		m_Scene->OnStart();
-	}
-}
-
-Ref<Scene> Application::GetScene() const
-{
-	return m_Scene;
-}
-
-void Application::OnStart()
-{
-}
-
-void Application::OnStop()
-{
 }
 
 void Application::OnTick(double DeltaTime)
 {
-	if (RequestingExit())
-		Stop();
+	static bool isSecondPress;
+
+	if (BindingManager::Get("exit") == BindingState::PRESSED)
+	{
+		Input::ShowCursor(true);
+
+		if (isSecondPress)
+		{
+			RequestExit();
+			return;
+		}
+
+		isSecondPress = true;
+	}
+	else if (!Input::IsCursorVisible())
+	{
+		isSecondPress = false;
+	}
+
+	if (BindingManager::Get("focus") >= BindingState::PRESSED)
+	{
+		Input::ShowCursor(false);
+	}
+
+	for (auto module : m_Modules)
+	{
+		module->OnTick(DeltaTime);
+	}
 }

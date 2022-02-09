@@ -1,38 +1,10 @@
-#include "Core.h"
+#include "Entry.h"
 
 #include "Scene/Planet/Planet.h"
 #include "Scene/Planet/PlanetQuad.h"
 
-class SpaceGame : public Application
+int JingleEngineMain(Application* app)
 {
-private:
-	int m_FaceMode = GL_FILL;
-	bool m_DepthTesting = true;
-	bool m_BackFaceCulling = true;
-	bool m_OSDMode = false;
-
-	int m_BufferIndex = 0;
-
-	Ref<Framebuffer> m_ScreenBuffer;
-	Ref<Shader> m_ScreenShader;
-	Ref<Mesh> m_ScreenMesh;
-
-	Ref<Framebuffer> m_SceneBuffer;
-
-public:
-	int Init();
-
-	virtual void OnStart() override;
-	virtual void OnTick(double DeltaTime) override;
-};
-
-int SpaceGame::Init()
-{
-	if (int err = Application::Init() != 0)
-	{
-		return err;
-	}
-
 	EntityTypeManager::Register<EntityType>();
 	EntityTypeManager::Register<MeshEntityType>();
 	EntityTypeManager::Register<LightType>();
@@ -40,9 +12,6 @@ int SpaceGame::Init()
 	EntityTypeManager::Register<DebugType>();
 	EntityTypeManager::Register<PlanetType>();
 	EntityTypeManager::Register<PlanetQuadType>();
-
-	auto config = Config::Load("Assets/bindings.cfg");
-	std::cout << "bindings:: " << (*config).AsString() << std::endl;
 
 	BindingManager::RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
 	BindingManager::RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });
@@ -73,42 +42,10 @@ int SpaceGame::Init()
 	return 0;
 }
 
+/*
 void SpaceGame::OnStart()
 {
-	Application::OnStart();
-
 	SetScene(new Scene());
-
-	m_ScreenShader = AssetManager::Get<Shader>("Assets/Shaders/screen");
-	m_ScreenBuffer = CreateFramebuffer("Main", { TextureFormat::RGBA32 });
-
-	m_ScreenShader->Bind();
-	m_ScreenShader->Set("u_Screen", 0);
-	m_ScreenShader->Unbind();
-
-	m_SceneBuffer = CreateFramebuffer("Scene", { TextureFormat::RGBA32,TextureFormat::RGBA32, TextureFormat::DEPTH });
-
-	{
-		std::vector<glm::vec3> positions = {
-			{-1.0f,  1.0f, 0.0f},
-			{-1.0f, -1.0f, 0.0f},
-			{ 1.0f,  1.0f, 0.0f},
-			{ 1.0f, -1.0f, 0.0f},
-		};
-
-		std::vector<glm::vec2> uvs = {
-			{0.0f, 1.0f},
-			{0.0f, 0.0f},
-			{1.0f, 1.0f},
-			{1.0f, 0.0f},
-		};
-
-		std::vector<unsigned int> indices = {
-			0, 1, 2, 1, 3, 2
-		};
-
-		m_ScreenMesh = new Mesh(nullptr, positions, uvs, indices);
-	}
 
 	auto config = Config::Load("Assets/Scenes/game.scene");
 	std::cout << "game.scene:: " << (*config).AsString() << std::endl;
@@ -120,141 +57,12 @@ void SpaceGame::OnStart()
 	}
 
 	GetScene()->LoadScene((*config)["entities"]);
-
-	std::cout << "Loaded config " << std::endl;
 }
 
 void SpaceGame::OnTick(double DeltaTime)
 {
 	Application::OnTick(DeltaTime);
 
-	static bool isSecondPress;
-
-	if (BindingManager::Get("exit") == BindingState::PRESSED)
-	{
-		Input::ShowCursor(true);
-
-		if (isSecondPress)
-		{
-			RequestExit();
-			return;
-		}
-
-		isSecondPress = true;
-	}
-	else if (!Input::IsCursorVisible())
-	{
-		isSecondPress = false;
-	}
-
-	if (BindingManager::Get("focus") >= BindingState::PRESSED)
-	{
-		Input::ShowCursor(false);
-	}
-
-	if (BindingManager::Get("toggle_facemode") == BindingState::PRESSED)
-	{
-		m_FaceMode = m_FaceMode == GL_FILL ? GL_LINE : GL_FILL;
-	}
-
-	if (BindingManager::Get("toggle_backfaceculling") == BindingState::PRESSED)
-	{
-		m_BackFaceCulling = !m_BackFaceCulling;
-	}
-
-	if (BindingManager::Get("toggle_depthtesting") == BindingState::PRESSED)
-	{
-		m_DepthTesting = !m_DepthTesting;
-	}
-
-	if (BindingManager::Get("toggle_osd") == BindingState::PRESSED)
-	{
-		m_OSDMode = !m_OSDMode;
-	}
-
-	if (BindingManager::Get("toggle_vsync") == BindingState::PRESSED)
-	{
-		GetWindow()->SetVsync(!GetWindow()->IsVsync());
-	}
-
-	if (BindingManager::Get("toggle_debug") == BindingState::PRESSED)
-	{
-		SetDebug(!IsDebug());
-	}
-
-	if (BindingManager::Get("buffer_prev") == BindingState::PRESSED)
-	{
-		m_BufferIndex--;
-	}
-
-	if (BindingManager::Get("buffer_next") == BindingState::PRESSED)
-	{
-		m_BufferIndex++;
-	}
-
-	if (m_BufferIndex < -1)
-		m_BufferIndex = m_Framebuffers.size() - 1;
-	else if (m_BufferIndex >= m_Framebuffers.size())
-		m_BufferIndex = -1;
-
-	GetScene()->OnSimulate(DeltaTime, m_Renderer);
-
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-
-	glPolygonMode(GL_FRONT_AND_BACK, m_FaceMode);
-
-	glClearColor(0.0, 0.0, 0.5, 1.0);
-	glClearDepth(1.0f);
-
-	auto [width, height] = GetWindow()->GetSize();
-
-	GetScene()->SetProjectionMatrix(glm::perspective(glm::radians(90.0f), (GLfloat)width / (GLfloat)height, 0.001f, 1000.0f));
-
-	if (m_BackFaceCulling)
-		glEnable(GL_CULL_FACE);
-	else
-		glDisable(GL_CULL_FACE);
-
-	if (m_DepthTesting)
-		glEnable(GL_DEPTH_TEST);
-	else
-		glDisable(GL_DEPTH_TEST);
-
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glViewport(0, 0, width, height);
-
-	//m_SceneBuffer->Resize(width, height);
-	//m_ScreenBuffer->Resize(width, height);
-
-	//m_SceneBuffer->Bind();
-	//m_SceneBuffer->Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//m_SceneBuffer->Unbind();
-
-	//m_ScreenBuffer->Bind();
-	//m_ScreenBuffer->Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	m_Renderer->Render(GetScene());
-
-	//m_ScreenBuffer->Unbind();
-
-	/*
-	if (m_BufferIndex >= 0)
-	{
-		auto texture = m_Framebuffers[m_BufferIndex]->GetTexture(0);
-		if (!texture)
-			texture = m_Framebuffers[m_BufferIndex]->GetTexture(-1);
-		if (texture)
-		{
-			m_ScreenShader->Bind();
-			texture->Bind(0);
-			m_ScreenMesh->Render();
-			m_ScreenShader->Unbind();
-		}
-	}
-	*/
 }
 
 int main(int argc, char** argv)
@@ -264,3 +72,4 @@ int main(int argc, char** argv)
 	app->Start();
 	return 0;
 }
+*/

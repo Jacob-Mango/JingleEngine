@@ -6,7 +6,7 @@
 
 #include "Core/Application.h"
 
-#include "Asset/AssetManager.h"
+#include "Asset/AssetModule.h"
 
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"

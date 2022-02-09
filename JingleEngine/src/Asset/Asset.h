@@ -6,13 +6,13 @@
 
 #include "GUID.h"
 
-#define SETUP_ASSET(CLS, base) friend class AssetManager; private: CLS(const GUID& guid) : base(guid) {}
+#define SETUP_ASSET(CLS, base) friend class AssetModule; private: CLS(const GUID& guid) : base(guid) {}
 
 class Asset : public Countable
 {
 	typedef Countable base;
 
-	friend class AssetManager;
+	friend class AssetModule;
 
 private:
 	GUID m_GUID;
@@ -36,4 +36,4 @@ public:
 	virtual std::string ToString() override;
 };
 
-#include "AssetManager.h"
+#include "AssetModule.h"
