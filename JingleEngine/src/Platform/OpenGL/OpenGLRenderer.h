@@ -1,4 +1,4 @@
-#include "../../Rendering/RenderAPI.h"
+#include "Rendering/RenderAPI.h"
 
 class OpenGLRenderer : public RenderAPI
 {

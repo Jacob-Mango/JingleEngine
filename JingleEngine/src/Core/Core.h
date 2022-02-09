@@ -2,7 +2,7 @@
 
 #define GL_GLEXT_PROTOTYPES
 
-#include "../Platform/OpenGL/glad.h"
+#include "Platform/OpenGL/glad.h"
 
 #include <imgui.h>
 

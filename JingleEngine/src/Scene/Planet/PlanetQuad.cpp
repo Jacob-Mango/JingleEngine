@@ -2,9 +2,9 @@
 
 #include "Planet.h"
 
-#include "../Core/Scene.h"
+#include "Scene/Scene.h"
 
-#include "../Rendering/Renderer.h"
+#include "Rendering/Renderer.h"
 
 #define D_DIST(a, b) (((double)b - (double)a) * ((double)b - (double)a))
 #define D_LEN(a) (a * a)

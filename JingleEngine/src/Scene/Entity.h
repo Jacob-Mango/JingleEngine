@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Reference.h"
-
-#include "Core.h"
+#include "Core/Reference.h"
+#include "Core/Core.h"
 
 class Scene;
 
@@ -41,8 +40,8 @@ class Config;
 class Entity;
 class Application;
 
-#include "../Rendering/Material.h"
-#include "../Rendering/Mesh.h"
+#include "Rendering/Material.h"
+#include "Rendering/Mesh.h"
 
 class EntityType : public Countable
 {

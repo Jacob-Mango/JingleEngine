@@ -1,7 +1,7 @@
 #include "SDLWindow.h"
 
-#include "../../Core/Core.h"
-#include "../../Core/Application.h"
+#include "Core/Core.h"
+#include "Core/Application.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>

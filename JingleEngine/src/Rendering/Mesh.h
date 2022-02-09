@@ -4,11 +4,12 @@
 
 #include <glm/glm.hpp>
 
-#include "../Asset/Asset.h"
-#include "../Asset/AssetManager.h"
-#include "../Core/Reference.h"
+#include "Asset/Asset.h"
+#include "Asset/AssetManager.h"
 
-#include "Material.h"
+#include "Core/Reference.h"
+
+#include "Rendering/Material.h"
 
 typedef struct
 {

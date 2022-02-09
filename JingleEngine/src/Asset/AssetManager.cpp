@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../Core/Logging.h"
+#include "Core/Logging.h"
 
 AssetManager *AssetManager::s_Instance;
 

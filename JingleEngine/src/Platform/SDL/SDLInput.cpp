@@ -1,8 +1,8 @@
-#include "../../Core/Core.h"
-#include "../../Core/Application.h"
-#include "../../Core/Window.h"
-
 #include "SDLWindow.h"
+
+#include "Core/Core.h"
+#include "Core/Application.h"
+#include "Core/Window.h"
 
 #include <SDL.h>
 

@@ -1,7 +1,7 @@
 #include "Core.h"
 
-#include "Planet/Planet.h"
-#include "Planet/PlanetQuad.h"
+#include "Scene/Planet/Planet.h"
+#include "Scene/Planet/PlanetQuad.h"
 
 class SpaceGame : public Application
 {

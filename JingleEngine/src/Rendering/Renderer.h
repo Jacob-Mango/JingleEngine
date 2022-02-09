@@ -3,8 +3,8 @@
 #include <map>
 #include <vector>
 
-#include "../Core.h"
-#include "../Core/Reference.h"
+#include "Core.h"
+#include "Core/Reference.h"
 
 #include "Shader.h"
 #include "Mesh.h"

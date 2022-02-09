@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../Core/Core.h"
+#include "Core/Core.h"
+#include "Core/Reference.h"
 
-#include "../Asset/Asset.h"
-#include "../Asset/AssetManager.h"
-#include "../Core/Reference.h"
+#include "Asset/Asset.h"
+#include "Asset/AssetManager.h"
 
-#include "Texture.h"
-#include "Shader.h"
+#include "Rendering/Texture.h"
+#include "Rendering/Shader.h"
 
 class Material : public Asset
 {

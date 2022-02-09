@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Platform\OpenGL\glad.c" />
     <ClCompile Include="src\Asset\Asset.cpp" />
     <ClCompile Include="src\Asset\AssetManager.cpp" />
@@ -27,16 +26,14 @@
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Binding.cpp" />
     <ClCompile Include="src\Core\Config.cpp" />
-    <ClCompile Include="src\Core\Debug.cpp" />
-    <ClCompile Include="src\Core\Entity.cpp" />
-    <ClCompile Include="src\Core\Frustum.cpp" />
+    <ClCompile Include="src\Scene\Debug.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
-    <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\SDL\SDLInput.cpp" />
     <ClCompile Include="src\Platform\SDL\SDLWindow.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
     <ClCompile Include="src\Rendering\Framebuffer.cpp" />
+    <ClCompile Include="src\Rendering\Frustum.cpp" />
     <ClCompile Include="src\Rendering\Light.cpp" />
     <ClCompile Include="src\Rendering\Material.cpp" />
     <ClCompile Include="src\Rendering\Mesh.cpp" />
@@ -45,8 +42,10 @@
     <ClCompile Include="src\Rendering\Shader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Rendering\Texture.cpp" />
-    <ClCompile Include="src\Planet\Planet.cpp" />
-    <ClCompile Include="src\Planet\PlanetQuad.cpp" />
+    <ClCompile Include="src\Scene\Entity.cpp" />
+    <ClCompile Include="src\Scene\Planet\Planet.cpp" />
+    <ClCompile Include="src\Scene\Planet\PlanetQuad.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Asset\Asset.h" />
@@ -57,13 +56,10 @@
     <ClInclude Include="src\Core\Binding.h" />
     <ClInclude Include="src\Core\Config.h" />
     <ClInclude Include="src\Core\Core.h" />
-    <ClInclude Include="src\Core\Debug.h" />
-    <ClInclude Include="src\Core\Entity.h" />
+    <ClInclude Include="src\Scene\Debug.h" />
     <ClInclude Include="src\Core\Event.h" />
-    <ClInclude Include="src\Core\Frustum.h" />
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Logging.h" />
-    <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Core\Reference.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\glad.h" />
@@ -72,6 +68,7 @@
     <ClInclude Include="src\Platform\SDL\SDLWindow.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\Framebuffer.h" />
+    <ClInclude Include="src\Rendering\Frustum.h" />
     <ClInclude Include="src\Rendering\Light.h" />
     <ClInclude Include="src\Rendering\Material.h" />
     <ClInclude Include="src\Rendering\Mesh.h" />
@@ -79,8 +76,10 @@
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Texture.h" />
-    <ClInclude Include="src\Planet\Planet.h" />
-    <ClInclude Include="src\Planet\PlanetQuad.h" />
+    <ClInclude Include="src\Scene\Entity.h" />
+    <ClInclude Include="src\Scene\Planet\Planet.h" />
+    <ClInclude Include="src\Scene\Planet\PlanetQuad.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -173,6 +172,7 @@
       <PreprocessorDefinitions>DEBUG;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -195,6 +195,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <PreprocessorDefinitions>RELEASE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -217,6 +218,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -239,6 +241,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <PreprocessorDefinitions>RELEASE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

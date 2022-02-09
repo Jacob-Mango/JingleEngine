@@ -1,6 +1,6 @@
 #include "Material.h"
 
-#include "../Core/Config.h"
+#include "Core/Config.h"
 
 #include <vector>
 #include <string>

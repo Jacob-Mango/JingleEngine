@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../Core/Reference.h"
+#include "Core/Reference.h"
 
 #include "GUID.h"
 

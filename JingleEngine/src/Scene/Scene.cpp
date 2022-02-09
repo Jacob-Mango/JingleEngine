@@ -1,19 +1,19 @@
 #include "Scene.h"
 
-#include "Entity.h"
+#include "Scene/Entity.h"
 
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 
-#include "Application.h"
-#include "Binding.h"
+#include "Core/Application.h"
+#include "Core/Binding.h"
 
-#include "../Asset/AssetManager.h"
+#include "Asset/AssetManager.h"
 
-#include "../Rendering/Camera.h"
-#include "../Rendering/Mesh.h"
-#include "../Rendering/Renderer.h"
-#include "../Rendering/Shader.h"
+#include "Rendering/Camera.h"
+#include "Rendering/Mesh.h"
+#include "Rendering/Renderer.h"
+#include "Rendering/Shader.h"
 
 Scene::Scene(Application* app) : m_Application(app)
 {

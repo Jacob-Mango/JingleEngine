@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Core/Core.h"
+#include "Core/Core.h"
 
-#include "../Asset/Asset.h"
-#include "../Asset/AssetManager.h"
+#include "Asset/Asset.h"
+#include "Asset/AssetManager.h"
 
 class Shader;
 

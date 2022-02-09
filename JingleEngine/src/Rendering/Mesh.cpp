@@ -2,18 +2,15 @@
 
 #include <fstream>
 
-#define TINYOBJLOADER_IMPLEMENTATION
-#include <tiny_obj_loader.h>
-
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <assimp/DefaultLogger.hpp>
 #include <assimp/LogStream.hpp>
 #include <assimp/Importer.hpp>
 
-#include "../Core/Core.h"
+#include "Core/Core.h"
 
-#include "Material.h"
+#include "Rendering/Material.h"
 
 bool MeshAsset::OnLoad()
 {

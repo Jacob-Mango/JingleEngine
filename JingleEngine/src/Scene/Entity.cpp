@@ -2,12 +2,14 @@
 
 #include <glm/gtx/euler_angles.hpp>
 
-#include "Scene.h"
-#include "Application.h"
+#include "Scene/Scene.h"
 
-#include "../Asset/AssetManager.h"
-#include "../Rendering/Mesh.h"
-#include "../Rendering/Material.h"
+#include "Core/Application.h"
+
+#include "Asset/AssetManager.h"
+
+#include "Rendering/Mesh.h"
+#include "Rendering/Material.h"
 
 void EntityType::Register(Application* app)
 {

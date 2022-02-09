@@ -3,8 +3,8 @@
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 
-#include "../../Core/Window.h"
-#include "../../Core/Input.h"
+#include "Core/Window.h"
+#include "Core/Input.h"
 
 class SDLWindow : public Window
 {

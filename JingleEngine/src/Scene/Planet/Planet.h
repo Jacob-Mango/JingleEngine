@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../Core/Application.h"
-#include "../Core/Config.h"
-#include "../Core/Entity.h"
-#include "../Core/Scene.h"
+#include "Core/Application.h"
+#include "Core/Config.h"
+
+#include "Scene/Entity.h"
+#include "Scene/Scene.h"
 
 #include "PlanetQuad.h"
 

@@ -1,8 +1,8 @@
 #include "Framebuffer.h"
 
-#include "../Asset/AssetManager.h"
+#include "Asset/AssetManager.h"
 
-#include "Texture.h"
+#include "Rendering/Texture.h"
 
 Framebuffer::Framebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width, unsigned int height, bool cubeMap) : m_Name(name), m_AttachmentArray(attachments), m_CubeMap(cubeMap)
 {

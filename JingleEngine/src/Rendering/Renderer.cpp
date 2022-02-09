@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-#include "../Core/Scene.h"
+#include "Scene/Scene.h"
 
 void Renderer::SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform)
 {

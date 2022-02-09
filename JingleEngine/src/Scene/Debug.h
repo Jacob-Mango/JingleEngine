@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Application.h"
-#include "Config.h"
-#include "Entity.h"
-#include "Scene.h"
+#include "Core/Application.h"
+#include "Core/Config.h"
+
+#include "Scene/Entity.h"
+#include "Scene/Scene.h"
 
 class Debug;
 class DebugType : public EntityType

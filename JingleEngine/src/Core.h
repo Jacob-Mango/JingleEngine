@@ -14,4 +14,4 @@
 #include "Rendering/Renderer.h"
 #include "Rendering/Camera.h"
 
-#include "Core/Debug.h"
+#include "Scene/Debug.h"

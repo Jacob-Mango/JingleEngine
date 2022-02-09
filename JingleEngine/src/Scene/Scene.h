@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Reference.h"
-#include "Entity.h"
+#include "Scene/Entity.h"
 
-#include "Frustum.h"
+#include "Rendering/Frustum.h"
 
-#include "Config.h"
+#include "Core/Application.h"
+#include "Core/Config.h"
 
 class Camera;
 class Texture;

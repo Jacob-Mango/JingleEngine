@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "../Core/Logging.h"
+#include "Core/Logging.h"
 
 #include "Asset.h"
 #include "GUID.h"

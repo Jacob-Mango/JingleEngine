@@ -1,9 +1,6 @@
 #pragma once
 
-#include "../Core/Application.h"
-#include "../Core/Config.h"
-#include "../Core/Entity.h"
-#include "../Core/Scene.h"
+#include "Scene/Scene.h"
 
 class Texture;
 class Shader;

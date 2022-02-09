@@ -1,8 +1,8 @@
 #include "Planet.h"
 
-#include "../Core/Scene.h"
+#include "Scene/Scene.h"
 
-#include "../Rendering/Renderer.h"
+#include "Rendering/Renderer.h"
 
 void PlanetType::Load(Config& config)
 {

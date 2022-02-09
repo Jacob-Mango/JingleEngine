@@ -408,3 +408,5 @@ Libraries/*/BINARIES/
 Libraries/*/doc/
 Libraries/*/data/
 Libraries/*/Extras/
+
+imgui.ini

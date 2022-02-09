@@ -1,20 +1,17 @@
 #include "Application.h"
 
-#include "Core.h"
+#include "Asset/AssetManager.h"
 
-#define GLT_IMPLEMENTATION
-#include <gltext.h>
+#include "Core/Core.h"
+#include "Core/Binding.h"
+#include "Core/Config.h"
 
-#include "../Asset/AssetManager.h"
+#include "Scene/Entity.h"
+#include "Scene/Scene.h"
 
-#include "Binding.h"
-#include "Config.h"
-#include "Entity.h"
-#include "Scene.h"
-
-#include "../Rendering/Framebuffer.h"
-#include "../Rendering/Material.h"
-#include "../Rendering/Renderer.h"
+#include "Rendering/Framebuffer.h"
+#include "Rendering/Material.h"
+#include "Rendering/Renderer.h"
 
 Application* g_Application;
 
