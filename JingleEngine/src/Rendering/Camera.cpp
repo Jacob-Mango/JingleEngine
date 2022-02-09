@@ -34,12 +34,12 @@ void Camera::OnSimulate(double DeltaTime)
 	glm::vec3 position = GetPosition();
 	glm::vec3 orientation = GetOrientation();
 
-	if (Input::IsCursorVisible())
+	if (!Input::IsCursorVisible())
 	{
-		auto [mouseX, mouseY] = Input::GetMousePosition();
+		auto [mouseX, mouseY] = Input::GetMouseDelta();
 
-		orientation.x += float(mouseX * DeltaTime * GetType()->MouseSpeed);
-		orientation.y -= float(mouseY * DeltaTime * GetType()->MouseSpeed);
+		orientation.x -= float(mouseX * DeltaTime * GetType()->MouseSpeed);
+		orientation.y += float(mouseY * DeltaTime * GetType()->MouseSpeed);
 		orientation.z = 0;
 
 		if (orientation.y < -89.0)
@@ -55,7 +55,7 @@ void Camera::OnSimulate(double DeltaTime)
 
 	float speed = GetType()->MovementSpeed;
 
-	if (Input::IsCursorVisible() && BindingManager::Get("turbo") >= BindingState::PRESSED)
+	if (!Input::IsCursorVisible() && BindingManager::Get("turbo") >= BindingState::PRESSED)
 	{
 		speed *= GetType()->MovementBoostModifier;
 	}
@@ -65,22 +65,22 @@ void Camera::OnSimulate(double DeltaTime)
 	float forward = 0;
 	float strafe = 0;
 
-	if (Input::IsCursorVisible() && BindingManager::Get("forward") >= BindingState::PRESSED)
+	if (!Input::IsCursorVisible() && BindingManager::Get("forward") >= BindingState::PRESSED)
 	{
 		forward = speed;
 	}
 
-	if (Input::IsCursorVisible() && BindingManager::Get("backward") >= BindingState::PRESSED)
+	if (!Input::IsCursorVisible() && BindingManager::Get("backward") >= BindingState::PRESSED)
 	{
 		forward = -speed;
 	}
 
-	if (Input::IsCursorVisible() && BindingManager::Get("right") >= BindingState::PRESSED)
+	if (!Input::IsCursorVisible() && BindingManager::Get("right") >= BindingState::PRESSED)
 	{
 		strafe = -speed;
 	}
 
-	if (Input::IsCursorVisible() && BindingManager::Get("left") >= BindingState::PRESSED)
+	if (!Input::IsCursorVisible() && BindingManager::Get("left") >= BindingState::PRESSED)
 	{
 		strafe = speed;
 	}

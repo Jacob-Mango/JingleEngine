@@ -42,7 +42,7 @@ int Application::Init()
 	};
 
 	OnWindowResize += [this](BaseClass* sender, WindowResizeEventArgs args) {
-	//	SetSize(args.Width, args.Height);
+		std::cout << "Resized width=" << args.Width << " height=" << args.Height << std::endl;
 	};
 
 	BindingManager::Init();
@@ -159,6 +159,7 @@ void Application::Start()
 			frames = 0;
 		}
 
+		Input::Update();
 		BindingManager::Update();
 
 		m_Window->PollEvents();

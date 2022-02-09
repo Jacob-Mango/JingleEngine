@@ -29,11 +29,4 @@ private:
 	SDL_Window *m_SDLWindow = nullptr;
 	SDL_Renderer *m_SDLRenderer = nullptr;
 	SDL_GLContext m_GLContext = nullptr;
-	
-	std::string m_Title;
-	int m_Width;
-	int m_Height;
-
-	bool m_FullScreen;
-	bool m_Vsync;
 };

@@ -46,23 +46,22 @@ Window *Window::Create(const WindowDesc &desc)
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, sdlFlags);
 
-	window->m_FullScreen = desc.FullScreen;
-	window->m_Width = desc.Width;
-	window->m_Height = desc.Height;
+	int width = desc.Width;
+	int height = desc.Height;
 
 	int windowsFlags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	int posFlag = SDL_WINDOWPOS_CENTERED;
 
-	if (window->m_FullScreen)
+	if (desc.FullScreen)
 	{
 		windowsFlags |= SDL_WINDOW_FULLSCREEN;
 		posFlag = SDL_WINDOWPOS_UNDEFINED;
 
-		window->m_Width = 0;
-		window->m_Height = 0;
+		width = 0;
+		height = 0;
 	}
 
-	window->m_SDLWindow = SDL_CreateWindow(desc.Title.c_str(), posFlag, posFlag, window->m_Width, window->m_Height, windowsFlags);
+	window->m_SDLWindow = SDL_CreateWindow(desc.Title.c_str(), posFlag, posFlag, width, height, windowsFlags);
 	if (window->m_SDLWindow == nullptr)
 	{
 		return nullptr;
@@ -86,9 +85,6 @@ Window *Window::Create(const WindowDesc &desc)
 	{
 		return nullptr;
 	}
-
-	window->m_Width = dm.w;
-	window->m_Height = dm.h;
 
 	GLint flags;
 	glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
@@ -132,25 +128,24 @@ SDLWindow::~SDLWindow()
 
 bool SDLWindow::IsVsync() const
 {
-	return m_Vsync;
+	return SDL_GL_GetSwapInterval() != 0;
 }
 
 void SDLWindow::SetVsync(bool enabled)
 {
-	m_Vsync = enabled;
-
-	SDL_GL_SetSwapInterval(m_Vsync);
+	SDL_GL_SetSwapInterval(enabled);
 }
 
 void SDLWindow::SetSize(std::pair<int, int> size)
 {
-	m_Width = size.first;
-	m_Height = size.second;
+	SDL_SetWindowSize(m_SDLWindow, size.first, size.second);
 }
 
 std::pair<int, int> SDLWindow::GetSize()
 {
-	return { m_Width, m_Height };
+	int width, height;
+	SDL_GetWindowSize(m_SDLWindow, &width, &height);
+	return { width, height };
 }
 
 void SDLWindow::PollEvents()
@@ -234,6 +229,7 @@ void SDLWindow::PollEvents()
 			case SDL_WINDOWEVENT_RESIZED:
 			{
 				WindowResizeEventArgs args;
+
 				args.Width = event.window.data1;
 				args.Height = event.window.data2;
 				g_Application->OnWindowResize.Invoke(this, args);

@@ -6,7 +6,6 @@
 class SpaceGame : public Application
 {
 private:
-	bool m_WasMouseLocked = false;
 	int m_FaceMode = GL_FILL;
 	bool m_DepthTesting = true;
 	bool m_BackFaceCulling = true;
@@ -124,32 +123,28 @@ void SpaceGame::OnTick(double DeltaTime)
 {
 	Application::OnTick(DeltaTime);
 
-	if (BindingManager::Get("exit") >= BindingState::PRESSED)
-	{
-		if (Input::IsCursorVisible())
-		{
-			m_WasMouseLocked = true;
-		}
+	static bool isSecondPress;
 
+	if (BindingManager::Get("exit") == BindingState::PRESSED)
+	{
 		Input::ShowCursor(true);
 
-		if (!m_WasMouseLocked)
+		if (isSecondPress)
 		{
 			RequestExit();
 			return;
 		}
+
+		isSecondPress = true;
 	}
-	else
+	else if (!Input::IsCursorVisible())
 	{
-		m_WasMouseLocked = false;
+		isSecondPress = false;
 	}
 
 	if (BindingManager::Get("focus") >= BindingState::PRESSED)
 	{
-		if (!Input::IsCursorVisible())
-		{
-			Input::ShowCursor(false);
-		}
+		Input::ShowCursor(false);
 	}
 
 	if (BindingManager::Get("toggle_facemode") == BindingState::PRESSED)
@@ -174,7 +169,7 @@ void SpaceGame::OnTick(double DeltaTime)
 
 	if (BindingManager::Get("toggle_vsync") == BindingState::PRESSED)
 	{
-	//	SetVsync(!IsVsync());
+		GetWindow()->SetVsync(!GetWindow()->IsVsync());
 	}
 
 	if (BindingManager::Get("toggle_debug") == BindingState::PRESSED)

@@ -4,12 +4,18 @@
 
 class Input
 {
+	friend class Application;
+
 public:
 	static void SetMousePosition(int x, int y);
 	static std::pair<int, int> GetMousePosition();
+	static std::pair<int, int> GetMouseDelta();
 
 	static void ShowCursor(bool show);
 	static bool IsCursorVisible();
+	
+private:
+	static void Update();
 };
 
 enum class InputType

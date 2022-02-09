@@ -19,14 +19,26 @@ std::pair<int, int> Input::GetMousePosition()
 	return { x, y };
 }
 
+int g_MouseDeltaX, g_MouseDeltaY;
+
+std::pair<int, int> Input::GetMouseDelta()
+{
+	return { g_MouseDeltaX, g_MouseDeltaY };
+}
+
 void Input::ShowCursor(bool show)
 {
-	SDL_SetRelativeMouseMode(show ? SDL_TRUE : SDL_FALSE);
+	SDL_SetRelativeMouseMode(show ? SDL_FALSE : SDL_TRUE);
 }
 
 bool Input::IsCursorVisible()
 {
-	return SDL_GetRelativeMouseMode();
+	return SDL_GetRelativeMouseMode() == SDL_FALSE ? true : false;
+}
+
+void Input::Update()
+{
+	SDL_GetRelativeMouseState(&g_MouseDeltaX, &g_MouseDeltaY);
 }
 
 int MouseCode::BUTTON_1				= 1;
