@@ -40,6 +40,10 @@ int SpaceGame::Init()
 	PlanetType::Register(this);
 	PlanetQuadType::Register(this);
 
+	Ref<Config> config = Config::Load("Assets/bindings.cfg");
+
+	std::cout << "Loaded" << std::endl;
+
 	BindingManager::RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
 	BindingManager::RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });
 
@@ -75,7 +79,7 @@ void SpaceGame::OnStart()
 
 	SetScene(new Scene(this));
 
-	m_ScreenShader = AssetManager::Get<Shader>("assets/shaders/screen");
+	m_ScreenShader = AssetManager::Get<Shader>("Assets/Shaders/screen");
 	m_ScreenBuffer = CreateFramebuffer("Main", { TextureFormat::RGBA32 });
 
 	m_ScreenShader->Bind();
@@ -106,7 +110,7 @@ void SpaceGame::OnStart()
 		m_ScreenMesh = new Mesh(nullptr, positions, uvs, indices);
 	}
 
-	Ref<Config> config = Config::Load("assets/scenes/game.scene");
+	Ref<Config> config = Config::Load("Assets/Scenes/game.scene");
 
 	auto& types = (*config)["types"];
 	for (int i = 0; i < types.Count; i++)

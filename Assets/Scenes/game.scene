@@ -22,12 +22,12 @@
 		EntityType: {
 		},
 		MeshType: EntityType {
-			model: "assets/models/box/test.obj",
-			material: "assets/models/box/test.material",
+			model: "Assets/Models/Box/test.obj",
+			material: "Assets/Models/Box/test.material",
 		},
 		DebugType: MeshType {
-			model: "assets/models/box/test.obj",
-			material: "assets/models/box/test.material",
+			model: "Assets/Models/Box/test.obj",
+			material: "Assets/Models/Box/test.material",
 		},
 		CameraType: EntityType {
 			movementSpeed: 20.0,
@@ -46,7 +46,7 @@
 			radius: 500.0,
 		},
 		PlanetQuadType: EntityType {
-			material: "assets/models/box/test.material",
+			material: "Assets/Models/Box/test.material",
 		},
 	},
 }
