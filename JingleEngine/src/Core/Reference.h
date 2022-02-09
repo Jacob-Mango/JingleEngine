@@ -14,16 +14,36 @@ std::string PointerToString(T* val)
 	return ss.str();
 }
 
-class Countable
+class BaseClass
+{
+public:
+	virtual ~BaseClass()
+	{
+	}
+
+	virtual std::string ToString()
+	{
+		return "Address=" + PointerToString(this);
+	}
+
+	std::string AsString()
+	{
+		return "[" + ToString() + "]";
+	}
+
+	template <typename T>
+	T& Cast() 
+	{
+		return *dynamic_cast<T*>(this);
+	}
+};
+
+class Countable : public BaseClass
 {
 private:
 	mutable int m_RefCount = 0;
 
 public:
-	virtual ~Countable()
-	{
-	}
-
 	void RefInc() const
 	{
 		++m_RefCount;
@@ -42,16 +62,6 @@ public:
 	int GetRefCount() const
 	{
 		return m_RefCount;
-	}
-
-	virtual std::string ToString()
-	{
-		return "Address=" + PointerToString(this);
-	}
-
-	std::string AsString()
-	{
-		return "[" + ToString() + "]";
 	}
 };
 

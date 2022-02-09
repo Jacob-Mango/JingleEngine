@@ -8,11 +8,6 @@ class Framebuffer;
 
 enum class TextureFormat;
 
-struct GLTtext;
-
-#define SDL_MAIN_HANDLED
-#include <SDL.h>
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,47 +16,52 @@ struct GLTtext;
 #include "Logging.h"
 #include "Reference.h"
 
+#include "Window.h"
+
+#include "Event.h"
+
 #include <imgui.h>
 
-class Application
+class Application : public BaseClass
 {
 private:
 	bool m_IsRunning = false;
 	bool m_RequestingExit = false;
-
-	std::string m_Title;
-	int m_ScreenWidth;
-	int m_ScreenHeight;
-	int m_WindowWidth;
-	int m_WindowHeight;
 	
-	bool m_Fullscreen;
-	bool m_Vsync;
 	bool m_Debug;
-	std::vector<GLTtext*> m_Texts;
 
-	Uint64 m_CurrentTime = 0;
-	Uint64 m_FPS = 0;
+	uint64_t m_FPS = 0;
 	double m_DeltaTime = 0;
 
 	Ref<Scene> m_Scene;
 
+	Window* m_Window;
+
 	std::map<std::string, Ref<EntityType>> m_BaseEntityTypes;
 	std::map<std::string, Ref<EntityType>> m_EntityTypes;
 
+	//todo: move into a material module
 	std::map<std::string, Ref<Material>> m_Materials;
 
-protected:
-	SDL_Window* m_SDLWindow = nullptr;
-	SDL_Renderer* m_SDLRenderer = nullptr;
-	SDL_GLContext m_GLContext = nullptr;
+public:
+	EventHandler<KeyPressEventArgs> OnKeyPress;
+	EventHandler<KeyReleaseEventArgs> OnKeyRelease;
 
+	EventHandler<MouseButtonPressEventArgs> OnMouseButtonPress;
+	EventHandler<MouseButtonReleaseEventArgs> OnMouseButtonRelease;
+	EventHandler<MouseScrollEventArgs> OnMouseScroll;
+	EventHandler<MouseMoveEventArgs> OnMouseMove;
+
+	EventHandler<WindowResizeEventArgs> OnWindowResize;
+	EventHandler<WindowCloseEventArgs> OnWindowClose;
+
+protected:
 	class Renderer* m_Renderer = nullptr;
 
 	std::vector<Ref<Framebuffer>> m_Framebuffers;
 
 public:
-	Application(std::string title, bool fullscreen, int width, int height);
+	Application();
 	~Application();
 
 	void RegisterBaseEntityType(std::string name, EntityType* type);
@@ -75,9 +75,11 @@ public:
 		return GetEntityType(T::BaseName()).As<T>();
 	}
 
+	//todo: move into a material module
 	void AddMaterial(Config& config);
 	Ref<Material> GetMaterial(std::string material);
 
+	//todo: make framebuffers a type of entity?
 	Ref<Framebuffer> CreateFramebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width = 512, unsigned int height = 512, bool cubeMap = false);
 
 	void Start();
@@ -87,26 +89,15 @@ public:
 	void ClearExitRequest();
 	bool RequestingExit();
 
-	bool IsVsync() const;
-	void SetVsync(bool enabled);
-
 	bool IsDebug() const;
 	void SetDebug(bool enabled);
-	void DrawText(std::string text);
 
-	void UpdateDebug(double DeltaTime);
-
-	Uint64 GetFPS() const;
-	Uint64 GetCurrentTime() const;
-
-	void SetSize(std::pair<int, int> size);
-	std::pair<int, int> GetSize();
-	SDL_Window* GetWindow();
+	uint64_t GetFPS() const;
 
 	void SetScene(Ref<Scene> Scene);
 	Ref<Scene> GetScene() const;
 
-	void HandleEvents(SDL_Event& event);
+	Window* GetWindow();
 
 	virtual int Init();
 	virtual void OnStart();

@@ -12,7 +12,7 @@ void Binding::UpdateState()
 
 	for (auto& [key, value] : m_Combo)
 	{
-		if (value.second == BindingType::MOUSE && (key == MOUSE_WHEEL_UP || key == MOUSE_WHEEL_DOWN || key == MOUSE_WHEEL_LEFT || key == MOUSE_WHEEL_RIGHT))
+		if (value.second == InputType::MOUSE && (key == MouseCode::WHEEL_UP || key == MouseCode::WHEEL_DOWN || key == MouseCode::WHEEL_LEFT || key == MouseCode::WHEEL_RIGHT))
 		{
 			value.first = BindingState::RELEASED;
 			m_State = BindingState::RELEASED;
@@ -36,7 +36,7 @@ void Binding::UpdateState()
 	}
 }
 
-void Binding::UpdateKey(int keyCode, BindingState state, BindingType type, float val)
+void Binding::UpdateKey(int keyCode, BindingState state, InputType type, float val)
 {
 	for (const auto& [key, value] : m_Combo)
 	{
@@ -50,126 +50,81 @@ void Binding::UpdateKey(int keyCode, BindingState state, BindingType type, float
 }
 
 std::map<std::string, std::vector<Binding*>> BindingManager::m_Bindings;
-bool BindingManager::m_KeyChanged;
 
-int BindingManager::m_PreviousMouseX;
-int BindingManager::m_PreviousMouseY;
-int BindingManager::m_DeltaMouseX;
-int BindingManager::m_DeltaMouseY;
-int BindingManager::m_MouseX;
-int BindingManager::m_MouseY;
-bool BindingManager::m_CalledMouseEvent;
-
-bool BindingManager::m_MouseLock;
-Application* BindingManager::m_Application;
-
-void BindingManager::Init(Application* app)
+void BindingManager::Init()
 {
-	m_Application = app;
+	g_Application->OnKeyPress += OnKeyPress;
+	g_Application->OnKeyRelease += OnKeyRelease;
+	g_Application->OnMouseButtonPress += OnMouseButtonPress;
+	g_Application->OnMouseButtonRelease += OnMouseButtonRelease;
+	g_Application->OnMouseScroll += OnMouseScroll;
+	g_Application->OnMouseMove += OnMouseMove;
 }
 
 void BindingManager::Destroy()
 {
 }
 
-void BindingManager::OnEvent(SDL_Event& event)
-{
-	ImGuiIO& io = ImGui::GetIO();
-
-	switch (event.type)
-	{
-	case SDL_KEYDOWN:
-	case SDL_KEYUP:
-		OnKeyboardEventEvent(event.key);
-		break;
-	case SDL_MOUSEMOTION:
-		if (!io.WantCaptureMouse)
-		OnMouseMotionEvent(event.motion);
-		break;
-	case SDL_MOUSEBUTTONDOWN:
-	case SDL_MOUSEBUTTONUP:
-	if (!io.WantCaptureMouse)
-		OnMouseButtonEvent(event.button);
-		break;
-	case SDL_MOUSEWHEEL:
-		if (!io.WantCaptureMouse)
-		OnMouseWheelEvent(event.wheel);
-		break;
-	}
-}
-
-void BindingManager::OnKeyboardEventEvent(SDL_KeyboardEvent& event)
-{
-	m_KeyChanged = (event.state == SDL_PRESSED) ? true : m_KeyChanged;
-
-	for (const auto& [key, value] : m_Bindings)
-		for (auto binding : value)
-			binding->UpdateKey(event.keysym.sym, event.state ? BindingState::PRESSED : BindingState::RELEASED, BindingType::KEY, event.state ? 1 : 0);
-}
-
-void BindingManager::OnMouseMotionEvent(SDL_MouseMotionEvent& event)
-{
-	if (m_CalledMouseEvent && event.x == m_MouseX && event.y == m_MouseY)
-	{
-		m_CalledMouseEvent = false;
-		return;
-	}
-
-	m_PreviousMouseX = m_MouseX;
-	m_PreviousMouseY = m_MouseY;
-
-	m_MouseX = event.x;
-	m_MouseY = event.y;
-
-	m_DeltaMouseX = m_PreviousMouseX - m_MouseX;
-	m_DeltaMouseY = m_PreviousMouseY - m_MouseY;
-
-	if (m_MouseLock)
-	{
-		auto [width, height] = m_Application->GetSize();
-		m_MouseX = width / 2;
-		m_MouseY = height / 2;
-
-		m_CalledMouseEvent = true;
-
-		SDL_WarpMouseInWindow(m_Application->GetWindow(), m_MouseX, m_MouseY);
-	}
-}
-
-void BindingManager::OnMouseButtonEvent(SDL_MouseButtonEvent& event)
+void BindingManager::OnKeyPress(BaseClass* sender, const KeyPressEventArgs& args)
 {
 	for (const auto& [key, value] : m_Bindings)
 		for (auto binding : value)
-			binding->UpdateKey(event.button, event.state ? BindingState::PRESSED : BindingState::RELEASED, BindingType::MOUSE, event.state ? 1 : 0);
+			binding->UpdateKey(args.Key, BindingState::PRESSED, InputType::KEY, 1.0f);
 }
 
-void BindingManager::OnMouseWheelEvent(SDL_MouseWheelEvent& event)
+void BindingManager::OnKeyRelease(BaseClass* sender, const KeyReleaseEventArgs& args)
 {
-	Sint32 mul = event.direction == SDL_MOUSEWHEEL_FLIPPED ? -1 : 1;
+	for (const auto& [key, value] : m_Bindings)
+		for (auto binding : value)
+			binding->UpdateKey(args.Key, BindingState::RELEASED, InputType::KEY, 0.0f);
+}
+
+void BindingManager::OnMouseButtonPress(BaseClass* sender, const MouseButtonPressEventArgs& args)
+{
+	for (const auto& [key, value] : m_Bindings)
+		for (auto binding : value)
+			binding->UpdateKey(args.Button, BindingState::PRESSED, InputType::MOUSE, 1.0f);
+}
+
+void BindingManager::OnMouseButtonRelease(BaseClass* sender, const MouseButtonReleaseEventArgs& args)
+{
+	for (const auto& [key, value] : m_Bindings)
+		for (auto binding : value)
+			binding->UpdateKey(args.Button, BindingState::RELEASED, InputType::MOUSE, 0.0f);
+}
+
+void BindingManager::OnMouseScroll(BaseClass* sender, const MouseScrollEventArgs& args)
+{
+	float mul = args.Direction == 1 ? -1 : 1;
 	float scrollValue = 0;
 	int keyCode = 0;
 
-	if (event.y != 0)
+	if (args.Y != 0)
 	{
-		scrollValue = event.y * mul;
-		keyCode = MOUSE_WHEEL_UP;
-		if (scrollValue > 0) keyCode = MOUSE_WHEEL_DOWN;
+		scrollValue = args.Y * mul;
+		keyCode = MouseCode::WHEEL_UP;
+		if (scrollValue > 0) keyCode = MouseCode::WHEEL_DOWN;
 	}
-	if (event.x != 0)
+
+	if (args.X != 0)
 	{
-		scrollValue = event.x * mul;
-		keyCode = MOUSE_WHEEL_LEFT;
-		if (scrollValue > 0) keyCode = MOUSE_WHEEL_RIGHT;
+		scrollValue = args.X * mul;
+		keyCode = MouseCode::WHEEL_LEFT;
+		if (scrollValue > 0) keyCode = MouseCode::WHEEL_RIGHT;
 	}
 
 	if (keyCode == 0) return;
 
 	for (const auto& [key, value] : m_Bindings)
 		for (auto binding : value)
-			binding->UpdateKey(keyCode, BindingState::PRESSED, BindingType::MOUSE, scrollValue);
+			binding->UpdateKey(keyCode, BindingState::PRESSED, InputType::MOUSE, scrollValue);
 }
 
-void BindingManager::RegisterCombo(std::string name, std::initializer_list<std::pair<int, BindingType >> combo)
+void BindingManager::OnMouseMove(BaseClass* sender, const MouseMoveEventArgs& args)
+{
+}
+
+void BindingManager::RegisterCombo(std::string name, std::initializer_list<std::pair<int, InputType >> combo)
 {
 	Binding* binding = new Binding();
 	binding->m_Name = name;
@@ -178,7 +133,7 @@ void BindingManager::RegisterCombo(std::string name, std::initializer_list<std::
 	m_Bindings[name].push_back(binding);
 }
 
-void BindingManager::RegisterCombos(std::string name, std::initializer_list<std::initializer_list<std::pair<int, BindingType>>> combos)
+void BindingManager::RegisterCombos(std::string name, std::initializer_list<std::initializer_list<std::pair<int, InputType>>> combos)
 {
 	for (auto& combo : combos)
 		RegisterCombo(name, combo);
@@ -202,56 +157,11 @@ float BindingManager::GetValue(std::string name)
 	return value;
 }
 
-std::pair<int, int> BindingManager::GetMouseDelta()
-{
-	return { m_DeltaMouseX, m_DeltaMouseY };
-}
-
-bool BindingManager::IsMouseLocked()
-{
-	return m_MouseLock;
-}
-
-void BindingManager::MouseLock(bool yes)
-{
-	m_MouseLock = yes;
-
-	if (m_MouseLock)
-	{
-		auto [width, height] = m_Application->GetSize();
-		m_PreviousMouseX = width / 2;
-		m_PreviousMouseY = height / 2;
-
-		SDL_WarpMouseInWindow(m_Application->GetWindow(), m_PreviousMouseX, m_PreviousMouseY);
-
-		m_MouseX = m_PreviousMouseX;
-		m_MouseY = m_PreviousMouseY;
-	}
-}
-
 void BindingManager::Update()
 {
-	SDL_ShowCursor(m_MouseLock ? SDL_DISABLE : SDL_ENABLE);
-
-	if (m_MouseLock)
-	{
-		m_DeltaMouseX = 0;
-		m_DeltaMouseY = 0;
-	}
-
 	for (const auto& [key, value] : m_Bindings)
 		for (auto binding : value)
 			binding->UpdateState();
-}
-
-void BindingManager::ResetKeyChange()
-{
-	m_KeyChanged = false;
-}
-
-bool BindingManager::AnyKeyPressed()
-{
-	return m_KeyChanged;
 }
 
 std::ostream& operator<<(std::ostream& os, const BindingState& state)

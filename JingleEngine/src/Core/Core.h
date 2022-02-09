@@ -16,5 +16,6 @@
 #include "Binding.h"
 #include "Logging.h"
 #include "Reference.h"
+#include "Input.h"
 
 #define SIZE_OF(X, Y) X.size() * sizeof(Y)

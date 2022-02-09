@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Platform\OpenGL\glad.c" />
     <ClCompile Include="src\Asset\Asset.cpp" />
     <ClCompile Include="src\Asset\AssetManager.cpp" />
@@ -31,11 +32,15 @@
     <ClCompile Include="src\Core\Frustum.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
     <ClCompile Include="src\Core\Scene.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
+    <ClCompile Include="src\Platform\SDL\SDLInput.cpp" />
+    <ClCompile Include="src\Platform\SDL\SDLWindow.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
     <ClCompile Include="src\Rendering\Framebuffer.cpp" />
     <ClCompile Include="src\Rendering\Light.cpp" />
     <ClCompile Include="src\Rendering\Material.cpp" />
     <ClCompile Include="src\Rendering\Mesh.cpp" />
+    <ClCompile Include="src\Rendering\RenderAPI.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shader.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -54,15 +59,23 @@
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Debug.h" />
     <ClInclude Include="src\Core\Entity.h" />
+    <ClInclude Include="src\Core\Event.h" />
     <ClInclude Include="src\Core\Frustum.h" />
+    <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Logging.h" />
     <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Core\Reference.h" />
+    <ClInclude Include="src\Core\Window.h" />
+    <ClInclude Include="src\Platform\OpenGL\glad.h" />
+    <ClInclude Include="src\Platform\OpenGL\khrplatform.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h" />
+    <ClInclude Include="src\Platform\SDL\SDLWindow.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\Framebuffer.h" />
     <ClInclude Include="src\Rendering\Light.h" />
     <ClInclude Include="src\Rendering\Material.h" />
     <ClInclude Include="src\Rendering\Mesh.h" />
+    <ClInclude Include="src\Rendering\RenderAPI.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Texture.h" />

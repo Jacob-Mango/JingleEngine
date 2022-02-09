@@ -16,160 +16,46 @@
 #include "../Rendering/Material.h"
 #include "../Rendering/Renderer.h"
 
-#include <imgui.h>
-#include <imgui_impl_sdl.h>
-#include <imgui_impl_opengl3.h>
-
 Application* g_Application;
 
-Application::Application(std::string title, bool fullscreen, int width, int height) : m_Title(title), m_Fullscreen(fullscreen), m_WindowWidth(width), m_WindowHeight(height)
+Application::Application()
 {
 	g_Application = this;
 }
 
 Application::~Application()
 {
+	BindingManager::Destroy();
 	AssetManager::Destroy();
-
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-
-	SDL_GL_DeleteContext(m_GLContext);
-	SDL_DestroyRenderer(m_SDLRenderer);
-	SDL_DestroyWindow(m_SDLWindow);
-	SDL_Quit();
 
 	g_Application = nullptr;
 }
 
-void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
-	GLsizei length, const GLchar* message, const void* userParam)
-{
-	if (type == 33361)
-		return;
-
-	std::cout << "ERROR" << std::endl;
-	std::cout << "Source: " << source << std::endl;
-	std::cout << "Type: " << type << std::endl;
-	std::cout << "Severity: " << severity << std::endl;
-	std::cout << "Message: " << std::string(message, length) << std::endl;
-}
-
 int Application::Init()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-	{
-		std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-		return -1;
-	}
+	WindowDesc desc;
+	desc.FullScreen = false;
+	desc.Width = 1280;
+	desc.Height = 720;
+	desc.Title = "Test Window";
+	m_Window = Window::Create(desc);
 
-	SDL_CaptureMouse(SDL_TRUE);
+	OnWindowClose += [this](BaseClass* sender, WindowCloseEventArgs args) {
+		RequestExit();
+	};
 
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	OnWindowResize += [this](BaseClass* sender, WindowResizeEventArgs args) {
+	//	SetSize(args.Width, args.Height);
+	};
 
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-	int sdlFlags = 0;
-	SDL_GL_GetAttribute(SDL_GL_CONTEXT_FLAGS, &sdlFlags);
-	sdlFlags |= SDL_GL_CONTEXT_DEBUG_FLAG;
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, sdlFlags);
-
-	int windowsFlags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-	int posFlag = SDL_WINDOWPOS_CENTERED;
-
-	if (m_Fullscreen)
-	{
-		windowsFlags |= SDL_WINDOW_FULLSCREEN;
-		posFlag = SDL_WINDOWPOS_UNDEFINED;
-
-		m_WindowWidth = 0;
-		m_WindowHeight = 0;
-	}
-
-	m_SDLWindow = SDL_CreateWindow(m_Title.c_str(), posFlag, posFlag, m_WindowWidth, m_WindowHeight, windowsFlags);
-	if (m_SDLWindow == nullptr)
-	{
-		std::cerr << "ERROR: Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		return -1;
-	}
-
-	m_SDLRenderer = SDL_CreateRenderer(m_SDLWindow, -1, SDL_RENDERER_ACCELERATED);
-	if (m_SDLRenderer == nullptr)
-	{
-		std::cerr << "ERROR: SDL2 Renderer couldn't be created. Error: " << SDL_GetError() << std::endl;
-		return -1;
-	}
-
-	m_GLContext = SDL_GL_CreateContext(m_SDLWindow);
-
-	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
-	{
-		std::cerr << "ERROR: Failed to initialize the OpenGL context." << std::endl;
-		return -1;
-	}
-
-	SDL_DisplayMode dm;
-	if (SDL_GetCurrentDisplayMode(0, &dm) != 0)
-	{
-		std::cerr << "ERROR: SDL coudn't retrieve current display mode details. SDL Error: " << SDL_GetError() << std::endl;
-		return -1;
-	}
-
-	m_ScreenWidth = dm.w;
-	m_ScreenHeight = dm.h;
-
-	if (m_Fullscreen)
-	{
-		m_WindowWidth = m_ScreenWidth;
-		m_WindowHeight = m_ScreenHeight;
-	}
-
-	std::cout << "MESSAGE: OpenGL version " << GLVersion.major << "." << GLVersion.minor << " initialised." << std::endl;
-
-	BindingManager::Init(this);
+	BindingManager::Init();
 	AssetManager::Init();
-
-	GLint flags;
-	glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
-	{
-		glEnable(GL_DEBUG_OUTPUT);
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		glDebugMessageCallback(glDebugOutput, nullptr); // segfault on this line
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-	}
-
-	if (!gltInit())
-	{
-		std::cerr << "Warning: Failed to initialize glText" << std::endl;
-		return -1;
-	}
 
 	m_Renderer = new Renderer();
 
-
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsClassic();
-
-	// Setup Platform/Renderer backends
-	ImGui_ImplSDL2_InitForOpenGL(m_SDLWindow, m_GLContext);
-	ImGui_ImplOpenGL3_Init("#version 130");
-
 	return 0;
 }
+
 void Application::RegisterBaseEntityType(std::string name, EntityType* type)
 {
 	m_BaseEntityTypes.insert({ name, type });
@@ -218,6 +104,23 @@ Ref<Framebuffer> Application::CreateFramebuffer(std::string name, const std::vec
 	return buffer;
 }
 
+#include <chrono>
+
+typedef std::chrono::time_point<std::chrono::high_resolution_clock> Time;
+
+Time CurrentTime()
+{
+	return std::chrono::high_resolution_clock::now();
+}
+
+double ElapsedTime(Time* time)
+{
+	Time current = CurrentTime();
+	double delta = std::chrono::duration_cast<std::chrono::nanoseconds>(current - *time).count() * 0.001 * 0.001 * 0.001;
+	*time = current;
+	return delta;
+}
+
 void Application::Start()
 {
 	if (m_IsRunning)
@@ -241,16 +144,14 @@ void Application::Start()
 		m_Scene->OnStart();
 	}
 
-	m_CurrentTime = SDL_GetPerformanceCounter();
+	Time time = CurrentTime();
 
 	double frameTime = 0;
-	Uint64 frames = 0;
+	uint64_t frames = 0;
 
 	while (m_IsRunning)
 	{
-		Uint64 previousTime = m_CurrentTime;
-		m_CurrentTime = SDL_GetPerformanceCounter();
-		m_DeltaTime = (double)(m_CurrentTime - previousTime) / (double)SDL_GetPerformanceFrequency();
+		m_DeltaTime = ElapsedTime(&time);
 
 		frameTime += m_DeltaTime;
 		frames++;
@@ -263,26 +164,14 @@ void Application::Start()
 
 		BindingManager::Update();
 
-		SDL_Event event;
-		while (SDL_PollEvent(&event))
-		{
-			ImGui_ImplSDL2_ProcessEvent(&event);
-			HandleEvents(event);
-		}
-		// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL2_NewFrame();
-		ImGui::NewFrame();
+		m_Window->PollEvents();
 
+		m_Window->Begin();
 
 		OnTick((float)m_DeltaTime);
 
+		m_Window->End();
 
-		ImGui::Render();
-
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-		SDL_GL_SwapWindow(m_SDLWindow);
 	}
 
 	if (m_IsRunning)
@@ -325,18 +214,6 @@ bool Application::RequestingExit()
 	return m_RequestingExit;
 }
 
-bool Application::IsVsync() const
-{
-	return m_Vsync;
-}
-
-void Application::SetVsync(bool enabled)
-{
-	m_Vsync = enabled;
-
-	SDL_GL_SetSwapInterval(m_Vsync);
-}
-
 bool Application::IsDebug() const
 {
 	return m_Debug;
@@ -347,52 +224,14 @@ void Application::SetDebug(bool enabled)
 	m_Debug = enabled;
 }
 
-void Application::DrawText(std::string text)
+Window* Application::GetWindow()
 {
-	GLTtext* glttext = gltCreateText();
-	gltSetText(glttext, text.c_str());
-	m_Texts.push_back(glttext);
+	return m_Window;
 }
 
-void Application::UpdateDebug(double DeltaTime)
-{
-	gltBeginDraw();
-	gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-	for (int i = 0; i < m_Texts.size(); i++)
-	{
-		gltDrawText2D(m_Texts[i], 5.f, 5.f + (i * 20.f), 1.f);
-		gltDestroyText(m_Texts[i]);
-	}
-
-	gltEndDraw();
-
-	m_Texts.clear();
-}
-
-void Application::SetSize(std::pair<int, int> size)
-{
-	m_WindowWidth = size.first;
-	m_WindowHeight = size.second;
-}
-
-std::pair<int, int> Application::GetSize()
-{
-	return { m_WindowWidth, m_WindowHeight };
-}
-
-SDL_Window* Application::GetWindow()
-{
-	return m_SDLWindow;
-}
-
-Uint64 Application::GetFPS() const
+uint64_t Application::GetFPS() const
 {
 	return m_FPS;
-}
-
-Uint64 Application::GetCurrentTime() const
-{
-	return m_CurrentTime;
 }
 
 void Application::SetScene(Ref<Scene> Scene)
@@ -413,24 +252,6 @@ void Application::SetScene(Ref<Scene> Scene)
 Ref<Scene> Application::GetScene() const
 {
 	return m_Scene;
-}
-
-void Application::HandleEvents(SDL_Event& event)
-{
-	BindingManager::OnEvent(event);
-
-	switch (event.type)
-	{
-	case SDL_QUIT:
-		RequestExit();
-		break;
-	case SDL_WINDOWEVENT:
-		if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-		{
-			SetSize({event.window.data1, event.window.data2});
-		}
-		break;
-	}
 }
 
 void Application::OnStart()

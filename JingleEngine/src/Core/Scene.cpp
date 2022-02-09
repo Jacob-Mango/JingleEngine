@@ -102,7 +102,6 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 
 	m_Frustum->Update(cameraPos, m_ViewMatrix);
 
-	m_Application->DrawText("Num Entities: " + m_Entities.size());
 	for (int i = 0; i < m_Entities.size(); i++)
 	{
 		Ref<Entity> entity = m_Entities[i];

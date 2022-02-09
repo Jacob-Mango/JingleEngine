@@ -21,10 +21,6 @@ private:
 	Ref<Framebuffer> m_SceneBuffer;
 
 public:
-	SpaceGame(const char* title, bool fullscreen = false, int width = 1024, int height = 768) : Application(title, fullscreen, width, height)
-	{
-	}
-
 	int Init();
 
 	virtual void OnStart() override;
@@ -45,33 +41,31 @@ int SpaceGame::Init()
 	PlanetType::Register(this);
 	PlanetQuadType::Register(this);
 
-	SetVsync(true);
+	BindingManager::RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
+	BindingManager::RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });
 
-	BindingManager::RegisterCombos("exit", { {{27, BindingType::KEY}} });
-	BindingManager::RegisterCombos("focus", { {{1, BindingType::MOUSE}} });
+	BindingManager::RegisterCombos("forward", { {{'w', InputType::KEY}} });
+	BindingManager::RegisterCombos("backward", { {{'s', InputType::KEY}} });
+	BindingManager::RegisterCombos("left", { {{'a', InputType::KEY}} });
+	BindingManager::RegisterCombos("right", { {{'d', InputType::KEY}} });
 
-	BindingManager::RegisterCombos("forward", { {{'w', BindingType::KEY}} });
-	BindingManager::RegisterCombos("backward", { {{'s', BindingType::KEY}} });
-	BindingManager::RegisterCombos("left", { {{'a', BindingType::KEY}} });
-	BindingManager::RegisterCombos("right", { {{'d', BindingType::KEY}} });
+	BindingManager::RegisterCombos("incline_increase", { {{KeyCode::UP, InputType::KEY}} });
+	BindingManager::RegisterCombos("incline_decrease", { {{KeyCode::DOWN, InputType::KEY}} });
+	BindingManager::RegisterCombos("roll_left", { {{KeyCode::LEFT, InputType::KEY}} });
+	BindingManager::RegisterCombos("roll_right", { {{KeyCode::RIGHT, InputType::KEY}} });
 
-	BindingManager::RegisterCombos("incline_increase", { {{SDLK_UP, BindingType::KEY}} });
-	BindingManager::RegisterCombos("incline_decrease", { {{SDLK_DOWN, BindingType::KEY}} });
-	BindingManager::RegisterCombos("roll_left", { {{SDLK_LEFT, BindingType::KEY}} });
-	BindingManager::RegisterCombos("roll_right", { {{SDLK_RIGHT, BindingType::KEY}} });
+	BindingManager::RegisterCombos("buffer_prev", { {{'o', InputType::KEY}} });
+	BindingManager::RegisterCombos("buffer_next", { {{'p', InputType::KEY}} });
 
-	BindingManager::RegisterCombos("buffer_prev", { {{'o', BindingType::KEY}} });
-	BindingManager::RegisterCombos("buffer_next", { {{'p', BindingType::KEY}} });
+	BindingManager::RegisterCombos("toggle_facemode", { {{'f', InputType::KEY}} });
+	BindingManager::RegisterCombos("toggle_backfaceculling", { {{'c', InputType::KEY}} });
+	BindingManager::RegisterCombos("toggle_depthtesting", { {{'z', InputType::KEY}} });
+	BindingManager::RegisterCombos("toggle_osd", { {{'h', InputType::KEY}} });
+	BindingManager::RegisterCombos("toggle_vsync", { {{'v', InputType::KEY}} });
+	BindingManager::RegisterCombos("toggle_debug", { {{'g', InputType::KEY}} });
 
-	BindingManager::RegisterCombos("toggle_facemode", { {{'f', BindingType::KEY}} });
-	BindingManager::RegisterCombos("toggle_backfaceculling", { {{'c', BindingType::KEY}} });
-	BindingManager::RegisterCombos("toggle_depthtesting", { {{'z', BindingType::KEY}} });
-	BindingManager::RegisterCombos("toggle_osd", { {{'h', BindingType::KEY}} });
-	BindingManager::RegisterCombos("toggle_vsync", { {{'v', BindingType::KEY}} });
-	BindingManager::RegisterCombos("toggle_debug", { {{'g', BindingType::KEY}} });
-
-	BindingManager::RegisterCombos("turbo", { {{SDLK_LSHIFT, BindingType::KEY}} });
-	BindingManager::RegisterCombos("mouse_scroll", { {{MOUSE_WHEEL_UP, BindingType::MOUSE}, {MOUSE_WHEEL_DOWN, BindingType::MOUSE}} });
+	BindingManager::RegisterCombos("turbo", { {{KeyCode::LSHIFT, InputType::KEY}} });
+	BindingManager::RegisterCombos("mouse_scroll", { {{MouseCode::WHEEL_UP, InputType::MOUSE}, {MouseCode::WHEEL_DOWN, InputType::MOUSE}} });
 
 	return 0;
 }
@@ -132,12 +126,12 @@ void SpaceGame::OnTick(double DeltaTime)
 
 	if (BindingManager::Get("exit") >= BindingState::PRESSED)
 	{
-		if (BindingManager::IsMouseLocked())
+		if (Input::IsCursorVisible())
 		{
 			m_WasMouseLocked = true;
 		}
 
-		BindingManager::MouseLock(false);
+		Input::ShowCursor(true);
 
 		if (!m_WasMouseLocked)
 		{
@@ -152,9 +146,9 @@ void SpaceGame::OnTick(double DeltaTime)
 
 	if (BindingManager::Get("focus") >= BindingState::PRESSED)
 	{
-		if (!BindingManager::IsMouseLocked())
+		if (!Input::IsCursorVisible())
 		{
-			BindingManager::MouseLock(true);
+			Input::ShowCursor(false);
 		}
 	}
 
@@ -180,7 +174,7 @@ void SpaceGame::OnTick(double DeltaTime)
 
 	if (BindingManager::Get("toggle_vsync") == BindingState::PRESSED)
 	{
-		SetVsync(!IsVsync());
+	//	SetVsync(!IsVsync());
 	}
 
 	if (BindingManager::Get("toggle_debug") == BindingState::PRESSED)
@@ -212,7 +206,7 @@ void SpaceGame::OnTick(double DeltaTime)
 	glClearColor(0.0, 0.0, 0.5, 1.0);
 	glClearDepth(1.0f);
 
-	auto [width, height] = GetSize();
+	auto [width, height] = GetWindow()->GetSize();
 
 	GetScene()->SetProjectionMatrix(glm::perspective(glm::radians(90.0f), (GLfloat)width / (GLfloat)height, 0.001f, 1000.0f));
 
@@ -246,8 +240,6 @@ void SpaceGame::OnTick(double DeltaTime)
 
 	//m_ScreenBuffer->Unbind();
 
-	UpdateDebug(DeltaTime);
-
 	/*
 	if (m_BufferIndex >= 0)
 	{
@@ -268,7 +260,7 @@ void SpaceGame::OnTick(double DeltaTime)
 int main(int argc, char** argv)
 {
 	OUT_LINE("main");
-	SpaceGame* app = new SpaceGame("Assignment 1", false, 1000, 1000);
+	SpaceGame* app = new SpaceGame();
 	app->Start();
 	return 0;
 }
