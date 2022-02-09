@@ -42,6 +42,8 @@
     <ClCompile Include="src\Rendering\Shader.cpp" />
     <ClCompile Include="src\Rendering\Texture.cpp" />
     <ClCompile Include="src\Scene\Entity.cpp" />
+    <ClCompile Include="src\Scene\EntityTypeManager.cpp" />
+    <ClCompile Include="src\Scene\MeshEntity.cpp" />
     <ClCompile Include="src\Scene\Planet\Planet.cpp" />
     <ClCompile Include="src\Scene\Planet\PlanetQuad.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
@@ -76,6 +78,8 @@
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Texture.h" />
     <ClInclude Include="src\Scene\Entity.h" />
+    <ClInclude Include="src\Scene\EntityTypeManager.h" />
+    <ClInclude Include="src\Scene\MeshEntity.h" />
     <ClInclude Include="src\Scene\Planet\Planet.h" />
     <ClInclude Include="src\Scene\Planet\PlanetQuad.h" />
     <ClInclude Include="src\Scene\Scene.h" />

@@ -515,3 +515,81 @@ bool ConfigNull::IsNull()
 {
 	return true;
 }
+
+std::string Config::ToString()
+{
+	std::stringstream ss;
+	ss << super::ToString();
+
+	ss << ", ";
+	ss << "Name=" << m_Name;
+
+	return ss.str();
+}
+
+std::string ConfigNull::ToString()
+{
+	std::stringstream ss;
+	ss << super::ToString();
+
+	ss << ", ";
+	ss << "NULL";
+
+	return ss.str();
+}
+
+std::string ConfigValue::ToString()
+{
+	std::stringstream ss;
+	ss << super::ToString();
+
+	ss << ", ";
+	ss << "Int=" << Int;
+
+	ss << ", ";
+	ss << "Float=" << Float;
+
+	ss << ", ";
+	ss << "String=" << String;
+
+	return ss.str();
+}
+
+
+std::string ConfigArray::ToString()
+{
+	std::stringstream ss;
+	ss << super::ToString();
+
+	ss << ", ";
+	ss << "Count=" << Count;
+
+	int index = 0;
+	for (auto entry : m_Entries)
+	{
+		ss << ", ";
+		ss << "Entry_" << index++ << "=" << entry->AsString();
+		index++;
+	}
+
+	return ss.str();
+}
+
+
+std::string ConfigSection::ToString()
+{
+	std::stringstream ss;
+	ss << super::ToString();
+
+	ss << ", ";
+	ss << "Count=" << Count;
+
+	int index = 0;
+	for (auto entry : m_Entries)
+	{
+		ss << ", ";
+		ss << "Entry_" << index++ << "=" << entry.second->AsString();
+	}
+
+	return ss.str();
+}

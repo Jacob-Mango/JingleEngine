@@ -3,25 +3,25 @@
 #include "Core/Application.h"
 #include "Core/Config.h"
 
-#include "Scene/Entity.h"
+#include "Scene/MeshEntity.h"
 #include "Scene/Scene.h"
 
 #include "PlanetQuad.h"
 
 class Scene;
 
-class PlanetType : public EntityType
+class PlanetType : public MeshEntityType
 {
-	ENTITY_TYPE(Planet, Entity)
+	ENTITY_TYPE(Planet, MeshEntity)
 
 public:
 	Ref<PlanetQuadType> QuadType;
 	double Radius;
 };
 
-class Planet : public Entity
+class Planet : public MeshEntity
 {
-	ENTITY(Planet, Entity)
+	ENTITY(Planet, MeshEntity)
 
 	friend class PlanetQuad;
 
@@ -29,8 +29,6 @@ private:
 	std::vector<Ref<PlanetQuad>> m_ChildQuads;
 
 public:
-	ENTITY_CONSTRUCTOR(Planet)
-
 	virtual void OnCreate() override;
 	virtual void OnSimulate(double DeltaTime) override;
 

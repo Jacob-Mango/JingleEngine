@@ -24,13 +24,6 @@ void Camera::OnSimulate(double DeltaTime)
 {
 	super::OnSimulate(DeltaTime);
 
-	//if (!g_Application->IsDebug())
-	//{
-	//	SetPosition(m_Position);
-	//	SetOrientation(m_Orientation);
-	//	return;
-	//}
-
 	glm::vec3 position = GetPosition();
 	glm::vec3 orientation = GetOrientation();
 

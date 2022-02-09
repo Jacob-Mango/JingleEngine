@@ -6,18 +6,6 @@
 
 void LightType::Load(Config& config)
 {
-	auto strToVec3 = [this](std::string data) {
-		glm::vec3 vec;
-
-		std::istringstream stream(data);
-
-		stream >> vec.x;
-		stream >> vec.y;
-		stream >> vec.z;
-
-		return vec;
-	};
-
 	super::Load(config);
 
 	switch (config["type"].Int)
@@ -30,7 +18,7 @@ void LightType::Load(Config& config)
 			break;
 	}
 
-	Color = strToVec3(config["color"].String);
+	Color = config["color"].Vec3();
 
 	Constant = config["constant"].Float;
 	Linear = config["linear"].Float;

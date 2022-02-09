@@ -9,8 +9,8 @@
 	class type##EventArgs : public EventArgs                                   \
 	{                                                                          \
 	public:                                                                    \
-		static EventType StaticGetType() { return EventType##type; }           \
-		virtual EventType GetType() const override { return StaticGetType(); } \
+		static EventType StaticTypeID() { return EventType##type; }           \
+		virtual EventType GetType() const override { return StaticTypeID(); } \
 		virtual std::string GetName() const override { return #type; }
 
 #define EVENT(type, base, value)                                               \
@@ -18,8 +18,8 @@
 	class type##EventArgs : public base##EventArgs                             \
 	{                                                                          \
 	public:                                                                    \
-		static EventType StaticGetType() { return EventType##type; }           \
-		virtual EventType GetType() const override { return StaticGetType(); } \
+		static EventType StaticTypeID() { return EventType##type; }           \
+		virtual EventType GetType() const override { return StaticTypeID(); } \
 		virtual std::string GetName() const override { return #type; }
 
 typedef unsigned int EventType;

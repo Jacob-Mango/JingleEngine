@@ -14,7 +14,9 @@ bool Material::OnLoad()
 {
 	if (GetPath() == "") return false;
 
-	Ref<Config> config = Config::Load(GetPath());
+	auto config = Config::Load(GetPath());
+
+	std::cout << "MATERIAL:: " << config->AsString() << std::endl;
 
 	std::string shader = (*config)["shader"].String;
 	m_Shader = AssetManager::Get<Shader>(shader);
@@ -33,6 +35,51 @@ bool Material::OnLoad()
 
 	std::string roughness = (*config)["roughness"]["path"].String;
 	m_Roughness = AssetManager::Get<Texture>(roughness);
+
+
+	#if 0
+	{
+		auto shader = (*config)["shader"];
+		auto path = shader.String;
+
+		m_Shader = AssetManager::Get<Shader>(path);
+	}
+
+	{
+		auto ambient = (*config)["ambient"];
+		auto path = ambient["path"].String;
+
+		m_Ambient = AssetManager::Get<Texture>(path);
+	}
+
+	{
+		auto diffuse = (*config)["diffuse"];
+		auto path = diffuse["path"].String;
+
+		m_Diffuse = AssetManager::Get<Texture>(path);
+	}
+
+	{
+		auto metallic = (*config)["metallic"];
+		auto path = metallic["path"].String;
+
+		m_Metallic = AssetManager::Get<Texture>(path);
+	}
+
+	{
+		auto normal = (*config)["normal"];
+		auto path = normal["path"].String;
+
+		m_Normal = AssetManager::Get<Texture>(path);
+	}
+
+	{
+		auto roughness = (*config)["roughness"];
+		auto path = roughness["path"].String;
+
+		m_Roughness = AssetManager::Get<Texture>(path);
+	}
+	#endif
 
 	std::cout << "Shader: " << m_Shader.AsString() << std::endl;
 	std::cout << "Ambient: " << m_Ambient.AsString() << std::endl;

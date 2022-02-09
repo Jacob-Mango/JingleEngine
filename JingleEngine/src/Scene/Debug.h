@@ -3,19 +3,18 @@
 #include "Core/Application.h"
 #include "Core/Config.h"
 
-#include "Scene/Entity.h"
-#include "Scene/Scene.h"
+#include "Scene/MeshEntity.h"
 
 class Debug;
-class DebugType : public EntityType
+class DebugType : public MeshEntityType
 {
-	ENTITY_TYPE(Debug, Entity)
+	ENTITY_TYPE(Debug, MeshEntity)
 public:
 };
 
-class Debug : public Entity
+class Debug : public MeshEntity
 {
-	ENTITY(Debug, Entity)
+	ENTITY(Debug, MeshEntity)
 
 public:
 	virtual void OnSimulate(double DeltaTime) override;

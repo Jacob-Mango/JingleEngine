@@ -165,7 +165,7 @@ void SDLWindow::PollEvents()
 
 			KeyPressEventArgs args;
 			args.Key = event.key.keysym.sym;
-			g_Application->OnKeyPress.Invoke(this, args);
+			Application::Get()->OnKeyPress.Invoke(this, args);
 			break;
 		}
 		case SDL_KEYUP:
@@ -174,7 +174,7 @@ void SDLWindow::PollEvents()
 
 			KeyReleaseEventArgs args;
 			args.Key = event.key.keysym.sym;
-			g_Application->OnKeyRelease.Invoke(this, args);
+			Application::Get()->OnKeyRelease.Invoke(this, args);
 			break;
 		}
 		case SDL_MOUSEMOTION:
@@ -184,7 +184,7 @@ void SDLWindow::PollEvents()
 			MouseMoveEventArgs args;
 			args.X = event.motion.x;
 			args.Y = event.motion.y;
-			g_Application->OnMouseMove.Invoke(this, args);
+			Application::Get()->OnMouseMove.Invoke(this, args);
 			break;
 		}
 		case SDL_MOUSEBUTTONDOWN:
@@ -193,7 +193,7 @@ void SDLWindow::PollEvents()
 
 			MouseButtonPressEventArgs args;
 			args.Button = event.button.button;
-			g_Application->OnMouseButtonPress.Invoke(this, args);
+			Application::Get()->OnMouseButtonPress.Invoke(this, args);
 			break;
 		}
 		case SDL_MOUSEBUTTONUP:
@@ -202,7 +202,7 @@ void SDLWindow::PollEvents()
 
 			MouseButtonReleaseEventArgs args;
 			args.Button = event.button.button;
-			g_Application->OnMouseButtonRelease.Invoke(this, args);
+			Application::Get()->OnMouseButtonRelease.Invoke(this, args);
 			break;
 		}
 		case SDL_MOUSEWHEEL:
@@ -213,13 +213,13 @@ void SDLWindow::PollEvents()
 			args.Direction = event.wheel.direction;
 			args.X = event.wheel.x;
 			args.Y = event.wheel.y;
-			g_Application->OnMouseScroll.Invoke(this, args);
+			Application::Get()->OnMouseScroll.Invoke(this, args);
 			break;
 		}
 		case SDL_QUIT:
 		{
 			WindowCloseEventArgs args;
-			g_Application->OnWindowClose.Invoke(this, args);
+			Application::Get()->OnWindowClose.Invoke(this, args);
 			break;
 		}
 		case SDL_WINDOWEVENT:
@@ -232,7 +232,7 @@ void SDLWindow::PollEvents()
 
 				args.Width = event.window.data1;
 				args.Height = event.window.data2;
-				g_Application->OnWindowResize.Invoke(this, args);
+				Application::Get()->OnWindowResize.Invoke(this, args);
 				break;
 			}
 			}

@@ -14,6 +14,8 @@ extern Config* g_NullConfig;
 
 class Config : public Countable
 {
+	typedef Countable super;
+
 public:
 	std::string m_Name;
 
@@ -27,6 +29,19 @@ public:
 
 	std::string String;
 	float Float;
+
+	glm::vec3 Vec3()
+	{
+		glm::vec3 vec;
+
+		std::istringstream stream(String);
+
+		stream >> vec.x;
+		stream >> vec.y;
+		stream >> vec.z;
+
+		return vec;
+	}
 
 public:
 	Config();
@@ -50,6 +65,8 @@ public:
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "");
 
+	virtual std::string ToString() override;
+
 public:
 	virtual bool Load(std::ifstream& stream);
 };
@@ -63,6 +80,8 @@ public:
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
 
+	virtual std::string ToString() override;
+
 };
 
 class ConfigValue : public Config
@@ -72,8 +91,9 @@ class ConfigValue : public Config
 public:
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
 
-};
+	virtual std::string ToString() override;
 
+};
 
 class ConfigArray : public Config
 {
@@ -87,6 +107,8 @@ public:
 	virtual Config* Get(int index) override;
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
+
+	virtual std::string ToString() override;
 
 public:
 	virtual bool Load(std::ifstream& stream) override;
@@ -110,6 +132,8 @@ public:
 	virtual Config* GetBase() override;
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
+
+	virtual std::string ToString() override;
 
 public:
 	virtual bool Load(std::ifstream& stream) override;

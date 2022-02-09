@@ -2,23 +2,24 @@
 
 #include "Core/Application.h"
 #include "Core/Config.h"
-#include "Scene/Entity.h"
+
+#include "Scene/MeshEntity.h"
 #include "Scene/Scene.h"
 
 class Scene;
 class Planet;
 
 class PlanetQuad;
-class PlanetQuadType : public EntityType
+class PlanetQuadType : public MeshEntityType
 {
-	ENTITY_TYPE(PlanetQuad, Entity)
+	ENTITY_TYPE(PlanetQuad, MeshEntity)
 
 public:
 };
 
-class PlanetQuad : public Entity
+class PlanetQuad : public MeshEntity
 {
-	ENTITY(PlanetQuad, Entity)
+	ENTITY(PlanetQuad, MeshEntity)
 
 	friend class Planet;
 

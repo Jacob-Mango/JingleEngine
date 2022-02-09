@@ -33,16 +33,16 @@ int SpaceGame::Init()
 		return err;
 	}
 
-	EntityType::Register(this);
-	CameraType::Register(this);
-	LightType::Register(this);
-	DebugType::Register(this);
-	PlanetType::Register(this);
-	PlanetQuadType::Register(this);
+	EntityTypeManager::Register<EntityType>();
+	EntityTypeManager::Register<MeshEntityType>();
+	EntityTypeManager::Register<LightType>();
+	EntityTypeManager::Register<CameraType>();
+	EntityTypeManager::Register<DebugType>();
+	EntityTypeManager::Register<PlanetType>();
+	EntityTypeManager::Register<PlanetQuadType>();
 
-	Ref<Config> config = Config::Load("Assets/bindings.cfg");
-
-	std::cout << "Loaded" << std::endl;
+	auto config = Config::Load("Assets/bindings.cfg");
+	std::cout << "bindings:: " << (*config).AsString() << std::endl;
 
 	BindingManager::RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
 	BindingManager::RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });
@@ -77,7 +77,7 @@ void SpaceGame::OnStart()
 {
 	Application::OnStart();
 
-	SetScene(new Scene(this));
+	SetScene(new Scene());
 
 	m_ScreenShader = AssetManager::Get<Shader>("Assets/Shaders/screen");
 	m_ScreenBuffer = CreateFramebuffer("Main", { TextureFormat::RGBA32 });
@@ -110,12 +110,13 @@ void SpaceGame::OnStart()
 		m_ScreenMesh = new Mesh(nullptr, positions, uvs, indices);
 	}
 
-	Ref<Config> config = Config::Load("Assets/Scenes/game.scene");
+	auto config = Config::Load("Assets/Scenes/game.scene");
+	std::cout << "game.scene:: " << (*config).AsString() << std::endl;
 
-	auto& types = (*config)["types"];
+	auto& types = (*config)["defaultTypes"];
 	for (int i = 0; i < types.Count; i++)
 	{
-		RegisterEntityType(types[i]);
+		EntityTypeManager::Load(types[i]);
 	}
 
 	GetScene()->LoadScene((*config)["entities"]);

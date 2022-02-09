@@ -8,7 +8,7 @@
 
 void Input::SetMousePosition(int x, int y)
 {
-	auto window = g_Application->GetWindow()->Cast<SDLWindow>();
+	auto window = Application::Get()->GetWindow()->Cast<SDLWindow>();
 	SDL_WarpMouseInWindow(window.m_SDLWindow, x, y);
 }
 

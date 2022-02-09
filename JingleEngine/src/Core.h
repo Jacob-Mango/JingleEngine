@@ -15,3 +15,5 @@
 #include "Rendering/Camera.h"
 
 #include "Scene/Debug.h"
+#include "Scene/EntityTypeManager.h"
+#include "Scene/Scene.h"

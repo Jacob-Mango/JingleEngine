@@ -8,7 +8,7 @@ void PlanetType::Load(Config& config)
 {
 	super::Load(config);
 
-	QuadType = g_Application->GetEntityType(config["quadType"].String).As<PlanetQuadType>();
+	QuadType = EntityTypeManager::Get<PlanetQuadType>(config["quadType"].String);
 	Radius = config["radius"].Float;
 }
 

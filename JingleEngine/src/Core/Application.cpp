@@ -13,19 +13,22 @@
 #include "Rendering/Material.h"
 #include "Rendering/Renderer.h"
 
-Application* g_Application;
+Application* Application::s_Instance = nullptr;
 
 Application::Application()
 {
-	g_Application = this;
+	s_Instance = this;
 }
 
 Application::~Application()
 {
 	BindingManager::Destroy();
 	AssetManager::Destroy();
+}
 
-	g_Application = nullptr;
+Application* Application::Get()
+{
+	return s_Instance;
 }
 
 int Application::Init()
@@ -51,45 +54,6 @@ int Application::Init()
 	m_Renderer = new Renderer();
 
 	return 0;
-}
-
-void Application::RegisterBaseEntityType(std::string name, EntityType* type)
-{
-	m_BaseEntityTypes.insert({ name, type });
-}
-
-void Application::RegisterEntityType(Config& config)
-{
-	EntityType* type = nullptr;
-	Config* base = &config;
-	while (base != nullptr && type == nullptr)
-	{
-		auto it = m_BaseEntityTypes.find(base->m_Name);
-		if (it == m_BaseEntityTypes.end())
-		{
-			base = base->GetBase();
-			continue;
-		}
-
-		type = it->second;
-	}
-
-	if (type == nullptr)
-		return;
-
-	type = type->CreateType();
-	type->Load(config);
-
-	m_EntityTypes[config.m_Name] = type;
-}
-
-Ref<EntityType> Application::GetEntityType(std::string type)
-{
-	auto it = m_EntityTypes.find(type);
-	if (it == m_EntityTypes.end())
-		return nullptr;
-
-	return it->second;
 }
 
 Ref<Framebuffer> Application::CreateFramebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width, unsigned int height, bool cubeMap)

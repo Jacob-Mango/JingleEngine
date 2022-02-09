@@ -11,11 +11,6 @@
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
 
-void EntityType::Register(Application* app)
-{
-	app->RegisterBaseEntityType(BaseName(), new EntityType());
-}
-
 Ref<Entity> EntityType::Create(Ref<Scene> scene)
 {
 	return Create(scene, glm::vec3(0), glm::vec3(0));
@@ -29,34 +24,12 @@ Ref<Entity> EntityType::Create(Ref<Scene> scene, glm::vec3 position, glm::vec3 o
 void EntityType::Load(Config& config)
 {
 	Name = config.GetName();
-
-	std::string model = config["model"].String;
-	if (std::strcmp(model.c_str(), "") != 0)
-	{
-		Model = AssetManager::Get<MeshAsset>(model);
-	}
-
-	std::string material = config["material"].String;
-	if (std::strcmp(material.c_str(), "") != 0)
-	{
-		Material = AssetManager::Get<::Material>(material);
-	}
 }
 
 Entity::Entity(EntityType* type) : m_Type(type), m_Transform(1.0)
 {
 	m_BoundingBox[0] = glm::vec3(-1);
 	m_BoundingBox[1] = glm::vec3(1);
-
-	if (!GetType()->Model.IsNull())
-	{
-		m_Mesh = new Mesh(GetType()->Model);
-
-		if (!GetType()->Material.IsNull())
-		{
-			m_Mesh->SetMaterial(GetType()->Material);
-		}
-	}
 }
 
 Entity::~Entity()
@@ -201,11 +174,6 @@ Ref<EntityType> Entity::GetType()
 	return m_Type;
 }
 
-Ref<Mesh> Entity::GetMesh()
-{
-	return m_Mesh;
-}
-
 std::string EntityType::ToString()
 {
 	std::stringstream ss;
@@ -232,9 +200,6 @@ std::string Entity::ToString()
 
 	ss << ", ";
 	ss << "Orientation=" << GetOrientation();
-
-	ss << ", ";
-	ss << "Mesh=" << m_Mesh.AsString();
 
 	return ss.str();
 }

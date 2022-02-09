@@ -14,10 +14,8 @@ class Scene;
 	}																									\
 	virtual void Load(Config& config) override;															\
 	virtual EntityType* CreateType() override { return new T##Type(); }									\
-	static std::string BaseName() { return std::string(#T) + "Type"; }									\
-	static void Register(Application* app) {															\
-		app->RegisterBaseEntityType(BaseName(), new T##Type());											\
-	}																									\
+	static std::string StaticName() { return std::string(#T); }											\
+	virtual std::string GetClassName() override { return StaticName(); }								\
 	private:
 
 #define ENTITY(T, BASE)                                						\
@@ -50,23 +48,17 @@ class EntityType : public Countable
 public:
 	std::string Name;
 
-	Ref<MeshAsset> Model;
-	Ref<Material> Material;
-
-	static std::string BaseName() { return "EntityType"; }
-	static void Register(class Application* app);
+	static std::string StaticName() { return "EntityType"; }
+	virtual std::string GetClassName() { return StaticName(); }
 
 	Ref<Entity> Create(Ref<Scene> scene);
 	virtual Ref<Entity> Create(Ref<Scene> scene, glm::vec3 position, glm::vec3 orientation);
-
 	virtual EntityType* CreateType() { return new EntityType(); }
 
 	virtual void Load(Config& config);
 	
 	virtual std::string ToString() override;
 };
-
-#define ENTITY_CONSTRUCTOR(T) T(Ref<EntityType> type) : Entity(type) {}
 
 class Entity : public Countable
 {
@@ -89,7 +81,6 @@ private:
 protected:
 	bool m_IsVisible = true;
 
-	Ref<Mesh> m_Mesh;
 	glm::dmat4 m_Transform;
 	glm::vec3 m_BoundingBox[2];
 
@@ -123,7 +114,6 @@ public:
 	Scene* GetScene();
 
 	Ref<EntityType> GetType();
-	Ref<Mesh> GetMesh();
 
 	void SetVisible(bool visible);
 	bool IsVisible();

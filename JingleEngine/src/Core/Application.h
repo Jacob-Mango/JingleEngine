@@ -25,6 +25,8 @@ enum class TextureFormat;
 class Application : public BaseClass
 {
 private:
+	static Application* s_Instance;
+
 	bool m_IsRunning = false;
 	bool m_RequestingExit = false;
 	
@@ -36,9 +38,6 @@ private:
 	Ref<Scene> m_Scene;
 
 	Window* m_Window;
-
-	std::map<std::string, Ref<EntityType>> m_BaseEntityTypes;
-	std::map<std::string, Ref<EntityType>> m_EntityTypes;
 
 	//todo: move into a material module
 	std::map<std::string, Ref<Material>> m_Materials;
@@ -62,21 +61,12 @@ protected:
 
 public:
 	Application();
-	~Application();
+	virtual ~Application();
 
-	void RegisterBaseEntityType(std::string name, EntityType* type);
-	void RegisterEntityType(Config& config);
-
-	Ref<EntityType> GetEntityType(std::string type);
-
-	template<typename T>
-	Ref<T> GetEntityType()
-	{
-		return GetEntityType(T::BaseName()).As<T>();
-	}
+	static Application* Get();
 
 	//todo: move into a material module
-	void AddMaterial(Config& config);
+	void AddMaterial(Config* config);
 	Ref<Material> GetMaterial(std::string material);
 
 	//todo: make framebuffers a type of entity?
@@ -104,5 +94,3 @@ public:
 	virtual void OnStop();
 	virtual void OnTick(double DeltaTime);
 };
-
-extern Application* g_Application;

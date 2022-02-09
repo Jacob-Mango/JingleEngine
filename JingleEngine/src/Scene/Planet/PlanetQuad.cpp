@@ -32,17 +32,10 @@ void PlanetQuad::OnDestroy()
 void PlanetQuad::OnSimulate(double DeltaTime)
 {
 	glm::dvec3 position = GetWorldTransform()[3];
-	glm::vec3 cameraPosition = m_Planet->GetScene()->GetCamera()->GetPosition();
+	glm::vec3 cameraPosition = GetScene()->GetCamera()->GetPosition();
 
 	double distance = V_DIST(cameraPosition, position);
 	double boundingRadius = (m_BoundingSphereRadius * m_BoundingSphereRadius) * 2.5;
-
-	if (!GetScene()->GetFrustum()->ContainsSphere(position, m_BoundingSphereRadius))
-	{
-		DestroyChildQuads();
-		m_IsVisible = false;
-		return;
-	}
 
 	if (m_IsVisible)
 	{

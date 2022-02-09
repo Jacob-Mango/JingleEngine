@@ -53,12 +53,12 @@ std::map<std::string, std::vector<Binding*>> BindingManager::m_Bindings;
 
 void BindingManager::Init()
 {
-	g_Application->OnKeyPress += OnKeyPress;
-	g_Application->OnKeyRelease += OnKeyRelease;
-	g_Application->OnMouseButtonPress += OnMouseButtonPress;
-	g_Application->OnMouseButtonRelease += OnMouseButtonRelease;
-	g_Application->OnMouseScroll += OnMouseScroll;
-	g_Application->OnMouseMove += OnMouseMove;
+	Application::Get()->OnKeyPress += OnKeyPress;
+	Application::Get()->OnKeyRelease += OnKeyRelease;
+	Application::Get()->OnMouseButtonPress += OnMouseButtonPress;
+	Application::Get()->OnMouseButtonRelease += OnMouseButtonRelease;
+	Application::Get()->OnMouseScroll += OnMouseScroll;
+	Application::Get()->OnMouseMove += OnMouseMove;
 }
 
 void BindingManager::Destroy()

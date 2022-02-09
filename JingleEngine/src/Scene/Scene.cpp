@@ -15,15 +15,6 @@
 #include "Rendering/Renderer.h"
 #include "Rendering/Shader.h"
 
-Scene::Scene(Application* app) : m_Application(app)
-{
-	m_Frustum = new Frustum();
-}
-
-Scene::~Scene()
-{
-}
-
 void Scene::LoadScene(Config& entities)
 {
 	for (int i = 0; i < entities.Count; i++)
@@ -34,7 +25,7 @@ void Scene::LoadScene(Config& entities)
 
 Ref<Entity> Scene::SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation)
 {
-	Ref<EntityType> entType = m_Application->GetEntityType(type);
+	auto entType = EntityTypeManager::Get<EntityType>(type);
 	if (entType.IsNull())
 		return nullptr;
 
@@ -45,24 +36,8 @@ Ref<Entity> Scene::SpawnEntity(std::string type, glm::vec3 position, glm::vec3 o
 
 Ref<Entity> Scene::SpawnEntity(Config& config)
 {
-	auto strToVec3 = [this](Config& config)
-	{
-		glm::vec3 vec = { 0, 0, 0 };
-
-		if (!config.IsNull())
-		{
-			std::istringstream stream(config.String);
-
-			stream >> vec.x;
-			stream >> vec.y;
-			stream >> vec.z;
-		}
-
-		return vec;
-	};
-
-	glm::vec3 position = strToVec3(config["position"]);
-	glm::vec3 orientation = strToVec3(config["orientation"]);
+	glm::vec3 position = config["position"].Vec3();
+	glm::vec3 orientation = config["orientation"].Vec3();
 	Ref<Entity> entity = SpawnEntity(config["type"].String, position, orientation);
 
 	auto& children = config["children"];
@@ -100,8 +75,6 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 		m_ViewMatrix = glm::lookAt(glm::vec3(cameraPos), glm::vec3(cameraPos) + forward, up);
 	}
 
-	m_Frustum->Update(cameraPos, m_ViewMatrix);
-
 	for (int i = 0; i < m_Entities.size(); i++)
 	{
 		Ref<Entity> entity = m_Entities[i];
@@ -111,15 +84,16 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 		std::string entStr = "[" + std::to_string(i) + "]: " + entity->AsString();
 		ImGui::Text(entStr.c_str());
 
-		if (!entity->IsVisible())
+		auto meshEntity = entity.Cast<MeshEntity>();
+
+		if (!meshEntity || !entity->IsVisible())
 			continue;
 
-		Ref<Mesh> mesh = entity->GetMesh();
+		Ref<Mesh> mesh = meshEntity->GetMesh();
 		if (!mesh)
 			continue;
 
-		glm::mat4 transform = entity->GetWorldTransform();
-
+		glm::mat4 transform = meshEntity->GetWorldTransform();
 		Renderer->SubmitStaticMesh(mesh, transform);
 	}
 
@@ -149,11 +123,6 @@ void Scene::SetProjectionMatrix(glm::mat4 transform)
 glm::mat4& Scene::GetViewMatrix()
 {
 	return m_ViewMatrix;
-}
-
-Frustum* Scene::GetFrustum()
-{
-	return m_Frustum;
 }
 
 Ref<Texture> Scene::GetSkybox()

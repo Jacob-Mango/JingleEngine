@@ -2,8 +2,6 @@
 
 #include "Scene/Entity.h"
 
-#include "Rendering/Frustum.h"
-
 #include "Core/Application.h"
 #include "Core/Config.h"
 
@@ -32,14 +30,7 @@ private:
 
 	Ref<Camera> m_Camera;
 
-	Application* m_Application;
-
-	Frustum* m_Frustum;
-
 public:
-	Scene(Application* app);
-	virtual ~Scene();
-
 	void LoadScene(Config& entities);
 
 	Ref<Entity> SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation);
@@ -88,7 +79,6 @@ public:
 	void SetProjectionMatrix(glm::mat4 transform);
 
 	glm::mat4& GetViewMatrix();
-	Frustum* GetFrustum();
 
 	Ref<Texture> GetSkybox();
 	void SetSkybox(Ref<Texture> skybox);
