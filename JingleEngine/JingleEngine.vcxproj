@@ -40,7 +40,6 @@
     <ClCompile Include="src\Rendering\RenderAPI.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shader.cpp" />
-    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Rendering\Texture.cpp" />
     <ClCompile Include="src\Scene\Entity.cpp" />
     <ClCompile Include="src\Scene\Planet\Planet.cpp" />
@@ -90,26 +89,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -139,7 +138,7 @@
     <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\tinyobj\;$(SolutionDir)Libraries\gltext\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -147,7 +146,7 @@
     <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\tinyobj\;$(SolutionDir)Libraries\gltext\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -155,7 +154,7 @@
     <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\tinyobj\;$(SolutionDir)Libraries\gltext\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -163,7 +162,7 @@
     <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\tinyobj\;$(SolutionDir)Libraries\gltext\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
