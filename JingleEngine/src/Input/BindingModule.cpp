@@ -1,10 +1,13 @@
 #include "BindingModule.h"
 
 #include "Core/Application.h"
+#include "Core/ModuleManager.h"
 
 #include "Input/Binding.h"
 
-void BindingModule::OnCreate()
+REGISTER_MODULE(BindingModule);
+
+void BindingModule::OnPreInitialize()
 {
 	Application::Get()->OnKeyPress += [this](BaseClass* sender, KeyPressEventArgs args)
 	{

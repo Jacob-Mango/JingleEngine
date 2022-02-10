@@ -1,19 +1,21 @@
 #include "Entry.h"
 
+#include "Core/ModuleManager.h"
+
 #include "Scene/Planet/Planet.h"
 #include "Scene/Planet/PlanetQuad.h"
 
 class TestModule : public Module
 {
-	MODULE(TestModule)
+	DEFINE_MODULE(TestModule)
 
 	Binding* Binding_Exit;
 	Binding* Binding_Focus;
 
 public:
-	virtual void OnCreate() override
+	virtual void OnInitialize() override
 	{
-		auto bindingModule = Application::Get()->GetModule<BindingModule>();
+		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
 	}
@@ -46,6 +48,8 @@ public:
 	}
 };
 
+REGISTER_MODULE(TestModule);
+
 int JingleEngineMain(Application* app)
 {
 	EntityTypeManager::Register<EntityType>();
@@ -56,9 +60,7 @@ int JingleEngineMain(Application* app)
 	EntityTypeManager::Register<PlanetType>();
 	EntityTypeManager::Register<PlanetQuadType>();
 
-	app->RegisterModule<TestModule>();
-
-	auto bindingModule = Application::Get()->GetModule<BindingModule>();
+	auto bindingModule = ModuleManager::Get<BindingModule>();
 
 	bindingModule->RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
 	bindingModule->RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });

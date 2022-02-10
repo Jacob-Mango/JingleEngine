@@ -1,5 +1,9 @@
 #include "Camera.h"
 
+#include "Core/ModuleManager.h"
+
+#include "Input/BindingModule.h"
+
 void CameraType::Load(Config& config)
 {
 	super::Load(config);
@@ -19,7 +23,7 @@ void Camera::OnCreate()
 	m_Position = GetPosition();
 	m_Orientation = GetOrientation();
 
-	auto bindingModule = Application::Get()->GetModule<BindingModule>();
+	auto bindingModule = ModuleManager::Get<BindingModule>();
 
 	Binding_Mouse_Scroll = bindingModule->GetByName("mouse_scroll");
 	Binding_Turbo = bindingModule->GetByName("turbo");

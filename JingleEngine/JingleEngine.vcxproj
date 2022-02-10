@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\Asset\AssetModule.cpp" />
     <ClCompile Include="src\Core\Module.cpp" />
+    <ClCompile Include="src\Core\ModuleManager.cpp" />
     <ClCompile Include="src\Input\Binding.cpp" />
     <ClCompile Include="src\Input\BindingModule.cpp" />
     <ClCompile Include="src\Platform\OpenGL\glad.c" />
@@ -59,10 +60,12 @@
     <ClInclude Include="src\Core\Config.h" />
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Module.h" />
+    <ClInclude Include="src\Core\ModuleManager.h" />
     <ClInclude Include="src\Entry.h" />
     <ClInclude Include="src\Input\Binding.h" />
     <ClInclude Include="src\Input\BindingModule.h" />
     <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Platform\Windows\Windows.h" />
     <ClInclude Include="src\Scene\Debug.h" />
     <ClInclude Include="src\Core\Event.h" />
     <ClInclude Include="src\Core\Input.h" />

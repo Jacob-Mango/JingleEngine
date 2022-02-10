@@ -3,12 +3,20 @@
 #include <iostream>
 
 #include "Core/Logging.h"
+#include "Core/ModuleManager.h"
 
 AssetModule *AssetModule::s_Instance;
 
-void AssetModule::OnCreate()
+REGISTER_MODULE(AssetModule);
+
+void AssetModule::OnPreInitialize()
 {
 	s_Instance = this;
+}
+
+void AssetModule::OnInitialize()
+{
+	
 }
 
 void AssetModule::OnDestroy()

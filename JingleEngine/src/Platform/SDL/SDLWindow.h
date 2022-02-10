@@ -1,17 +1,16 @@
-#pragma once
-
-#define SDL_MAIN_HANDLED
-#include <SDL.h>
-
 #include "Core/Window.h"
 
 class SDLWindow : public Window
 {
+	DEFINE_NAMED_MODULE(SDLWindow, Window)
+
 	friend class Input;
 	friend class Window;
 
 public:
 	~SDLWindow();
+
+	virtual int Create(const WindowDesc& desc) override;
 
 	virtual bool IsVsync() const override;
 	virtual void SetVsync(bool enabled) override;
@@ -25,7 +24,11 @@ public:
 	virtual void End() override;
 
 private:
-	SDL_Window *m_SDLWindow = nullptr;
-	SDL_Renderer *m_SDLRenderer = nullptr;
-	SDL_GLContext m_GLContext = nullptr;
+	struct SDL_Window* m_SDLWindow = nullptr;
+	struct SDL_Renderer* m_SDLRenderer = nullptr;
+	void* m_GLContext = nullptr;
 };
+
+#ifndef SDLWINDOW_NO_REGISTER
+REGISTER_MODULE(SDLWindow);
+#endif

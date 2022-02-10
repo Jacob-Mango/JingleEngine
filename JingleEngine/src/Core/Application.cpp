@@ -5,6 +5,9 @@
 #include "Core/Core.h"
 #include "Core/Config.h"
 #include "Core/Event.h"
+#include "Core/Window.h"
+#include "Core/Module.h"
+#include "Core/ModuleManager.h"
 
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"
@@ -31,13 +34,6 @@ Application* Application::Get()
 
 int Application::Initialize()
 {
-	WindowDesc desc;
-	desc.FullScreen = false;
-	desc.Width = 1280;
-	desc.Height = 720;
-	desc.Title = "Test Window";
-	m_Window = Window::Create(desc);
-
 	OnWindowClose += [this](BaseClass* sender, WindowCloseEventArgs args) {
 		Shutdown();
 	};
@@ -68,17 +64,49 @@ double ElapsedTime(Time* time)
 
 void Application::Run()
 {
+	int error = 0;
+
+	auto window = ModuleManager::Get<Window>();
+	if (window)
+	{
+		WindowDesc desc;
+		desc.FullScreen = false;
+		desc.Width = 1280;
+		desc.Height = 720;
+		desc.Title = "JingleEngine";
+
+		if ((error = window->Create(desc)) != 0)
+		{
+			return;
+		}
+	}
+
+	ModuleManager::On([](Module* module)
+		{
+			std::cout << "Loaded Module ";
+
+			for (auto name : module->GetNames())
+				std::cout << "[" << name << "] ";
+
+			std::cout << std::endl;
+		});
+
+	ModuleManager::On([](Module* module)
+		{
+			module->OnPreInitialize();
+		});
+
+	ModuleManager::On([](Module* module)
+		{
+			module->OnInitialize();
+		});
+
 	m_IsRunning = true;
 
 	Time time = CurrentTime();
 
 	double frameTime = 0;
 	uint64_t frames = 0;
-
-	for (auto [name, module] : m_Modules)
-	{
-		module->OnCreate();
-	}
 
 	while (m_IsRunning)
 	{
@@ -93,13 +121,18 @@ void Application::Run()
 			frames = 0;
 		}
 
-		m_Window->PollEvents();
-
-		m_Window->Begin();
+		if (window)
+		{
+			window->PollEvents();
+			window->Begin();
+		}
 
 		OnTick((float)m_DeltaTime);
 
-		m_Window->End();
+		if (window)
+		{
+			window->End();
+		}
 
 		if (m_Shutdown)
 		{
@@ -107,10 +140,10 @@ void Application::Run()
 		}
 	}
 
-	for (auto [name, module] : m_Modules)
-	{
-		module->OnDestroy();
-	}
+	ModuleManager::On([](Module* module)
+		{
+			module->OnDestroy();
+		});
 }
 
 void Application::Shutdown()
@@ -128,11 +161,6 @@ void Application::SetDebug(bool enabled)
 	m_Debug = enabled;
 }
 
-Window* Application::GetWindow()
-{
-	return m_Window;
-}
-
 uint64_t Application::GetFPS() const
 {
 	return m_FPS;
@@ -140,16 +168,16 @@ uint64_t Application::GetFPS() const
 
 void Application::OnEvent(BaseClass* sender, const EventArgs& args)
 {
-	for (auto [name, module] : m_Modules)
-	{
-		module->OnEvent(sender, args);
-	}
+	ModuleManager::On([sender, &args](Module* module)
+		{
+			module->OnEvent(sender, args);
+		});
 }
 
 void Application::OnTick(double DeltaTime)
 {
-	for (auto [name, module] : m_Modules)
-	{
-		module->OnTick(DeltaTime);
-	}
+	ModuleManager::On([DeltaTime](Module* module)
+		{
+			module->OnTick(DeltaTime);
+		});
 }

@@ -2,6 +2,11 @@
 
 #include "Scene/Scene.h"
 
+#include "Core/ModuleManager.h"
+#include "Core/Window.h"
+
+REGISTER_MODULE(Renderer);
+
 void Renderer::SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform)
 {
 	Ref<Shader> shader = mesh->GetMaterial()->GetShader();
@@ -18,7 +23,9 @@ void Renderer::OnTick(double DeltaTime)
 	glClearColor(0.0, 0.0, 0.5, 1.0);
 	glClearDepth(1.0f);
 
-	auto [width, height] = Application::Get()->GetWindow()->GetSize();
+	auto window = ModuleManager::Get<Window>();
+
+	auto [width, height] = window->GetSize();
 
 	//m_Scene->SetProjectionMatrix(glm::perspective(glm::radians(90.0f), (GLfloat)width / (GLfloat)height, 0.001f, 1000.0f));
 

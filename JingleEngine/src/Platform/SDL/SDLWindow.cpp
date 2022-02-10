@@ -1,11 +1,15 @@
-#include "SDLWindow.h"
+#define SDLWINDOW_NO_REGISTER
+#include "Platform/SDL/SDLWindow.h"
 
-#include "Core/Core.h"
 #include "Core/Application.h"
+#include "Core/ModuleManager.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
+
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
 
 void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
 				   GLsizei length, const GLchar *message, const void *userParam)
@@ -20,14 +24,12 @@ void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
 	std::cout << "Message: " << std::string(message, length) << std::endl;
 }
 
-Window *Window::Create(const WindowDesc &desc)
+int SDLWindow::Create(const WindowDesc &desc)
 {
-	SDLWindow *window = new SDLWindow();
-
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-		return nullptr;
+		return -1;
 	}
 
 	SDL_CaptureMouse(SDL_TRUE);
@@ -61,29 +63,29 @@ Window *Window::Create(const WindowDesc &desc)
 		height = 0;
 	}
 
-	window->m_SDLWindow = SDL_CreateWindow(desc.Title.c_str(), posFlag, posFlag, width, height, windowsFlags);
-	if (window->m_SDLWindow == nullptr)
+	m_SDLWindow = SDL_CreateWindow(desc.Title.c_str(), posFlag, posFlag, width, height, windowsFlags);
+	if (m_SDLWindow == nullptr)
 	{
-		return nullptr;
+		return -2;
 	}
 
-	window->m_SDLRenderer = SDL_CreateRenderer(window->m_SDLWindow, -1, SDL_RENDERER_ACCELERATED);
-	if (window->m_SDLRenderer == nullptr)
+	m_SDLRenderer = SDL_CreateRenderer(m_SDLWindow, -1, SDL_RENDERER_ACCELERATED);
+	if (m_SDLRenderer == nullptr)
 	{
-		return nullptr;
+		return -3;
 	}
 
-	window->m_GLContext = SDL_GL_CreateContext(window->m_SDLWindow);
+	m_GLContext = SDL_GL_CreateContext(m_SDLWindow);
 
 	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
 	{
-		return nullptr;
+		return -4;
 	}
 
 	SDL_DisplayMode dm;
 	if (SDL_GetCurrentDisplayMode(0, &dm) != 0)
 	{
-		return nullptr;
+		return -5;
 	}
 
 	GLint flags;
@@ -108,10 +110,10 @@ Window *Window::Create(const WindowDesc &desc)
 	//ImGui::StyleColorsClassic();
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplSDL2_InitForOpenGL(window->m_SDLWindow, window->m_GLContext);
+	ImGui_ImplSDL2_InitForOpenGL(m_SDLWindow, (SDL_GLContext)m_GLContext);
 	ImGui_ImplOpenGL3_Init("#version 130");
 
-	return window;
+	return 0;
 }
 
 SDLWindow::~SDLWindow()
@@ -120,7 +122,7 @@ SDLWindow::~SDLWindow()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	SDL_GL_DeleteContext(m_GLContext);
+	SDL_GL_DeleteContext((SDL_GLContext)m_GLContext);
 	SDL_DestroyRenderer(m_SDLRenderer);
 	SDL_DestroyWindow(m_SDLWindow);
 	SDL_Quit();

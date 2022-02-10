@@ -1,6 +1,10 @@
 #include "Module.h"
 
-void Module::OnCreate()
+void Module::OnPreInitialize()
+{
+}
+
+void Module::OnInitialize()
 {
 }
 

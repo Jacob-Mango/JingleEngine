@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.h"
+#include "Core/Module.h"
 
 struct WindowDesc
 {
@@ -10,10 +10,12 @@ struct WindowDesc
 	bool FullScreen;
 };
 
-class Window : public BaseClass
+class Window : public Module
 {
+	DEFINE_MODULE(Window)
+
 public:
-	static Window *Create(const WindowDesc &desc = WindowDesc());
+	virtual int Create(const WindowDesc &desc = WindowDesc()) = 0;
 
 	virtual bool IsVsync() const = 0;
 	virtual void SetVsync(bool enabled) = 0;

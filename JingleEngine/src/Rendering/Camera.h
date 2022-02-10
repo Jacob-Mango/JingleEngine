@@ -4,7 +4,6 @@
 #include "Core/Config.h"
 
 #include "Input/Binding.h"
-#include "Input/BindingModule.h"
 
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"

@@ -11,7 +11,7 @@
 
 class Renderer : public Module
 {
-	MODULE(Renderer)
+	DEFINE_MODULE(Renderer)
 
 private:
 	struct MeshCommand

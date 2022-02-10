@@ -1,8 +1,11 @@
+#define SDLWINDOW_NO_REGISTER
 #include "SDLWindow.h"
 
 #include "Core/Core.h"
 #include "Core/Application.h"
 #include "Core/Window.h"
+
+#include "Core/ModuleManager.h"
 
 #include "Input/Input.h"
 
@@ -10,8 +13,8 @@
 
 void Input::SetMousePosition(int x, int y)
 {
-	auto window = Application::Get()->GetWindow()->Cast<SDLWindow>();
-	SDL_WarpMouseInWindow(window.m_SDLWindow, x, y);
+	auto window = ModuleManager::Get<SDLWindow>();
+	SDL_WarpMouseInWindow(window->m_SDLWindow, x, y);
 }
 
 std::pair<int, int> Input::GetMousePosition()

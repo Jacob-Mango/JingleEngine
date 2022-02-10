@@ -1,27 +1,8 @@
 #include "Core.h"
 
+#ifdef WINDOWS
+#include "Platform/Windows/Windows.h"
+#endif
+
 extern int JingleEngineMain(Application* app);
 
-int main(int argc, char** argv)
-{
-	Application* application = new Application();
-
-	int error;
-
-	if ((error = application->Initialize()) != 0)
-	{
-		return error;
-	}
-
-	application->RegisterModule<BindingModule>();
-	application->RegisterModule<AssetModule>();
-	application->RegisterModule<Renderer>();
-
-	if ((error = JingleEngineMain(application)) != 0)
-	{
-		return error;
-	}
-
-	application->Run();
-	return 0;
-}
