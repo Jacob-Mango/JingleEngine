@@ -6,6 +6,8 @@
 #include "Core/Application.h"
 #include "Core/Core.h"
 
+#include "Input/BindingModule.h"
+
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
 #include "Rendering/Light.h"

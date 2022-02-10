@@ -18,6 +18,15 @@ void Camera::OnCreate()
 
 	m_Position = GetPosition();
 	m_Orientation = GetOrientation();
+
+	auto bindingModule = Application::Get()->GetModule<BindingModule>();
+
+	Binding_Mouse_Scroll = bindingModule->GetByName("mouse_scroll");
+	Binding_Turbo = bindingModule->GetByName("turbo");
+	Binding_Forward = bindingModule->GetByName("forward");
+	Binding_Backward = bindingModule->GetByName("backward");
+	Binding_Right = bindingModule->GetByName("right");
+	Binding_Left = bindingModule->GetByName("left");
 }
 
 void Camera::OnSimulate(double DeltaTime)
@@ -40,7 +49,7 @@ void Camera::OnSimulate(double DeltaTime)
 		if (orientation.y > 89.0)
 			orientation.y = 89.0;
 
-		float scrollAmt = BindingManager::GetValue("mouse_scroll");
+		float scrollAmt = Binding_Mouse_Scroll->GetValue();
 		m_SpeedCoef += float(scrollAmt * DeltaTime * (m_SpeedCoef * 20.0));
 	}
 
@@ -48,7 +57,7 @@ void Camera::OnSimulate(double DeltaTime)
 
 	float speed = GetType()->MovementSpeed;
 
-	if (!Input::IsCursorVisible() && BindingManager::Get("turbo") >= BindingState::PRESSED)
+	if (!Input::IsCursorVisible() && Binding_Turbo->GetState() >= InputState::PRESSED)
 	{
 		speed *= GetType()->MovementBoostModifier;
 	}
@@ -58,24 +67,10 @@ void Camera::OnSimulate(double DeltaTime)
 	float forward = 0;
 	float strafe = 0;
 
-	if (!Input::IsCursorVisible() && BindingManager::Get("forward") >= BindingState::PRESSED)
+	if (!Input::IsCursorVisible())
 	{
-		forward = speed;
-	}
-
-	if (!Input::IsCursorVisible() && BindingManager::Get("backward") >= BindingState::PRESSED)
-	{
-		forward = -speed;
-	}
-
-	if (!Input::IsCursorVisible() && BindingManager::Get("right") >= BindingState::PRESSED)
-	{
-		strafe = -speed;
-	}
-
-	if (!Input::IsCursorVisible() && BindingManager::Get("left") >= BindingState::PRESSED)
-	{
-		strafe = speed;
+		forward = (Binding_Forward->GetValue() * speed) - (Binding_Backward->GetValue() * speed);
+		strafe = (Binding_Right->GetValue() * speed) - (Binding_Left->GetValue() * speed);
 	}
 
 	SetOrientation(orientation);

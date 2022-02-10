@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Core.h"
+#include "Core/Core.h"
 
 class Input
 {
-	friend class Application;
+	friend class BindingModule;
 
 public:
 	static void SetMousePosition(int x, int y);
@@ -16,6 +16,14 @@ public:
 	
 private:
 	static void Update();
+};
+
+enum class InputState
+{
+	NONE = 0b0000,
+	RELEASED = 0b0001,
+	PRESSED = 0b0010,
+	HOLDING = 0b0100,
 };
 
 enum class InputType
@@ -277,3 +285,5 @@ struct KeyCode
 	static int AUDIOREWIND;
 	static int AUDIOFASTFORWARD;
 };
+
+std::ostream& operator<<(std::ostream& os, const InputState& state);

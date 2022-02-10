@@ -3,7 +3,6 @@
 #include "Asset/AssetModule.h"
 
 #include "Core/Core.h"
-#include "Core/Binding.h"
 #include "Core/Config.h"
 #include "Core/Event.h"
 
@@ -23,7 +22,6 @@ Application::Application()
 
 Application::~Application()
 {
-	BindingManager::Destroy();
 }
 
 Application* Application::Get()
@@ -31,7 +29,7 @@ Application* Application::Get()
 	return s_Instance;
 }
 
-int Application::Init()
+int Application::Initialize()
 {
 	WindowDesc desc;
 	desc.FullScreen = false;
@@ -41,25 +39,14 @@ int Application::Init()
 	m_Window = Window::Create(desc);
 
 	OnWindowClose += [this](BaseClass* sender, WindowCloseEventArgs args) {
-		RequestExit();
+		Shutdown();
 	};
 
 	OnWindowResize += [this](BaseClass* sender, WindowResizeEventArgs args) {
 		std::cout << "Resized width=" << args.Width << " height=" << args.Height << std::endl;
 	};
 
-	BindingManager::Init();
-
 	return 0;
-}
-
-Ref<Framebuffer> Application::CreateFramebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width, unsigned int height, bool cubeMap)
-{
-	OUT_LINE("Application::CreateFramebuffer");
-
-	Ref<Framebuffer> buffer = new Framebuffer(name, attachments, width, height, cubeMap);
-	m_Framebuffers.push_back(buffer);
-	return buffer;
 }
 
 #include <chrono>
@@ -88,7 +75,7 @@ void Application::Run()
 	double frameTime = 0;
 	uint64_t frames = 0;
 
-	for (auto module : m_Modules)
+	for (auto [name, module] : m_Modules)
 	{
 		module->OnCreate();
 	}
@@ -106,9 +93,6 @@ void Application::Run()
 			frames = 0;
 		}
 
-		Input::Update();
-		BindingManager::Update();
-
 		m_Window->PollEvents();
 
 		m_Window->Begin();
@@ -117,32 +101,21 @@ void Application::Run()
 
 		m_Window->End();
 
-		if (m_RequestingExit)
+		if (m_Shutdown)
 		{
 			m_IsRunning = false;
-			m_RequestingExit = false;
 		}
 	}
 
-	for (auto module : m_Modules)
+	for (auto [name, module] : m_Modules)
 	{
 		module->OnDestroy();
 	}
 }
 
-void Application::RequestExit()
+void Application::Shutdown()
 {
-	m_RequestingExit = true;
-}
-
-void Application::ClearExitRequest()
-{
-	m_RequestingExit = false;
-}
-
-bool Application::RequestingExit()
-{
-	return m_RequestingExit;
+	m_Shutdown = true;
 }
 
 bool Application::IsDebug() const
@@ -167,7 +140,7 @@ uint64_t Application::GetFPS() const
 
 void Application::OnEvent(BaseClass* sender, const EventArgs& args)
 {
-	for (auto module : m_Modules)
+	for (auto [name, module] : m_Modules)
 	{
 		module->OnEvent(sender, args);
 	}
@@ -175,31 +148,7 @@ void Application::OnEvent(BaseClass* sender, const EventArgs& args)
 
 void Application::OnTick(double DeltaTime)
 {
-	static bool isSecondPress;
-
-	if (BindingManager::Get("exit") == BindingState::PRESSED)
-	{
-		Input::ShowCursor(true);
-
-		if (isSecondPress)
-		{
-			RequestExit();
-			return;
-		}
-
-		isSecondPress = true;
-	}
-	else if (!Input::IsCursorVisible())
-	{
-		isSecondPress = false;
-	}
-
-	if (BindingManager::Get("focus") >= BindingState::PRESSED)
-	{
-		Input::ShowCursor(false);
-	}
-
-	for (auto module : m_Modules)
+	for (auto [name, module] : m_Modules)
 	{
 		module->OnTick(DeltaTime);
 	}

@@ -13,9 +13,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Binding.h"
-#include "Logging.h"
-#include "Reference.h"
-#include "Input.h"
+#include "Core/Logging.h"
+#include "Core/Reference.h"
 
 #define SIZE_OF(X, Y) X.size() * sizeof(Y)

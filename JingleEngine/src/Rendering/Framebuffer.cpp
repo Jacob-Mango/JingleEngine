@@ -4,6 +4,7 @@
 
 #include "Rendering/Texture.h"
 
+/*
 Framebuffer::Framebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width, unsigned int height, bool cubeMap) : m_Name(name), m_AttachmentArray(attachments), m_CubeMap(cubeMap)
 {
 	Resize(width, height);
@@ -158,3 +159,4 @@ void Framebuffer::AttachDepth(TextureFormat format)
 
 	texture->Unbind();
 }
+*/

@@ -6,7 +6,6 @@
 #include <glm/glm.hpp>
 
 #include "Core/Application.h"
-#include "Core/Binding.h"
 
 #include "Asset/AssetModule.h"
 

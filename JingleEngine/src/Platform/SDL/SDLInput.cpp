@@ -4,6 +4,8 @@
 #include "Core/Application.h"
 #include "Core/Window.h"
 
+#include "Input/Input.h"
+
 #include <SDL.h>
 
 void Input::SetMousePosition(int x, int y)
@@ -288,3 +290,26 @@ int KeyCode::APP1					= SDLK_APP1;
 int KeyCode::APP2					= SDLK_APP2;
 int KeyCode::AUDIOREWIND			= SDLK_AUDIOREWIND;
 int KeyCode::AUDIOFASTFORWARD		= SDLK_AUDIOFASTFORWARD;
+
+std::ostream& operator<<(std::ostream& os, const InputState& state)
+{
+	switch (state)
+	{
+	case InputState::NONE:
+		os << "NONE";
+		break;
+	case InputState::RELEASED:
+		os << "RELEASED";
+		break;
+	case InputState::PRESSED:
+		os << "PRESSED";
+		break;
+	case InputState::HOLDING:
+		os << "HOLDING";
+		break;
+	default:
+		os << "UNKNOWN";
+		break;
+	}
+	return os;
+}

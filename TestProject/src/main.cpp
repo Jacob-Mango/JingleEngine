@@ -3,6 +3,49 @@
 #include "Scene/Planet/Planet.h"
 #include "Scene/Planet/PlanetQuad.h"
 
+class TestModule : public Module
+{
+	MODULE(TestModule)
+
+	Binding* Binding_Exit;
+	Binding* Binding_Focus;
+
+public:
+	virtual void OnCreate() override
+	{
+		auto bindingModule = Application::Get()->GetModule<BindingModule>();
+		Binding_Exit = bindingModule->GetByName("exit");
+		Binding_Focus = bindingModule->GetByName("focus");
+	}
+
+	virtual void OnTick(double DeltaTime) override
+	{
+		static bool isSecondPress;
+
+		if (Binding_Exit->GetState() == InputState::PRESSED)
+		{
+			Input::ShowCursor(true);
+
+			if (isSecondPress)
+			{
+				Application::Get()->Shutdown();
+				return;
+			}
+
+			isSecondPress = true;
+		}
+		else if (!Input::IsCursorVisible())
+		{
+			isSecondPress = false;
+		}
+
+		if (Binding_Focus->GetState() >= InputState::PRESSED)
+		{
+			Input::ShowCursor(false);
+		}
+	}
+};
+
 int JingleEngineMain(Application* app)
 {
 	EntityTypeManager::Register<EntityType>();
@@ -13,63 +56,35 @@ int JingleEngineMain(Application* app)
 	EntityTypeManager::Register<PlanetType>();
 	EntityTypeManager::Register<PlanetQuadType>();
 
-	BindingManager::RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
-	BindingManager::RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });
+	app->RegisterModule<TestModule>();
 
-	BindingManager::RegisterCombos("forward", { {{'w', InputType::KEY}} });
-	BindingManager::RegisterCombos("backward", { {{'s', InputType::KEY}} });
-	BindingManager::RegisterCombos("left", { {{'a', InputType::KEY}} });
-	BindingManager::RegisterCombos("right", { {{'d', InputType::KEY}} });
+	auto bindingModule = Application::Get()->GetModule<BindingModule>();
 
-	BindingManager::RegisterCombos("incline_increase", { {{KeyCode::UP, InputType::KEY}} });
-	BindingManager::RegisterCombos("incline_decrease", { {{KeyCode::DOWN, InputType::KEY}} });
-	BindingManager::RegisterCombos("roll_left", { {{KeyCode::LEFT, InputType::KEY}} });
-	BindingManager::RegisterCombos("roll_right", { {{KeyCode::RIGHT, InputType::KEY}} });
+	bindingModule->RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
+	bindingModule->RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });
 
-	BindingManager::RegisterCombos("buffer_prev", { {{'o', InputType::KEY}} });
-	BindingManager::RegisterCombos("buffer_next", { {{'p', InputType::KEY}} });
+	bindingModule->RegisterCombos("forward", { {{'w', InputType::KEY}} });
+	bindingModule->RegisterCombos("backward", { {{'s', InputType::KEY}} });
+	bindingModule->RegisterCombos("left", { {{'a', InputType::KEY}} });
+	bindingModule->RegisterCombos("right", { {{'d', InputType::KEY}} });
 
-	BindingManager::RegisterCombos("toggle_facemode", { {{'f', InputType::KEY}} });
-	BindingManager::RegisterCombos("toggle_backfaceculling", { {{'c', InputType::KEY}} });
-	BindingManager::RegisterCombos("toggle_depthtesting", { {{'z', InputType::KEY}} });
-	BindingManager::RegisterCombos("toggle_osd", { {{'h', InputType::KEY}} });
-	BindingManager::RegisterCombos("toggle_vsync", { {{'v', InputType::KEY}} });
-	BindingManager::RegisterCombos("toggle_debug", { {{'g', InputType::KEY}} });
+	bindingModule->RegisterCombos("incline_increase", { {{KeyCode::UP, InputType::KEY}} });
+	bindingModule->RegisterCombos("incline_decrease", { {{KeyCode::DOWN, InputType::KEY}} });
+	bindingModule->RegisterCombos("roll_left", { {{KeyCode::LEFT, InputType::KEY}} });
+	bindingModule->RegisterCombos("roll_right", { {{KeyCode::RIGHT, InputType::KEY}} });
 
-	BindingManager::RegisterCombos("turbo", { {{KeyCode::LSHIFT, InputType::KEY}} });
-	BindingManager::RegisterCombos("mouse_scroll", { {{MouseCode::WHEEL_UP, InputType::MOUSE}, {MouseCode::WHEEL_DOWN, InputType::MOUSE}} });
+	bindingModule->RegisterCombos("buffer_prev", { {{'o', InputType::KEY}} });
+	bindingModule->RegisterCombos("buffer_next", { {{'p', InputType::KEY}} });
+
+	bindingModule->RegisterCombos("toggle_facemode", { {{'f', InputType::KEY}} });
+	bindingModule->RegisterCombos("toggle_backfaceculling", { {{'c', InputType::KEY}} });
+	bindingModule->RegisterCombos("toggle_depthtesting", { {{'z', InputType::KEY}} });
+	bindingModule->RegisterCombos("toggle_osd", { {{'h', InputType::KEY}} });
+	bindingModule->RegisterCombos("toggle_vsync", { {{'v', InputType::KEY}} });
+	bindingModule->RegisterCombos("toggle_debug", { {{'g', InputType::KEY}} });
+
+	bindingModule->RegisterCombos("turbo", { {{KeyCode::LSHIFT, InputType::KEY}} });
+	bindingModule->RegisterCombos("mouse_scroll", { {{MouseCode::WHEEL_UP, InputType::MOUSE}, {MouseCode::WHEEL_DOWN, InputType::MOUSE}} });
 
 	return 0;
 }
-
-/*
-void SpaceGame::OnStart()
-{
-	SetScene(new Scene());
-
-	auto config = Config::Load("Assets/Scenes/game.scene");
-	std::cout << "game.scene:: " << (*config).AsString() << std::endl;
-
-	auto& types = (*config)["defaultTypes"];
-	for (int i = 0; i < types.Count; i++)
-	{
-		EntityTypeManager::Load(types[i]);
-	}
-
-	GetScene()->LoadScene((*config)["entities"]);
-}
-
-void SpaceGame::OnTick(double DeltaTime)
-{
-	Application::OnTick(DeltaTime);
-
-}
-
-int main(int argc, char** argv)
-{
-	OUT_LINE("main");
-	SpaceGame* app = new SpaceGame();
-	app->Start();
-	return 0;
-}
-*/

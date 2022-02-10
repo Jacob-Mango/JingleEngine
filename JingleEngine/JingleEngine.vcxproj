@@ -21,11 +21,12 @@
   <ItemGroup>
     <ClCompile Include="src\Asset\AssetModule.cpp" />
     <ClCompile Include="src\Core\Module.cpp" />
+    <ClCompile Include="src\Input\Binding.cpp" />
+    <ClCompile Include="src\Input\BindingModule.cpp" />
     <ClCompile Include="src\Platform\OpenGL\glad.c" />
     <ClCompile Include="src\Asset\Asset.cpp" />
     <ClCompile Include="src\Asset\GUID.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
-    <ClCompile Include="src\Core\Binding.cpp" />
     <ClCompile Include="src\Core\Config.cpp" />
     <ClCompile Include="src\Scene\Debug.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
@@ -55,11 +56,13 @@
     <ClInclude Include="src\Asset\GUID.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Core\Application.h" />
-    <ClInclude Include="src\Core\Binding.h" />
     <ClInclude Include="src\Core\Config.h" />
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Module.h" />
     <ClInclude Include="src\Entry.h" />
+    <ClInclude Include="src\Input\Binding.h" />
+    <ClInclude Include="src\Input\BindingModule.h" />
+    <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Scene\Debug.h" />
     <ClInclude Include="src\Core\Event.h" />
     <ClInclude Include="src\Core\Input.h" />

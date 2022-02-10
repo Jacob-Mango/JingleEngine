@@ -5,7 +5,7 @@
 class Shader;
 class Texture;
 enum class TextureFormat;
-
+/*
 class Framebuffer : public Countable
 {
 private:
@@ -43,3 +43,4 @@ private:
 	void AttachColor(TextureFormat format);
 	void AttachDepth(TextureFormat format);
 };
+*/

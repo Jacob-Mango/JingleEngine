@@ -8,11 +8,12 @@ int main(int argc, char** argv)
 
 	int error;
 
-	if ((error = application->Init()) != 0)
+	if ((error = application->Initialize()) != 0)
 	{
 		return error;
 	}
 
+	application->RegisterModule<BindingModule>();
 	application->RegisterModule<AssetModule>();
 	application->RegisterModule<Renderer>();
 
