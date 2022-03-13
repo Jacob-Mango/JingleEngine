@@ -1,4 +1,89 @@
 Global {
+ Functions: {
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "bool"
+   Name: "ImGui_Begin"
+   Parameters: {
+    Parameter {
+     Type: "string"
+     Name: "name"
+    }
+   }
+  }
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "void"
+   Name: "ImGui_End"
+  }
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "void"
+   Name: "ImGui_Text"
+   Parameters: {
+    Parameter {
+     Type: "string"
+     Name: "text"
+    }
+   }
+  }
+  Function {
+   Children: {
+    Expression {
+     Right: {
+      FunctionCall {
+       Value: "ImGui_Begin"
+       Arguments: {
+        [0]: {
+         Constant {
+          Value: "Test"
+         }
+        }
+       }
+       IsConstructor: "0"
+      }
+     }
+    }
+    Expression {
+     Right: {
+      FunctionCall {
+       Value: "ImGui_Text"
+       Arguments: {
+        [0]: {
+         Constant {
+          Value: "This is jingle script"
+         }
+        }
+       }
+       IsConstructor: "0"
+      }
+     }
+    }
+    Expression {
+     Right: {
+      FunctionCall {
+       Value: "ImGui_End"
+       IsConstructor: "0"
+      }
+     }
+    }
+   }
+   ReturnType: "void"
+   Name: "OnUpdate"
+  }
+ }
  Classes: {
   Class {
    Name: "Native"

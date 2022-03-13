@@ -16,6 +16,8 @@
 #include "Rendering/Material.h"
 #include "Rendering/Renderer.h"
 
+#include "Rendering/ImGui.h"
+
 #include <JingleScript.h>
 
 Application* Application::s_Instance = nullptr;
@@ -38,18 +40,27 @@ Application* Application::Get()
 	return s_Instance;
 }
 
+JingleScript::AbstractFunction* updateFunction;
+
 int Application::Initialize()
 {
 	using namespace JingleScript;
 
 	GlobalManager::Initialize();
 	TypeManager::Initialize();
+	
+	Thread::Create();
+
+	// Once static is in JingleScript, this won't be needed
+	LinkImGUI();
 
 	bool success = true;
 
 	std::string folder = "Assets/Scripts";
 	std::string files[] = {
-		"Core"
+		"Core",
+		"ImGui",
+		"main"
 	};
 
 	Ref<Parser> parser = new Parser();
@@ -70,6 +81,14 @@ int Application::Initialize()
 	{
 		success &= Compiler::Compile(parser);
 	}
+
+	FunctionSignature signature;
+	signature.Name = "OnUpdate";
+	signature.ReturnType = nullptr;
+	signature.Owner = nullptr;
+	signature.Parameters.clear();
+
+	updateFunction = signature.Find();
 
 	OnWindowClose += [this](BaseClass* sender, WindowCloseEventArgs args) {
 		Shutdown();
@@ -213,6 +232,14 @@ void Application::OnEvent(BaseClass* sender, const EventArgs& args)
 
 void Application::OnTick(double DeltaTime)
 {
+	if (updateFunction)
+	{
+		using namespace JingleScript;
+		
+		auto& thread = *Thread::Current();
+		updateFunction->Call(thread);
+	}
+
 	ModuleManager::On([DeltaTime](Module* module)
 		{
 			module->OnTick(DeltaTime);

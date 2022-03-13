@@ -35,7 +35,7 @@ void BindingModule::OnPreInitialize()
 
 	Application::Get()->OnMouseScroll += [this](BaseClass* sender, MouseScrollEventArgs args)
 	{
-		float mul = args.Direction == 1 ? -1 : 1;
+		float mul = args.Direction == 1 ? -1.0f : 1.0f;
 		float scrollValue = 0;
 		int keyCode = 0;
 

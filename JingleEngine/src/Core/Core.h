@@ -16,4 +16,4 @@
 #include "Core/Logging.h"
 #include <JingleScript.h>
 
-#define SIZE_OF(X, Y) X.size() * sizeof(Y)
+#define SIZE_OF(X, Y) int(X.size() * sizeof(Y))
