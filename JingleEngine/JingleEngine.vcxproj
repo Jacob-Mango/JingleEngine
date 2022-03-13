@@ -93,6 +93,14 @@
     <ClInclude Include="src\Scene\Planet\PlanetQuad.h" />
     <ClInclude Include="src\Scene\Scene.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\JingleScript\JingleScript\JingleScript.vcxproj">
+      <Project>{83f52df3-6684-4641-9889-e17f4a3cfc19}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\imgui\imgui.vcxproj">
+      <Project>{bbaeb705-1669-40f3-8567-04cf6a991f4c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -147,32 +155,32 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
@@ -184,7 +192,7 @@
       <PreprocessorDefinitions>DEBUG;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -207,7 +215,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <PreprocessorDefinitions>RELEASE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -230,7 +238,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -253,7 +261,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <PreprocessorDefinitions>RELEASE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)JingleEngine\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

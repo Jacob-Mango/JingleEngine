@@ -74,32 +74,32 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)JingleEngine\src\;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)dist\$(Platform);$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)JingleEngine\src\;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)dist\$(Platform);$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)JingleEngine\src\;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)dist\$(Platform);$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)JingleEngine\src\;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)dist\$(Platform);$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <OutDir>$(SolutionDir)dist\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)dist\$(Platform)\int</IntDir>
+    <OutDir>$(ProjectDir)..\dist\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -108,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINDOWS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,6 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINDOWS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +143,7 @@
       <PreprocessorDefinitions>WINDOWS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,6 +161,7 @@
       <PreprocessorDefinitions>WINDOWS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
