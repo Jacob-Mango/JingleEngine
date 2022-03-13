@@ -45,7 +45,6 @@ int Application::Initialize()
 	GlobalManager::Initialize();
 	TypeManager::Initialize();
 
-	/*
 	bool success = true;
 
 	std::string folder = "Assets/Scripts";
@@ -71,7 +70,6 @@ int Application::Initialize()
 	{
 		success &= Compiler::Compile(parser);
 	}
-	*/
 
 	OnWindowClose += [this](BaseClass* sender, WindowCloseEventArgs args) {
 		Shutdown();

@@ -1,0 +1,457 @@
+Global {
+ Classes: {
+  Class {
+   Name: "Native"
+   Base: "Attribute"
+  }
+  Class {
+   Name: "Object"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "string"
+     Name: "ToString"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "Type"
+     Name: "GetType"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator=="
+     Parameters: {
+      Parameter {
+       Type: "Object"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator!="
+     Parameters: {
+      Parameter {
+       Type: "Object"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Name: "bool"
+   Base: "int"
+  }
+  Class {
+   Name: "Type"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "IsInherited"
+     Parameters: {
+      Parameter {
+       Type: "Type"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Name: "byte"
+  }
+  Class {
+   Name: "Attribute"
+  }
+  Class {
+   Name: "null"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator=="
+     Parameters: {
+      Parameter {
+       Type: "Object"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator!="
+     Parameters: {
+      Parameter {
+       Type: "Object"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Name: "int"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "int"
+     Name: "operator*"
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "int"
+     Name: "operator/"
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "int"
+     Name: "operator+"
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "int"
+     Name: "operator-"
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "int"
+     Name: "operator%"
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator>"
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator>="
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator<"
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator<="
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator=="
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator!="
+     Parameters: {
+      Parameter {
+       Type: "int"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Name: "float"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "float"
+     Name: "operator*"
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "float"
+     Name: "operator/"
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "float"
+     Name: "operator+"
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "float"
+     Name: "operator-"
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator>"
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator>="
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator<"
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator<="
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator=="
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator!="
+     Parameters: {
+      Parameter {
+       Type: "float"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Name: "double"
+  }
+  Class {
+   Name: "string"
+  }
+ }
+}
