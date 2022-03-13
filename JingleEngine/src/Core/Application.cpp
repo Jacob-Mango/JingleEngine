@@ -60,6 +60,7 @@ int Application::Initialize()
 	std::string files[] = {
 		"Core",
 		"ImGui",
+		"Modules",
 		"main"
 	};
 
@@ -81,6 +82,8 @@ int Application::Initialize()
 	{
 		success &= Compiler::Compile(parser);
 	}
+
+	ModuleManager::Initialize();
 
 	FunctionSignature signature;
 	signature.Name = "OnUpdate";
@@ -141,8 +144,7 @@ void Application::Run()
 		{
 			std::cout << "Loaded Module ";
 
-			for (auto name : module->GetNames())
-				std::cout << "[" << name << "] ";
+			std::cout << "[" << module->GetType()->Name() << "] ";
 
 			std::cout << std::endl;
 		});

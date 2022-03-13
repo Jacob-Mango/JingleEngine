@@ -12,9 +12,11 @@ struct WindowDesc
 
 class Window : public Module
 {
-	DEFINE_MODULE(Window)
+	DEFINE_VIRTUAL_MODULE(Window, Module);
 
 public:
+	Window() {}
+
 	virtual int Create(const WindowDesc &desc = WindowDesc()) = 0;
 
 	virtual bool IsVsync() const = 0;

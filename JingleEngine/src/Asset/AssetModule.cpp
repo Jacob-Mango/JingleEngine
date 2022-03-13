@@ -7,7 +7,8 @@
 
 AssetModule *AssetModule::s_Instance;
 
-REGISTER_MODULE(AssetModule);
+BEGIN_MODULE_LINK(AssetModule);
+END_MODULE_LINK();
 
 void AssetModule::OnPreInitialize()
 {

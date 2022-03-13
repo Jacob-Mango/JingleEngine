@@ -1,4 +1,3 @@
-#define SDLWINDOW_NO_REGISTER
 #include "SDLWindow.h"
 
 #include "Core/Core.h"

@@ -11,7 +11,7 @@
 
 class Renderer : public Module
 {
-	DEFINE_MODULE(Renderer)
+	DEFINE_MODULE(Renderer, Module);
 
 private:
 	struct MeshCommand
@@ -26,6 +26,8 @@ private:
 	Ref<Scene> m_Scene;
 
 public:
+	Renderer() {}
+
 	void SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform);
 
 	virtual void OnTick(double DeltaTime) override;

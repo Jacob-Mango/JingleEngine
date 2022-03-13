@@ -2,13 +2,14 @@
 
 class SDLWindow : public Window
 {
-	DEFINE_NAMED_MODULE(SDLWindow, Window)
+	DEFINE_MODULE(SDLWindow, Window);
 
 	friend class Input;
 	friend class Window;
 
 public:
-	~SDLWindow();
+	SDLWindow() {}
+	virtual ~SDLWindow();
 
 	virtual int Create(const WindowDesc& desc) override;
 
@@ -28,7 +29,3 @@ private:
 	struct SDL_Renderer* m_SDLRenderer = nullptr;
 	void* m_GLContext = nullptr;
 };
-
-#ifndef SDLWINDOW_NO_REGISTER
-REGISTER_MODULE(SDLWindow);
-#endif

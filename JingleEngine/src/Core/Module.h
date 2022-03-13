@@ -3,30 +3,27 @@
 #include "Core/Core.h"
 #include "Core/Event.h"
 
-#define DEFINE_MODULE(type)															\
-	private:																		\
-		static RegisterModule<type> RegisterModule_##type;							\
-	public:																			\
-		static std::string StaticName() { return #type; }							\
-		virtual std::string GetName() override { return #type; }					\
-		virtual std::vector<std::string> GetNames() override { return { #type }; }	\
-	private:
+#include <JingleScript.h>
 
-#define DEFINE_NAMED_MODULE(type, names, ...)																\
-	private:																								\
-		static RegisterModule<type> RegisterModule_##type;													\
-	public:																									\
-		static std::string StaticName() { return #type; }													\
-		virtual std::string GetName() override { return #type; }											\
-		virtual std::vector<std::string> GetNames() override { return { #type, #names ##__VA_ARGS__ }; }	\
-	private:
+#define DEFINE_MODULE(type, baseTypeName)					\
+	DEFINE_NAMED_CLASS(type, type, baseTypeName)			\
 
-#define REGISTER_MODULE(type)							\
-	RegisterModule<type> type::RegisterModule_##type
+#define DEFINE_VIRTUAL_MODULE(type, baseTypeName)			\
+	DEFINE_NAMED_VIRTUAL_CLASS(type, type, baseTypeName)	\
 
-class Module : public BaseClass
+#define BEGIN_MODULE_LINK(type)								\
+	BEGIN_CLASS_LINK(type)
+
+#define END_MODULE_LINK()									\
+	END_CLASS_LINK()
+
+class Module : public JingleScript::Object
 {
+	DEFINE_MODULE(Module, JingleScript::Object);
+
 public:
+	Module() {}
+
 	virtual void OnPreInitialize();
 	virtual void OnInitialize();
 
@@ -35,19 +32,6 @@ public:
 	virtual void OnEvent(BaseClass* sender, const EventArgs& args);
 	virtual void OnTick(double DeltaTime);
 
-	virtual std::string GetName() = 0;
-	virtual std::vector<std::string> GetNames() = 0;
 };
 
 #include "Core/ModuleManager.h"
-
-template<typename T>
-class RegisterModule
-{
-public:
-	RegisterModule()
-	{
-		ModuleManager::Initialize();
-		ModuleManager::Register<T>();
-	}
-};

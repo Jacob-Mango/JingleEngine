@@ -8,12 +8,14 @@ class Binding;
 
 class BindingModule : public Module
 {
-	DEFINE_MODULE(BindingModule)
+	DEFINE_MODULE(BindingModule, Module);
 
 private:
 	std::unordered_map<std::string, Binding*> m_Bindings;
 
 public:
+	BindingModule() {}
+
 	virtual void OnPreInitialize() override;
 	virtual void OnDestroy() override;
 

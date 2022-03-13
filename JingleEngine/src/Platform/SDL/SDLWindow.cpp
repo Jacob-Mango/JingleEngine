@@ -1,4 +1,3 @@
-#define SDLWINDOW_NO_REGISTER
 #include "Platform/SDL/SDLWindow.h"
 
 #include "Core/Application.h"
@@ -10,6 +9,9 @@
 
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
+
+BEGIN_MODULE_LINK(SDLWindow);
+END_MODULE_LINK();
 
 void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity,
 				   GLsizei length, const GLchar *message, const void *userParam)

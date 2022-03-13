@@ -143,6 +143,9 @@ Global {
    }
   }
   Class {
+   Name: "Module"
+  }
+  Class {
    Name: "bool"
    Base: "int"
   }
@@ -537,6 +540,30 @@ Global {
   }
   Class {
    Name: "string"
+  }
+  Class {
+   Name: "AssetModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "Renderer"
+   Base: "Module"
+  }
+  Class {
+   Name: "BindingModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "TestModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "Window"
+   Base: "Module"
+  }
+  Class {
+   Name: "SDLWindow"
+   Base: "Window"
   }
  }
 }

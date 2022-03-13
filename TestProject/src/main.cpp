@@ -7,12 +7,16 @@
 
 class TestModule : public Module
 {
-	DEFINE_MODULE(TestModule)
+	DEFINE_MODULE(TestModule, Module);
 
 	Binding* Binding_Exit;
 	Binding* Binding_Focus;
 
 public:
+	TestModule()
+	{
+	}
+
 	virtual void OnInitialize() override
 	{
 		auto bindingModule = ModuleManager::Get<BindingModule>();
@@ -48,7 +52,8 @@ public:
 	}
 };
 
-REGISTER_MODULE(TestModule);
+BEGIN_MODULE_LINK(TestModule);
+END_MODULE_LINK();
 
 int JingleEngineMain(Application* app)
 {

@@ -21,40 +21,28 @@ class ModuleManager : public BaseClass
 	friend class ModuleIterator;
 
 private:
-	static ModuleManager* s_Instance;
-
-private:
 	std::unordered_map<std::string, Module*> m_ModuleMap;
 	std::vector<Module*> m_Modules;
 	ModuleIterator m_Iterator;
 
+	ModuleManager() {}
+	ModuleManager(const ModuleManager&&) = delete;
+	ModuleManager(const ModuleManager&) = delete;
+
 public:
 	static void Initialize();
+
+	static ModuleManager& Get();
 
 	static ModuleIterator& Iterator();
 
 	static void On(std::function<void(Module*)> func);
 
 	template<typename T>
-	static T* Register()
-	{
-		T* module = new T();
-
-		for (auto name : module->GetNames())
-		{
-			s_Instance->m_ModuleMap[name] = module;
-		}
-
-		s_Instance->m_Modules.push_back(module);
-
-		return module;
-	}
-
-	template<typename T>
 	static T* Get()
 	{
-		auto it = s_Instance->m_ModuleMap.find(T::StaticName());
-		if (it == s_Instance->m_ModuleMap.end())
+		auto it = Get().m_ModuleMap.find(T::StaticName());
+		if (it == Get().m_ModuleMap.end())
 		{
 			return nullptr;
 		}

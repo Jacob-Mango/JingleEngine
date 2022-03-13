@@ -5,7 +5,8 @@
 
 #include "Input/Binding.h"
 
-REGISTER_MODULE(BindingModule);
+BEGIN_MODULE_LINK(BindingModule);
+END_MODULE_LINK();
 
 void BindingModule::OnPreInitialize()
 {

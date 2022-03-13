@@ -11,7 +11,7 @@
 
 class AssetModule : public Module
 {
-	DEFINE_MODULE(AssetModule)
+	DEFINE_MODULE(AssetModule, Module);
 
 	friend class Asset;
 	friend class GUID;
@@ -22,6 +22,8 @@ private:
 	std::unordered_map<GUIDv, Ref<Asset>> m_Assets;
 
 public:
+	AssetModule() {}
+
 	virtual void OnPreInitialize() override;
 	virtual void OnInitialize() override;
 

@@ -5,7 +5,8 @@
 #include "Core/ModuleManager.h"
 #include "Core/Window.h"
 
-REGISTER_MODULE(Renderer);
+BEGIN_MODULE_LINK(Renderer);
+END_MODULE_LINK();
 
 void Renderer::SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform)
 {

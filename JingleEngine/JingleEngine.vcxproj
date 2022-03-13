@@ -22,6 +22,7 @@
     <ClCompile Include="src\Asset\AssetModule.cpp" />
     <ClCompile Include="src\Core\Module.cpp" />
     <ClCompile Include="src\Core\ModuleManager.cpp" />
+    <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Input\Binding.cpp" />
     <ClCompile Include="src\Input\BindingModule.cpp" />
     <ClCompile Include="src\Platform\OpenGL\glad.c" />
