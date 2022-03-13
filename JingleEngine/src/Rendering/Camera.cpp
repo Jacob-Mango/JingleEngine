@@ -6,7 +6,7 @@
 
 void CameraType::Load(Config& config)
 {
-	super::Load(config);
+	Super::Load(config);
 
 	MovementSpeed = config["movementSpeed"].Float;
 	MovementBoostModifier = config["movementBoostModifier"].Float;
@@ -16,7 +16,7 @@ void CameraType::Load(Config& config)
 
 void Camera::OnCreate()
 {
-	super::OnCreate();
+	Super::OnCreate();
 
 	GetScene()->SetCamera(this);
 
@@ -35,7 +35,9 @@ void Camera::OnCreate()
 
 void Camera::OnSimulate(double DeltaTime)
 {
-	super::OnSimulate(DeltaTime);
+	Super::OnSimulate(DeltaTime);
+
+	auto& type = GetEntityType<CameraType>();
 
 	glm::vec3 position = GetPosition();
 	glm::vec3 orientation = GetOrientation();
@@ -44,8 +46,8 @@ void Camera::OnSimulate(double DeltaTime)
 	{
 		auto [mouseX, mouseY] = Input::GetMouseDelta();
 
-		orientation.x -= float(mouseX * DeltaTime * GetType()->MouseSpeed);
-		orientation.y += float(mouseY * DeltaTime * GetType()->MouseSpeed);
+		orientation.x -= float(mouseX * DeltaTime * type.MouseSpeed);
+		orientation.y += float(mouseY * DeltaTime * type.MouseSpeed);
 		orientation.z = 0;
 
 		if (orientation.y < -89.0)
@@ -59,11 +61,11 @@ void Camera::OnSimulate(double DeltaTime)
 
 	m_SpeedCoef = glm::clamp(m_SpeedCoef, 0.01f, 500.0f);
 
-	float speed = GetType()->MovementSpeed;
+	float speed = type.MovementSpeed;
 
 	if (!Input::IsCursorVisible() && Binding_Turbo->GetState() >= InputState::PRESSED)
 	{
-		speed *= GetType()->MovementBoostModifier;
+		speed *= type.MovementBoostModifier;
 	}
 
 	speed = speed * m_SpeedCoef;

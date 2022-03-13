@@ -11,18 +11,24 @@
 class Camera;
 class CameraType : public EntityType
 {
-	ENTITY_TYPE(Camera, Entity)
+	DEFINE_CLASS(CameraType, EntityType);
 
 public:
 	float MovementSpeed;
 	float MovementBoostModifier;
 	
 	float MouseSpeed;
+
+public:
+	CameraType() {}
+
+	virtual void Load(Config& config) override;
+
 };
 
 class Camera : public Entity
 {
-	ENTITY(Camera, Entity)
+	DEFINE_CLASS(Camera, Entity);
 
 	float m_SpeedCoef = 1.0;
 
@@ -35,7 +41,9 @@ class Camera : public Entity
 	Binding* Binding_Backward;
 	Binding* Binding_Right;
 	Binding* Binding_Left;
+	
 public:
+	Camera() {}
 
 	virtual void OnCreate() override;
 	virtual void OnSimulate(double DeltaTime) override;

@@ -22,22 +22,17 @@ void Scene::LoadScene(Config& entities)
 	}
 }
 
-Ref<Entity> Scene::SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation)
+Entity* Scene::SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation)
 {
 	auto entType = EntityTypeManager::Get<EntityType>(type);
-	if (entType.IsNull())
-		return nullptr;
-
-	Ref<Entity> entity = entType->Create(this, position, orientation);
-
-	return entity;
+	return SpawnEntity<Entity>(entType, position, orientation);
 }
 
-Ref<Entity> Scene::SpawnEntity(Config& config)
+Entity* Scene::SpawnEntity(Config& config)
 {
 	glm::vec3 position = config["position"].Vec3();
 	glm::vec3 orientation = config["orientation"].Vec3();
-	Ref<Entity> entity = SpawnEntity(config["type"].String, position, orientation);
+	Entity* entity = SpawnEntity(config["type"].String, position, orientation);
 
 	auto& children = config["children"];
 	if (!children.IsNull())
@@ -76,14 +71,14 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 
 	for (int i = 0; i < m_Entities.size(); i++)
 	{
-		Ref<Entity> entity = m_Entities[i];
+		Entity* entity = m_Entities[i];
 
 		entity->OnSimulate(DeltaTime);
 
 		std::string entStr = "[" + std::to_string(i) + "]: " + entity->AsString();
 		ImGui::Text(entStr.c_str());
 
-		auto meshEntity = entity.Cast<MeshEntity>();
+		auto meshEntity = dynamic_cast<MeshEntity*>(entity);
 
 		if (!meshEntity || !entity->IsVisible())
 			continue;
@@ -99,12 +94,12 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 	ImGui::End();
 }
 
-Ref<Camera> Scene::GetCamera()
+Camera* Scene::GetCamera()
 {
 	return m_Camera;
 }
 
-void Scene::SetCamera(Ref<Camera> camera)
+void Scene::SetCamera(Camera* camera)
 {
 	m_Camera = camera;
 }
@@ -134,13 +129,14 @@ void Scene::SetSkybox(Ref<Texture> skybox)
 	m_Skybox = skybox;
 }
 
-void Scene::AddEntity(Ref<Entity> entity)
+void Scene::AddEntity(Entity* entity)
 {
+	entity->m_Scene = this;
 	entity->m_ID = m_NextID++;
 	m_Entities.push_back(entity);
 }
 
-void Scene::RemoveEntity(Ref<Entity> entity)
+void Scene::RemoveEntity(Entity* entity)
 {
 	auto position = std::find(m_Entities.begin(), m_Entities.end(), entity);
 	if (position != m_Entities.end())
@@ -149,12 +145,12 @@ void Scene::RemoveEntity(Ref<Entity> entity)
 	}
 }
 
-void Scene::AddLight(Ref<Light> light)
+void Scene::AddLight(Light* light)
 {
 	m_Lights.push_back(light);
 }
 
-void Scene::RemoveLight(Ref<Light> light)
+void Scene::RemoveLight(Light* light)
 {
 	auto position = std::find(m_Lights.begin(), m_Lights.end(), light);
 	if (position != m_Lights.end())

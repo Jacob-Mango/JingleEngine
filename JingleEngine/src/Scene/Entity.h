@@ -1,37 +1,9 @@
 #pragma once
 
-#include "Core/Reference.h"
+#include <JingleScript.h>
 #include "Core/Core.h"
 
-class Scene;
-
-#define ENTITY_TYPE(T, BASE)                                											\
-	public:                                																\
-	typedef BASE##Type super;                               											\
-	virtual Ref<Entity> Create(Ref<Scene> scene, glm::vec3 position, glm::vec3 orientation) override	\
-	{																									\
-		return scene->SpawnEntity<##T##>(this, position, orientation).As<Entity>();						\
-	}																									\
-	virtual void Load(Config& config) override;															\
-	virtual EntityType* CreateType() override { return new T##Type(); }									\
-	static std::string StaticName() { return std::string(#T); }											\
-	virtual std::string GetClassName() override { return StaticName(); }								\
-	private:
-
-#define ENTITY(T, BASE)                                						\
-	public:                                									\
-	typedef BASE super;														\
-	Ref<##T##Type> GetType()												\
-	{																		\
-		return BASE::GetType().As<##T##Type>();								\
-	}																		\
-	static Ref<##T##Type> StaticGetType(Ref<EntityType> type)				\
-	{																		\
-		return type.As<##T##Type>();										\
-	}																		\
-	T() : T(new T##Type()) {}												\
-	T(T##Type* type) : BASE(type) {}										\
-	private:
+#include <JingleScript.h>
 
 class Scene;
 class Config;
@@ -41,42 +13,38 @@ class Application;
 #include "Rendering/Material.h"
 #include "Rendering/Mesh.h"
 
-class EntityType : public Countable
+class EntityType : public JingleScript::Object
 {
-	typedef Countable base;
+	DEFINE_CLASS(EntityType, Object);
 
 public:
 	std::string Name;
 
-	static std::string StaticName() { return "EntityType"; }
-	virtual std::string GetClassName() { return StaticName(); }
-
-	Ref<Entity> Create(Ref<Scene> scene);
-	virtual Ref<Entity> Create(Ref<Scene> scene, glm::vec3 position, glm::vec3 orientation);
-	virtual EntityType* CreateType() { return new EntityType(); }
+public:
+	EntityType() {}
 
 	virtual void Load(Config& config);
 	
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 };
 
-class Entity : public Countable
+class Entity : public JingleScript::Object
 {
-	friend Scene;
+	DEFINE_CLASS(Entity, Object);
 
-	typedef Countable base;
+	friend Scene;
 
 private:
 	unsigned int m_ID = 0;
 
 	Scene* m_Scene = nullptr;
 
-	Ref<Entity> m_Parent;
+	Entity* m_Parent;
 	std::vector<Entity*> m_Children;
 
 	bool m_IsDeleting = false;
 
-	Ref<EntityType> m_Type;
+	EntityType* m_EntityType;
 
 protected:
 	bool m_IsVisible = true;
@@ -85,15 +53,15 @@ protected:
 	glm::vec3 m_BoundingBox[2];
 
 public:
-	Entity(EntityType* type);
+	Entity();
 	virtual ~Entity();
 
 	void Delete();
 	bool IsDeleting();
 
-	void AddChild(Ref<Entity> child);
-	void RemoveChild(Ref<Entity> child);
-	Ref<Entity> GetParent();
+	void AddChild(Entity* child);
+	void RemoveChild(Entity* child);
+	Entity* GetParent();
 
 	virtual void SetTransform(glm::dmat4 transform);
 	glm::dmat4 GetTransform();
@@ -101,24 +69,29 @@ public:
 	glm::dmat4 GetWorldTransform();
 
 	void SetPosition(glm::dvec3 position);
-	glm::dvec3 GetPosition();
+	glm::dvec3 GetPosition() const;
 
 	void SetOrientation(glm::vec3 orientation);
-	glm::vec3 GetOrientation();
+	glm::vec3 GetOrientation() const;
 
-	glm::vec3 GetRightDirection();
-	glm::vec3 GetUpDirection();
-	glm::vec3 GetForwardDirection();
+	glm::vec3 GetRightDirection() const;
+	glm::vec3 GetUpDirection() const;
+	glm::vec3 GetForwardDirection() const;
 
-	void SetScene(Scene* Scene);
-	Scene* GetScene();
+	Scene* GetScene() const;
 
-	Ref<EntityType> GetType();
+	EntityType& GetEntityType() const;
+
+	template<typename T>
+	T& GetEntityType() const
+	{
+		return *(dynamic_cast<T*>(m_EntityType));
+	}
 
 	void SetVisible(bool visible);
 	bool IsVisible();
 	
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 
 	virtual void OnCreate();
 	virtual void OnDestroy();

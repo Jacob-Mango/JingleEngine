@@ -13,23 +13,23 @@ Asset::~Asset()
 	AssetModule::Unload(GetGUID());
 }
 
-std::string Asset::GetPath()
+std::string Asset::GetPath() const
 {
 	return m_GUID.GetPath();
 }
 
-std::string Asset::GetExtension()
+std::string Asset::GetExtension() const
 {
 	std::string path = GetPath();
 	return path.substr(path.find_last_of(".") + 1, 16);
 }
 
-GUID Asset::GetGUID()
+GUID Asset::GetGUID() const
 {
 	return m_GUID;
 }
 
-bool Asset::IsLoaded()
+bool Asset::IsLoaded() const
 {
 	return m_IsLoaded;
 }
@@ -39,11 +39,11 @@ bool Asset::OnLoad()
 	return false;
 }
 
-std::string Asset::ToString()
+std::string Asset::ToString() const
 {
 	std::stringstream ss;
 
-	ss << base::ToString();
+	ss << Super::ToString();
 	ss << ", ";
 
 	ss << "Path=" << GetPath();

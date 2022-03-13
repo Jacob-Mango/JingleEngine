@@ -13,18 +13,18 @@
 
 void PlanetQuadType::Load(Config& config)
 {
-	super::Load(config);
+	Super::Load(config);
 }
 
 void PlanetQuad::OnCreate()
 {
-	super::OnCreate();
+	Super::OnCreate();
 
 }
 
 void PlanetQuad::OnDestroy()
 {
-	super::OnDestroy();
+	Super::OnDestroy();
 
 	DestroyChildQuads();
 }
@@ -108,8 +108,8 @@ double noise(glm::dvec3 position) {
 
 void PlanetQuad::SpawnChild(unsigned int quadrant)
 {
-	Ref<PlanetQuad> quad = GetScene()->SpawnEntity<PlanetQuad>(GetType().Get());
-	AddChild(quad.As<Entity>());
+	PlanetQuad* quad = GetScene()->SpawnEntity<PlanetQuad>(&GetEntityType<PlanetQuadType>());
+	AddChild(quad);
 
 	quad->m_Quadrant = quadrant;
 	quad->m_Depth = m_Depth + 1;
@@ -123,8 +123,10 @@ void PlanetQuad::SpawnChild(unsigned int quadrant)
 
 void PlanetQuad::CreateMesh()
 {
-	Ref<PlanetType> planetType = m_Planet->GetType();
-	double radius = planetType->Radius;
+	auto& planetType = m_Planet->GetEntityType<PlanetType>();
+	auto& type = GetEntityType<PlanetQuadType>();
+
+	double radius = planetType.Radius;
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -231,7 +233,7 @@ void PlanetQuad::CreateMesh()
 		SetPosition(up * radius);
 	}
 
-	m_Mesh = new Mesh(GetType()->Material, vertices, indices);
+	m_Mesh = new Mesh(type.Material, vertices, indices);
 }
 
 glm::dvec2 PlanetQuad::GetPlanetRelativePosition()

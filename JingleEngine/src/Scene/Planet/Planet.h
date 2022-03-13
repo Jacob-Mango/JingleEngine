@@ -12,23 +12,31 @@ class Scene;
 
 class PlanetType : public MeshEntityType
 {
-	ENTITY_TYPE(Planet, MeshEntity)
+	DEFINE_CLASS(PlanetType, MeshEntityType)
 
 public:
-	Ref<PlanetQuadType> QuadType;
+	PlanetQuadType* QuadType;
 	double Radius;
+
+public:
+	PlanetType() {}
+
+	virtual void Load(Config& config) override;
+
 };
 
 class Planet : public MeshEntity
 {
-	ENTITY(Planet, MeshEntity)
+	DEFINE_CLASS(Planet, MeshEntity);
 
 	friend class PlanetQuad;
 
 private:
-	std::vector<Ref<PlanetQuad>> m_ChildQuads;
+	std::vector<PlanetQuad*> m_ChildQuads;
 
 public:
+	Planet() {}
+
 	virtual void OnCreate() override;
 	virtual void OnSimulate(double DeltaTime) override;
 
@@ -36,5 +44,5 @@ public:
 
 	glm::dvec3 CubeToSphere(glm::dvec3 point);
 
-	Ref<PlanetQuadType> GetQuadType();
+	PlanetQuadType& GetQuadType();
 };

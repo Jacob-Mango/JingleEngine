@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Core/Reference.h"
+#include <JingleScript.h>
 
 #include "GUID.h"
 
@@ -10,7 +10,7 @@
 
 class Asset : public Countable
 {
-	typedef Countable base;
+	typedef Countable Super;
 
 	friend class AssetModule;
 
@@ -25,15 +25,15 @@ public:
 	Asset(const Asset& other) = delete;
 	virtual ~Asset() override;
 
-	std::string GetPath();
-	std::string GetExtension();
-	GUID GetGUID();
+	std::string GetPath() const;
+	std::string GetExtension() const;
+	GUID GetGUID() const;
 
-	bool IsLoaded();
+	bool IsLoaded() const;
 
 	virtual bool OnLoad();
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 };
 
 #include "AssetModule.h"

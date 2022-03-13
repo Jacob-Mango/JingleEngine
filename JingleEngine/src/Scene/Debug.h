@@ -8,14 +8,22 @@
 class Debug;
 class DebugType : public MeshEntityType
 {
-	ENTITY_TYPE(Debug, MeshEntity)
+	DEFINE_CLASS(DebugType, MeshEntityType);
+
 public:
+	DebugType() {}
+
+	virtual void Load(Config& config) override;
+
 };
 
 class Debug : public MeshEntity
 {
-	ENTITY(Debug, MeshEntity)
+	DEFINE_CLASS(Debug, MeshEntity);
 
 public:
+	Debug() {}
+
 	virtual void OnSimulate(double DeltaTime) override;
+
 };

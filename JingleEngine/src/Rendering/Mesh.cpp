@@ -75,11 +75,11 @@ bool MeshAsset::OnLoad()
 	return true;
 }
 
-std::string MeshAsset::ToString()
+std::string MeshAsset::ToString() const
 {
 	std::stringstream ss;
 
-	ss << base::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Positions=" << m_Positions.size();
@@ -283,11 +283,11 @@ void Mesh::Render()
 	GL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 }
 
-std::string Mesh::ToString()
+std::string Mesh::ToString() const
 {
 	std::stringstream ss;
 
-	ss << base::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Asset=" << m_Asset.AsString();

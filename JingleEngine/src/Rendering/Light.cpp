@@ -6,7 +6,7 @@
 
 void LightType::Load(Config& config)
 {
-	super::Load(config);
+	Super::Load(config);
 
 	switch (config["type"].Int)
 	{
@@ -27,14 +27,14 @@ void LightType::Load(Config& config)
 
 void Light::OnCreate()
 {
-	super::OnCreate();
+	Super::OnCreate();
 
 	GetScene()->AddLight(this);
 }
 
 void Light::OnDestroy()
 {
-	super::OnDestroy();
+	Super::OnDestroy();
 
 	GetScene()->RemoveLight(this);
 }
@@ -43,15 +43,17 @@ void Light::Process(Ref<Shader> shader, int& pointIdx, int& directionalIdx)
 {
 	std::string prefix = "";
 
-	switch (GetType()->Type)
+	auto& type = GetEntityType<LightType>();
+
+	switch (type.Type)
 	{
 	case LightType::Type::POINT:
 		prefix = "u_PointLights[" + std::to_string(pointIdx) + "].";
 		pointIdx++;
 
-		shader->Set(prefix + "constant", GetType()->Constant);
-		shader->Set(prefix + "linear", GetType()->Linear);
-		shader->Set(prefix + "quadratic", GetType()->Quadratic);
+		shader->Set(prefix + "constant", type.Constant);
+		shader->Set(prefix + "linear", type.Linear);
+		shader->Set(prefix + "quadratic", type.Quadratic);
 
 		break;
 	case LightType::Type::DIRECTIONAL:
@@ -65,23 +67,23 @@ void Light::Process(Ref<Shader> shader, int& pointIdx, int& directionalIdx)
 	}
 
 	shader->Set(prefix + "position", glm::vec3(GetWorldTransform()[3]));
-	shader->Set(prefix + "color", GetType()->Color);
+	shader->Set(prefix + "color", type.Color);
 }
 
-std::string Light::ToString()
+std::string Light::ToString() const
 {
 	std::stringstream ss;
 
-	ss << base::ToString();
+	ss << Super::ToString();
 
 	return ss.str();
 }
 
-std::string LightType::ToString()
+std::string LightType::ToString() const
 {
 	std::stringstream ss;
 
-	ss << base::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Type=" << (Type == Type::DIRECTIONAL ? "DIRECTIONAL" : "POINT");

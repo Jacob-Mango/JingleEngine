@@ -14,7 +14,7 @@ extern Config* g_NullConfig;
 
 class Config : public Countable
 {
-	typedef Countable super;
+	typedef Countable Super;
 
 public:
 	std::string m_Name;
@@ -65,7 +65,7 @@ public:
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "");
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 
 public:
 	virtual bool Load(std::ifstream& stream);
@@ -73,31 +73,31 @@ public:
 
 class ConfigNull : public Config
 {
-	typedef Config super;
+	typedef Config Super;
 
 public:
 	virtual bool IsNull() override;
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 
 };
 
 class ConfigValue : public Config
 {
-	typedef Config super;
+	typedef Config Super;
 
 public:
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 
 };
 
 class ConfigArray : public Config
 {
-	typedef Config super;
+	typedef Config Super;
 
 	std::vector<Config*> m_Entries;
 
@@ -108,7 +108,7 @@ public:
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 
 public:
 	virtual bool Load(std::ifstream& stream) override;
@@ -116,7 +116,7 @@ public:
 
 class ConfigSection : public Config
 {
-	typedef Config super;
+	typedef Config Super;
 
 public:
 	std::map<std::string, Config*> m_Entries;
@@ -133,7 +133,7 @@ public:
 
 	virtual void ToString(std::ostringstream& output, std::string prefix = "") override;
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 
 public:
 	virtual bool Load(std::ifstream& stream) override;

@@ -6,33 +6,25 @@
 class EntityTypeManager
 {
 private:
-	static std::map<std::string, Ref<EntityType>> s_BaseEntityTypes;
-	static std::map<std::string, Ref<EntityType>> s_EntityTypes;
+	static std::map<std::string, EntityType*> s_EntityTypes;
 
 public:
-	static void Load(Config& config);
+	static EntityType* Load(Config& config);
 
 private:
-	static void _Register(EntityType* type);
-	static Ref<EntityType> _Get(std::string type);
+	static EntityType* _Get(std::string type);
 
 public:
 	template<typename T>
-	static void Register()
+	static T* Get()
 	{
-		_Register(new T());
+		return static_cast<T*>(_Get(T::StaticName()));
 	}
 
 	template<typename T>
-	static Ref<T> Get()
+	static T* Get(std::string type)
 	{
-		return _Get(T::StaticName()).As<T>();
-	}
-
-	template<typename T>
-	static Ref<T> Get(std::string type)
-	{
-		return _Get(type).As<T>();
+		return static_cast<T*>(_Get(type));
 	}
 	
 };

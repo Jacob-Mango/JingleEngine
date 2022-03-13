@@ -6,7 +6,7 @@
 
 void PlanetType::Load(Config& config)
 {
-	super::Load(config);
+	Super::Load(config);
 
 	QuadType = EntityTypeManager::Get<PlanetQuadType>(config["quadType"].String);
 	Radius = config["radius"].Float;
@@ -30,8 +30,8 @@ void Planet::OnSimulate(double DeltaTime)
 
 void Planet::CreateFace(glm::dvec3 right, glm::dvec3 up, glm::dvec3 forward)
 {
-	Ref<PlanetQuad> quad = GetScene()->SpawnEntity<PlanetQuad>(GetQuadType().Get());
-	AddChild(quad.As<Entity>());
+	PlanetQuad* quad = GetScene()->SpawnEntity<PlanetQuad>(&GetQuadType());
+	AddChild(quad);
 
 	quad->m_Quadrant = 0;
 	quad->m_Depth = 0;
@@ -54,7 +54,7 @@ glm::dvec3 Planet::CubeToSphere(glm::dvec3 point)
 	return result;
 }
 
-Ref<PlanetQuadType> Planet::GetQuadType()
+PlanetQuadType& Planet::GetQuadType()
 {
-	return GetType()->QuadType;
+	return *(GetEntityType<PlanetType>().QuadType);
 }

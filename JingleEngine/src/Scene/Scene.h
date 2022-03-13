@@ -1,5 +1,7 @@
 #pragma once
 
+#include <JingleScript.h>
+
 #include "Scene/Entity.h"
 
 #include "Core/Application.h"
@@ -18,8 +20,8 @@ public:
 	friend class Renderer;
 
 private:
-	std::vector<Ref<Entity>> m_Entities;
-	std::vector<Ref<Light>> m_Lights;
+	std::vector<Entity*> m_Entities;
+	std::vector<Light*> m_Lights;
 
 	unsigned int m_NextID = 0;
 
@@ -28,52 +30,54 @@ private:
 
 	Ref<Texture> m_Skybox;
 
-	Ref<Camera> m_Camera;
+	Camera* m_Camera;
 
 public:
 	void LoadScene(Config& entities);
 
-	Ref<Entity> SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation);
-	Ref<Entity> SpawnEntity(Config& entity);
+	Entity* SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation);
+	Entity* SpawnEntity(Config& entity);
 
 	void OnStart();
 	void OnStop();
 	void OnSimulate(double DeltaTime, class Renderer* Renderer);
 
 	template <typename T>
-	Ref<T> SpawnEntity(glm::vec3 position = glm::vec3(0), glm::vec3 orientation = glm::vec3(0))
+	T* SpawnEntity(EntityType* entityType, glm::vec3 position = glm::vec3(0), glm::vec3 orientation = glm::vec3(0))
 	{
-		Ref<T> ent = new T();
-		ent->SetScene(this);
+		using namespace JingleScript;
 
-		AddEntity(ent.As<Entity>());
+		Type* type = TypeManager::Get(entityType->Name);
+		if (type == nullptr)
+		{
+			JS_ERROR("Invalid entity type");
+			return nullptr;
+		}
 
-		ent->SetOrientation(orientation);
-		ent->SetPosition(position);
+		T* entity = type->InternalAllocate<T>();
+		if (!entity)
+		{
+			JS_ERROR("Failed to allocate entity");
+			return nullptr;
+		}
 
-		ent->OnCreate();
+		entity->m_EntityType = entityType;
 
-		return ent;
+		AddEntity(entity);
+
+		entity->SetOrientation(orientation);
+		entity->SetPosition(position);
+
+		Type::InternalCreate(entity, type);
+		type->InitializeScript(entity);
+
+		entity->OnCreate();
+
+		return entity;
 	}
 
-	template <typename T, typename T2>
-	Ref<T> SpawnEntity(T2* type, glm::vec3 position = glm::vec3(0), glm::vec3 orientation = glm::vec3(0))
-	{
-		Ref<T> ent = new T(type);
-		ent->SetScene(this);
-
-		AddEntity(ent.As<Entity>());
-
-		ent->SetOrientation(orientation);
-		ent->SetPosition(position);
-
-		ent->OnCreate();
-
-		return ent;
-	}
-
-	Ref<Camera> GetCamera();
-	void SetCamera(Ref<Camera> camera);
+	Camera* GetCamera();
+	void SetCamera(Camera* camera);
 
 	glm::mat4& GetProjectionMatrix();
 	void SetProjectionMatrix(glm::mat4 transform);
@@ -84,9 +88,10 @@ public:
 	void SetSkybox(Ref<Texture> skybox);
 
 private:
-	void AddEntity(Ref<Entity> entity);
-	void RemoveEntity(Ref<Entity> entity);
+	void AddEntity(Entity* entity);
+	void RemoveEntity(Entity* entity);
 
-	void AddLight(Ref<Light> light);
-	void RemoveLight(Ref<Light> light);
+	void AddLight(Light* light);
+	void RemoveLight(Light* light);
+
 };

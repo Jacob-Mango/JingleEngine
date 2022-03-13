@@ -7,7 +7,7 @@
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 
-#include "Core/Reference.h"
+#include <JingleScript.h>
 
 #include "Rendering/Material.h"
 
@@ -23,7 +23,7 @@ class Mesh;
 
 class MeshAsset : public Asset
 {
-	typedef Asset base;
+	typedef Asset Super;
 
 	friend class Mesh;
 
@@ -41,12 +41,12 @@ private:
 public:
 	virtual bool OnLoad() override;
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 };
 
 class Mesh : public Countable
 {
-	typedef Countable base;
+	typedef Countable Super;
 
 	friend class Entity;
 
@@ -74,5 +74,5 @@ public:
 
 	void Render();
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 };

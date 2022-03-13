@@ -13,7 +13,7 @@ enum class TextureFormat;
 #include <vector>
 
 #include "Core/Logging.h"
-#include "Core/Reference.h"
+#include <JingleScript.h>
 
 #include "Core/Event.h"
 #include "Core/Module.h"

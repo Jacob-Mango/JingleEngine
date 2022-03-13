@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "Core/Reference.h"
+#include <JingleScript.h>
 #include "Core/Core.h"
 
 #define EVENT_DEFAULT(type, value)												\
@@ -31,7 +31,7 @@ public:
 	virtual EventType GetType() const = 0;
 	virtual std::string GetName() const = 0;
 
-	virtual std::string ToString() override
+	virtual std::string ToString() const override
 	{
 		std::string str = BaseClass::ToString();
 

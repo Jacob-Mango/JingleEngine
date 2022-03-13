@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Core.h"
-#include "Core/Reference.h"
+#include <JingleScript.h>
 
 #include "Shader.h"
 #include "Mesh.h"

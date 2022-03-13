@@ -9,26 +9,33 @@
 class MeshEntity;
 class MeshEntityType : public EntityType
 {
-	ENTITY_TYPE(MeshEntity, Entity)
-public:
+	DEFINE_CLASS(MeshEntityType, EntityType)
 
+public:
 	Ref<MeshAsset> Model;
 	Ref<Material> Material;
+
+public:
+	MeshEntityType() {}
+
+	virtual void Load(Config& config) override;
+
 };
 
 class MeshEntity : public Entity
 {
-	ENTITY(MeshEntity, Entity)
+	DEFINE_CLASS(MeshEntity, Entity);
 
 protected:
-
 	Ref<Mesh> m_Mesh;
 
 public:
-	Ref<Mesh> GetMesh();
+	MeshEntity() {}
+
+	Ref<Mesh> GetMesh() const;
 	
 	virtual void OnCreate() override;
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 
 };

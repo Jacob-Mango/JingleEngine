@@ -16,6 +16,8 @@
 #include "Rendering/Material.h"
 #include "Rendering/Renderer.h"
 
+#include <JingleScript.h>
+
 Application* Application::s_Instance = nullptr;
 
 Application::Application()
@@ -25,6 +27,10 @@ Application::Application()
 
 Application::~Application()
 {
+	using namespace JingleScript;
+
+	TypeManager::Destroy();
+	GlobalManager::Destroy();
 }
 
 Application* Application::Get()
@@ -34,6 +40,39 @@ Application* Application::Get()
 
 int Application::Initialize()
 {
+	using namespace JingleScript;
+
+	GlobalManager::Initialize();
+	TypeManager::Initialize();
+
+	/*
+	bool success = true;
+
+	std::string folder = "Assets/Scripts";
+	std::string files[] = {
+		"Core"
+	};
+
+	Ref<Parser> parser = new Parser();
+	for (auto& file : files)
+	{
+		Ref<Lexer> lexer = Lexer::ParseFile(folder + "/" + file + ".jss");
+
+		parser->SetLexer(lexer);
+		success &= parser->Parse();
+	}
+
+	{
+		Serializer serializer(folder + "/Parsed.jst");
+		parser->GetGlobalNode()->Serialize(serializer);
+	}
+
+	if (success)
+	{
+		success &= Compiler::Compile(parser);
+	}
+	*/
+
 	OnWindowClose += [this](BaseClass* sender, WindowCloseEventArgs args) {
 		Shutdown();
 	};

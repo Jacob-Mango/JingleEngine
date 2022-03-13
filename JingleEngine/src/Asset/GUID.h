@@ -14,9 +14,9 @@ public:
 	GUID(GUIDv id);
 	GUID(std::string path);
 
-	std::string GetPath();
+	std::string GetPath() const;
 
-	GUIDv GetValue();
+	GUIDv GetValue() const;
 
-	operator GUIDv();
+	operator GUIDv() const;
 };

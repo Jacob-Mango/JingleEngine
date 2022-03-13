@@ -2,7 +2,7 @@
 
 void MeshEntityType::Load(Config& config)
 {
-	super::Load(config);
+	Super::Load(config);
 
 	{
 		auto model = config["model"];
@@ -21,30 +21,32 @@ void MeshEntityType::Load(Config& config)
 
 void MeshEntity::OnCreate()
 {
-	if (!GetType()->Model.IsNull())
-	{
-		m_Mesh = new Mesh(GetType()->Model);
+	auto& type = GetEntityType<MeshEntityType>();
 
-		if (!GetType()->Material.IsNull())
+	if (!type.Model.IsNull())
+	{
+		m_Mesh = new Mesh(type.Model);
+
+		if (!type.Material.IsNull())
 		{
-			m_Mesh->SetMaterial(GetType()->Material);
+			m_Mesh->SetMaterial(type.Material);
 		}
 	}
 }
 
-Ref<Mesh> MeshEntity::GetMesh()
+Ref<Mesh> MeshEntity::GetMesh() const
 {
 	return m_Mesh;
 }
 
-std::string MeshEntity::ToString()
+std::string MeshEntity::ToString() const
 {
 	std::stringstream ss;
 
-	ss << Entity::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
-	ss << "Mesh=" << m_Mesh.AsString();
+	ss << "Mesh=" << GetMesh().AsString();
 
 	return ss.str();
 }

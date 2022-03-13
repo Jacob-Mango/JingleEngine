@@ -2,12 +2,12 @@
 
 void DebugType::Load(Config& config)
 {
-	super::Load(config);
+	Super::Load(config);
 }
 
 void Debug::OnSimulate(double DeltaTime)
 {
-	super::OnSimulate(DeltaTime);
+	Super::OnSimulate(DeltaTime);
 
 	Delete();
 }

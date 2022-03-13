@@ -12,21 +12,25 @@ class Planet;
 class PlanetQuad;
 class PlanetQuadType : public MeshEntityType
 {
-	ENTITY_TYPE(PlanetQuad, MeshEntity)
+	DEFINE_CLASS(PlanetQuadType, MeshEntityType);
 
 public:
+	PlanetQuadType() {}
+
+	virtual void Load(Config& config) override;
+
 };
 
 class PlanetQuad : public MeshEntity
 {
-	ENTITY(PlanetQuad, MeshEntity)
+	DEFINE_CLASS(PlanetQuad, MeshEntity);
 
 	friend class Planet;
 
-	Ref<Planet> m_Planet;
+	Planet* m_Planet;
 
 	PlanetQuad* m_ParentQuad;
-	std::vector<Ref<PlanetQuad>> m_ChildQuads;
+	std::vector<PlanetQuad*> m_ChildQuads;
 	
 	double m_BoundingSphereRadius;
 
@@ -36,6 +40,8 @@ class PlanetQuad : public MeshEntity
 	glm::dmat3 m_QuadFace;
 
 public:
+	PlanetQuad() {}
+
 	virtual void OnCreate() override;
 	virtual void OnDestroy() override;
 	virtual void OnSimulate(double DeltaTime) override;

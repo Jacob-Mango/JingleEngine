@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Core.h"
-#include "Core/Reference.h"
+#include <JingleScript.h>
 
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"

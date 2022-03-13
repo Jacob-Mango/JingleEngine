@@ -472,14 +472,14 @@ void ConfigNull::ToString(std::ostringstream& output, std::string prefix)
 
 void ConfigValue::ToString(std::ostringstream& output, std::string prefix)
 {
-	super::ToString(output, prefix);
+	Super::ToString(output, prefix);
 
 	output << prefix << m_Name << ": " << String << std::endl;
 }
 
 void ConfigArray::ToString(std::ostringstream& output, std::string prefix)
 {
-	super::ToString(output, prefix);
+	Super::ToString(output, prefix);
 
 	output << prefix << m_Name << ": " << Int << std::endl;
 
@@ -494,7 +494,7 @@ void ConfigArray::ToString(std::ostringstream& output, std::string prefix)
 
 void ConfigSection::ToString(std::ostringstream& output, std::string prefix)
 {
-	super::ToString(output, prefix);
+	Super::ToString(output, prefix);
 	output << prefix << m_Name << ": " << (m_Base ? m_Base->m_Name : "") << std::endl;
 
 	for (auto& [k, v] : m_Entries)
@@ -516,10 +516,10 @@ bool ConfigNull::IsNull()
 	return true;
 }
 
-std::string Config::ToString()
+std::string Config::ToString() const
 {
 	std::stringstream ss;
-	ss << super::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Name=" << m_Name;
@@ -527,10 +527,10 @@ std::string Config::ToString()
 	return ss.str();
 }
 
-std::string ConfigNull::ToString()
+std::string ConfigNull::ToString() const
 {
 	std::stringstream ss;
-	ss << super::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "NULL";
@@ -538,10 +538,10 @@ std::string ConfigNull::ToString()
 	return ss.str();
 }
 
-std::string ConfigValue::ToString()
+std::string ConfigValue::ToString() const
 {
 	std::stringstream ss;
-	ss << super::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Int=" << Int;
@@ -556,10 +556,10 @@ std::string ConfigValue::ToString()
 }
 
 
-std::string ConfigArray::ToString()
+std::string ConfigArray::ToString() const
 {
 	std::stringstream ss;
-	ss << super::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Count=" << Count;
@@ -576,10 +576,10 @@ std::string ConfigArray::ToString()
 }
 
 
-std::string ConfigSection::ToString()
+std::string ConfigSection::ToString() const
 {
 	std::stringstream ss;
-	ss << super::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Count=" << Count;

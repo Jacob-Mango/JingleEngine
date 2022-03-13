@@ -11,22 +11,12 @@
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
 
-Ref<Entity> EntityType::Create(Ref<Scene> scene)
-{
-	return Create(scene, glm::vec3(0), glm::vec3(0));
-}
-
-Ref<Entity> EntityType::Create(Ref<Scene> scene, glm::vec3 position, glm::vec3 orientation)
-{
-	return scene->SpawnEntity<Entity>(this, position, orientation);
-}
-
 void EntityType::Load(Config& config)
 {
 	Name = config.GetName();
 }
 
-Entity::Entity(EntityType* type) : m_Type(type), m_Transform(1.0)
+Entity::Entity()
 {
 	m_BoundingBox[0] = glm::vec3(-1);
 	m_BoundingBox[1] = glm::vec3(1);
@@ -40,7 +30,7 @@ Entity::~Entity()
 	}
 }
 
-void Entity::AddChild(Ref<Entity> child)
+void Entity::AddChild(Entity* child)
 {
 	if (child->m_Parent != nullptr)
 	{
@@ -74,7 +64,7 @@ bool Entity::IsDeleting()
 	return m_IsDeleting;
 }
 
-void Entity::RemoveChild(Ref<Entity> child)
+void Entity::RemoveChild(Entity* child)
 {
 	for (size_t i = 0; i < m_Children.size(); i++)
 	{
@@ -86,7 +76,7 @@ void Entity::RemoveChild(Ref<Entity> child)
 	}
 }
 
-Ref<Entity> Entity::GetParent()
+Entity* Entity::GetParent()
 {
 	return m_Parent;
 }
@@ -123,22 +113,22 @@ void Entity::SetPosition(glm::dvec3 position)
 	SetTransform(m_Transform);
 }
 
-glm::dvec3 Entity::GetPosition()
+glm::dvec3 Entity::GetPosition() const
 {
 	return glm::vec3(m_Transform[3]);
 }
 
-glm::vec3 Entity::GetRightDirection()
+glm::vec3 Entity::GetRightDirection() const
 {
 	return glm::vec3(m_Transform[0]);
 }
 
-glm::vec3 Entity::GetUpDirection()
+glm::vec3 Entity::GetUpDirection() const
 {
 	return glm::vec3(m_Transform[1]);
 }
 
-glm::vec3 Entity::GetForwardDirection()
+glm::vec3 Entity::GetForwardDirection() const
 {
 	return glm::vec3(m_Transform[2]);
 }
@@ -152,33 +142,28 @@ void Entity::SetOrientation(glm::vec3 orientation)
 	SetTransform(trans);
 }
 
-glm::vec3 Entity::GetOrientation()
+glm::vec3 Entity::GetOrientation() const
 {
 	glm::vec3 orientation = glm::vec3();
 	glm::extractEulerAngleYXZ(glm::mat4(m_Transform), orientation.x, orientation.y, orientation.z);
 	return glm::degrees(orientation);
 }
 
-void Entity::SetScene(Scene* Scene)
-{
-	m_Scene = Scene;
-}
-
-Scene* Entity::GetScene()
+Scene* Entity::GetScene() const
 {
 	return m_Scene;
 }
 
-Ref<EntityType> Entity::GetType()
+EntityType& Entity::GetEntityType() const
 {
-	return m_Type;
+	return *m_EntityType;
 }
 
-std::string EntityType::ToString()
+std::string EntityType::ToString() const
 {
 	std::stringstream ss;
 
-	ss << base::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
 	ss << "Name=" << Name;
@@ -186,14 +171,14 @@ std::string EntityType::ToString()
 	return ss.str();
 }
 
-std::string Entity::ToString()
+std::string Entity::ToString() const
 {
 	std::stringstream ss;
 
-	ss << base::ToString();
+	ss << Super::ToString();
 
 	ss << ", ";
-	ss << "Type=" << m_Type.AsString();
+	ss << "Type=" << GetEntityType().AsString();
 
 	ss << ", ";
 	ss << "Position=" << GetPosition();

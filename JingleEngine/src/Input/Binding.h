@@ -5,7 +5,7 @@
 #include <map>
 
 #include "Core/Event.h"
-#include "Core/Reference.h"
+#include <JingleScript.h>
 
 #include "Input/Input.h"
 

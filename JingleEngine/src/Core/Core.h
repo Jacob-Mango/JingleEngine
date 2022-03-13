@@ -14,6 +14,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Core/Logging.h"
-#include "Core/Reference.h"
+#include <JingleScript.h>
 
 #define SIZE_OF(X, Y) X.size() * sizeof(Y)

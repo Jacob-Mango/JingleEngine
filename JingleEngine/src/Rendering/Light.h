@@ -4,13 +4,12 @@
 
 class Texture;
 class Shader;
+class Scene;
 
 class Light;
 class LightType : public EntityType
 {
-	ENTITY_TYPE(Light, Entity)
-
-	typedef EntityType base;
+	DEFINE_CLASS(LightType, EntityType);
 
 public:
 	enum class Type
@@ -25,26 +24,32 @@ public:
 	float Linear;
 	float Quadratic;
 
-	virtual std::string ToString() override;
+public:
+	LightType() {}
+
+	virtual void Load(Config& config) override;
+
+	virtual std::string ToString() const override;
+
 };
 
 class Light : public Entity
 {
-	friend class Scene;
+	DEFINE_CLASS(Light, Entity);
 
-	typedef Entity base;
-
-	ENTITY(Light, Entity)
+	friend Scene;
 
 private:
 	glm::vec3 m_TempLightPosition;
 	Ref<Texture> m_Shadow;
 
 public:
+	Light() {}
+
 	virtual void OnCreate() override;
 	virtual void OnDestroy() override;
 
 	void Process(Ref<Shader> shader, int& pointIdx, int& directionalIdx);
 
-	virtual std::string ToString() override;
+	virtual std::string ToString() const override;
 };

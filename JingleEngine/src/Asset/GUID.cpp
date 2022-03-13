@@ -12,17 +12,17 @@ GUID::GUID(std::string path) : m_Path(path)
 	m_Value = AssetModule::ConvertPath(m_Path);
 }
 
-std::string GUID::GetPath()
+std::string GUID::GetPath() const
 {
 	return m_Path;
 }
 
-GUIDv GUID::GetValue()
+GUIDv GUID::GetValue() const
 {
 	return m_Value;
 }
 
-GUID::operator GUIDv()
+GUID::operator GUIDv() const
 {
 	return m_Value;
 }

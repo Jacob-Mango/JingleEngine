@@ -52,14 +52,6 @@ REGISTER_MODULE(TestModule);
 
 int JingleEngineMain(Application* app)
 {
-	EntityTypeManager::Register<EntityType>();
-	EntityTypeManager::Register<MeshEntityType>();
-	EntityTypeManager::Register<LightType>();
-	EntityTypeManager::Register<CameraType>();
-	EntityTypeManager::Register<DebugType>();
-	EntityTypeManager::Register<PlanetType>();
-	EntityTypeManager::Register<PlanetQuadType>();
-
 	auto bindingModule = ModuleManager::Get<BindingModule>();
 
 	bindingModule->RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
