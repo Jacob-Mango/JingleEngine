@@ -1,7 +1,7 @@
 #include "Core/Module.h"
 
 BEGIN_MODULE_LINK(Module);
-END_MODULE_LINK(Module);
+END_MODULE_LINK();
 
 void Module::OnPreInitialize()
 {

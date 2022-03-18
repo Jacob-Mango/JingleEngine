@@ -8,6 +8,8 @@
 #include <map>
 #include <vector>
 
+#include <Compiler/Lexer.h>
+
 class Config;
 
 extern Config* g_NullConfig;
@@ -68,7 +70,7 @@ public:
 	virtual std::string ToString() const override;
 
 public:
-	virtual bool Load(std::ifstream& stream);
+	virtual bool Load(JingleScript::Lexer* lexer);
 };
 
 class ConfigNull : public Config
@@ -111,7 +113,7 @@ public:
 	virtual std::string ToString() const override;
 
 public:
-	virtual bool Load(std::ifstream& stream) override;
+	virtual bool Load(JingleScript::Lexer* lexer) override;
 };
 
 class ConfigSection : public Config
@@ -136,5 +138,5 @@ public:
 	virtual std::string ToString() const override;
 
 public:
-	virtual bool Load(std::ifstream& stream) override;
+	virtual bool Load(JingleScript::Lexer* lexer) override;
 };

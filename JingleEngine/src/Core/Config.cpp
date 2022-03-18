@@ -16,152 +16,6 @@ void CheckNullConfig()
 	}
 }
 
-bool IsLetterOrDigit(char c)
-{
-	return std::isalpha(c) || std::isdigit(c);
-}
-
-bool IsWhiteSpace(char c)
-{
-	return std::isspace(c);
-}
-
-void SkipLine(std::ifstream& stream)
-{
-	char c;
-	stream >> c;
-	while (c != '\n' && !stream.eof())
-	{
-		stream >> c;
-	}
-
-	stream.seekg(-1, stream.cur);
-}
-
-void SkipComment(std::ifstream& stream)
-{
-	char c;
-	stream >> c;
-	while (!stream.eof())
-	{
-		while (c != '*' && !stream.eof())
-			stream >> c;
-
-		stream >> c;
-		if (c == '/')
-			return;
-	}
-}
-
-char GetChar(std::ifstream& stream)
-{
-	if (stream.eof())
-		return -1;
-
-	char c;
-	stream >> c;
-
-	while (!stream.eof())
-	{
-		if (c == '/')
-		{
-			stream >> c;
-			if (c == '/')
-			{
-				SkipLine(stream);
-			}
-			else if (c == '*')
-			{
-				SkipComment(stream);
-			}
-			else
-			{
-				stream.seekg(-1, stream.cur);
-				return '/';
-			}
-		}
-		else
-		{
-			break;
-		}
-
-		stream >> c;
-	}
-
-	return c;
-}
-
-char GetCharWS(std::ifstream& stream)
-{
-	char c = GetChar(stream);
-	while (!stream.eof() && IsWhiteSpace(c))
-		c = GetChar(stream);
-
-	return c;
-}
-
-std::string GetWord(std::ifstream& stream)
-{
-	std::string word = "";
-
-	char c = GetCharWS(stream);
-
-	while (!stream.eof() && (IsLetterOrDigit((char)c) || c == '_'))
-	{
-		word += c;
-		c = GetChar(stream);
-	}
-
-	stream.seekg(-1, stream.cur);
-
-	return word;
-}
-
-std::string GetWord(std::ifstream& stream, bool& quoted)
-{
-	std::string word = "";
-
-	char preC = 0;
-	char c = GetCharWS(stream);
-
-	quoted = false;
-	if (c == '"')
-	{
-		c = GetChar(stream);
-		quoted = true;
-	}
-
-	if (quoted)
-	{
-		while (!stream.eof())
-		{
-			if (c == '"' && preC != '\\')
-			{
-				c = GetChar(stream);
-				break;
-			}
-
-			word += c;
-			preC = c;
-			c = GetChar(stream);
-		}
-	}
-	else
-	{
-		int charNum = 0;
-		while (!stream.eof() && (IsLetterOrDigit((char)c) || c == '_' || c == '.' || (charNum == 0 && c == '-')))
-		{
-			charNum++;
-			word += (char)c;
-			c = GetChar(stream);
-		}
-	}
-
-	stream.seekg(-1, stream.cur);
-
-	return word;
-}
-
 Config::Config()
 {
 }
@@ -255,7 +109,7 @@ Config* ConfigSection::GetBase()
 	return m_Base;
 }
 
-bool Config::Load(std::ifstream& stream)
+bool Config::Load(JingleScript::Lexer* lexer)
 {
 	return false;
 }
@@ -275,29 +129,27 @@ Config* ConfigArray::Get(int index)
 	return m_Entries[index];
 }
 
-bool ConfigArray::Load(std::ifstream& stream)
+bool ConfigArray::Load(JingleScript::Lexer* lexer)
 {
+	using namespace JingleScript;
+
 	while (true)
 	{
-		char c = GetCharWS(stream);
-
-		if (c == ']')
+		if (lexer->GetToken() == Tokens::RightSquareBracket)
 		{
-			c = GetCharWS(stream);
+			lexer->NextToken();
 
-			if (c == ',')
+			if (lexer->GetToken() == Tokens::Comma)
 			{
-				c = GetCharWS(stream);
+				lexer->NextToken();
 			}
-
-			stream.seekg(-1, stream.cur);
 
 			return true;
 		}
 
-		if (c != '{')
+		if (lexer->GetToken() != Tokens::LeftCurlyBracket)
 		{
-			std::cerr << "Expected '{', got '" << c << "'" << std::endl;
+			lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
 			return false;
 		}
 
@@ -305,9 +157,8 @@ bool ConfigArray::Load(std::ifstream& stream)
 
 		Config* entry = new ConfigSection();
 		entry->m_Name = "";
-		if (!entry->Load(stream))
+		if (!entry->Load(lexer))
 		{
-			std::cout << "Failed to read array entry" << std::endl;
 			return false;
 		}
 
@@ -318,93 +169,82 @@ bool ConfigArray::Load(std::ifstream& stream)
 	}
 }
 
-bool ConfigSection::Load(std::ifstream& stream)
+bool ConfigSection::Load(JingleScript::Lexer* lexer)
 {
+	using namespace JingleScript;
+
 	while (true)
 	{
-		char c = GetCharWS(stream);
-
-		if (c == '}')
+		if (lexer->GetToken() == Tokens::RightCurlyBracket)
 		{
-			c = GetCharWS(stream);
+			lexer->NextToken();
 
-			if (c == ',')
+			if (lexer->GetToken() == Tokens::Comma)
 			{
-				c = GetCharWS(stream);
+				lexer->NextToken();
 			}
-
-			stream.seekg(-1, stream.cur);
 
 			return true;
 		}
 
-		stream.seekg(-1, stream.cur);
-
 		Config* entry = nullptr;
 
-		std::string name = GetWord(stream);
-		c = GetCharWS(stream);
+		std::string name = lexer->GetTokenValue();
+		lexer->NextToken();
 
-		if (c != ':')
+		if (lexer->GetToken() != Tokens::Colon)
 		{
-			std::cerr << "Expected ':', got '" << c << "'" << std::endl;
+			lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue().c_str());
 			return false;
 		}
 
-		c = GetCharWS(stream);
-		if (c == '{')
+		lexer->NextToken();
+		if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 		{
 			// section
 
 			entry = new ConfigSection();
 			entry->m_Name = name;
 
-			if (!entry->Load(stream))
+			if (!entry->Load(lexer))
 			{
-				std::cout << "Failed to read section entry" << std::endl;
 				return false;
 			}
 		}
-		else if (c == '[')
+		else if (lexer->GetToken() == Tokens::LeftSquareBracket)
 		{
 			// array
 
 			entry = new ConfigArray();
 			entry->m_Name = name;
 
-			if (!entry->Load(stream))
+			if (!entry->Load(lexer))
 			{
-				std::cout << "Failed to read array" << std::endl;
 				return false;
 			}
 		}
 		else
 		{
-			// value
-			stream.seekg(-1, stream.cur);
+			bool quotes = lexer->GetTokenType() == TokenType::QUOTE;
+			std::string value = lexer->GetTokenValue();
+			lexer->NextToken();
 
-			bool quotes = false;
-			std::string value = GetWord(stream, quotes);
-			c = GetCharWS(stream);
-
-			if (c == '{')
+			if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 			{
-
 				entry = new ConfigSection();
 				entry->m_Name = name;
 				static_cast<ConfigSection*>(entry)->m_Base = Get(value);
 
-				if (!entry->Load(stream))
+				if (!entry->Load(lexer))
 				{
-					std::cout << "Failed to read section entry" << std::endl;
 					return false;
 				}
 			}
 			else
 			{
-				if (c != ',')
+				if (lexer->GetToken() != Tokens::Comma)
 				{
-					std::cerr << "Expected ',', got '" << c << "'" << std::endl;
+					lexer->Error("Expected ',', got '%s'", lexer->GetTokenValue().c_str());
 					return false;
 				}
 
@@ -441,23 +281,16 @@ Config* Config::Load(std::string file)
 {
 	CheckNullConfig();
 
-	std::ifstream stream(file);
-	if (stream.is_open())
-	{
-		stream >> std::noskipws;
+	Ref<JingleScript::Lexer> lexer = JingleScript::Lexer::ParseFile(file);
 
-		char c = GetCharWS(stream);
-		if (c != '{')
-			return g_NullConfig;
+	if (!lexer->HasNext())
+		return g_NullConfig;
 
-		ConfigSection* section = new ConfigSection();
-		if (section->Load(stream))
-		{
-			return section;
-		}
-	}
+	ConfigSection* section = new ConfigSection();
+	if (!section->Load(lexer))
+		return g_NullConfig;
 
-	return g_NullConfig;
+	return section;
 }
 
 void Config::ToString(std::ostringstream& output, std::string prefix)
