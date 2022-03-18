@@ -1,5 +1,11 @@
 #include "MeshEntity.h"
 
+BEGIN_CLASS_LINK(MeshEntityType)
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(MeshEntity)
+END_CLASS_LINK()
+
 void MeshEntityType::Load(Config& config)
 {
 	Super::Load(config);

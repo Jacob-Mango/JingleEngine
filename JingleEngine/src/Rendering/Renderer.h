@@ -23,8 +23,6 @@ private:
 
 	std::map<Shader*, std::vector<MeshCommand>> m_StaticMeshes;
 
-	Ref<Scene> m_Scene;
-
 public:
 	Renderer() {}
 

@@ -11,6 +11,12 @@
 #define V_DIST(a, b) D_DIST(a.x, b.x) + D_DIST(a.y, b.y) + D_DIST(a.z, b.z)
 #define V_LEN(a) D_LEN(a.x) + D_LEN(a.y) + D_LEN(a.z)
 
+BEGIN_CLASS_LINK(PlanetQuadType)
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(PlanetQuad)
+END_CLASS_LINK()
+
 void PlanetQuadType::Load(Config& config)
 {
 	Super::Load(config);

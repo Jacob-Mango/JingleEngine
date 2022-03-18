@@ -4,6 +4,12 @@
 
 #include "Rendering/Renderer.h"
 
+BEGIN_CLASS_LINK(PlanetType)
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(Planet)
+END_CLASS_LINK()
+
 void PlanetType::Load(Config& config)
 {
 	Super::Load(config);

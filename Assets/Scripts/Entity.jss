@@ -1,0 +1,9 @@
+class EntityType
+{
+
+}
+
+class Entity
+{
+
+}

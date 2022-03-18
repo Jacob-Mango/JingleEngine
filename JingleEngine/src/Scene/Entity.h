@@ -15,7 +15,7 @@ class Application;
 
 class EntityType : public JingleScript::Object
 {
-	DEFINE_CLASS(EntityType, Object);
+	DEFINE_CLASS(EntityType, JingleScript::Object);
 
 public:
 	std::string Name;
@@ -30,14 +30,14 @@ public:
 
 class Entity : public JingleScript::Object
 {
-	DEFINE_CLASS(Entity, Object);
+	DEFINE_CLASS(Entity, JingleScript::Object);
 
 	friend Scene;
 
 private:
-	unsigned int m_ID = 0;
+	unsigned int m_ID;
 
-	Scene* m_Scene = nullptr;
+	Scene* m_Scene;
 
 	Entity* m_Parent;
 	std::vector<Entity*> m_Children;

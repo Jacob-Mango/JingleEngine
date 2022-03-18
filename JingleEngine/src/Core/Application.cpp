@@ -225,6 +225,11 @@ void Application::OnEvent(BaseClass* sender, const EventArgs& args)
 
 void Application::OnTick(double DeltaTime)
 {
+	if (m_Scene)
+	{
+		m_Scene->OnSimulate(DeltaTime, ModuleManager::Get<Renderer>());
+	}
+
 	if (updateFunction)
 	{
 		using namespace JingleScript;

@@ -11,6 +11,12 @@
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
 
+BEGIN_CLASS_LINK(Entity)
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(EntityType)
+END_CLASS_LINK()
+
 void EntityType::Load(Config& config)
 {
 	Name = config.GetName();

@@ -174,8 +174,19 @@ Global {
    }
   }
   Class {
+   Name: "CameraType"
+   Base: "EntityType"
+  }
+  Class {
+   Name: "Camera"
+   Base: "Entity"
+  }
+  Class {
    Name: "Native"
    Base: "Attribute"
+  }
+  Class {
+   Name: "Entity"
   }
   Class {
    Name: "Object"
@@ -231,6 +242,12 @@ Global {
    }
   }
   Class {
+   Name: "Attribute"
+  }
+  Class {
+   Name: "null"
+  }
+  Class {
    Name: "byte"
    Variables: {
     Variable {
@@ -238,12 +255,6 @@ Global {
      Name: "value"
     }
    }
-  }
-  Class {
-   Name: "Attribute"
-  }
-  Class {
-   Name: "null"
   }
   Class {
    Name: "int"
@@ -276,6 +287,9 @@ Global {
    }
   }
   Class {
+   Name: "Debug"
+  }
+  Class {
    Name: "string"
    Variables: {
     Variable {
@@ -283,6 +297,12 @@ Global {
      Name: "value"
     }
    }
+  }
+  Class {
+   Name: "DebugType"
+  }
+  Class {
+   Name: "EntityType"
   }
   Class {
    Name: "AssetModule"

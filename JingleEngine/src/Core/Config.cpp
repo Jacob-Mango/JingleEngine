@@ -133,6 +133,14 @@ bool ConfigArray::Load(JingleScript::Lexer* lexer)
 {
 	using namespace JingleScript;
 
+	if (lexer->GetToken() != Tokens::LeftSquareBracket)
+	{
+		lexer->Error("Expected '[', got '%s'", lexer->GetTokenValue().c_str());
+		return false;
+	}
+	
+	lexer->NextToken();
+
 	while (true)
 	{
 		if (lexer->GetToken() == Tokens::RightSquareBracket)
@@ -172,6 +180,14 @@ bool ConfigArray::Load(JingleScript::Lexer* lexer)
 bool ConfigSection::Load(JingleScript::Lexer* lexer)
 {
 	using namespace JingleScript;
+
+	if (lexer->GetToken() != Tokens::LeftCurlyBracket)
+	{
+		lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
+		return false;
+	}
+
+	lexer->NextToken();
 
 	while (true)
 	{
@@ -248,6 +264,8 @@ bool ConfigSection::Load(JingleScript::Lexer* lexer)
 					return false;
 				}
 
+				lexer->NextToken();
+
 				entry = new ConfigValue();
 				entry->m_Name = name;
 
@@ -279,9 +297,11 @@ bool ConfigSection::Load(JingleScript::Lexer* lexer)
 
 Config* Config::Load(std::string file)
 {
+	using namespace JingleScript;
+
 	CheckNullConfig();
 
-	Ref<JingleScript::Lexer> lexer = JingleScript::Lexer::ParseFile(file);
+	Ref<Lexer> lexer = Lexer::ParseFile(file);
 
 	if (!lexer->HasNext())
 		return g_NullConfig;

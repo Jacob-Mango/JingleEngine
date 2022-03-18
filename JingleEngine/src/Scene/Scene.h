@@ -65,10 +65,13 @@ public:
 
 		AddEntity(entity);
 
+		Type::CallDefaultConstructor(entity, type);
+
+		entity->m_Parent = nullptr;
+
 		entity->SetOrientation(orientation);
 		entity->SetPosition(position);
 
-		Type::CallDefaultConstructor(entity, type);
 		type->InitializeScript(entity);
 
 		entity->OnCreate();

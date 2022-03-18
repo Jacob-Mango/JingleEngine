@@ -4,6 +4,12 @@
 
 #include <sstream>
 
+BEGIN_CLASS_LINK(LightType)
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(Light)
+END_CLASS_LINK()
+
 void LightType::Load(Config& config)
 {
 	Super::Load(config);

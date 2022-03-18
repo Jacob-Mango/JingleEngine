@@ -572,13 +572,55 @@ class null extends Type {
   bool null::operator!=(Object) (Native)
 }
 
+class PlanetQuadType extends MeshEntityType {
+}
+
+class MeshEntityType extends EntityType {
+}
+
+class EntityType extends Object {
+}
+
+class PlanetQuad extends MeshEntity {
+}
+
+class MeshEntity extends Entity {
+}
+
+class Entity extends Object {
+}
+
+class PlanetType extends MeshEntityType {
+}
+
+class Planet extends MeshEntity {
+}
+
 class Renderer extends Module {
+}
+
+class LightType extends EntityType {
+}
+
+class Light extends Entity {
+}
+
+class CameraType extends EntityType {
+}
+
+class Camera extends Entity {
 }
 
 class SDLWindow extends Window {
 }
 
 class Window extends Module {
+}
+
+class DebugType extends MeshEntityType {
+}
+
+class Debug extends MeshEntity {
 }
 
 class Application extends Object {

@@ -18,6 +18,8 @@ enum class TextureFormat;
 #include "Core/Event.h"
 #include "Core/Module.h"
 
+#include "Scene/Scene.h"
+
 #include <JingleScript.h>
 
 class Application : public JingleScript::Object
@@ -34,6 +36,8 @@ private:
 
 	uint64_t m_FPS = 0;
 	double m_DeltaTime = 0;
+
+	Scene* m_Scene = nullptr;
 
 public:
 	EventHandler<KeyPressEventArgs> OnKeyPress;
@@ -57,6 +61,9 @@ public:
 	void SetDebug(bool enabled);
 
 	uint64_t GetFPS() const;
+
+	inline Scene* GetScene() const { return m_Scene; }
+	inline void SetScene(Scene* scene) { m_Scene = scene; }
 
 public:
 	int Initialize();

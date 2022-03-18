@@ -4,6 +4,12 @@
 
 #include "Input/BindingModule.h"
 
+BEGIN_CLASS_LINK(CameraType)
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(Camera)
+END_CLASS_LINK()
+
 void CameraType::Load(Config& config)
 {
 	Super::Load(config);
@@ -76,7 +82,7 @@ void Camera::OnSimulate(double DeltaTime)
 	if (!Input::IsCursorVisible())
 	{
 		forward = (Binding_Forward->GetValue() * speed) - (Binding_Backward->GetValue() * speed);
-		strafe = (Binding_Right->GetValue() * speed) - (Binding_Left->GetValue() * speed);
+		strafe = (Binding_Left->GetValue() * speed) - (Binding_Right->GetValue() * speed);
 	}
 
 	SetOrientation(orientation);
