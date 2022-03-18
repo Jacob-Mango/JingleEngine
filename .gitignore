@@ -410,3 +410,5 @@ Libraries/*/data/
 Libraries/*/Extras/
 
 imgui.ini
+Libraries/imgui/lib/*.lib
+Libraries/imgui/lib/*.lib
