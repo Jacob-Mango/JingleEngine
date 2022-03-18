@@ -18,8 +18,12 @@ enum class TextureFormat;
 #include "Core/Event.h"
 #include "Core/Module.h"
 
-class Application : public BaseClass
+#include <JingleScript.h>
+
+class Application : public JingleScript::Object
 {
+	DEFINE_CLASS(Application, JingleScript::Object);
+
 private:
 	static Application* s_Instance;
 

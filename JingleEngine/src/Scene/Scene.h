@@ -68,7 +68,7 @@ public:
 		entity->SetOrientation(orientation);
 		entity->SetPosition(position);
 
-		Type::InternalCreate(entity, type);
+		Type::CallDefaultConstructor(entity, type);
 		type->InitializeScript(entity);
 
 		entity->OnCreate();

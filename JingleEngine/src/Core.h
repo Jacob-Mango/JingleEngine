@@ -1,5 +1,7 @@
 #pragma once
 
+#include <JingleScript.h>
+
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 

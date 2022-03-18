@@ -18,7 +18,13 @@
 
 #include "Rendering/ImGui.h"
 
-#include <JingleScript.h>
+#include <fstream>
+#include <iostream>
+#include <filesystem>
+
+BEGIN_CLASS_LINK(Application)
+	LINK_NAMED_VARIABLE(FPS, m_FPS);
+END_CLASS_LINK()
 
 Application* Application::s_Instance = nullptr;
 
@@ -29,10 +35,6 @@ Application::Application()
 
 Application::~Application()
 {
-	using namespace JingleScript;
-
-	TypeManager::Destroy();
-	GlobalManager::Destroy();
 }
 
 Application* Application::Get()
@@ -40,47 +42,51 @@ Application* Application::Get()
 	return s_Instance;
 }
 
-JingleScript::AbstractFunction* updateFunction;
+JingleScript::Function* updateFunction;
 
 int Application::Initialize()
 {
 	using namespace JingleScript;
-
-	GlobalManager::Initialize();
-	TypeManager::Initialize();
-	
+		
 	Thread::Create();
 
 	// Once static is in JingleScript, this won't be needed
 	LinkImGUI();
 
+	LINK_NAMED_FUNCTION(GetApplication, Application::Get);
+
 	bool success = true;
 
 	std::string folder = "Assets/Scripts";
-	std::string files[] = {
-		"Core",
-		"ImGui",
-		"Modules",
-		"main"
-	};
 
 	Ref<Parser> parser = new Parser();
-	for (auto& file : files)
+
+	for (const auto& dirEntry : std::filesystem::recursive_directory_iterator(folder))
 	{
-		Ref<Lexer> lexer = Lexer::ParseFile(folder + "/" + file + ".jss");
+		auto& path = dirEntry.path();
+		if (path.extension().string().compare(".jss") != 0) continue;
+
+		Ref<Lexer> lexer = Lexer::ParseFile(path.string());
 
 		parser->SetLexer(lexer);
 		success &= parser->Parse();
 	}
 
+	if (success)
 	{
-		Serializer serializer(folder + "/Parsed.jst");
+		Serializer serializer("Assets/Parsed.jst");
 		parser->GetGlobalNode()->Serialize(serializer);
 	}
 
 	if (success)
 	{
 		success &= Compiler::Compile(parser);
+		Globals::Output("Assets/Compiled.jsi");
+	}
+
+	if (!success)
+	{
+		return -1;
 	}
 
 	ModuleManager::Initialize();
@@ -102,23 +108,6 @@ int Application::Initialize()
 	};
 
 	return 0;
-}
-
-#include <chrono>
-
-typedef std::chrono::time_point<std::chrono::high_resolution_clock> Time;
-
-Time CurrentTime()
-{
-	return std::chrono::high_resolution_clock::now();
-}
-
-double ElapsedTime(Time* time)
-{
-	Time current = CurrentTime();
-	double delta = std::chrono::duration_cast<std::chrono::nanoseconds>(current - *time).count() * 0.001 * 0.001 * 0.001;
-	*time = current;
-	return delta;
 }
 
 void Application::Run()
@@ -161,14 +150,14 @@ void Application::Run()
 
 	m_IsRunning = true;
 
-	Time time = CurrentTime();
+	Time time;
 
 	double frameTime = 0;
 	uint64_t frames = 0;
 
 	while (m_IsRunning)
 	{
-		m_DeltaTime = ElapsedTime(&time);
+		m_DeltaTime = time.Elapsed();
 
 		frameTime += m_DeltaTime;
 		frames++;
@@ -177,6 +166,8 @@ void Application::Run()
 			m_FPS = frames;
 			frameTime = 0;
 			frames = 0;
+
+			std::cout << "FPS: " << m_FPS << std::endl;
 		}
 
 		if (window)

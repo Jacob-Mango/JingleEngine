@@ -31,94 +31,47 @@ class Native extends Attribute
 
 class null
 {
-	@Native
-	bool operator==(Object other);
-
-	@Native
-	bool operator!=(Object other);
+	// All valid native operators are generated at compile time
 }
 
 class byte
 {
+	byte value;
+
+	// All valid native operators are generated at compile time
 }
 
 class int
 {
-	@Native
-	int operator*(int other);
+	int value;
 
-	@Native
-	int operator/(int other);
-
-	@Native
-	int operator+(int other);
-
-	@Native
-	int operator-(int other);
-
-	@Native
-	int operator%(int other);
-
-	@Native
-	bool operator>(int other);
-
-	@Native
-	bool operator>=(int other);
-
-	@Native
-	bool operator<(int other);
-
-	@Native
-	bool operator<=(int other);
-
-	@Native
-	bool operator==(int other);
-
-	@Native
-	bool operator!=(int other);
+	// All valid native operators are generated at compile time
 }
 
-class bool extends int
+class bool
 {
+	bool value;
+
+	// All valid native operators are generated at compile time
 }
 
 class float
 {
-	@Native
-	float operator*(float other);
+	float value;
 
-	@Native
-	float operator/(float other);
-
-	@Native
-	float operator+(float other);
-
-	@Native
-	float operator-(float other);
-
-	@Native
-	bool operator>(float other);
-
-	@Native
-	bool operator>=(float other);
-
-	@Native
-	bool operator<(float other);
-
-	@Native
-	bool operator<=(float other);
-
-	@Native
-	bool operator==(float other);
-
-	@Native
-	bool operator!=(float other);
+	// All valid native operators are generated at compile time
 }
 
 class double
 {
+	double value;
+
+	// All valid native operators are generated at compile time
 }
 
 class string
 {
+	string value;
+
+	// All valid native operators are generated at compile time
 }

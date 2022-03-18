@@ -1,0 +1,312 @@
+Global {
+ Functions: {
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "Application"
+   Name: "GetApplication"
+  }
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "bool"
+   Name: "ImGui_Begin"
+   Parameters: {
+    Parameter {
+     Type: "string"
+     Name: "name"
+    }
+   }
+  }
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "void"
+   Name: "ImGui_End"
+  }
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "void"
+   Name: "ImGui_Text"
+   Parameters: {
+    Parameter {
+     Type: "string"
+     Name: "text"
+    }
+   }
+  }
+  Function {
+   Children: {
+    Variable {
+     Type: "Application"
+     Name: "app"
+     Right: {
+      FunctionCall {
+       Value: "GetApplication"
+       IsConstructor: "0"
+       IsSuper: "0"
+      }
+     }
+    }
+    Expression {
+     Right: {
+      FunctionCall {
+       Value: "ImGui_Begin"
+       Arguments: {
+        [0]: {
+         Constant {
+          Value: "Test"
+         }
+        }
+       }
+       IsConstructor: "0"
+       IsSuper: "0"
+      }
+     }
+    }
+    Expression {
+     Right: {
+      FunctionCall {
+       Value: "ImGui_Text"
+       Arguments: {
+        [0]: {
+         Constant {
+          Value: "This is jingle script"
+         }
+        }
+       }
+       IsConstructor: "0"
+       IsSuper: "0"
+      }
+     }
+    }
+    Expression {
+     Right: {
+      FunctionCall {
+       Value: "ImGui_Text"
+       Arguments: {
+        [0]: {
+         Constant {
+          Value: "FPS: "
+         }
+         Value {
+          Value: "app"
+          Next: {
+           Value {
+            Value: "FPS"
+           }
+          }
+         }
+         Operator {
+          Operator: "+"
+         }
+        }
+       }
+       IsConstructor: "0"
+       IsSuper: "0"
+      }
+     }
+    }
+    Expression {
+     Right: {
+      FunctionCall {
+       Value: "ImGui_End"
+       IsConstructor: "0"
+       IsSuper: "0"
+      }
+     }
+    }
+   }
+   ReturnType: "void"
+   Name: "OnUpdate"
+  }
+ }
+ Classes: {
+  Class {
+   Name: "Type"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "IsInherited"
+     Parameters: {
+      Parameter {
+       Type: "Type"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Name: "float"
+   Variables: {
+    Variable {
+     Type: "float"
+     Name: "value"
+    }
+   }
+  }
+  Class {
+   Name: "Application"
+   Variables: {
+    Variable {
+     Type: "int"
+     Name: "FPS"
+    }
+   }
+  }
+  Class {
+   Name: "Native"
+   Base: "Attribute"
+  }
+  Class {
+   Name: "Object"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "string"
+     Name: "ToString"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "Type"
+     Name: "GetType"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator=="
+     Parameters: {
+      Parameter {
+       Type: "Object"
+       Name: "other"
+      }
+     }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "operator!="
+     Parameters: {
+      Parameter {
+       Type: "Object"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Name: "byte"
+   Variables: {
+    Variable {
+     Type: "byte"
+     Name: "value"
+    }
+   }
+  }
+  Class {
+   Name: "Attribute"
+  }
+  Class {
+   Name: "null"
+  }
+  Class {
+   Name: "int"
+   Variables: {
+    Variable {
+     Type: "int"
+     Name: "value"
+    }
+   }
+  }
+  Class {
+   Name: "Module"
+  }
+  Class {
+   Name: "bool"
+   Variables: {
+    Variable {
+     Type: "bool"
+     Name: "value"
+    }
+   }
+  }
+  Class {
+   Name: "double"
+   Variables: {
+    Variable {
+     Type: "double"
+     Name: "value"
+    }
+   }
+  }
+  Class {
+   Name: "string"
+   Variables: {
+    Variable {
+     Type: "string"
+     Name: "value"
+    }
+   }
+  }
+  Class {
+   Name: "AssetModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "Renderer"
+   Base: "Module"
+  }
+  Class {
+   Name: "BindingModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "TestModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "Window"
+   Base: "Module"
+  }
+  Class {
+   Name: "SDLWindow"
+   Base: "Window"
+  }
+ }
+}

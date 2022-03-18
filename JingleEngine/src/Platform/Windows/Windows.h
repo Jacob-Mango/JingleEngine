@@ -6,7 +6,7 @@ int JingleEngineMain(Application* app);
 
 int main(int argc, char** argv)
 {
-	Application* application = new Application();
+	Application* application = JingleScript::NewObject<Application>("Application");
 
 	int error;
 
