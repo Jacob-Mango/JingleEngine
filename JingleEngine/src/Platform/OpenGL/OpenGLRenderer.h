@@ -1,3 +1,7 @@
+#pragma once
+
+#include "Core/Core.h"
+
 #include "Rendering/RenderAPI.h"
 
 class OpenGLRenderer : public RenderAPI

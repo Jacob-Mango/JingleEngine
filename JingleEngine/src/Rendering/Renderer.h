@@ -1,13 +1,12 @@
 #pragma once
 
+#include "Core.h"
+
+#include "Rendering/Shader.h"
+#include "Rendering/Mesh.h"
+
 #include <map>
 #include <vector>
-
-#include "Core.h"
-#include <JingleScript.h>
-
-#include "Shader.h"
-#include "Mesh.h"
 
 class Renderer : public Module
 {

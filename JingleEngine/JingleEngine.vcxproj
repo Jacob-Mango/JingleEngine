@@ -31,6 +31,7 @@
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Config.cpp" />
     <ClCompile Include="src\Rendering\ImGui.cpp" />
+    <ClCompile Include="src\Scene\Components\MeshComponent.cpp" />
     <ClCompile Include="src\Scene\Debug.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="src\Rendering\Shader.cpp" />
     <ClCompile Include="src\Rendering\Texture.cpp" />
     <ClCompile Include="src\Scene\Entity.cpp" />
+    <ClCompile Include="src\Scene\EntityComponent.cpp" />
     <ClCompile Include="src\Scene\EntityTypeManager.cpp" />
     <ClCompile Include="src\Scene\MeshEntity.cpp" />
     <ClCompile Include="src\Scene\Planet\Planet.cpp" />
@@ -69,6 +71,7 @@
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Platform\Windows\Windows.h" />
     <ClInclude Include="src\Rendering\ImGui.h" />
+    <ClInclude Include="src\Scene\Components\MeshComponent.h" />
     <ClInclude Include="src\Scene\Debug.h" />
     <ClInclude Include="src\Core\Event.h" />
     <ClInclude Include="src\Core\Input.h" />
@@ -90,6 +93,7 @@
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Texture.h" />
     <ClInclude Include="src\Scene\Entity.h" />
+    <ClInclude Include="src\Scene\EntityComponent.h" />
     <ClInclude Include="src\Scene\EntityTypeManager.h" />
     <ClInclude Include="src\Scene\MeshEntity.h" />
     <ClInclude Include="src\Scene\Planet\Planet.h" />

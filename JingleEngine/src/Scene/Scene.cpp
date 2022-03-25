@@ -1,6 +1,9 @@
 #include "Scene.h"
 
 #include "Scene/Entity.h"
+#include "Scene/EntityComponent.h"
+
+#include "Scene/Components/MeshComponent.h"
 
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
@@ -13,6 +16,23 @@
 #include "Rendering/Mesh.h"
 #include "Rendering/Renderer.h"
 #include "Rendering/Shader.h"
+
+Scene* Scene::Create(std::string file)
+{
+	Scene* scene = new Scene();
+
+	Ref<Config> config = Config::Load(file);
+
+	auto& types = (*config)["defaultTypes"];
+	for (int i = 0; i < types.Count; i++)
+	{
+		EntityTypeManager::Load(types[i]);
+	}
+
+	scene->LoadScene((*config)["entities"]);
+
+	return scene;
+}
 
 void Scene::LoadScene(Config& entities)
 {
@@ -56,8 +76,6 @@ void Scene::OnStop()
 
 void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 {
-	ImGui::Begin("Another Window");
-
 	auto camera = GetCamera();
 	glm::dvec3 cameraPos(0.0f);
 	if (camera)
@@ -69,29 +87,24 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 		m_ViewMatrix = glm::lookAt(glm::vec3(cameraPos), glm::vec3(cameraPos) + forward, up);
 	}
 
+	std::vector<MeshComponent*> meshes;
+
 	for (int i = 0; i < m_Entities.size(); i++)
 	{
-		Entity* entity = m_Entities[i];
+		meshes.clear();
 
+		Entity* entity = m_Entities[i];
 		entity->OnSimulate(DeltaTime);
 
-		std::string entStr = "[" + std::to_string(i) + "]: " + entity->AsString();
-		ImGui::Text(entStr.c_str());
+		glm::mat4 transform = entity->GetWorldTransform();
 
-		auto meshEntity = dynamic_cast<MeshEntity*>(entity);
+		if (entity->IsVisible()) entity->GetComponents(meshes);
 
-		if (!meshEntity || !entity->IsVisible())
-			continue;
-
-		Ref<Mesh> mesh = meshEntity->GetMesh();
-		if (!mesh)
-			continue;
-
-		glm::mat4 transform = meshEntity->GetWorldTransform();
-		Renderer->SubmitStaticMesh(mesh, transform);
+		for (auto& mesh : meshes)
+		{
+			mesh->Submit(transform, Renderer);
+		}
 	}
-
-	ImGui::End();
 }
 
 Camera* Scene::GetCamera()

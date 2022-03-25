@@ -3,6 +3,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 #include "Scene/Scene.h"
+#include "Scene/EntityComponent.h"
 
 #include "Core/Application.h"
 
@@ -33,6 +34,24 @@ Entity::~Entity()
 	if (!m_IsDeleting)
 	{
 		std::cerr << "Entity being deleted without being called by Entity::Delete!" << std::endl;
+	}
+}
+
+void Entity::AddComponent(EntityComponent* component)
+{
+	using namespace JingleScript;
+
+	component->m_Entity = this;
+
+	Type* type = component->GetType();
+	while (type != nullptr)
+	{
+		std::vector<EntityComponent*>& components = m_Components[type];
+		components.push_back(component);
+
+		if (type == EntityComponent::StaticType()) return;
+
+		type = type->GetBase();
 	}
 }
 

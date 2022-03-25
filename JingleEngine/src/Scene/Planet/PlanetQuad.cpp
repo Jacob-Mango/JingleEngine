@@ -239,7 +239,7 @@ void PlanetQuad::CreateMesh()
 		SetPosition(up * radius);
 	}
 
-	m_Mesh = new Mesh(type.Material, vertices, indices);
+	//m_Mesh = new Mesh(type.Material, vertices, indices);
 }
 
 glm::dvec2 PlanetQuad::GetPlanetRelativePosition()

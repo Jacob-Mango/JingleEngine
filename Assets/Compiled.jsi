@@ -1,27 +1,33 @@
-Data:
-  [0000] string Test
-  [0001] string This is jingle script
-  [0002] string FPS: 
 
 class TestModule extends Module {
+
+  void TestModule::~TestModule() (Native)
 }
 
 class Module extends Object {
+
+  void Module::~Module() (Native)
 }
 
 class Object {
+
+  bool Object::operator!=(Object) (Native)
+
+  void Object::~Object() (Native)
 
   string Object::ToString() (Native)
 
   Type Object::GetType() (Native)
 
   bool Object::operator==(Object) (Native)
-
-  bool Object::operator!=(Object) (Native)
 }
 
-class string extends Type {
+class string {
    string value
+
+  void string::~string() (Native)
+
+  string string::operator+(int) (Native)
 
   string string::operator+(float) (Native)
 
@@ -32,8 +38,6 @@ class string extends Type {
   string string::operator+(string) (Native)
 
   string string::operator+(double) (Native)
-
-  string string::operator+(int) (Native)
 
   bool string::operator>(string) (Native)
 
@@ -48,23 +52,20 @@ class string extends Type {
   bool string::operator!=(string) (Native)
 }
 
-class Type extends Object {
-
-  bool Type::IsInherited(Type) (Native)
-}
-
-class bool extends Type {
+class bool {
    bool value
 
   bool bool::operator>(bool) (Native)
+
+  bool bool::operator>=(double) (Native)
+
+  void bool::~bool() (Native)
 
   bool bool::operator>=(bool) (Native)
 
   bool bool::operator!=(bool) (Native)
 
   bool bool::operator<(bool) (Native)
-
-  bool bool::operator>=(byte) (Native)
 
   bool bool::operator!=(int) (Native)
 
@@ -73,6 +74,8 @@ class bool extends Type {
   bool bool::operator>(byte) (Native)
 
   bool bool::operator==(bool) (Native)
+
+  bool bool::operator>=(byte) (Native)
 
   bool bool::operator>(float) (Native)
 
@@ -87,8 +90,6 @@ class bool extends Type {
   bool bool::operator!=(byte) (Native)
 
   bool bool::operator>(double) (Native)
-
-  bool bool::operator>=(double) (Native)
 
   bool bool::operator<(double) (Native)
 
@@ -119,18 +120,20 @@ class bool extends Type {
   string bool::operator+(string) (Native)
 }
 
-class byte extends Type {
+class byte {
    byte value
+
+  bool byte::operator!=(bool) (Native)
+
+  bool byte::operator<(bool) (Native)
+
+  void byte::~byte() (Native)
 
   byte byte::operator+(double) (Native)
 
   bool byte::operator>(bool) (Native)
 
   bool byte::operator>=(bool) (Native)
-
-  bool byte::operator!=(bool) (Native)
-
-  bool byte::operator<(bool) (Native)
 
   bool byte::operator!=(int) (Native)
 
@@ -221,18 +224,22 @@ class byte extends Type {
   string byte::operator+(string) (Native)
 }
 
-class double extends Type {
+class double {
    double value
+
+  double double::operator+(int) (Native)
+
+  bool double::operator>=(bool) (Native)
+
+  bool double::operator==(double) (Native)
+
+  void double::~double() (Native)
 
   double double::operator/(float) (Native)
 
   double double::operator-(byte) (Native)
 
   bool double::operator>(bool) (Native)
-
-  double double::operator+(int) (Native)
-
-  bool double::operator>=(bool) (Native)
 
   bool double::operator!=(bool) (Native)
 
@@ -244,15 +251,15 @@ class double extends Type {
 
   bool double::operator<=(bool) (Native)
 
+  bool double::operator==(bool) (Native)
+
+  double double::operator*(byte) (Native)
+
   bool double::operator==(float) (Native)
 
   bool double::operator<=(double) (Native)
 
   double double::operator/(byte) (Native)
-
-  bool double::operator==(bool) (Native)
-
-  double double::operator*(byte) (Native)
 
   bool double::operator>=(int) (Native)
 
@@ -294,8 +301,6 @@ class double extends Type {
 
   bool double::operator<(double) (Native)
 
-  bool double::operator==(double) (Native)
-
   double double::operator/(int) (Native)
 
   bool double::operator!=(double) (Native)
@@ -319,12 +324,12 @@ class double extends Type {
   bool double::operator==(int) (Native)
 }
 
-class float extends Type {
+class float {
    float value
 
   bool float::operator>(bool) (Native)
 
-  float float::operator/(byte) (Native)
+  void float::~float() (Native)
 
   bool float::operator>=(bool) (Native)
 
@@ -341,6 +346,8 @@ class float extends Type {
   bool float::operator<=(bool) (Native)
 
   bool float::operator==(bool) (Native)
+
+  float float::operator/(byte) (Native)
 
   bool float::operator<=(byte) (Native)
 
@@ -417,8 +424,18 @@ class float extends Type {
   string float::operator+(string) (Native)
 }
 
-class int extends Type {
+class int {
    int value
+
+  bool int::operator!=(int) (Native)
+
+  bool int::operator<=(bool) (Native)
+
+  string int::operator+(string) (Native)
+
+  int int::operator+(int) (Native)
+
+  void int::~int() (Native)
 
   bool int::operator>(bool) (Native)
 
@@ -429,10 +446,6 @@ class int extends Type {
   bool int::operator!=(bool) (Native)
 
   bool int::operator<(bool) (Native)
-
-  bool int::operator!=(int) (Native)
-
-  bool int::operator<=(bool) (Native)
 
   bool int::operator==(bool) (Native)
 
@@ -506,10 +519,6 @@ class int extends Type {
 
   int int::operator/(int) (Native)
 
-  string int::operator+(string) (Native)
-
-  int int::operator+(int) (Native)
-
   int int::operator-(int) (Native)
 
   bool int::operator>(int) (Native)
@@ -521,51 +530,27 @@ class int extends Type {
 
 class #global extends Object {
 
-  bool ImGui_Begin(string) (Native)
+  void ImGui_Text(string) (Native)
+
+  bool ImGui_Begin(byte) (Native)
+
+  void #global::~#global() (Native)
 
   Application GetApplication() (Native)
 
   void ImGui_End() (Native)
 
-  void ImGui_Text(string) (Native)
+  void ImGui_Text(byte) (Native)
+
+  bool ImGui_Begin(string) (Native)
 
   void OnUpdate() {
-    [00000000]  push
-    [00000001]   push
-    [00000002]    call_function [Application GetApplication()]
-    [00000003]    copy 0 1 [app]
-    [00000004]   pop
-    [00000005]   push
-    [00000006]    push
-    [00000007]     copy_data [0000] 0
-    [00000008]     call_function [bool ImGui_Begin(string)]
-    [00000009]    pop
-    [0000000A]   pop
-    [0000000B]   push
-    [0000000C]    push
-    [0000000D]     copy_data [0001] 0
-    [0000000E]     call_function [void ImGui_Text(string)]
-    [0000000F]    pop
-    [00000010]   pop
-    [00000011]   push
-    [00000012]    push
-    [00000013]     copy_data [0002] 0
-    [00000014]     push
-    [00000015]      copy 3 [app] 0
-    [00000016]      copy_variable_from_object FPS 0
-    [00000017]      call_method [string string::operator+(int)]
-    [00000018]     pop
-    [00000019]     call_function [void ImGui_Text(string)]
-    [0000001A]    pop
-    [0000001B]   pop
-    [0000001C]   push
-    [0000001D]    call_function [void ImGui_End()]
-    [0000001E]   pop
-    [0000001F]  pop
   }
 }
 
-class null extends Type {
+class null {
+
+  void null::~null() (Native)
 
   bool null::operator==(Object) (Native)
 
@@ -573,64 +558,124 @@ class null extends Type {
 }
 
 class PlanetQuadType extends MeshEntityType {
+
+  void PlanetQuadType::~PlanetQuadType() (Native)
 }
 
 class MeshEntityType extends EntityType {
+
+  void MeshEntityType::~MeshEntityType() (Native)
 }
 
 class EntityType extends Object {
+
+  void EntityType::~EntityType() (Native)
 }
 
 class PlanetQuad extends MeshEntity {
+
+  void PlanetQuad::~PlanetQuad() (Native)
 }
 
 class MeshEntity extends Entity {
+
+  void MeshEntity::~MeshEntity() (Native)
 }
 
 class Entity extends Object {
+
+  void Entity::~Entity() (Native)
 }
 
 class PlanetType extends MeshEntityType {
+
+  void PlanetType::~PlanetType() (Native)
 }
 
 class Planet extends MeshEntity {
+
+  void Planet::~Planet() (Native)
+}
+
+class EntityComponent extends Object {
+
+  void EntityComponent::~EntityComponent() (Native)
 }
 
 class Renderer extends Module {
+
+  void Renderer::~Renderer() (Native)
 }
 
 class LightType extends EntityType {
+
+  void LightType::~LightType() (Native)
 }
 
 class Light extends Entity {
+
+  void Light::~Light() (Native)
 }
 
 class CameraType extends EntityType {
+
+  void CameraType::~CameraType() (Native)
 }
 
 class Camera extends Entity {
+
+  void Camera::~Camera() (Native)
 }
 
 class SDLWindow extends Window {
+
+  void SDLWindow::~SDLWindow() (Native)
 }
 
 class Window extends Module {
+
+  void Window::~Window() (Native)
 }
 
 class DebugType extends MeshEntityType {
+
+  void DebugType::~DebugType() (Native)
 }
 
 class Debug extends MeshEntity {
+
+  void Debug::~Debug() (Native)
+}
+
+class MeshComponent extends EntityComponent {
+
+  void MeshComponent::~MeshComponent() (Native)
 }
 
 class Application extends Object {
    int FPS
+
+  void Application::~Application() (Native)
 }
 
 class BindingModule extends Module {
+
+  void BindingModule::~BindingModule() (Native)
 }
 
 class AssetModule extends Module {
+
+  void AssetModule::~AssetModule() (Native)
+}
+
+class Type extends Object {
+
+  bool Type::IsInherited(Type) (Native)
+}
+
+class Type {
+
+  bool Type::IsInherited(Type) (Native)
 }
 
 class Native extends Attribute {

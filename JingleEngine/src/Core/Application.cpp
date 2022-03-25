@@ -234,7 +234,7 @@ void Application::OnTick(double DeltaTime)
 	{
 		using namespace JingleScript;
 		
-		auto& thread = *Thread::Current();
+		auto thread = Thread::Current();
 		updateFunction->Call(thread);
 	}
 

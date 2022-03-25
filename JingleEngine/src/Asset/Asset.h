@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-
-#include <JingleScript.h>
+#include "Core/Core.h"
 
 #include "GUID.h"
 

@@ -1,3 +1,6 @@
+#pragma once
+
+#include "Core/Core.h"
 #include "Core/Window.h"
 
 class SDLWindow : public Window

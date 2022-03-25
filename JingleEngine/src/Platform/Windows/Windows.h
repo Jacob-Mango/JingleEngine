@@ -1,4 +1,6 @@
-#include "Core.h"
+#pragma once
+
+#include "Core/Core.h"
 
 #include "Platform/SDL/SDLWindow.h"
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Asset/Asset.h"
-
 #include "Core/Core.h"
+
+#include "Asset/Asset.h"
 
 class Shader : public Asset
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <JingleScript.h>
+#include "Core/Core.h"
 
 #include <functional>
 #include <vector>

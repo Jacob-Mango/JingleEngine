@@ -1,15 +1,15 @@
 #pragma once
 
-#include <vector>
-
-#include <glm/glm.hpp>
+#include "Core/Core.h"
 
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 
-#include <JingleScript.h>
-
 #include "Rendering/Material.h"
+
+#include <vector>
+
+#include <glm/glm.hpp>
 
 typedef struct
 {

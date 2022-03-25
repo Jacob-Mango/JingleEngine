@@ -1,13 +1,13 @@
 #pragma once
 
+#include "Core/Core.h"
+#include "Core/Event.h"
+
+#include "Input/Input.h"
+
 #include <string>
 #include <vector>
 #include <map>
-
-#include "Core/Event.h"
-#include <JingleScript.h>
-
-#include "Input/Input.h"
 
 class BindingModule;
 

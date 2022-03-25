@@ -8,19 +8,18 @@ class Framebuffer;
 
 enum class TextureFormat;
 
+#include "Core/Core.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "Core/Logging.h"
-#include <JingleScript.h>
 
 #include "Core/Event.h"
 #include "Core/Module.h"
 
 #include "Scene/Scene.h"
-
-#include <JingleScript.h>
 
 class Application : public JingleScript::Object
 {

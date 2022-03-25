@@ -1,11 +1,10 @@
 #pragma once
 
-#include <JingleScript.h>
-
-#include "Scene/Entity.h"
-
+#include "Core/Core.h"
 #include "Core/Application.h"
 #include "Core/Config.h"
+
+#include "Scene/Entity.h"
 
 class Camera;
 class Texture;
@@ -33,6 +32,8 @@ private:
 	Camera* m_Camera;
 
 public:
+	static Scene* Create(std::string file);
+
 	void LoadScene(Config& entities);
 
 	Entity* SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation);

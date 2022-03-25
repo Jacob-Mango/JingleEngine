@@ -1,3 +1,7 @@
+#pragma once
+
+#include <JingleScript.h>
+
 #include "Core.h"
 
 #ifdef WINDOWS

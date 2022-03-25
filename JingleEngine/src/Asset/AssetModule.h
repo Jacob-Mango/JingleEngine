@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Core.h"
+
 #include <unordered_map>
 #include <string>
 

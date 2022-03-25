@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Core.h"
 #include "Core/Application.h"
 #include "Core/Config.h"
 
@@ -25,9 +26,6 @@ public:
 class MeshEntity : public Entity
 {
 	DEFINE_CLASS(MeshEntity, Entity);
-
-protected:
-	Ref<Mesh> m_Mesh;
 
 public:
 	MeshEntity() {}

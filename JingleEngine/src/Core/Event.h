@@ -1,9 +1,8 @@
 #pragma once
 
-#include <functional>
-
-#include <JingleScript.h>
 #include "Core/Core.h"
+
+#include <functional>
 
 #define EVENT_DEFAULT(type, value)												\
 	static const EventType EventType##type = value;								\

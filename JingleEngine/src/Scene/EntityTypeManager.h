@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Core.h"
+
 #include "Scene/Entity.h"
 #include "Core/Config.h"
 

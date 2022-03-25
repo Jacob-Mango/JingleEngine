@@ -3,8 +3,6 @@
 #include "Core/Core.h"
 #include "Core/Event.h"
 
-#include <JingleScript.h>
-
 #define DEFINE_MODULE(type, baseTypeName)					\
 	DEFINE_NAMED_CLASS(type, type, baseTypeName)			\
 

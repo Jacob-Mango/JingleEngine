@@ -1,12 +1,10 @@
 #pragma once
 
-#include <JingleScript.h>
+#include "Core/Core.h"
+#include "Core/Application.h"
 
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
-
-#include "Core/Application.h"
-#include "Core/Core.h"
 
 #include "Input/BindingModule.h"
 

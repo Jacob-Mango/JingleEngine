@@ -23,19 +23,7 @@ public:
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
 
-		Scene* scene = new Scene();
-
-		Ref<Config> config = Config::Load("Assets/Scenes/game.scene");
-
-		auto& types = (*config)["defaultTypes"];
-		for (int i = 0; i < types.Count; i++)
-		{
-			EntityTypeManager::Load(types[i]);
-		}
-
-		scene->LoadScene((*config)["entities"]);
-
-		Application::Get()->SetScene(scene);
+		Application::Get()->SetScene(Scene::Create("Assets/Scenes/game.scene"));
 	}
 
 	virtual void OnTick(double DeltaTime) override

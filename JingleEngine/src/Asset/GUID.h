@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Core.h"
+
 #include <string>
 
 typedef unsigned long long int GUIDv;

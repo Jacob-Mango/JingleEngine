@@ -1,4 +1,4 @@
-#include "Logging.h"
+#include "Core/Core.h"
 
 std::ostream& operator<<(std::ostream& os, const glm::vec2& value)
 {
