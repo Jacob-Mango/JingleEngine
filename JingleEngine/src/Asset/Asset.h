@@ -4,11 +4,13 @@
 
 #include "GUID.h"
 
-#define SETUP_ASSET(CLS, base) friend class AssetModule; private: CLS(const GUID& guid) : base(guid) {}
+#define SETUP_ASSET(CLS, base)	\
+	DEFINE_CLASS(CLS, base);	\
+	friend class AssetModule; 
 
-class Asset : public Countable
+class Asset : public JingleScript::ManagedObject
 {
-	typedef Countable Super;
+	DEFINE_CLASS(Asset, JingleScript::ManagedObject);
 
 	friend class AssetModule;
 
@@ -16,12 +18,9 @@ private:
 	GUID m_GUID;
 	bool m_IsLoaded = false;
 
-protected:
-	Asset(const GUID& guid);
-
 public:
-	Asset(const Asset& other) = delete;
-	virtual ~Asset() override;
+	Asset();
+	virtual ~Asset();
 
 	std::string GetPath() const;
 	std::string GetExtension() const;

@@ -58,7 +58,10 @@ static Ref<T> AssetModule::Get(GUID guid)
 	auto it = s_Instance->m_Assets.find(guid.GetValue());
 	if (it == s_Instance->m_Assets.end())
 	{
-		s_Instance->m_Assets.insert({ guid.GetValue(), new T(guid) });
+	JS_INFO("Create asset: %s", T::StaticName().c_str());
+		T* asset = JingleScript::NewObject<T>(T::StaticName());
+		asset->m_GUID = guid;
+		s_Instance->m_Assets.insert({ guid.GetValue(), asset });
 	}
 
 	Ref<T> result = dynamic_cast<T*>(s_Instance->m_Assets[guid.GetValue()].Get());

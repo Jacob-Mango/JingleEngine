@@ -42,46 +42,27 @@ Application* Application::Get()
 	return s_Instance;
 }
 
-JingleScript::Function* updateFunction;
+STATIC_FUNCTION(JingleScript::Globals, OnUpdate, void, double);
 
 int Application::Initialize()
 {
 	using namespace JingleScript;
 		
-	Thread::Create();
-
 	// Once static is in JingleScript, this won't be needed
 	LinkImGUI();
 
 	LINK_NAMED_FUNCTION(GetApplication, Application::Get);
 
-	bool success = true;
-
-	std::string folder = "Assets/Scripts";
+	std::string folder = "Assets";
 
 	Ref<Parser> parser = new Parser();
-
-	for (const auto& dirEntry : std::filesystem::recursive_directory_iterator(folder))
-	{
-		auto& path = dirEntry.path();
-		if (path.extension().string().compare(".jss") != 0) continue;
-
-		Ref<Lexer> lexer = Lexer::ParseFile(path.string());
-
-		parser->SetLexer(lexer);
-		success &= parser->Parse();
-	}
-
-	if (success)
-	{
-		Serializer serializer("Assets/Parsed.jst");
-		parser->GetGlobalNode()->Serialize(serializer);
-	}
+	bool success = parser->ParseFiles(folder + "/Scripts/");
+	parser->SerializeNodes(folder + "/compiled.jst");
 
 	if (success)
 	{
 		success &= Compiler::Compile(parser);
-		Globals::Output("Assets/Compiled.jsi");
+		Globals::Output(folder + "/Compiled.jsi");
 	}
 
 	if (!success)
@@ -90,14 +71,6 @@ int Application::Initialize()
 	}
 
 	ModuleManager::Initialize();
-
-	FunctionSignature signature;
-	signature.Name = "OnUpdate";
-	signature.ReturnType = nullptr;
-	signature.Owner = nullptr;
-	signature.Parameters.clear();
-
-	updateFunction = signature.Find();
 
 	OnWindowClose += [this](BaseClass* sender, WindowCloseEventArgs args) {
 		Shutdown();
@@ -230,13 +203,7 @@ void Application::OnTick(double DeltaTime)
 		m_Scene->OnSimulate(DeltaTime, ModuleManager::Get<Renderer>());
 	}
 
-	if (updateFunction)
-	{
-		using namespace JingleScript;
-		
-		auto thread = Thread::Current();
-		updateFunction->Call(thread);
-	}
+	Script_OnUpdate(DeltaTime);
 
 	ModuleManager::On([DeltaTime](Module* module)
 		{

@@ -3,7 +3,7 @@
 #include "Core.h"
 
 #include "Rendering/Shader.h"
-#include "Rendering/Mesh.h"
+#include "Rendering/MeshInstance.h"
 
 #include <map>
 #include <vector>
@@ -16,7 +16,7 @@ private:
 	struct MeshCommand
 	{
 		Ref<Shader> m_Shader;
-		Ref<Mesh> m_Mesh;
+		MeshInstance* m_Mesh;
 		glm::mat4 m_Transform;
 	};
 
@@ -25,7 +25,7 @@ private:
 public:
 	Renderer() {}
 
-	void SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform);
+	void SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform);
 
 	virtual void OnTick(double DeltaTime) override;
 };

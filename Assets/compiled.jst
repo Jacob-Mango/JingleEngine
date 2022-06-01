@@ -132,29 +132,15 @@ Global {
    }
    ReturnType: "void"
    Name: "OnUpdate"
-  }
- }
- Classes: {
-  Class {
-   Name: "Type"
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Name: "Native"
-      }
-     }
-     ReturnType: "bool"
-     Name: "IsInherited"
-     Parameters: {
-      Parameter {
-       Type: "Type"
-       Name: "other"
-      }
-     }
+   Parameters: {
+    Parameter {
+     Type: "double"
+     Name: "DeltaTime"
     }
    }
   }
+ }
+ Classes: {
   Class {
    Name: "float"
    Variables: {
@@ -174,16 +160,44 @@ Global {
    }
   }
   Class {
-   Name: "CameraType"
-   Base: "EntityType"
+   Name: "AssetModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "Asset"
+  }
+  Class {
+   Name: "Mesh"
+   Base: "Asset"
+  }
+  Class {
+   Name: "Texture"
+   Base: "Asset"
+  }
+  Class {
+   Name: "Material"
+   Base: "Asset"
+  }
+  Class {
+   Name: "double"
+   Variables: {
+    Variable {
+     Type: "double"
+     Name: "value"
+    }
+   }
+  }
+  Class {
+   Name: "Shader"
+   Base: "Asset"
   }
   Class {
    Name: "Camera"
    Base: "Entity"
   }
   Class {
-   Name: "Native"
-   Base: "Attribute"
+   Name: "CameraType"
+   Base: "EntityType"
   }
   Class {
    Name: "Entity"
@@ -242,7 +256,31 @@ Global {
    }
   }
   Class {
+   Name: "Type"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "bool"
+     Name: "IsInherited"
+     Parameters: {
+      Parameter {
+       Type: "Type"
+       Name: "other"
+      }
+     }
+    }
+   }
+  }
+  Class {
    Name: "Attribute"
+  }
+  Class {
+   Name: "Native"
+   Base: "Attribute"
   }
   Class {
    Name: "null"
@@ -278,35 +316,16 @@ Global {
    }
   }
   Class {
-   Name: "double"
-   Variables: {
-    Variable {
-     Type: "double"
-     Name: "value"
-    }
-   }
-  }
-  Class {
    Name: "Debug"
   }
   Class {
    Name: "string"
-   Variables: {
-    Variable {
-     Type: "string"
-     Name: "value"
-    }
-   }
   }
   Class {
    Name: "DebugType"
   }
   Class {
    Name: "EntityType"
-  }
-  Class {
-   Name: "AssetModule"
-   Base: "Module"
   }
   Class {
    Name: "Renderer"

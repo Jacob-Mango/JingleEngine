@@ -4,6 +4,10 @@
 #include <iostream>
 #include <filesystem>
 
+Shader::Shader()
+{
+}
+
 Shader::~Shader()
 {
 	GL(glUseProgram(0));
@@ -24,6 +28,9 @@ Shader::~Shader()
 
 	GL(glDeleteProgram(m_ID));
 }
+
+BEGIN_CLASS_LINK(Shader)
+END_CLASS_LINK()
 
 bool Shader::OnLoad()
 {

@@ -16,7 +16,7 @@ void MeshEntityType::Load(Config& config)
 		auto model = config["model"];
 		auto path = model.String;
 
-		Model = AssetModule::Get<MeshAsset>(path);
+		Model = AssetModule::Get<Mesh>(path);
 	}
 
 	{
@@ -35,7 +35,7 @@ void MeshEntity::OnCreate()
 
 	if (!type.Model.IsNull())
 	{
-		Mesh* mesh = new Mesh(type.Model);
+		MeshInstance* mesh = new MeshInstance(type.Model);
 		component->SetMesh(mesh);
 
 		if (!type.Material.IsNull())

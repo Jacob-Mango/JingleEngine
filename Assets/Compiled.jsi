@@ -23,7 +23,6 @@ class Object {
 }
 
 class string {
-   string value
 
   void string::~string() (Native)
 
@@ -34,6 +33,8 @@ class string {
   string string::operator+(bool) (Native)
 
   string string::operator+(byte) (Native)
+
+  void string::operator=(string) (Native)
 
   string string::operator+(string) (Native)
 
@@ -61,6 +62,10 @@ class bool {
 
   void bool::~bool() (Native)
 
+  bool bool::operator==(bool) (Native)
+
+  void bool::operator=(bool) (Native)
+
   bool bool::operator>=(bool) (Native)
 
   bool bool::operator!=(bool) (Native)
@@ -71,9 +76,9 @@ class bool {
 
   bool bool::operator<=(bool) (Native)
 
-  bool bool::operator>(byte) (Native)
+  void bool::operator=(byte) (Native)
 
-  bool bool::operator==(bool) (Native)
+  bool bool::operator>(byte) (Native)
 
   bool bool::operator>=(byte) (Native)
 
@@ -89,6 +94,8 @@ class bool {
 
   bool bool::operator!=(byte) (Native)
 
+  void bool::operator=(double) (Native)
+
   bool bool::operator>(double) (Native)
 
   bool bool::operator<(double) (Native)
@@ -101,6 +108,8 @@ class bool {
 
   bool bool::operator!=(double) (Native)
 
+  void bool::operator=(float) (Native)
+
   bool bool::operator>=(float) (Native)
 
   bool bool::operator>=(int) (Native)
@@ -110,6 +119,8 @@ class bool {
   bool bool::operator<=(float) (Native)
 
   bool bool::operator!=(float) (Native)
+
+  void bool::operator=(int) (Native)
 
   bool bool::operator>(int) (Native)
 
@@ -126,6 +137,10 @@ class byte {
   bool byte::operator!=(bool) (Native)
 
   bool byte::operator<(bool) (Native)
+
+  void byte::operator=(bool) (Native)
+
+  void byte::operator=(float) (Native)
 
   void byte::~byte() (Native)
 
@@ -161,6 +176,10 @@ class byte {
 
   byte byte::operator%(byte) (Native)
 
+  bool byte::operator>=(double) (Native)
+
+  void byte::operator=(byte) (Native)
+
   bool byte::operator>(byte) (Native)
 
   bool byte::operator>=(byte) (Native)
@@ -181,9 +200,9 @@ class byte {
 
   byte byte::operator/(double) (Native)
 
-  bool byte::operator>(double) (Native)
+  void byte::operator=(double) (Native)
 
-  bool byte::operator>=(double) (Native)
+  bool byte::operator>(double) (Native)
 
   bool byte::operator<(double) (Native)
 
@@ -215,13 +234,15 @@ class byte {
 
   byte byte::operator-(int) (Native)
 
+  string byte::operator+(string) (Native)
+
+  void byte::operator=(int) (Native)
+
   bool byte::operator>(int) (Native)
 
   bool byte::operator<(int) (Native)
 
   bool byte::operator==(int) (Native)
-
-  string byte::operator+(string) (Native)
 }
 
 class double {
@@ -234,6 +255,8 @@ class double {
   bool double::operator==(double) (Native)
 
   void double::~double() (Native)
+
+  void double::operator=(bool) (Native)
 
   double double::operator/(float) (Native)
 
@@ -248,6 +271,8 @@ class double {
   bool double::operator<(bool) (Native)
 
   bool double::operator!=(int) (Native)
+
+  void double::operator=(double) (Native)
 
   bool double::operator<=(bool) (Native)
 
@@ -266,6 +291,8 @@ class double {
   bool double::operator<(float) (Native)
 
   double double::operator+(byte) (Native)
+
+  void double::operator=(byte) (Native)
 
   bool double::operator>(byte) (Native)
 
@@ -307,6 +334,8 @@ class double {
 
   double double::operator*(float) (Native)
 
+  void double::operator=(float) (Native)
+
   bool double::operator>=(float) (Native)
 
   bool double::operator<=(float) (Native)
@@ -316,6 +345,8 @@ class double {
   double double::operator*(int) (Native)
 
   double double::operator-(int) (Native)
+
+  void double::operator=(int) (Native)
 
   bool double::operator>(int) (Native)
 
@@ -331,9 +362,11 @@ class float {
 
   void float::~float() (Native)
 
-  bool float::operator>=(bool) (Native)
+  bool float::operator==(bool) (Native)
 
-  float float::operator*(byte) (Native)
+  void float::operator=(bool) (Native)
+
+  bool float::operator>=(bool) (Native)
 
   bool float::operator!=(bool) (Native)
 
@@ -345,7 +378,7 @@ class float {
 
   bool float::operator<=(bool) (Native)
 
-  bool float::operator==(bool) (Native)
+  float float::operator*(byte) (Native)
 
   float float::operator/(byte) (Native)
 
@@ -356,6 +389,8 @@ class float {
   float float::operator/(float) (Native)
 
   float float::operator-(byte) (Native)
+
+  void float::operator=(byte) (Native)
 
   bool float::operator>(byte) (Native)
 
@@ -383,6 +418,10 @@ class float {
 
   float float::operator-(double) (Native)
 
+  void float::operator=(double) (Native)
+
+  void float::operator=(int) (Native)
+
   bool float::operator>(double) (Native)
 
   bool float::operator>=(double) (Native)
@@ -402,6 +441,8 @@ class float {
   float float::operator+(float) (Native)
 
   float float::operator-(float) (Native)
+
+  void float::operator=(float) (Native)
 
   bool float::operator>=(float) (Native)
 
@@ -437,9 +478,11 @@ class int {
 
   void int::~int() (Native)
 
+  void int::operator=(float) (Native)
+
   bool int::operator>(bool) (Native)
 
-  int int::operator*(byte) (Native)
+  void int::operator=(bool) (Native)
 
   bool int::operator>=(bool) (Native)
 
@@ -448,6 +491,8 @@ class int {
   bool int::operator<(bool) (Native)
 
   bool int::operator==(bool) (Native)
+
+  int int::operator*(byte) (Native)
 
   int int::operator/(byte) (Native)
 
@@ -460,6 +505,12 @@ class int {
   int int::operator-(byte) (Native)
 
   int int::operator%(byte) (Native)
+
+  bool int::operator==(float) (Native)
+
+  bool int::operator<=(double) (Native)
+
+  void int::operator=(byte) (Native)
 
   bool int::operator>(byte) (Native)
 
@@ -489,17 +540,19 @@ class int {
 
   int int::operator-(double) (Native)
 
+  int int::operator/(int) (Native)
+
+  void int::operator=(double) (Native)
+
   bool int::operator>(double) (Native)
 
   int int::operator%(int) (Native)
 
   bool int::operator<(double) (Native)
 
-  bool int::operator==(float) (Native)
-
-  bool int::operator<=(double) (Native)
-
   bool int::operator==(double) (Native)
+
+  void int::operator=(int) (Native)
 
   bool int::operator!=(double) (Native)
 
@@ -517,8 +570,6 @@ class int {
 
   int int::operator*(int) (Native)
 
-  int int::operator/(int) (Native)
-
   int int::operator-(int) (Native)
 
   bool int::operator>(int) (Native)
@@ -532,19 +583,48 @@ class #global extends Object {
 
   void ImGui_Text(string) (Native)
 
-  bool ImGui_Begin(byte) (Native)
-
   void #global::~#global() (Native)
+
+  bool ImGui_Begin(string) (Native)
 
   Application GetApplication() (Native)
 
   void ImGui_End() (Native)
 
-  void ImGui_Text(byte) (Native)
-
-  bool ImGui_Begin(string) (Native)
-
-  void OnUpdate() {
+  void OnUpdate(double) {
+    [00000000]  push 8
+    [00000001]   push 8
+    [00000002]    call_function [Application GetApplication()]
+    [00000003]    move_from_register 1 8 8
+    [00000004]    copy 8 8 16 [app]
+    [00000005]   pop 8
+    [00000006]   push 1
+    [00000007]    push 32
+    [00000008]     copy_data string [Test] 32
+    [00000009]     call_function [bool ImGui_Begin(string)]
+    [0000000A]    pop 32
+    [0000000B]    move_from_register 1 1 1
+    [0000000C]    move_to_register 1 1 0
+    [0000000D]    destructor 0 [bool]
+    [0000000E]   pop 1
+    [0000000F]   push 32
+    [00000010]    copy_data string [This is jingle script] 32
+    [00000011]    call_function [void ImGui_Text(string)]
+    [00000012]   pop 32
+    [00000013]   push 32
+    [00000014]    copy_data string [FPS: ] 32
+    [00000015]    push 8
+    [00000016]     copy 8 48 [app] 8
+    [00000017]     copy_variable_from_object 8 32 [FPS] 8
+    [00000018]     resize -4
+    [00000019]     move_to_register 4 36 0
+    [0000001A]     call_exact [string string::operator+(int)]
+    [0000001B]    pop 4
+    [0000001C]    move_from_register 1 32 32
+    [0000001D]    call_function [void ImGui_Text(string)]
+    [0000001E]   pop 32
+    [0000001F]   call_function [void ImGui_End()]
+    [00000020]  pop 8
   }
 }
 
@@ -555,6 +635,16 @@ class null {
   bool null::operator==(Object) (Native)
 
   bool null::operator!=(Object) (Native)
+}
+
+class Managed extends Object {
+
+  void Managed::~Managed() (Native)
+}
+
+class Attribute extends Object {
+
+  void Attribute::~Attribute() (Native)
 }
 
 class PlanetQuadType extends MeshEntityType {
@@ -602,9 +692,34 @@ class EntityComponent extends Object {
   void EntityComponent::~EntityComponent() (Native)
 }
 
+class Texture extends Asset {
+
+  void Texture::~Texture() (Native)
+}
+
+class Asset extends Managed {
+
+  void Asset::~Asset() (Native)
+}
+
+class Shader extends Asset {
+
+  void Shader::~Shader() (Native)
+}
+
 class Renderer extends Module {
 
   void Renderer::~Renderer() (Native)
+}
+
+class Mesh extends Asset {
+
+  void Mesh::~Mesh() (Native)
+}
+
+class Material extends Asset {
+
+  void Material::~Material() (Native)
 }
 
 class LightType extends EntityType {
@@ -652,6 +767,11 @@ class MeshComponent extends EntityComponent {
   void MeshComponent::~MeshComponent() (Native)
 }
 
+class Vertex {
+
+  void Vertex::~Vertex() (Native)
+}
+
 class Application extends Object {
    int FPS
 
@@ -679,7 +799,4 @@ class Type {
 }
 
 class Native extends Attribute {
-}
-
-class Attribute {
 }

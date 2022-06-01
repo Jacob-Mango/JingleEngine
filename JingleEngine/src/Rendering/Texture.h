@@ -32,6 +32,7 @@ private:
 	GLuint m_ID;
 
 public:
+	Texture();
 	virtual ~Texture();
 
 	static GLenum FormatToGL(TextureFormat format);

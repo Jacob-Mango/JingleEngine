@@ -5,10 +5,18 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+Texture::Texture()
+{
+
+}
+
 Texture::~Texture()
 {
 	glDeleteTextures(1, &m_ID);
 }
+
+BEGIN_CLASS_LINK(Texture)
+END_CLASS_LINK()
 
 GLenum Texture::FormatToGL(TextureFormat format)
 {

@@ -96,7 +96,7 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 		Entity* entity = m_Entities[i];
 		entity->OnSimulate(DeltaTime);
 
-		glm::mat4 transform = entity->GetWorldTransform();
+		glm::dmat4 transform = entity->GetWorldTransform();
 
 		if (entity->IsVisible()) entity->GetComponents(meshes);
 

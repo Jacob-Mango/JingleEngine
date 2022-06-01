@@ -161,9 +161,7 @@ glm::vec3 Entity::GetForwardDirection() const
 void Entity::SetOrientation(glm::vec3 orientation)
 {
 	glm::dmat4 trans = glm::eulerAngleYXZ(glm::radians(orientation.x), glm::radians(orientation.y), glm::radians(orientation.z));
-	trans[3][0] = m_Transform[3][0];
-	trans[3][1] = m_Transform[3][1];
-	trans[3][2] = m_Transform[3][2];
+	trans[3] = m_Transform[3];
 	SetTransform(trans);
 }
 

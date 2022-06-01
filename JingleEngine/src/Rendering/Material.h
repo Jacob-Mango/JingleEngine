@@ -22,6 +22,7 @@ class Material : public Asset
 	Ref<Texture> m_Roughness;
 
 public:
+	Material();
 	virtual ~Material();
 
 	virtual bool OnLoad() override;

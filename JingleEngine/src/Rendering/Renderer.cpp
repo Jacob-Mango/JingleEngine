@@ -8,7 +8,7 @@
 BEGIN_MODULE_LINK(Renderer);
 END_MODULE_LINK();
 
-void Renderer::SubmitStaticMesh(Ref<Mesh> mesh, glm::mat4 transform)
+void Renderer::SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform)
 {
 	Ref<Shader> shader = mesh->GetMaterial()->GetShader();
 

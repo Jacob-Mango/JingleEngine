@@ -6,9 +6,16 @@
 #include <string>
 #include <fstream>
 
+Material::Material()
+{
+}
+
 Material::~Material()
 {
 }
+
+BEGIN_CLASS_LINK(Material)
+END_CLASS_LINK()
 
 bool Material::OnLoad()
 {

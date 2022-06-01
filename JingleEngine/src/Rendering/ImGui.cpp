@@ -2,9 +2,9 @@
 
 #include <JingleScript.h>
 
-bool ImGui_Begin(const char* name)
+bool ImGui_Begin(std::string name)
 {
-	return ImGui::Begin(name);
+	return ImGui::Begin(name.c_str());
 }
 
 void ImGui_End()
@@ -12,9 +12,9 @@ void ImGui_End()
 	ImGui::End();
 }
 
-void ImGui_Text(const char* text)
+void ImGui_Text(std::string text)
 {
-	ImGui::Text(text);
+	ImGui::Text(text.c_str());
 }
 
 // Temporarily called in 'Application::Initialize' until static functions exist in classes

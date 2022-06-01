@@ -4,7 +4,7 @@
 
 #include <string>
 
-Asset::Asset(const GUID &guid) : m_GUID(guid)
+Asset::Asset()
 {
 }
 
@@ -12,6 +12,9 @@ Asset::~Asset()
 {
 	AssetModule::Unload(GetGUID());
 }
+
+BEGIN_CLASS_LINK(Asset)
+END_CLASS_LINK()
 
 std::string Asset::GetPath() const
 {

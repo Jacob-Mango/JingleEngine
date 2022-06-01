@@ -13,7 +13,7 @@ class MeshEntityType : public EntityType
 	DEFINE_CLASS(MeshEntityType, EntityType)
 
 public:
-	Ref<MeshAsset> Model;
+	Ref<Mesh> Model;
 	Ref<Material> Material;
 
 public:
@@ -30,7 +30,7 @@ class MeshEntity : public Entity
 public:
 	MeshEntity() {}
 
-	Ref<Mesh> GetMesh() const;
+	Ref<MeshInstance> GetMesh() const;
 	
 	virtual void OnCreate() override;
 

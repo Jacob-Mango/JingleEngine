@@ -31,6 +31,8 @@
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Config.cpp" />
     <ClCompile Include="src\Rendering\ImGui.cpp" />
+    <ClCompile Include="src\Rendering\MeshInstance.cpp" />
+    <ClCompile Include="src\Rendering\Vertex.cpp" />
     <ClCompile Include="src\Scene\Components\MeshComponent.cpp" />
     <ClCompile Include="src\Scene\Debug.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
@@ -71,6 +73,8 @@
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Platform\Windows\Windows.h" />
     <ClInclude Include="src\Rendering\ImGui.h" />
+    <ClInclude Include="src\Rendering\MeshInstance.h" />
+    <ClInclude Include="src\Rendering\Vertex.h" />
     <ClInclude Include="src\Scene\Components\MeshComponent.h" />
     <ClInclude Include="src\Scene\Debug.h" />
     <ClInclude Include="src\Core\Event.h" />

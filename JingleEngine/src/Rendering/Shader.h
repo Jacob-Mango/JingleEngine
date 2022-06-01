@@ -14,6 +14,7 @@ class Shader : public Asset
 	GLuint m_GeometryShaderID;
 
 public:
+	Shader();
 	virtual ~Shader();
 
 	virtual bool OnLoad() override;

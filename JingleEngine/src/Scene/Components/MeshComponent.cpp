@@ -2,7 +2,7 @@
 
 #include "Rendering/Renderer.h"
 
-void MeshComponent::Submit(const glm::mat4& InTransform, Renderer* Renderer)
+void MeshComponent::Submit(const glm::dmat4& InTransform, Renderer* Renderer)
 {
 	Renderer->SubmitStaticMesh(GetMesh(), InTransform * GetTransform());
 }

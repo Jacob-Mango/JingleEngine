@@ -3,11 +3,6 @@ class Module
 
 }
 
-class AssetModule extends Module
-{
-
-}
-
 class BindingModule extends Module
 {
 

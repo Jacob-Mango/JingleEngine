@@ -71,7 +71,5 @@ class double
 
 class string
 {
-	string value;
-
 	// All valid native operators are generated at compile time
 }

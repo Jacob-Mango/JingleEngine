@@ -1,7 +1,7 @@
 {
 	entities: [
 		{
-			position: "0 0 0",
+			position: "0 0 -2",
 			orientation: "0 0 0",
 			type: "MeshEntity",
 		},

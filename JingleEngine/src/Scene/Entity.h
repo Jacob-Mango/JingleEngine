@@ -9,7 +9,7 @@ class EntityComponent;
 class Application;
 
 #include "Rendering/Material.h"
-#include "Rendering/Mesh.h"
+#include "Rendering/MeshInstance.h"
 
 class EntityType : public JingleScript::Object
 {
@@ -49,7 +49,7 @@ private:
 protected:
 	bool m_IsVisible = true;
 
-	glm::dmat4 m_Transform;
+	glm::dmat4 m_Transform = glm::dmat4(1.0);
 	glm::vec3 m_BoundingBox[2];
 
 public:
