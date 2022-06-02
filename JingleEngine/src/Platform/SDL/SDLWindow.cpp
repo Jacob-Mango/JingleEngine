@@ -91,13 +91,13 @@ int SDLWindow::Create(const WindowDesc &desc)
 	}
 
 	GLint flags;
-	glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+	GL(glGetIntegerv(GL_CONTEXT_FLAGS, &flags));
 	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
 	{
-		glEnable(GL_DEBUG_OUTPUT);
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		glDebugMessageCallback(glDebugOutput, nullptr); // segfault on this line
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+		GL(glEnable(GL_DEBUG_OUTPUT));
+		GL(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
+		GL(glDebugMessageCallback(glDebugOutput, nullptr)); // segfault on this line
+		GL(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
 	}
 
 	// Setup Dear ImGui context

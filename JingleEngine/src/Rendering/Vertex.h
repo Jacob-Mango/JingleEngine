@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 
+#pragma pack(push, 1)
 struct Vertex
 {
 	DEFINE_NAMED_STRUCTURE(Vertex, Vertex);
@@ -20,3 +21,4 @@ public:
 	}
 	
 };
+#pragma pack(pop)

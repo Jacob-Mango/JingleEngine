@@ -1,5 +1,5 @@
 {
-	shader: "Assets/Shaders/basic",
+	shader: "Assets/Shaders/pbr",
 	ambient: {
 		path: "Assets/Models/Box/ambient.png",
 	},

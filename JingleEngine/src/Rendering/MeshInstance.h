@@ -32,11 +32,10 @@ private:
 public:
 	MeshInstance(const Ref<Mesh>& asset);
 	MeshInstance(const Ref<Material>& material, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
-	MeshInstance(const Ref<Material>& material, std::vector<glm::vec3> positions, std::vector<unsigned int> indices);
-	MeshInstance(const Ref<Material>& material, std::vector<glm::vec3> positions, std::vector<glm::vec2> uv, std::vector<unsigned int> indices);
+
 	virtual ~MeshInstance();
 
-	void Create(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals, std::vector<glm::vec3> tangents, std::vector<glm::vec2> uv, std::vector<unsigned int> indices);
+	void Create(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
 	Ref<Material> GetMaterial();
 	void SetMaterial(const Ref<Material>& material);

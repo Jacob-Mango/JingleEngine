@@ -30,13 +30,7 @@ bool Mesh::OnLoad()
 	std::cout << "file: " << file << std::endl;
 
 	uint32_t meshImportFlags = 0;
-	meshImportFlags |= aiProcess_CalcTangentSpace;
-	meshImportFlags |= aiProcess_Triangulate;
-	meshImportFlags |= aiProcess_SortByPType;
-	meshImportFlags |= aiProcess_GenNormals;
-	meshImportFlags |= aiProcess_GenUVCoords;
-	meshImportFlags |= aiProcess_OptimizeMeshes;
-	meshImportFlags |= aiProcess_ValidateDataStructure;
+	meshImportFlags |= aiProcessPreset_TargetRealtime_MaxQuality;
 
 	Assimp::Importer* importer = new Assimp::Importer();
 	const aiScene* scene = importer->ReadFile(file, meshImportFlags);
@@ -49,24 +43,24 @@ bool Mesh::OnLoad()
 	int vertexOffset = 0;
 	int indexOffset = 0;
 
-	for (size_t m = 0; m < scene->mNumMeshes; m++)
+	int numMeshes = scene->mNumMeshes > 0 ? 1 : 0;
+
+	for (size_t m = 0; m < numMeshes; m++)
 	{
 		aiMesh* mesh = scene->mMeshes[m];
 
 		for (size_t i = 0; i < mesh->mNumVertices; i++)
 		{
-			glm::vec3 pos = { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z };
-			glm::vec3 normal = { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z };
-			glm::vec3 tangent = { mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z };
-			glm::vec2 uv = { 0, 0 };
+			Vertex vertex;
+			vertex.Position = { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z };
+			vertex.Normal = { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z };
+			vertex.Tangent = { mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z };
+			vertex.UV = { 0, 0 };
 
 			if (mesh->HasTextureCoords(0))
-				uv = { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y };
+				vertex.UV = { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y };
 
-			m_Positions.push_back(pos);
-			m_Normals.push_back(normal);
-			m_Tangents.push_back(tangent);
-			m_UV.push_back(uv);
+			m_Vertices.push_back(vertex);
 		}
 
 		for (size_t i = 0; i < mesh->mNumFaces; i++)
@@ -92,16 +86,7 @@ std::string Mesh::ToString() const
 	ss << Super::ToString();
 
 	ss << ", ";
-	ss << "Positions=" << m_Positions.size();
-
-	ss << ", ";
-	ss << "Normals=" << m_Normals.size();
-
-	ss << ", ";
-	ss << "Tangents=" << m_Tangents.size();
-
-	ss << ", ";
-	ss << "UV=" << m_UV.size();
+	ss << "Vertices=" << m_Vertices.size();
 
 	ss << ", ";
 	ss << "Indices=" << m_Indices.size();

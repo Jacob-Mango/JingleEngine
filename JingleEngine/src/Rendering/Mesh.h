@@ -22,10 +22,7 @@ class Mesh : public Asset
 
 private:
 	//TODO: submeshes
-	std::vector<glm::vec3> m_Positions;
-	std::vector<glm::vec3> m_Normals;
-	std::vector<glm::vec3> m_Tangents;
-	std::vector<glm::vec2> m_UV;
+	std::vector<Vertex> m_Vertices;
 	std::vector<unsigned int> m_Indices;
 
 	Ref<Material> m_Material;

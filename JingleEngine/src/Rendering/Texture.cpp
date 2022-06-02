@@ -12,7 +12,7 @@ Texture::Texture()
 
 Texture::~Texture()
 {
-	glDeleteTextures(1, &m_ID);
+	GL(glDeleteTextures(1, &m_ID));
 }
 
 BEGIN_CLASS_LINK(Texture)
@@ -36,18 +36,18 @@ GLenum Texture::FormatToGL(TextureFormat format)
 
 void Texture::Bind()
 {
-	glBindTexture(m_CubeMap ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, m_ID);
+	GL(glBindTexture(m_CubeMap ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, m_ID));
 }
 
 void Texture::Bind(int index)
 {
-	glActiveTexture(GL_TEXTURE0 + index);
-	glBindTexture(m_CubeMap ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, m_ID);
+	GL(glActiveTexture(GL_TEXTURE0 + index));
+	GL(glBindTexture(m_CubeMap ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, m_ID));
 }
 
 void Texture::Unbind()
 {
-	glBindTexture(m_CubeMap ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, 0);
+	GL(glBindTexture(m_CubeMap ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, 0));
 }
 
 void Texture::Create(TextureFormat format, unsigned int width, unsigned int height, bool cubeMap)
@@ -57,28 +57,28 @@ void Texture::Create(TextureFormat format, unsigned int width, unsigned int heig
 	m_Height = height;
 	m_CubeMap = cubeMap;
 
-	glGenTextures(1, &m_ID);
+	GL(glGenTextures(1, &m_ID));
 
 	Bind();
 
 	if (m_CubeMap)
 	{
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
 
-		glTexStorage2D(GL_TEXTURE_CUBE_MAP, 1, FormatToGL(m_Format), m_Width, m_Height);
+		GL(glTexStorage2D(GL_TEXTURE_CUBE_MAP, 1, FormatToGL(m_Format), m_Width, m_Height));
 	}
 	else
 	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 
-		glTexStorage2D(GL_TEXTURE_2D, 1, FormatToGL(m_Format), m_Width, m_Height);
+		GL(glTexStorage2D(GL_TEXTURE_2D, 1, FormatToGL(m_Format), m_Width, m_Height));
 	}
 
 	Unbind();
@@ -103,20 +103,25 @@ bool Texture::OnLoad()
 
 		stbi_set_flip_vertically_on_load(true);
 		for (int i = 0; i < 6; i++)
+		{
 			data[i] = stbi_load((path + std::to_string(i) + ".png").c_str(), (int*)&m_Width, (int*)&m_Height, &components, STBI_rgb);
+		}
+
 		m_Format = TextureFormat::RGBA16;
 
-		glGenTextures(1, &m_ID);
+		GL(glGenTextures(1, &m_ID));
 		Bind();
 
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE));
 
 		for (int i = 0; i < 6; i++)
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, FormatToGL(m_Format), m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data[i]);
+		{
+			GL(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, FormatToGL(m_Format), m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data[i]));
+		}
 
 		Unbind();
 
@@ -137,14 +142,14 @@ bool Texture::OnLoad()
 		data = stbi_load(path.c_str(), (int*)&m_Width, (int*)&m_Height, &components, STBI_rgb);
 		m_Format = TextureFormat::RGBA16;
 
-		glGenTextures(1, &m_ID);
+		GL(glGenTextures(1, &m_ID));
 		Bind();
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+		GL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 
-		glTexImage2D(GL_TEXTURE_2D, 0, FormatToGL(m_Format), m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		GL(glTexImage2D(GL_TEXTURE_2D, 0, FormatToGL(m_Format), m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, data));
 
 		Unbind();
 		stbi_image_free(data);

@@ -19,12 +19,14 @@ void Renderer::OnTick(double DeltaTime)
 {
 	Scene* scene = Application::Get()->GetScene();
 
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	GL(glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS));
+	GL(glEnable(GL_DEPTH_TEST));
+	GL(glEnable(GL_CULL_FACE));
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
 
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glClearDepth(1.0f);
+	GL(glClearColor(0.0, 0.0, 0.0, 0.0));
+	GL(glClearDepth(1.0f));
 
 	auto window = ModuleManager::Get<Window>();
 
@@ -35,11 +37,11 @@ void Renderer::OnTick(double DeltaTime)
 		scene->SetProjectionMatrix(glm::perspective(glm::radians(90.0f), (GLfloat)width / (GLfloat)height, 0.001f, 1000.0f));
 	}
 
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
+	GL(glCullFace(GL_BACK));
+	GL(glFrontFace(GL_CCW));
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glViewport(0, 0, width, height);
+	GL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+	GL(glViewport(0, 0, width, height));
 
 	for (auto& [shader, commands] : m_StaticMeshes)
 	{
@@ -55,12 +57,15 @@ void Renderer::OnTick(double DeltaTime)
 		int numDirectionalLights = 0;
 		int numPointLights = 0;
 
-		int index = 0;
-		for (auto& light : scene->m_Lights)
+		if (scene)
 		{
-			light->Process(shader, numPointLights, numDirectionalLights);
+			int index = 0;
+			for (auto& light : scene->m_Lights)
+			{
+				light->Process(shader, numPointLights, numDirectionalLights);
 
-			index++;
+				index++;
+			}
 		}
 
 		shader->Set("u_NumPointLights", numPointLights);

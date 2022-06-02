@@ -196,7 +196,7 @@ void main()
 	params.ambient = texture(u_Material.ambientMap, fs_in.uv).r;
 
 	vec3 normalMap = texture(u_Material.normalMap, fs_in.uv).xyz;
-	params.normal = normalize(fs_in.normal * (normalMap * 2.0 - 1.0));
+	params.normal = normalize((normalMap * 2.0 - 1.0));
 	params.view = normalize(u_CameraPosition - fs_in.position);
 
 	params.F0 = mix(vec3(0.04), params.diffuse, params.metallic);

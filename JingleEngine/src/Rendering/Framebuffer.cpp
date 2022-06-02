@@ -12,23 +12,23 @@ Framebuffer::Framebuffer(std::string name, const std::vector<TextureFormat>& att
 
 Framebuffer::~Framebuffer()
 {
-	glDeleteFramebuffers(1, &m_ID);
+	GL(glDeleteFramebuffers(1, &m_ID));
 }
 
 void Framebuffer::Bind()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
-	glViewport(0, 0, m_Width, m_Height);
+	GL(glBindFramebuffer(GL_FRAMEBUFFER, m_ID));
+	GL(glViewport(0, 0, m_Width, m_Height));
 }
 
 void Framebuffer::Unbind()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
 void Framebuffer::Clear(unsigned int bits)
 {
-	glClear(bits);
+	GL(glClear(bits));
 }
 
 void Framebuffer::Resize(unsigned int width, unsigned int height)
@@ -41,15 +41,15 @@ void Framebuffer::Resize(unsigned int width, unsigned int height)
 
 	if (m_ID)
 	{
-		glDeleteFramebuffers(1, &m_ID);
+		GL(glDeleteFramebuffers(1, &m_ID));
 
 		m_Attachments.clear();
 		m_NumColorAttachment = 0;
 	}
 
-	glGenFramebuffers(1, &m_ID);
+	GL(glGenFramebuffers(1, &m_ID));
 
-	glBindFramebuffer(GL_FRAMEBUFFER, m_ID);
+	GL(glBindFramebuffer(GL_FRAMEBUFFER, m_ID));
 
 	for (auto& attachment : m_AttachmentArray)
 	{
@@ -66,12 +66,12 @@ void Framebuffer::Resize(unsigned int width, unsigned int height)
 	if (m_NumColorAttachment > 0)
 	{
 		GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-		glDrawBuffers(m_NumColorAttachment, buffers);
+		GL(glDrawBuffers(m_NumColorAttachment, buffers));
 	}
 	else
 	{
-		glDrawBuffer(GL_NONE);
-		glReadBuffer(GL_NONE);
+		GL(glDrawBuffer(GL_NONE));
+		GL(glReadBuffer(GL_NONE));
 	}
 
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -91,7 +91,7 @@ void Framebuffer::Resize(unsigned int width, unsigned int height)
 		}
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
 Ref<Texture> Framebuffer::GetTexture(int index)
@@ -128,11 +128,11 @@ void Framebuffer::AttachColor(TextureFormat format)
 
 	if (m_CubeMap)
 	{
-		glFramebufferTexture(GL_FRAMEBUFFER, attachment, m_Attachments[attachment]->m_ID, 0);
+		GL(glFramebufferTexture(GL_FRAMEBUFFER, attachment, m_Attachments[attachment]->m_ID, 0));
 	}
 	else
 	{
-		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, m_Attachments[attachment]->m_ID, 0);
+		GL(glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, m_Attachments[attachment]->m_ID, 0));
 	}
 
 	texture->Unbind();
@@ -150,11 +150,11 @@ void Framebuffer::AttachDepth(TextureFormat format)
 
 	if (m_CubeMap)
 	{
-		glFramebufferTexture(GL_FRAMEBUFFER, attachment, m_Attachments[attachment]->m_ID, 0);
+		GL(glFramebufferTexture(GL_FRAMEBUFFER, attachment, m_Attachments[attachment]->m_ID, 0));
 	}
 	else
 	{
-		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, m_Attachments[attachment]->m_ID, 0);
+		GL(glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, m_Attachments[attachment]->m_ID, 0));
 	}
 
 	texture->Unbind();
