@@ -61,18 +61,18 @@ int JingleEngineMain(Application* app)
 {
 	auto bindingModule = ModuleManager::Get<BindingModule>();
 
-	bindingModule->RegisterCombos("exit", { {{KeyCode::ESCAPE, InputType::KEY}} });
-	bindingModule->RegisterCombos("focus", { {{MouseCode::BUTTON_1, InputType::MOUSE}} });
+	bindingModule->RegisterCombos("exit", { {{KeyCode::KC_ESCAPE, InputType::KEY}} });
+	bindingModule->RegisterCombos("focus", { {{MouseCode::MC_BUTTON_1, InputType::MOUSE}} });
 
 	bindingModule->RegisterCombos("forward", { {{'w', InputType::KEY}} });
 	bindingModule->RegisterCombos("backward", { {{'s', InputType::KEY}} });
 	bindingModule->RegisterCombos("left", { {{'a', InputType::KEY}} });
 	bindingModule->RegisterCombos("right", { {{'d', InputType::KEY}} });
 
-	bindingModule->RegisterCombos("incline_increase", { {{KeyCode::UP, InputType::KEY}} });
-	bindingModule->RegisterCombos("incline_decrease", { {{KeyCode::DOWN, InputType::KEY}} });
-	bindingModule->RegisterCombos("roll_left", { {{KeyCode::LEFT, InputType::KEY}} });
-	bindingModule->RegisterCombos("roll_right", { {{KeyCode::RIGHT, InputType::KEY}} });
+	bindingModule->RegisterCombos("incline_increase", { {{KeyCode::KC_UP, InputType::KEY}} });
+	bindingModule->RegisterCombos("incline_decrease", { {{KeyCode::KC_DOWN, InputType::KEY}} });
+	bindingModule->RegisterCombos("roll_left", { {{KeyCode::KC_LEFT, InputType::KEY}} });
+	bindingModule->RegisterCombos("roll_right", { {{KeyCode::KC_RIGHT, InputType::KEY}} });
 
 	bindingModule->RegisterCombos("buffer_prev", { {{'o', InputType::KEY}} });
 	bindingModule->RegisterCombos("buffer_next", { {{'p', InputType::KEY}} });
@@ -84,8 +84,8 @@ int JingleEngineMain(Application* app)
 	bindingModule->RegisterCombos("toggle_vsync", { {{'v', InputType::KEY}} });
 	bindingModule->RegisterCombos("toggle_debug", { {{'g', InputType::KEY}} });
 
-	bindingModule->RegisterCombos("turbo", { {{KeyCode::LSHIFT, InputType::KEY}} });
-	bindingModule->RegisterCombos("mouse_scroll", { {{MouseCode::WHEEL_UP, InputType::MOUSE}, {MouseCode::WHEEL_DOWN, InputType::MOUSE}} });
+	bindingModule->RegisterCombos("turbo", { {{KeyCode::KC_LSHIFT, InputType::KEY}} });
+	bindingModule->RegisterCombos("mouse_scroll", { {{MouseCode::MC_WHEEL_UP, InputType::MOUSE}, {MouseCode::MC_WHEEL_DOWN, InputType::MOUSE}} });
 
 	return 0;
 }

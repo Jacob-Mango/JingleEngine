@@ -140,22 +140,22 @@ void Entity::SetPosition(glm::dvec3 position)
 
 glm::dvec3 Entity::GetPosition() const
 {
-	return glm::vec3(m_Transform[3]);
+	return glm::dvec3(m_Transform[3]);
 }
 
-glm::vec3 Entity::GetRightDirection() const
+glm::dvec3 Entity::GetRightDirection() const
 {
-	return glm::vec3(m_Transform[0]);
+	return glm::dvec3(m_Transform[0]);
 }
 
-glm::vec3 Entity::GetUpDirection() const
+glm::dvec3 Entity::GetUpDirection() const
 {
-	return glm::vec3(m_Transform[1]);
+	return glm::dvec3(m_Transform[1]);
 }
 
-glm::vec3 Entity::GetForwardDirection() const
+glm::dvec3 Entity::GetForwardDirection() const
 {
-	return glm::vec3(m_Transform[2]);
+	return glm::dvec3(m_Transform[2]);
 }
 
 void Entity::SetOrientation(glm::vec3 orientation)

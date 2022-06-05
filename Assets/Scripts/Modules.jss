@@ -18,7 +18,7 @@ class Window extends Module
 
 }
 
-class SDLWindow extends Window
+class WndWindow extends Window
 {
 
 }

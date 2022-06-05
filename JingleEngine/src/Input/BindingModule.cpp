@@ -43,15 +43,15 @@ void BindingModule::OnPreInitialize()
 		if (args.Y != 0)
 		{
 			scrollValue = args.Y * mul;
-			keyCode = MouseCode::WHEEL_UP;
-			if (scrollValue > 0) keyCode = MouseCode::WHEEL_DOWN;
+			keyCode = MouseCode::MC_WHEEL_UP;
+			if (scrollValue > 0) keyCode = MouseCode::MC_WHEEL_DOWN;
 		}
 
 		if (args.X != 0)
 		{
 			scrollValue = args.X * mul;
-			keyCode = MouseCode::WHEEL_LEFT;
-			if (scrollValue > 0) keyCode = MouseCode::WHEEL_RIGHT;
+			keyCode = MouseCode::MC_WHEEL_LEFT;
+			if (scrollValue > 0) keyCode = MouseCode::MC_WHEEL_RIGHT;
 		}
 
 		if (keyCode == 0) return;

@@ -10,7 +10,7 @@ Asset::Asset()
 
 Asset::~Asset()
 {
-	AssetModule::Unload(GetGUID());
+	AssetModule::Unload(GetAssetID());
 }
 
 BEGIN_CLASS_LINK(Asset)
@@ -18,7 +18,7 @@ END_CLASS_LINK()
 
 std::string Asset::GetPath() const
 {
-	return m_GUID.GetPath();
+	return m_AssetID.GetPath();
 }
 
 std::string Asset::GetExtension() const
@@ -27,9 +27,9 @@ std::string Asset::GetExtension() const
 	return path.substr(path.find_last_of(".") + 1, 16);
 }
 
-GUID Asset::GetGUID() const
+AssetID Asset::GetAssetID() const
 {
-	return m_GUID;
+	return m_AssetID;
 }
 
 bool Asset::IsLoaded() const

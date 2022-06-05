@@ -1,4 +1,4 @@
-SDLWindow
+WndWindow
 TestModule
 Renderer
 BindingModule

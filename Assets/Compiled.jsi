@@ -706,16 +706,6 @@ class Camera extends Entity {
   void Camera::~Camera() (Native)
 }
 
-class SDLWindow extends Window {
-
-  void SDLWindow::~SDLWindow() (Native)
-}
-
-class Window extends Module {
-
-  void Window::~Window() (Native)
-}
-
 class DebugType extends MeshEntityType {
 
   void DebugType::~DebugType() (Native)
@@ -734,6 +724,16 @@ class MeshComponent extends EntityComponent {
 class Vertex {
 
   void Vertex::~Vertex() (Native)
+}
+
+class WndWindow extends Window {
+
+  void WndWindow::~WndWindow() (Native)
+}
+
+class Window extends Module {
+
+  void Window::~Window() (Native)
 }
 
 class Application extends Object {

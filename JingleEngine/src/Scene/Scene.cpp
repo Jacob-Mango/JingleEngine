@@ -77,14 +77,14 @@ void Scene::OnStop()
 void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 {
 	auto camera = GetCamera();
-	glm::dvec3 cameraPos(0.0f);
+	glm::vec3 cameraPos(0.0f);
 	if (camera)
 	{
 		cameraPos = camera->GetPosition();
-		auto up = camera->GetUpDirection();
-		auto forward = camera->GetForwardDirection();
+		glm::vec3 up = camera->GetUpDirection();
+		glm::vec3 forward = camera->GetForwardDirection();
 
-		m_ViewMatrix = glm::lookAt(glm::vec3(cameraPos), glm::vec3(cameraPos) + forward, up);
+		m_ViewMatrix = glm::lookAt(cameraPos, cameraPos + forward, up);
 	}
 
 	std::vector<MeshComponent*> meshes;

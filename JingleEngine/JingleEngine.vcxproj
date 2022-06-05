@@ -19,17 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Asset\AssetID.cpp" />
     <ClCompile Include="src\Asset\AssetModule.cpp" />
     <ClCompile Include="src\Core\Module.cpp" />
     <ClCompile Include="src\Core\ModuleManager.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Input\Binding.cpp" />
     <ClCompile Include="src\Input\BindingModule.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\glad.c" />
     <ClCompile Include="src\Asset\Asset.cpp" />
-    <ClCompile Include="src\Asset\GUID.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Config.cpp" />
+    <ClCompile Include="src\Platform\Windows\WndWindow.cpp" />
     <ClCompile Include="src\Rendering\ImGui.cpp" />
     <ClCompile Include="src\Rendering\MeshInstance.cpp" />
     <ClCompile Include="src\Rendering\Vertex.cpp" />
@@ -37,8 +37,7 @@
     <ClCompile Include="src\Scene\Debug.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
-    <ClCompile Include="src\Platform\SDL\SDLInput.cpp" />
-    <ClCompile Include="src\Platform\SDL\SDLWindow.cpp" />
+    <ClCompile Include="src\Platform\Windows\WndInput.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
     <ClCompile Include="src\Rendering\Framebuffer.cpp" />
     <ClCompile Include="src\Rendering\Frustum.cpp" />
@@ -59,8 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Asset\Asset.h" />
+    <ClInclude Include="src\Asset\AssetID.h" />
     <ClInclude Include="src\Asset\AssetModule.h" />
-    <ClInclude Include="src\Asset\GUID.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\Config.h" />
@@ -71,7 +70,10 @@
     <ClInclude Include="src\Input\Binding.h" />
     <ClInclude Include="src\Input\BindingModule.h" />
     <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Platform\Windows\SDL_keycode.h" />
+    <ClInclude Include="src\Platform\Windows\SDL_scancode.h" />
     <ClInclude Include="src\Platform\Windows\Windows.h" />
+    <ClInclude Include="src\Platform\Windows\WndWindow.h" />
     <ClInclude Include="src\Rendering\ImGui.h" />
     <ClInclude Include="src\Rendering\MeshInstance.h" />
     <ClInclude Include="src\Rendering\Vertex.h" />
@@ -82,10 +84,8 @@
     <ClInclude Include="src\Core\Logging.h" />
     <ClInclude Include="src\Core\Reference.h" />
     <ClInclude Include="src\Core\Window.h" />
-    <ClInclude Include="src\Platform\OpenGL\glad.h" />
     <ClInclude Include="src\Platform\OpenGL\khrplatform.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h" />
-    <ClInclude Include="src\Platform\SDL\SDLWindow.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\Framebuffer.h" />
     <ClInclude Include="src\Rendering\Frustum.h" />
@@ -170,7 +170,7 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -178,7 +178,7 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -186,7 +186,7 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -194,13 +194,13 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\SDL2-2.0.14\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DEBUG;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;DEBUG;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
@@ -223,7 +223,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>RELEASE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;RELEASE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
@@ -246,7 +246,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
@@ -269,7 +269,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>RELEASE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;RELEASE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>

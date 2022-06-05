@@ -2,7 +2,7 @@
 
 #include "Core/Core.h"
 
-#include "GUID.h"
+#include "AssetID.h"
 
 #define SETUP_ASSET(CLS, base)	\
 	DEFINE_CLASS(CLS, base);	\
@@ -15,7 +15,7 @@ class Asset : public JingleScript::ManagedObject
 	friend class AssetModule;
 
 private:
-	GUID m_GUID;
+	AssetID m_AssetID;
 	bool m_IsLoaded = false;
 
 public:
@@ -24,7 +24,7 @@ public:
 
 	std::string GetPath() const;
 	std::string GetExtension() const;
-	GUID GetGUID() const;
+	AssetID GetAssetID() const;
 
 	bool IsLoaded() const;
 

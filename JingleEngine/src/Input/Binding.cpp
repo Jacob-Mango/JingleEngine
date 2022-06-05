@@ -12,7 +12,7 @@ void BindingEntry::UpdateState()
 
 	for (auto& [key, value] : m_Combo)
 	{
-		if (value.second == InputType::MOUSE && (key == MouseCode::WHEEL_UP || key == MouseCode::WHEEL_DOWN || key == MouseCode::WHEEL_LEFT || key == MouseCode::WHEEL_RIGHT))
+		if (value.second == InputType::MOUSE && (key == MouseCode::MC_WHEEL_UP || key == MouseCode::MC_WHEEL_DOWN || key == MouseCode::MC_WHEEL_LEFT || key == MouseCode::MC_WHEEL_RIGHT))
 		{
 			value.first = InputState::RELEASED;
 			m_State = InputState::RELEASED;

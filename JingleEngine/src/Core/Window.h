@@ -25,8 +25,6 @@ public:
 	virtual void SetSize(std::pair<int, int> size) = 0;
 	virtual std::pair<int, int> GetSize() = 0;
 
-	virtual void PollEvents() = 0;
-
 	virtual void Begin() = 0;
 	virtual void End() = 0;
 };

@@ -45,15 +45,15 @@ void Camera::OnSimulate(double DeltaTime)
 
 	auto& type = GetEntityType<CameraType>();
 
-	glm::vec3 position = GetPosition();
-	glm::vec3 orientation = GetOrientation();
+	glm::dvec3 position = GetPosition();
+	glm::dvec3 orientation = GetOrientation();
 
 	if (!Input::IsCursorVisible())
 	{
 		auto [mouseX, mouseY] = Input::GetMouseDelta();
 
-		orientation.x -= float(mouseX * DeltaTime * type.MouseSpeed);
-		orientation.y += float(mouseY * DeltaTime * type.MouseSpeed);
+		orientation.x -= double(mouseX * type.MouseSpeed) * DeltaTime;
+		orientation.y += double(mouseY * type.MouseSpeed) * DeltaTime;
 		orientation.z = 0;
 
 		if (orientation.y < -89.0)
@@ -61,13 +61,13 @@ void Camera::OnSimulate(double DeltaTime)
 		if (orientation.y > 89.0)
 			orientation.y = 89.0;
 
-		float scrollAmt = Binding_Mouse_Scroll->GetValue();
-		m_SpeedCoef += float(scrollAmt * DeltaTime * (m_SpeedCoef * 20.0));
+		double scrollAmt = Binding_Mouse_Scroll->GetValue();
+		m_SpeedCoef += scrollAmt * DeltaTime * (m_SpeedCoef * 20.0);
 	}
 
 	m_SpeedCoef = glm::clamp(m_SpeedCoef, 0.01f, 500.0f);
 
-	float speed = type.MovementSpeed;
+	double speed = type.MovementSpeed;
 
 	if (!Input::IsCursorVisible() && Binding_Turbo->GetState() >= InputState::PRESSED)
 	{
@@ -76,8 +76,8 @@ void Camera::OnSimulate(double DeltaTime)
 
 	speed = speed * m_SpeedCoef;
 
-	float forward = 0;
-	float strafe = 0;
+	double forward = 0;
+	double strafe = 0;
 
 	if (!Input::IsCursorVisible())
 	{
@@ -87,8 +87,8 @@ void Camera::OnSimulate(double DeltaTime)
 
 	SetOrientation(orientation);
 
-	position += GetRightDirection() * strafe * (float)DeltaTime;
-	position += GetForwardDirection() * forward * (float)DeltaTime;
+	position += GetRightDirection() * strafe * DeltaTime;
+	position += GetForwardDirection() * forward * DeltaTime;
 
 	SetPosition(position);
 }

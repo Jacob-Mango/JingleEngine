@@ -4,7 +4,10 @@
 
 #include <JingleScript.h>
 
-#include "Platform/OpenGL/glad.h"
+#include <GL/glew.h>
+#include <GL/GL.h>
+#include <GL/wglew.h>
+//#include <GL/glxew.h>
 
 #include <imgui.h>
 

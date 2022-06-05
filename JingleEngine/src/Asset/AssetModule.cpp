@@ -28,17 +28,17 @@ void AssetModule::OnDestroy()
 	}
 }
 
-GUIDv CRCByte(GUIDv input, GUIDv divisor)
+AssetIDv CRCByte(AssetIDv input, AssetIDv divisor)
 {
 	for (int k = 16; k; k--) input = input & 1 ? (input >> 1) ^ divisor : input >> 1;
 
 	return input;
 }
 
-GUIDv AssetModule::ConvertPath(std::string path)
+AssetIDv AssetModule::ConvertPath(std::string path)
 {
 	int i;
-	GUIDv crc = 0xFFFFFFFFFFFFFFFF;
+	AssetIDv crc = 0xFFFFFFFFFFFFFFFF;
 
 	for (i = 0; i < path.length(); i++)
 	{
@@ -51,9 +51,9 @@ GUIDv AssetModule::ConvertPath(std::string path)
 	return crc ^ 0xFFFFFFFFFFFFFFFF;
 }
 
-void AssetModule::Unload(GUID guid)
+void AssetModule::Unload(AssetID AssetID)
 {
-	auto it = s_Instance->m_Assets.find(guid);
+	auto it = s_Instance->m_Assets.find(AssetID);
 	if (it == s_Instance->m_Assets.end())
 		return;
 

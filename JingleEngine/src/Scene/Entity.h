@@ -98,9 +98,9 @@ public:
 	void SetOrientation(glm::vec3 orientation);
 	glm::vec3 GetOrientation() const;
 
-	glm::vec3 GetRightDirection() const;
-	glm::vec3 GetUpDirection() const;
-	glm::vec3 GetForwardDirection() const;
+	glm::dvec3 GetRightDirection() const;
+	glm::dvec3 GetUpDirection() const;
+	glm::dvec3 GetForwardDirection() const;
 
 	Scene* GetScene() const;
 
