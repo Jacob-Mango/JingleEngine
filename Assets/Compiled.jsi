@@ -742,7 +742,7 @@ class Application extends Object {
   void Application::~Application() (Native)
 
   void Application::OnUpdate(double) {
-    [00000000]  push 1                                                                                 
+    [00000000]  push 1                                                                                 JingleScript::ValueItem::PushAfter
     [00000001]   push 1                                                                                JingleScript::ValueItem::PushAt
     [00000002]    push 32                                                                              JingleScript::ValueItem::Push
     [00000003]     copy_data string [Test] 32                                                          JingleScript::Compiler::CompileConstant
