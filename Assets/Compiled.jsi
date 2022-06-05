@@ -754,9 +754,27 @@ class Application extends Object {
     [00000009]    copy_data string [This is jingle script] 32                                          JingleScript::Compiler::CompileConstant
     [0000000A]    call_function [void ImGui_Text(string)]                                              JingleScript::Compiler::CompileFunctionCall
     [0000000B]   pop 32                                                                                JingleScript::ValueItem::Pop
-    [0000000C]   call_function [void ImGui_End()]                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000000D]   destructor [bool]                                                                     JingleScript::ValueItem::Pop
-    [0000000E]  pop 1                                                                                  JingleScript::ValueItem::Pop
+    [0000000C]   push 32                                                                               JingleScript::ValueItem::Push
+    [0000000D]    copy_data string [DeltaTime: ] 32                                                    JingleScript::Compiler::CompileConstant
+    [0000000E]    push 8                                                                               JingleScript::ValueItem::PushAfter
+    [0000000F]     copy 8 49 [DeltaTime] 8                                                             JingleScript::Compiler::CompileValue
+    [00000010]     call_exact [string string::operator+(double)]                                       JingleScript::HandleArithmeticOperator
+    [00000011]    pop 8                                                                                JingleScript::ValueItem::Pop
+    [00000012]    call_function [void ImGui_Text(string)]                                              JingleScript::Compiler::CompileFunctionCall
+    [00000013]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [00000014]   push 32                                                                               JingleScript::ValueItem::Push
+    [00000015]    copy_data string [FPS: ] 32                                                          JingleScript::Compiler::CompileConstant
+    [00000016]    push 8                                                                               JingleScript::ValueItem::PushAfter
+    [00000017]     copy 8 57 [this] 8                                                                  JingleScript::Compiler::CompileValue
+    [00000018]     copy_variable_from_object 8 32 [FPS] 8                                              JingleScript::Compiler::CompileValue
+    [00000019]     resize -4                                                                           JingleScript::ValueItem::Resize
+    [0000001A]     call_exact [string string::operator+(int)]                                          JingleScript::HandleArithmeticOperator
+    [0000001B]    pop 4                                                                                JingleScript::ValueItem::Pop
+    [0000001C]    call_function [void ImGui_Text(string)]                                              JingleScript::Compiler::CompileFunctionCall
+    [0000001D]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [0000001E]   call_function [void ImGui_End()]                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000001F]   destructor [bool]                                                                     JingleScript::ValueItem::Pop
+    [00000020]  pop 1                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
