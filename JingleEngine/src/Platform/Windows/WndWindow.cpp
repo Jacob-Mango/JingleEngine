@@ -401,6 +401,7 @@ void WndWindow::End()
     SwapBuffers(m_DeviceContext);
 }
 
+// Source: https://stackoverflow.com/questions/191842/how-do-i-get-console-output-in-c-with-a-windows-program
 #ifdef _DEBUG
 void RedirectIOToConsole()
 {
