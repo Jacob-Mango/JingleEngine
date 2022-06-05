@@ -48,97 +48,6 @@ Global {
     }
    }
   }
-  Function {
-   Children: {
-    Variable {
-     Type: "Application"
-     Name: "app"
-     Right: {
-      FunctionCall {
-       Value: "GetApplication"
-       IsConstructor: "0"
-       IsSuper: "0"
-      }
-     }
-    }
-    Expression {
-     Right: {
-      FunctionCall {
-       Value: "ImGui_Begin"
-       Arguments: {
-        [0]: {
-         Constant {
-          Value: "Test"
-         }
-        }
-       }
-       IsConstructor: "0"
-       IsSuper: "0"
-      }
-     }
-    }
-    Expression {
-     Right: {
-      FunctionCall {
-       Value: "ImGui_Text"
-       Arguments: {
-        [0]: {
-         Constant {
-          Value: "This is jingle script"
-         }
-        }
-       }
-       IsConstructor: "0"
-       IsSuper: "0"
-      }
-     }
-    }
-    Expression {
-     Right: {
-      FunctionCall {
-       Value: "ImGui_Text"
-       Arguments: {
-        [0]: {
-         Constant {
-          Value: "FPS: "
-         }
-         Value {
-          Value: "app"
-          Next: {
-           Value {
-            Value: "FPS"
-           }
-          }
-         }
-         Operator {
-          Operator: "+"
-         }
-        }
-       }
-       IsConstructor: "0"
-       IsSuper: "0"
-      }
-     }
-    }
-    Expression {
-     Right: {
-      FunctionCall {
-       Value: "ImGui_End"
-       IsConstructor: "0"
-       IsSuper: "0"
-      }
-     }
-    }
-   }
-   ReturnType: "void"
-   Name: "OnUpdate"
-   Parameters: {
-    Parameter {
-     Type: "double"
-     Name: "DeltaTime"
-    }
-   }
-  }
  }
  Classes: {
   Class {
@@ -156,6 +65,61 @@ Global {
     Variable {
      Type: "int"
      Name: "FPS"
+    }
+   }
+   Methods: {
+    Method {
+     Children: {
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Begin"
+         Arguments: {
+          [0]: {
+           Constant {
+            Value: "Test"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Constant {
+            Value: "This is jingle script"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_End"
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+     }
+     ReturnType: "void"
+     Name: "OnUpdate"
+     Parameters: {
+      Parameter {
+       Type: "double"
+       Name: "DeltaTime"
+      }
+     }
     }
    }
   }

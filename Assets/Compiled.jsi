@@ -585,47 +585,11 @@ class #global extends Object {
 
   void #global::~#global() (Native)
 
-  bool ImGui_Begin(string) (Native)
+  void ImGui_End() (Native)
 
   Application GetApplication() (Native)
 
-  void ImGui_End() (Native)
-
-  void OnUpdate(double) {
-    [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
-    [00000001]   push 8                                                                                
-    [00000002]    push 8                                                                               JingleScript::ValueItem::PushAt
-    [00000003]     call_function [Application GetApplication()]                                        JingleScript::Compiler::CompileFunctionCall
-    [00000004]     copy 8 8 24 [app]                                                                   JingleScript::Compiler::CompileVariableScope
-    [00000005]    pop 8                                                                                JingleScript::ValueItem::Pop
-    [00000006]    push 1                                                                               
-    [00000007]     push 1                                                                              JingleScript::ValueItem::PushAt
-    [00000008]      push 32                                                                            JingleScript::ValueItem::Push
-    [00000009]       copy_data string [Test] 32                                                        JingleScript::Compiler::CompileConstant
-    [0000000A]       call_function [bool ImGui_Begin(string)]                                          JingleScript::Compiler::CompileFunctionCall
-    [0000000B]      pop 32                                                                             JingleScript::ValueItem::Pop
-    [0000000C]      destructor [bool]                                                                  JingleScript::ValueItem::Pop
-    [0000000D]     pop 1                                                                               JingleScript::ValueItem::Pop
-    [0000000E]     push 32                                                                             JingleScript::ValueItem::Push
-    [0000000F]      copy_data string [This is jingle script] 32                                        JingleScript::Compiler::CompileConstant
-    [00000010]      call_function [void ImGui_Text(string)]                                            JingleScript::Compiler::CompileFunctionCall
-    [00000011]     pop 32                                                                              JingleScript::ValueItem::Pop
-    [00000012]     push 32                                                                             JingleScript::ValueItem::Push
-    [00000013]      copy_data string [FPS: ] 32                                                        JingleScript::Compiler::CompileConstant
-    [00000014]      push 8                                                                             
-    [00000015]       copy 8 57 [app] 8                                                                 JingleScript::Compiler::CompileValue
-    [00000016]       copy_variable_from_object 8 32 [FPS] 8                                            JingleScript::Compiler::CompileValue
-    [00000017]       resize -4                                                                         JingleScript::ValueItem::Resize
-    [00000018]       call_exact [string string::operator+(int)]                                        JingleScript::HandleArithmeticOperator
-    [00000019]      pop 4                                                                              JingleScript::ValueItem::Pop
-    [0000001A]      call_function [void ImGui_Text(string)]                                            JingleScript::Compiler::CompileFunctionCall
-    [0000001B]     pop 32                                                                              JingleScript::ValueItem::Pop
-    [0000001C]     call_function [void ImGui_End()]                                                    JingleScript::Compiler::CompileFunctionCall
-    [0000001D]     destructor [bool]                                                                   JingleScript::ValueItem::Pop
-    [0000001E]    pop 1                                                                                JingleScript::ValueItem::Pop
-    [0000001F]   pop 8                                                                                 JingleScript::ValueItem::Pop
-    [00000020]  pop 8                                                                                  JingleScript::ValueItem::Pop
-  }
+  bool ImGui_Begin(string) (Native)
 }
 
 class null {
@@ -776,6 +740,24 @@ class Application extends Object {
    int FPS
 
   void Application::~Application() (Native)
+
+  void Application::OnUpdate(double) {
+    [00000000]  push 1                                                                                 
+    [00000001]   push 1                                                                                JingleScript::ValueItem::PushAt
+    [00000002]    push 32                                                                              JingleScript::ValueItem::Push
+    [00000003]     copy_data string [Test] 32                                                          JingleScript::Compiler::CompileConstant
+    [00000004]     call_function [bool ImGui_Begin(string)]                                            JingleScript::Compiler::CompileFunctionCall
+    [00000005]    pop 32                                                                               JingleScript::ValueItem::Pop
+    [00000006]    destructor [bool]                                                                    JingleScript::ValueItem::Pop
+    [00000007]   pop 1                                                                                 JingleScript::ValueItem::Pop
+    [00000008]   push 32                                                                               JingleScript::ValueItem::Push
+    [00000009]    copy_data string [This is jingle script] 32                                          JingleScript::Compiler::CompileConstant
+    [0000000A]    call_function [void ImGui_Text(string)]                                              JingleScript::Compiler::CompileFunctionCall
+    [0000000B]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [0000000C]   call_function [void ImGui_End()]                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000000D]   destructor [bool]                                                                     JingleScript::ValueItem::Pop
+    [0000000E]  pop 1                                                                                  JingleScript::ValueItem::Pop
+  }
 }
 
 class BindingModule extends Module {

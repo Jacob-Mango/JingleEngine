@@ -42,33 +42,13 @@ Application* Application::Get()
 	return s_Instance;
 }
 
-STATIC_FUNCTION(JingleScript::Globals, OnUpdate, void, double);
+STATIC_FUNCTION(Application, OnUpdate, void, double);
 
 int Application::Initialize()
 {
-	using namespace JingleScript;
-		
 	// Once static is in JingleScript, this won't be needed
 	LinkImGUI();
-
 	LINK_NAMED_FUNCTION(GetApplication, Application::Get);
-
-	std::string folder = "Assets";
-
-	Ref<Parser> parser = new Parser();
-	bool success = parser->ParseFiles(folder + "/Scripts/");
-	parser->SerializeNodes(folder + "/compiled.jst");
-
-	if (success)
-	{
-		success &= Compiler::Compile(parser);
-		Globals::Output(folder + "/Compiled.jsi");
-	}
-
-	if (!success)
-	{
-		return -1;
-	}
 
 	ModuleManager::Initialize();
 
@@ -203,7 +183,7 @@ void Application::OnTick(double DeltaTime)
 		m_Scene->OnSimulate(DeltaTime, ModuleManager::Get<Renderer>());
 	}
 
-	Script_OnUpdate(DeltaTime);
+	Script_OnUpdate[this](DeltaTime);
 
 	ModuleManager::On([DeltaTime](Module* module)
 		{
