@@ -22,31 +22,32 @@ std::pair<int, int> Input::GetMousePosition()
 	return { x, y };
 }
 
-int g_MouseDeltaX, g_MouseDeltaY;
-
 std::pair<int, int> Input::GetMouseDelta()
 {
-	return { g_MouseDeltaX, g_MouseDeltaY };
+	return { WndWindow::s_MouseDeltaX, WndWindow::s_MouseDeltaY };
 }
 
 void Input::ShowCursor(bool show)
 {
-	//SDL_SetRelativeMouseMode(show ? SDL_FALSE : SDL_TRUE);
+	::ShowCursor(show);
 }
 
 bool Input::IsCursorVisible()
 {
-	//return SDL_GetRelativeMouseMode() == SDL_FALSE ? true : false;
-	return true;
+	CURSORINFO ci;
+	ci.cbSize = sizeof(ci);
+	GetCursorInfo(&ci);
+	
+	return ci.flags != 0;
 }
 
 void Input::Update()
 {
-	//SDL_GetRelativeMouseState(&g_MouseDeltaX, &g_MouseDeltaY);
 }
 
 int MouseCode::MC_BUTTON_1				= 1;
 int MouseCode::MC_BUTTON_2				= 2;
+int MouseCode::MC_BUTTON_3				= 3;
 int MouseCode::MC_WHEEL_UP				= 30;
 int MouseCode::MC_WHEEL_DOWN			= 31;
 int MouseCode::MC_WHEEL_LEFT			= 32;
@@ -96,32 +97,32 @@ int KeyCode::KC_RIGHTBRACKET			= SDLK_RIGHTBRACKET;
 int KeyCode::KC_CARET					= SDLK_CARET;
 int KeyCode::KC_UNDERSCORE				= SDLK_UNDERSCORE;
 int KeyCode::KC_BACKQUOTE				= SDLK_BACKQUOTE;
-int KeyCode::KC_A						= SDLK_a;
-int KeyCode::KC_B						= SDLK_b;
-int KeyCode::KC_C						= SDLK_c;
-int KeyCode::KC_D						= SDLK_d;
-int KeyCode::KC_E						= SDLK_e;
-int KeyCode::KC_F						= SDLK_f;
-int KeyCode::KC_G						= SDLK_g;
-int KeyCode::KC_H						= SDLK_h;
-int KeyCode::KC_I						= SDLK_i;
-int KeyCode::KC_J						= SDLK_j;
-int KeyCode::KC_K						= SDLK_k;
-int KeyCode::KC_L						= SDLK_l;
-int KeyCode::KC_M						= SDLK_m;
-int KeyCode::KC_N						= SDLK_n;
-int KeyCode::KC_O						= SDLK_o;
-int KeyCode::KC_P						= SDLK_p;
-int KeyCode::KC_Q						= SDLK_q;
-int KeyCode::KC_R						= SDLK_r;
-int KeyCode::KC_S						= SDLK_s;
-int KeyCode::KC_T						= SDLK_t;
-int KeyCode::KC_U						= SDLK_u;
-int KeyCode::KC_V						= SDLK_v;
-int KeyCode::KC_W						= SDLK_w;
-int KeyCode::KC_X						= SDLK_x;
-int KeyCode::KC_Y						= SDLK_y;
-int KeyCode::KC_Z						= SDLK_z;
+int KeyCode::KC_A						= 'A';
+int KeyCode::KC_B						= 'B';
+int KeyCode::KC_C						= 'C';
+int KeyCode::KC_D						= 'D';
+int KeyCode::KC_E						= 'E';
+int KeyCode::KC_F						= 'F';
+int KeyCode::KC_G						= 'G';
+int KeyCode::KC_H						= 'H';
+int KeyCode::KC_I						= 'I';
+int KeyCode::KC_J						= 'J';
+int KeyCode::KC_K						= 'K';
+int KeyCode::KC_L						= 'L';
+int KeyCode::KC_M						= 'M';
+int KeyCode::KC_N						= 'N';
+int KeyCode::KC_O						= 'O';
+int KeyCode::KC_P						= 'P';
+int KeyCode::KC_Q						= 'Q';
+int KeyCode::KC_R						= 'R';
+int KeyCode::KC_S						= 'S';
+int KeyCode::KC_T						= 'T';
+int KeyCode::KC_U						= 'U';
+int KeyCode::KC_V						= 'V';
+int KeyCode::KC_W						= 'W';
+int KeyCode::KC_X						= 'X';
+int KeyCode::KC_Y						= 'Y';
+int KeyCode::KC_Z						= 'Z';
 int KeyCode::KC_CAPSLOCK				= SDLK_CAPSLOCK;
 int KeyCode::KC_F1						= SDLK_F1;
 int KeyCode::KC_F2						= SDLK_F2;

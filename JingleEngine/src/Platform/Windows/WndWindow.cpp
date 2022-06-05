@@ -7,6 +7,8 @@
 #include "Core/Application.h"
 #include "Core/ModuleManager.h"
 
+#include "Input/Input.h"
+
 #include <windows.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -15,6 +17,13 @@
 #include <fstream>
 
 static const WORD MAX_CONSOLE_LINES = 500;
+
+#ifndef HID_USAGE_PAGE_GENERIC
+#define HID_USAGE_PAGE_GENERIC ((unsigned short) 0x01)
+#endif
+#ifndef HID_USAGE_GENERIC_MOUSE
+#define HID_USAGE_GENERIC_MOUSE ((unsigned short) 0x02)
+#endif
 
 BEGIN_MODULE_LINK(WndWindow);
 END_MODULE_LINK();
@@ -25,7 +34,7 @@ void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsiz
 	{
 		return;
 	}
-	
+
 	std::cout << "ERROR" << std::endl;
 	std::cout << "Source: " << source << std::endl;
 	std::cout << "Type: " << type << std::endl;
@@ -34,6 +43,10 @@ void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsiz
 }
 
 HINSTANCE WndWindow::s_Instance;
+long WndWindow::s_MouseDeltaX;
+long WndWindow::s_MouseDeltaY;
+
+WndWindow* g_tmp_Window;
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -50,8 +63,20 @@ int WndWindow::Create(const WindowDesc& desc)
 		return -1;
 	}
 
-	m_Window = CreateWindowW(wc.lpszClassName, L"openglversioncheck", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, 640, 480, 0, 0, s_Instance, 0);
+	m_Width = desc.Width;
+	m_Height = desc.Height;
+
+	std::wstring title = std::wstring(desc.Title.begin(), desc.Title.end());
+
+	m_Window = CreateWindowW(wc.lpszClassName, title.c_str(), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, m_Width, m_Height, 0, 0, s_Instance, 0);
 	m_DeviceContext = GetDC(m_Window);
+
+	RAWINPUTDEVICE rid[1];
+	rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC;
+	rid[0].usUsage = HID_USAGE_GENERIC_MOUSE;
+	rid[0].dwFlags = RIDEV_INPUTSINK;
+	rid[0].hwndTarget = m_Window;
+	RegisterRawInputDevices(rid, 1, sizeof(rid[0]));
 
 	PIXELFORMATDESCRIPTOR pfd;
 	memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
@@ -63,11 +88,11 @@ int WndWindow::Create(const WindowDesc& desc)
 	pfd.cDepthBits = 32;
 	pfd.iLayerType = PFD_MAIN_PLANE;
 
-    int pixelFormal = ChoosePixelFormat(m_DeviceContext, &pfd);
+	int pixelFormal = ChoosePixelFormat(m_DeviceContext, &pfd);
 	if (pixelFormal == 0)
 	{
 		return -2;
-    }
+	}
 
 	if (!SetPixelFormat(m_DeviceContext, pixelFormal, &pfd))
 	{
@@ -95,12 +120,13 @@ int WndWindow::Create(const WindowDesc& desc)
 		WGL_CONTEXT_FLAGS_ARB, 0,
 		0
 	};
+
 	m_GLContext = wglCreateContextAttribsARB(m_DeviceContext, 0, attribs);
 
 	wglMakeCurrent(NULL, NULL);
 	wglDeleteContext(tempContext);
 
-    wglMakeCurrent(m_DeviceContext, m_GLContext);
+	wglMakeCurrent(m_DeviceContext, m_GLContext);
 
 	int glVersion[2];
 	glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
@@ -195,11 +221,13 @@ int WndWindow::Create(const WindowDesc& desc)
 	//ImGui::StyleColorsClassic();
 
 	// Setup Platform/Renderer backends
-    ImGui_ImplWin32_Init(m_Window);
+	ImGui_ImplWin32_Init(m_Window);
 	//ImGui_ImplSDL2_InitForOpenGL(m_SDLWindow, (SDL_GLContext)m_GLContext);
 	ImGui_ImplOpenGL3_Init("#version 130");
 
 	SetVsync(false);
+
+	g_tmp_Window = this;
 
 	return 0;
 }
@@ -218,8 +246,8 @@ WndWindow::~WndWindow()
 	//ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-    DestroyWindow(m_Window);
-    UnregisterClass(L"openglversioncheck", s_Instance);
+	DestroyWindow(m_Window);
+	UnregisterClass(L"openglversioncheck", s_Instance);
 
 	//SDL_GL_DeleteContext((SDL_GLContext)m_GLContext);
 	//SDL_DestroyRenderer(m_SDLRenderer);
@@ -245,148 +273,200 @@ void WndWindow::SetSize(std::pair<int, int> size)
 
 std::pair<int, int> WndWindow::GetSize()
 {
-	int width, height;
-	//SDL_GetWindowSize(m_SDLWindow, &width, &height);
-	return { width, height };
+	return { m_Width, m_Height };
 }
+
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	WndWindow* window = g_tmp_Window;
+	if (window == nullptr)
+	{
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+
+	if (Input::IsCursorVisible() && ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+	{
+		return true;
+	}
+
+	ImGuiIO& io = ImGui::GetIO();
+
 	switch (message)
 	{
 	case WM_SIZE:
-		glViewport(0, 0, LOWORD(lParam), HIWORD(lParam));
+	{
+		window->m_Width = LOWORD(lParam);
+		window->m_Height = HIWORD(lParam);
+
+		WindowResizeEventArgs args;
+		args.Width = window->m_Width;
+		args.Height = window->m_Height;
+
+		Application::Get()->OnWindowResize.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+
 		break;
+	}
 	case WM_KEYDOWN:
+	{
+		if (io.WantCaptureKeyboard) break;
+
+		KeyPressEventArgs args;
+		args.Key = wParam;
+
+		Application::Get()->OnKeyPress.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
 		break;
+	}
+	case WM_KEYUP:
+	{
+		if (io.WantCaptureKeyboard) break;
+
+		KeyReleaseEventArgs args;
+		args.Key = wParam;
+
+		Application::Get()->OnKeyRelease.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+		break;
+	}
+	case WM_INPUT:
+	{
+		if (io.WantCaptureMouse) break;
+
+		unsigned size = sizeof(RAWINPUT);
+		static RAWINPUT raw[sizeof(RAWINPUT)];
+		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, raw, &size, sizeof(RAWINPUTHEADER));
+
+		if (raw->header.dwType != RIM_TYPEMOUSE)
+		{
+			break;
+		}
+
+		WndWindow::s_MouseDeltaX = raw->data.mouse.lLastX;
+		WndWindow::s_MouseDeltaY = raw->data.mouse.lLastY;
+
+		if (raw->data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
+		{
+			MouseScrollEventArgs args;
+			args.Direction = (*(short*)&raw->data.mouse.usButtonData) / WHEEL_DELTA;
+			args.X = WndWindow::s_MouseDeltaX;
+			args.Y = WndWindow::s_MouseDeltaY;
+
+			Application::Get()->OnMouseScroll.Invoke(window, args);
+			Application::Get()->OnEvent(window, args);
+		}
+		else
+		{
+			MouseMoveEventArgs args;
+			args.X = WndWindow::s_MouseDeltaX;
+			args.Y = WndWindow::s_MouseDeltaY;
+
+			Application::Get()->OnMouseMove.Invoke(window, args);
+			Application::Get()->OnEvent(window, args);
+		}
+
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		if (io.WantCaptureMouse) break;
+
+		MouseButtonPressEventArgs args;
+		args.Button = MouseCode::MC_BUTTON_1;
+
+		Application::Get()->OnMouseButtonPress.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		if (io.WantCaptureMouse) break;
+
+		MouseButtonReleaseEventArgs args;
+		args.Button = MouseCode::MC_BUTTON_1;
+
+		Application::Get()->OnMouseButtonRelease.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		if (io.WantCaptureMouse) break;
+
+		MouseButtonPressEventArgs args;
+		args.Button = MouseCode::MC_BUTTON_2;
+
+		Application::Get()->OnMouseButtonPress.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		if (io.WantCaptureMouse) break;
+
+		MouseButtonReleaseEventArgs args;
+		args.Button = MouseCode::MC_BUTTON_2;
+
+		Application::Get()->OnMouseButtonRelease.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+
+		break;
+	}
+	case WM_MBUTTONDOWN:
+	{
+		if (io.WantCaptureMouse) break;
+
+		MouseButtonPressEventArgs args;
+		args.Button = MouseCode::MC_BUTTON_3;
+
+		Application::Get()->OnMouseButtonPress.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+
+		break;
+	}
+	case WM_MBUTTONUP:
+	{
+		if (io.WantCaptureMouse) break;
+
+		MouseButtonReleaseEventArgs args;
+		args.Button = MouseCode::MC_BUTTON_3;
+
+		Application::Get()->OnMouseButtonRelease.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+
+		break;
+	}
+	case WM_QUIT:
 	case WM_CLOSE:
+	{
+		WindowCloseEventArgs args;
+
+		Application::Get()->OnWindowClose.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
 		break;
+	}
 	default:
+	{
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-	return 0;
-
-	/*
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		ImGui_ImplSDL2_ProcessEvent(&event);
-
-		ImGuiIO& io = ImGui::GetIO();
-
-		switch (event.type)
-		{
-		case SDL_KEYDOWN:
-		{
-			if (io.WantCaptureKeyboard) break;
-
-			KeyPressEventArgs args;
-			args.Key = event.key.keysym.sym;
-
-			Application::Get()->OnKeyPress.Invoke(this, args);
-			Application::Get()->OnEvent(this, args);
-
-			break;
-		}
-		case SDL_KEYUP:
-		{
-			if (io.WantCaptureKeyboard) break;
-
-			KeyReleaseEventArgs args;
-			args.Key = event.key.keysym.sym;
-
-			Application::Get()->OnKeyRelease.Invoke(this, args);
-			Application::Get()->OnEvent(this, args);
-
-			break;
-		}
-		case SDL_MOUSEMOTION:
-		{
-			if (io.WantCaptureMouse) break;
-
-			MouseMoveEventArgs args;
-			args.X = event.motion.x;
-			args.Y = event.motion.y;
-
-			Application::Get()->OnMouseMove.Invoke(this, args);
-			Application::Get()->OnEvent(this, args);
-
-			break;
-		}
-		case SDL_MOUSEBUTTONDOWN:
-		{
-			if (io.WantCaptureMouse) break;
-
-			MouseButtonPressEventArgs args;
-			args.Button = event.button.button;
-
-			Application::Get()->OnMouseButtonPress.Invoke(this, args);
-			Application::Get()->OnEvent(this, args);
-
-			break;
-		}
-		case SDL_MOUSEBUTTONUP:
-		{
-			if (io.WantCaptureMouse) break;
-
-			MouseButtonReleaseEventArgs args;
-			args.Button = event.button.button;
-
-			Application::Get()->OnMouseButtonRelease.Invoke(this, args);
-			Application::Get()->OnEvent(this, args);
-
-			break;
-		}
-		case SDL_MOUSEWHEEL:
-		{
-			if (io.WantCaptureMouse) break;
-
-			MouseScrollEventArgs args;
-			args.Direction = event.wheel.direction;
-			args.X = event.wheel.x;
-			args.Y = event.wheel.y;
-
-			Application::Get()->OnMouseScroll.Invoke(this, args);
-			Application::Get()->OnEvent(this, args);
-
-			break;
-		}
-		case SDL_QUIT:
-		{
-			WindowCloseEventArgs args;
-
-			Application::Get()->OnWindowClose.Invoke(this, args);
-			Application::Get()->OnEvent(this, args);
-
-			break;
-		}
-		case SDL_WINDOWEVENT:
-		{
-			switch (event.window.event)
-			{
-			case SDL_WINDOWEVENT_RESIZED:
-			{
-				WindowResizeEventArgs args;
-
-				args.Width = event.window.data1;
-				args.Height = event.window.data2;
-
-				Application::Get()->OnWindowResize.Invoke(this, args);
-				Application::Get()->OnEvent(this, args);
-
-				break;
-			}
-			}
-
-			break;
-		}
-		}
 	}
-	*/
+
+	return true;
 }
 
 void WndWindow::Begin()
 {
+	MSG event;
+	while (PeekMessage(&event, 0, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&event);
+		DispatchMessage(&event);
+	}
 
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -396,9 +476,9 @@ void WndWindow::Begin()
 void WndWindow::End()
 {
 	ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    wglMakeCurrent(m_DeviceContext, m_GLContext);
-    SwapBuffers(m_DeviceContext);
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	wglMakeCurrent(m_DeviceContext, m_GLContext);
+	SwapBuffers(m_DeviceContext);
 }
 
 // Source: https://stackoverflow.com/questions/191842/how-do-i-get-console-output-in-c-with-a-windows-program

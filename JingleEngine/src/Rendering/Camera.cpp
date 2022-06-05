@@ -8,7 +8,15 @@ BEGIN_CLASS_LINK(CameraType)
 END_CLASS_LINK()
 
 BEGIN_CLASS_LINK(Camera)
+	LINK_NAMED_FUNCTION(GetCurrentCamera, Camera::GetCurrent);
 END_CLASS_LINK()
+
+//! HACK
+Camera* Camera::s_Current;
+Camera* Camera::GetCurrent()
+{
+	return s_Current;
+}
 
 void CameraType::Load(Config& config)
 {
@@ -23,6 +31,8 @@ void CameraType::Load(Config& config)
 void Camera::OnCreate()
 {
 	Super::OnCreate();
+
+	s_Current = this;
 
 	GetScene()->SetCamera(this);
 

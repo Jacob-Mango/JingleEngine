@@ -13,6 +13,9 @@
 #include "Rendering/Material.h"
 
 BEGIN_CLASS_LINK(Entity)
+	LINK_NAMED_VARIABLE(PositionX, PositionX);
+	LINK_NAMED_VARIABLE(PositionY, PositionY);
+	LINK_NAMED_VARIABLE(PositionZ, PositionZ);
 END_CLASS_LINK()
 
 BEGIN_CLASS_LINK(EntityType)
@@ -232,4 +235,7 @@ void Entity::OnDestroy()
 
 void Entity::OnSimulate(double DeltaTime)
 {
+PositionX = m_Transform[3][0];
+PositionY = m_Transform[3][1];
+PositionZ = m_Transform[3][2];
 }

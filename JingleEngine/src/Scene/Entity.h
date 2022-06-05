@@ -52,6 +52,10 @@ protected:
 	glm::dmat4 m_Transform = glm::dmat4(1.0);
 	glm::vec3 m_BoundingBox[2];
 
+	double PositionX = 0;
+	double PositionY = 0;
+	double PositionZ = 0;
+
 public:
 	Entity();
 	virtual ~Entity();

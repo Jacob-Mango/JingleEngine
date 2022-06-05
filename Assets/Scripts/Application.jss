@@ -10,9 +10,31 @@ class Application
 		ImGui_Text("DeltaTime: " + DeltaTime);
 		ImGui_Text("FPS: " + FPS);
 
+		bool b1 = ImGui_WantCaptureKeyboard();
+		bool b2 = ImGui_WantCaptureMouse();
+
+		ImGui_Text("WantCaptureKeyboard: " + b1);
+		ImGui_Text("WantCaptureMouse: " + b2);
+
+		Camera camera = GetCurrentCamera();
+		// null comparison broken??
+		//if (camera)
+		{
+			double x = camera.PositionX;
+			double y = camera.PositionY;
+			double z = camera.PositionZ;
+
+			ImGui_Text("PositionX: " + x);
+			ImGui_Text("PositionY: " + y);
+			ImGui_Text("PositionZ: " + z);
+		}
+
 		ImGui_End();
 	}
 }
 
 @Native
 Application GetApplication();
+
+@Native
+Camera GetCurrentCamera();

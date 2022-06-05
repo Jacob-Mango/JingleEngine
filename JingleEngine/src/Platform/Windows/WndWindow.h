@@ -28,6 +28,10 @@ public:
 	virtual void Begin() override;
 	virtual void End() override;
 
+public:
+	static long s_MouseDeltaX;
+	static long s_MouseDeltaY;
+
 private:
 	static HINSTANCE s_Instance;
 
@@ -35,6 +39,10 @@ private:
 	HDC m_DeviceContext;
 	HWND m_Window;
 
+	int m_Width;
+	int m_Height;
+
+	friend LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	friend int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);
 
 };

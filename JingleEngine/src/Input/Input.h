@@ -36,6 +36,7 @@ struct MouseCode
 {
 	static int MC_BUTTON_1;
 	static int MC_BUTTON_2;
+	static int MC_BUTTON_3;
 	static int MC_WHEEL_UP;
 	static int MC_WHEEL_DOWN;
 	static int MC_WHEEL_LEFT;

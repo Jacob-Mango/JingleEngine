@@ -6,7 +6,7 @@
 			type: "MeshEntity",
 		},
 		{
-			position: "0 0 0",
+			position: "0 0 -5",
 			orientation: "0 0 0",
 			type: "Camera",
 			children: [
