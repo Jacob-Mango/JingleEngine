@@ -9,11 +9,11 @@ class Module;
 
 class ModuleIterator
 {
-    using ModuleList = std::vector<Module*>;
+	using ModuleList = std::vector<Module*>;
 
 public:
-    ModuleList::iterator begin();
-    ModuleList::iterator end();
+	ModuleList::iterator begin();
+	ModuleList::iterator end();
 };
 
 class ModuleManager : public BaseClass

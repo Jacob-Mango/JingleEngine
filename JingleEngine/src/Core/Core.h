@@ -38,19 +38,19 @@ std::ostream& operator<<(std::ostream& os, const glm::mat3& value);
 std::ostream& operator<<(std::ostream& os, const glm::quat& value);
 
 #ifdef DEBUG
-#define GL(x)                                                                                    \
-	x;                                                                                           \
-	{                                                                                            \
-		GLenum error = glGetError();                                                             \
-		if (error != GL_NO_ERROR)                                                                \
-			std::cerr << "[OpenGL Error] (" << std::to_string(error) << "): " << #x << std::endl \
-					  << "\t" << __FILE__ << ":" << __LINE__ << std::endl;                       \
+#define GL(x)																						\
+	x;																								\
+	{																								\
+		GLenum error = glGetError();																\
+		if (error != GL_NO_ERROR)																	\
+			std::cerr << "[OpenGL Error] (" << std::to_string(error) << "): " << #x << std::endl	\
+					  << "\t" << __FILE__ << ":" << __LINE__ << std::endl;							\
 	}
 
-#define OUT_LINE(x)                                                                              \
-	{                                                                                            \
-		std::cout << "[OUTPUT] " << #x << std::endl                                              \
-					  << "\t" << __FILE__ << ":" << __LINE__ << std::endl;                       \
+#define OUT_LINE(x)																					\
+	{																								\
+		std::cout << "[OUTPUT] " << #x << std::endl													\
+					  << "\t" << __FILE__ << ":" << __LINE__ << std::endl;							\
 	}
 
 #else
