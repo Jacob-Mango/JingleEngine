@@ -36,25 +36,13 @@ void BindingModule::OnPreInitialize()
 
 	Application::Get()->OnMouseScroll += [this](BaseClass* sender, MouseScrollEventArgs args)
 	{
-		float mul = args.Direction == 1 ? -1.0f : 1.0f;
-		float scrollValue = 0;
-		int keyCode = 0;
+		float scrollValue = args.Direction;
 
-		if (args.Y != 0)
+		int keyCode = MouseCode::MC_WHEEL_UP;
+		if (scrollValue < 0)
 		{
-			scrollValue = args.Y * mul;
-			keyCode = MouseCode::MC_WHEEL_UP;
-			if (scrollValue > 0) keyCode = MouseCode::MC_WHEEL_DOWN;
+			int keyCode = MouseCode::MC_WHEEL_DOWN;
 		}
-
-		if (args.X != 0)
-		{
-			scrollValue = args.X * mul;
-			keyCode = MouseCode::MC_WHEEL_LEFT;
-			if (scrollValue > 0) keyCode = MouseCode::MC_WHEEL_RIGHT;
-		}
-
-		if (keyCode == 0) return;
 
 		for (const auto& [key, binding] : m_Bindings)
 			binding->UpdateKey(keyCode, InputState::PRESSED, InputType::MOUSE, scrollValue);
@@ -101,8 +89,16 @@ void BindingModule::RegisterCombos(std::string name, std::initializer_list<std::
 
 void BindingModule::OnTick(double DeltaTime)
 {
-	Input::Update();
-	
+	ImGui::Begin("BindingModule");
+
 	for (const auto& [key, entry] : m_Bindings)
+	{
 		entry->UpdateState();
+
+		ImGui::Text(entry->ToString().c_str());
+	}
+
+	ImGui::End();
+
+	Input::Update();
 }

@@ -11,20 +11,20 @@
 
 void Input::SetMousePosition(int x, int y)
 {
-	//auto window = ModuleManager::Get<WndWindow>();
-	//SDL_WarpMouseInWindow(window->m_SDLWindow, x, y);
+	SetCursorPos(x, y);
 }
 
 std::pair<int, int> Input::GetMousePosition()
 {
-	int x, y;
-	//SDL_GetMouseState(&x, &y);
-	return { x, y };
+	CURSORINFO ci;
+	ci.cbSize = sizeof(ci);
+	GetCursorInfo(&ci);
+	return { ci.ptScreenPos.x, ci.ptScreenPos.y };
 }
 
 std::pair<int, int> Input::GetMouseDelta()
 {
-	return { WndWindow::s_MouseDeltaX, WndWindow::s_MouseDeltaY };
+	return { WndWindow::s_LastMouseDeltaX, WndWindow::s_LastMouseDeltaY };
 }
 
 void Input::ShowCursor(bool show)
@@ -43,6 +43,29 @@ bool Input::IsCursorVisible()
 
 void Input::Update()
 {
+	WndWindow* window = ModuleManager::Get<WndWindow>();
+
+	if (WndWindow::s_MouseDeltaX != 0 || WndWindow::s_MouseDeltaY != 0)
+	{
+		MouseMoveEventArgs args;
+		args.X = WndWindow::s_MouseDeltaX;
+		args.Y = WndWindow::s_MouseDeltaY;
+
+		Application::Get()->OnMouseMove.Invoke(window, args);
+		Application::Get()->OnEvent(window, args);
+	}
+
+	WndWindow::s_LastMouseDeltaX = WndWindow::s_MouseDeltaX;
+	WndWindow::s_LastMouseDeltaY = WndWindow::s_MouseDeltaY;
+
+	WndWindow::s_MouseDeltaX = 0;
+	WndWindow::s_MouseDeltaY = 0;
+
+	if (!IsCursorVisible())
+	{
+		auto [width, height] = window->GetSize();
+		SetMousePosition(width / 2, height / 2);
+	}
 }
 
 int MouseCode::MC_BUTTON_1				= 1;

@@ -16,8 +16,6 @@
 #include <iostream>
 #include <fstream>
 
-static const WORD MAX_CONSOLE_LINES = 500;
-
 #ifndef HID_USAGE_PAGE_GENERIC
 #define HID_USAGE_PAGE_GENERIC ((unsigned short) 0x01)
 #endif
@@ -45,12 +43,15 @@ void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsiz
 long WndWindow::s_MouseDeltaX;
 long WndWindow::s_MouseDeltaY;
 
-WndWindow* g_tmp_Window;
+long WndWindow::s_LastMouseDeltaX;
+long WndWindow::s_LastMouseDeltaY;
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int WndWindow::Create(const WindowDesc& desc)
 {
+	m_GLContext = NULL;
+	m_Window = NULL;
 	m_Instance = NULL;
 
 	WNDCLASS wc = { 0 };
@@ -162,9 +163,7 @@ int WndWindow::Create(const WindowDesc& desc)
 	ImGui_ImplWin32_Init(m_Window);
 	ImGui_ImplOpenGL3_Init("#version 130");
 
-	SetVsync(false);
-
-	g_tmp_Window = this;
+	//SetVsync(false);
 
 	return 0;
 }
@@ -188,18 +187,23 @@ WndWindow::~WndWindow()
 
 bool WndWindow::IsVsync() const
 {
-	return false;
-	//return SDL_GL_GetSwapInterval() != 0;
+	return wglGetSwapIntervalEXT() != 0;
 }
 
 void WndWindow::SetVsync(bool enabled)
 {
-	//SetSwapInterval(enabled);
+	wglSwapIntervalEXT(enabled);
 }
 
 void WndWindow::SetSize(std::pair<int, int> size)
 {
-	//SDL_SetWindowSize(m_SDLWindow, size.first, size.second);
+	WINDOWPLACEMENT wi;
+	GetWindowPlacement(m_Window, &wi);
+
+	wi.ptMaxPosition.x = wi.ptMinPosition.x + size.first;
+	wi.ptMaxPosition.y = wi.ptMinPosition.y + size.first;
+
+	SetWindowPlacement(m_Window, &wi);
 }
 
 std::pair<int, int> WndWindow::GetSize()
@@ -211,8 +215,8 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wP
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	WndWindow* window = g_tmp_Window;
-	if (window == nullptr)
+	WndWindow* window = ModuleManager::Get<WndWindow>();
+	if (window == nullptr || window->m_GLContext == NULL)
 	{
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -275,26 +279,15 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 			break;
 		}
 
-		WndWindow::s_MouseDeltaX = raw->data.mouse.lLastX;
-		WndWindow::s_MouseDeltaY = raw->data.mouse.lLastY;
+		WndWindow::s_MouseDeltaX += raw->data.mouse.lLastX;
+		WndWindow::s_MouseDeltaY += raw->data.mouse.lLastY;
 
 		if (raw->data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
 		{
 			MouseScrollEventArgs args;
 			args.Direction = (*(short*)&raw->data.mouse.usButtonData) / WHEEL_DELTA;
-			args.X = WndWindow::s_MouseDeltaX;
-			args.Y = WndWindow::s_MouseDeltaY;
 
 			Application::Get()->OnMouseScroll.Invoke(window, args);
-			Application::Get()->OnEvent(window, args);
-		}
-		else
-		{
-			MouseMoveEventArgs args;
-			args.X = WndWindow::s_MouseDeltaX;
-			args.Y = WndWindow::s_MouseDeltaY;
-
-			Application::Get()->OnMouseMove.Invoke(window, args);
 			Application::Get()->OnEvent(window, args);
 		}
 

@@ -2,6 +2,8 @@
 
 #include "Core/Core.h"
 
+enum class InputState;
+
 class Input
 {
 	friend class BindingModule;
@@ -13,6 +15,8 @@ public:
 
 	static void ShowCursor(bool show);
 	static bool IsCursorVisible();
+
+	static std::string StateToString(InputState state);
 	
 private:
 	static void Update();

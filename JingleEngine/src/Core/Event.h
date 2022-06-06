@@ -90,8 +90,6 @@ EVENT(MouseButtonRelease, MouseButton, 7)
 
 EVENT(MouseScroll, Mouse, 8)
 	int Direction;
-	int X;
-	int Y;
 };
 
 EVENT(MouseMove, Mouse, 9)

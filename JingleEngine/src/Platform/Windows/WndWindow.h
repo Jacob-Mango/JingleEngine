@@ -32,6 +32,9 @@ public:
 	static long s_MouseDeltaX;
 	static long s_MouseDeltaY;
 
+	static long s_LastMouseDeltaX;
+	static long s_LastMouseDeltaY;
+
 private:
 	HINSTANCE m_Instance;
 	HGLRC m_GLContext;

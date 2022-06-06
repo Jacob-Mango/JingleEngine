@@ -37,10 +37,12 @@ private:
 	std::vector<BindingEntry*> m_Entries;
 
 public:
-	std::string GetName();
+	std::string GetName() const;
 
-	float GetValue();
-	InputState GetState();
+	float GetValue() const;
+	InputState GetState() const;
+
+	std::string ToString() const;
 
 private:
 	Binding(std::string name);

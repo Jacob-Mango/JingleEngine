@@ -21,7 +21,9 @@ void BindingEntry::UpdateState()
 		}
 
 		if (value.first == InputState::RELEASED)
+		{
 			m_State = InputState::NONE;
+		}
 	}
 
 	if (m_State == InputState::NONE && previousState > InputState::RELEASED)
@@ -54,12 +56,12 @@ Binding::Binding(std::string name) : m_Name(name)
 
 }
 
-std::string Binding::GetName()
+std::string Binding::GetName() const
 {
 	return m_Name;
 }
 
-float Binding::GetValue()
+float Binding::GetValue() const
 {
 	float value = 0.0f;
 	for (auto entry : m_Entries)
@@ -68,11 +70,16 @@ float Binding::GetValue()
 	return value;
 }
 
-InputState Binding::GetState()
+InputState Binding::GetState() const
 {
 	InputState state = InputState::NONE;
 	for (auto entry : m_Entries)
 		if (entry->m_State > state)
 			state = entry->m_State;
 	return state;
+}
+
+std::string Binding::ToString() const
+{
+	return GetName() + " {" + Input::StateToString(GetState()) + ", " + std::to_string(GetValue()) + "}";
 }
