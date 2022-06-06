@@ -42,15 +42,11 @@ class Camera : public Entity
 	Binding* Binding_Backward;
 	Binding* Binding_Right;
 	Binding* Binding_Left;
-
-	static Camera* s_Current;
 	
 public:
 	Camera() {}
 
 	virtual void OnCreate() override;
 	virtual void OnSimulate(double DeltaTime) override;
-
-	static Camera* GetCurrent();
 
 };

@@ -10,9 +10,10 @@ class Camera;
 class Texture;
 class Light;
 
-class Scene : public Countable
+class Scene : public JingleScript::ManagedObject
 {
-public:
+	DEFINE_CLASS(Scene, JingleScript::ManagedObject);
+	
 	friend class Entity;
 	friend class Light;
 
@@ -31,7 +32,12 @@ private:
 
 	Camera* m_Camera;
 
+private:
+	Scene() {}
+
 public:
+	virtual ~Scene() {}
+
 	static Scene* Create(std::string file);
 
 	void LoadScene(Config& entities);

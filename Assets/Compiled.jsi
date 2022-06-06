@@ -585,8 +585,6 @@ class #global extends Object {
 
   void #global::~#global() (Native)
 
-  Camera GetCurrentCamera() (Native)
-
   void ImGui_End() (Native)
 
   Application GetApplication() (Native)
@@ -615,6 +613,15 @@ class Managed extends Object {
 class Attribute extends Object {
 
   void Attribute::~Attribute() (Native)
+}
+
+class Scene extends Managed {
+
+  void Scene::~Scene() (Native)
+
+  void Scene::GetCamera() (Native)
+
+  Camera Scene::GetCamera() (Native)
 }
 
 class PlanetQuadType extends MeshEntityType {
@@ -750,6 +757,8 @@ class Application extends Object {
 
   void Application::~Application() (Native)
 
+  Scene Application::GetScene() (Native)
+
   void Application::OnUpdate(double) {
     [00000000]  push 1                                                                                 JingleScript::ValueItem::PushAfter
     [00000001]   push 1                                                                                JingleScript::ValueItem::PushAt
@@ -813,71 +822,77 @@ class Application extends Object {
     [0000003B]       pop 32                                                                            JingleScript::ValueItem::Pop
     [0000003C]       push 8                                                                            JingleScript::ValueItem::Push
     [0000003D]        push 8                                                                           JingleScript::ValueItem::PushAfter
-    [0000003E]         push 8                                                                          JingleScript::ValueItem::PushAt
-    [0000003F]          call_function [Camera GetCurrentCamera()]                                      JingleScript::Compiler::CompileFunctionCall
-    [00000040]          copy 8 8 24 [camera]                                                           JingleScript::Compiler::CompileVariableScope
-    [00000041]         pop 8                                                                           JingleScript::ValueItem::Pop
-    [00000042]         push 8                                                                          JingleScript::ValueItem::Push
-    [00000043]          push 8                                                                         JingleScript::ValueItem::PushAfter
-    [00000044]           copy 8 32 [camera] 8                                                          JingleScript::Compiler::CompileValue
-    [00000045]           copy_variable_from_object 8 312 [PositionX] 8                                 JingleScript::Compiler::CompileValue
-    [00000046]           copy 8 8 16 [x]                                                               JingleScript::Compiler::CompileVariableScope
-    [00000047]          pop 8                                                                          JingleScript::ValueItem::Pop
-    [00000048]          push 8                                                                         JingleScript::ValueItem::Push
-    [00000049]           push 8                                                                        JingleScript::ValueItem::PushAfter
-    [0000004A]            copy 8 40 [camera] 8                                                         JingleScript::Compiler::CompileValue
-    [0000004B]            copy_variable_from_object 8 320 [PositionY] 8                                JingleScript::Compiler::CompileValue
-    [0000004C]            copy 8 8 16 [y]                                                              JingleScript::Compiler::CompileVariableScope
-    [0000004D]           pop 8                                                                         JingleScript::ValueItem::Pop
-    [0000004E]           push 8                                                                        JingleScript::ValueItem::Push
-    [0000004F]            push 8                                                                       JingleScript::ValueItem::PushAfter
-    [00000050]             copy 8 48 [camera] 8                                                        JingleScript::Compiler::CompileValue
-    [00000051]             copy_variable_from_object 8 328 [PositionZ] 8                               JingleScript::Compiler::CompileValue
-    [00000052]             copy 8 8 16 [z]                                                             JingleScript::Compiler::CompileVariableScope
-    [00000053]            pop 8                                                                        JingleScript::ValueItem::Pop
-    [00000054]            push 32                                                                      JingleScript::ValueItem::Push
-    [00000055]             copy_data string [PositionX: ] 32                                           JingleScript::Compiler::CompileConstant
-    [00000056]             push 8                                                                      JingleScript::ValueItem::PushAfter
-    [00000057]              copy 8 64 [x] 8                                                            JingleScript::Compiler::CompileValue
-    [00000058]              call_exact [string string::operator+(double)]                              JingleScript::HandleArithmeticOperator
-    [00000059]             pop 8                                                                       JingleScript::ValueItem::Pop
-    [0000005A]             call_function [void ImGui_Text(string)]                                     JingleScript::Compiler::CompileFunctionCall
-    [0000005B]            pop 32                                                                       JingleScript::ValueItem::Pop
-    [0000005C]            push 32                                                                      JingleScript::ValueItem::Push
-    [0000005D]             copy_data string [PositionY: ] 32                                           JingleScript::Compiler::CompileConstant
-    [0000005E]             push 8                                                                      JingleScript::ValueItem::PushAfter
-    [0000005F]              copy 8 56 [y] 8                                                            JingleScript::Compiler::CompileValue
-    [00000060]              call_exact [string string::operator+(double)]                              JingleScript::HandleArithmeticOperator
-    [00000061]             pop 8                                                                       JingleScript::ValueItem::Pop
-    [00000062]             call_function [void ImGui_Text(string)]                                     JingleScript::Compiler::CompileFunctionCall
-    [00000063]            pop 32                                                                       JingleScript::ValueItem::Pop
-    [00000064]            push 32                                                                      JingleScript::ValueItem::Push
-    [00000065]             copy_data string [PositionZ: ] 32                                           JingleScript::Compiler::CompileConstant
-    [00000066]             push 8                                                                      JingleScript::ValueItem::PushAfter
-    [00000067]              copy 8 48 [z] 8                                                            JingleScript::Compiler::CompileValue
-    [00000068]              call_exact [string string::operator+(double)]                              JingleScript::HandleArithmeticOperator
-    [00000069]             pop 8                                                                       JingleScript::ValueItem::Pop
-    [0000006A]             call_function [void ImGui_Text(string)]                                     JingleScript::Compiler::CompileFunctionCall
-    [0000006B]            pop 32                                                                       JingleScript::ValueItem::Pop
-    [0000006C]            destructor [double]                                                          JingleScript::ValueItem::Pop
-    [0000006D]           pop 8                                                                         JingleScript::ValueItem::Pop
-    [0000006E]           destructor [double]                                                           JingleScript::ValueItem::Pop
-    [0000006F]          pop 8                                                                          JingleScript::ValueItem::Pop
-    [00000070]          destructor [double]                                                            JingleScript::ValueItem::Pop
-    [00000071]         pop 8                                                                           JingleScript::ValueItem::Pop
-    [00000072]         call_function [void ImGui_End()]                                                JingleScript::Compiler::CompileFunctionCall
-    [00000073]        pop 8                                                                            JingleScript::ValueItem::Pop
-    [00000074]       pop 8                                                                             JingleScript::ValueItem::Pop
-    [00000075]       destructor [bool]                                                                 JingleScript::ValueItem::Pop
-    [00000076]      pop 1                                                                              JingleScript::ValueItem::Pop
-    [00000077]      destructor [bool]                                                                  JingleScript::ValueItem::Pop
-    [00000078]     pop 1                                                                               JingleScript::ValueItem::Pop
-    [00000079]     destructor [bool]                                                                   JingleScript::ValueItem::Pop
-    [0000007A]    pop 1                                                                                JingleScript::ValueItem::Pop
-    [0000007B]    destructor [bool]                                                                    JingleScript::ValueItem::Pop
-    [0000007C]   pop 1                                                                                 JingleScript::ValueItem::Pop
-    [0000007D]   destructor [bool]                                                                     JingleScript::ValueItem::Pop
-    [0000007E]  pop 1                                                                                  JingleScript::ValueItem::Pop
+    [0000003E]         copy 8 37 [this] 8                                                              JingleScript::Compiler::CompileValue
+    [0000003F]         call_method [Scene Application::GetScene()] 6                                   JingleScript::Compiler::CompileFunctionCall
+    [00000040]         copy 8 8 16 [scene]                                                             JingleScript::Compiler::CompileVariableScope
+    [00000041]        pop 8                                                                            JingleScript::ValueItem::Pop
+    [00000042]        push 8                                                                           JingleScript::ValueItem::Push
+    [00000043]         push 8                                                                          JingleScript::ValueItem::PushAfter
+    [00000044]          copy 8 24 [scene] 8                                                            JingleScript::Compiler::CompileValue
+    [00000045]          call_method [void Scene::GetCamera()] 7                                        JingleScript::Compiler::CompileFunctionCall
+    [00000046]          copy 8 8 16 [camera]                                                           JingleScript::Compiler::CompileVariableScope
+    [00000047]         pop 8                                                                           JingleScript::ValueItem::Pop
+    [00000048]         push 8                                                                          JingleScript::ValueItem::Push
+    [00000049]          push 8                                                                         JingleScript::ValueItem::PushAfter
+    [0000004A]           copy 8 24 [camera] 8                                                          JingleScript::Compiler::CompileValue
+    [0000004B]           copy_variable_from_object 8 312 [PositionX] 8                                 JingleScript::Compiler::CompileValue
+    [0000004C]           copy 8 8 16 [x]                                                               JingleScript::Compiler::CompileVariableScope
+    [0000004D]          pop 8                                                                          JingleScript::ValueItem::Pop
+    [0000004E]          push 8                                                                         JingleScript::ValueItem::Push
+    [0000004F]           push 8                                                                        JingleScript::ValueItem::PushAfter
+    [00000050]            copy 8 32 [camera] 8                                                         JingleScript::Compiler::CompileValue
+    [00000051]            copy_variable_from_object 8 320 [PositionY] 8                                JingleScript::Compiler::CompileValue
+    [00000052]            copy 8 8 16 [y]                                                              JingleScript::Compiler::CompileVariableScope
+    [00000053]           pop 8                                                                         JingleScript::ValueItem::Pop
+    [00000054]           push 8                                                                        JingleScript::ValueItem::Push
+    [00000055]            push 8                                                                       JingleScript::ValueItem::PushAfter
+    [00000056]             copy 8 40 [camera] 8                                                        JingleScript::Compiler::CompileValue
+    [00000057]             copy_variable_from_object 8 328 [PositionZ] 8                               JingleScript::Compiler::CompileValue
+    [00000058]             copy 8 8 16 [z]                                                             JingleScript::Compiler::CompileVariableScope
+    [00000059]            pop 8                                                                        JingleScript::ValueItem::Pop
+    [0000005A]            push 32                                                                      JingleScript::ValueItem::Push
+    [0000005B]             copy_data string [PositionX: ] 32                                           JingleScript::Compiler::CompileConstant
+    [0000005C]             push 8                                                                      JingleScript::ValueItem::PushAfter
+    [0000005D]              copy 8 64 [x] 8                                                            JingleScript::Compiler::CompileValue
+    [0000005E]              call_exact [string string::operator+(double)]                              JingleScript::HandleArithmeticOperator
+    [0000005F]             pop 8                                                                       JingleScript::ValueItem::Pop
+    [00000060]             call_function [void ImGui_Text(string)]                                     JingleScript::Compiler::CompileFunctionCall
+    [00000061]            pop 32                                                                       JingleScript::ValueItem::Pop
+    [00000062]            push 32                                                                      JingleScript::ValueItem::Push
+    [00000063]             copy_data string [PositionY: ] 32                                           JingleScript::Compiler::CompileConstant
+    [00000064]             push 8                                                                      JingleScript::ValueItem::PushAfter
+    [00000065]              copy 8 56 [y] 8                                                            JingleScript::Compiler::CompileValue
+    [00000066]              call_exact [string string::operator+(double)]                              JingleScript::HandleArithmeticOperator
+    [00000067]             pop 8                                                                       JingleScript::ValueItem::Pop
+    [00000068]             call_function [void ImGui_Text(string)]                                     JingleScript::Compiler::CompileFunctionCall
+    [00000069]            pop 32                                                                       JingleScript::ValueItem::Pop
+    [0000006A]            push 32                                                                      JingleScript::ValueItem::Push
+    [0000006B]             copy_data string [PositionZ: ] 32                                           JingleScript::Compiler::CompileConstant
+    [0000006C]             push 8                                                                      JingleScript::ValueItem::PushAfter
+    [0000006D]              copy 8 48 [z] 8                                                            JingleScript::Compiler::CompileValue
+    [0000006E]              call_exact [string string::operator+(double)]                              JingleScript::HandleArithmeticOperator
+    [0000006F]             pop 8                                                                       JingleScript::ValueItem::Pop
+    [00000070]             call_function [void ImGui_Text(string)]                                     JingleScript::Compiler::CompileFunctionCall
+    [00000071]            pop 32                                                                       JingleScript::ValueItem::Pop
+    [00000072]            destructor [double]                                                          JingleScript::ValueItem::Pop
+    [00000073]           pop 8                                                                         JingleScript::ValueItem::Pop
+    [00000074]           destructor [double]                                                           JingleScript::ValueItem::Pop
+    [00000075]          pop 8                                                                          JingleScript::ValueItem::Pop
+    [00000076]          destructor [double]                                                            JingleScript::ValueItem::Pop
+    [00000077]         pop 8                                                                           JingleScript::ValueItem::Pop
+    [00000078]         call_function [void ImGui_End()]                                                JingleScript::Compiler::CompileFunctionCall
+    [00000079]        pop 8                                                                            JingleScript::ValueItem::Pop
+    [0000007A]       pop 8                                                                             JingleScript::ValueItem::Pop
+    [0000007B]       destructor [bool]                                                                 JingleScript::ValueItem::Pop
+    [0000007C]      pop 1                                                                              JingleScript::ValueItem::Pop
+    [0000007D]      destructor [bool]                                                                  JingleScript::ValueItem::Pop
+    [0000007E]     pop 1                                                                               JingleScript::ValueItem::Pop
+    [0000007F]     destructor [bool]                                                                   JingleScript::ValueItem::Pop
+    [00000080]    pop 1                                                                                JingleScript::ValueItem::Pop
+    [00000081]    destructor [bool]                                                                    JingleScript::ValueItem::Pop
+    [00000082]   pop 1                                                                                 JingleScript::ValueItem::Pop
+    [00000083]   destructor [bool]                                                                     JingleScript::ValueItem::Pop
+    [00000084]  pop 1                                                                                  JingleScript::ValueItem::Pop
   }
 }
 

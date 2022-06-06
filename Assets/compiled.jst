@@ -15,15 +15,6 @@ Global {
      Name: "Native"
     }
    }
-   ReturnType: "Camera"
-   Name: "GetCurrentCamera"
-  }
-  Function {
-   Attributes: {
-    Attribute {
-     Name: "Native"
-    }
-   }
    ReturnType: "bool"
    Name: "ImGui_Begin"
    Parameters: {
@@ -240,13 +231,34 @@ Global {
        }
       }
       Variable {
+       Type: "Scene"
+       Name: "scene"
+       Right: {
+        Value {
+         Value: "this"
+         Next: {
+          FunctionCall {
+           Value: "GetScene"
+           IsConstructor: "0"
+           IsSuper: "0"
+          }
+         }
+        }
+       }
+      }
+      Variable {
        Type: "Camera"
        Name: "camera"
        Right: {
-        FunctionCall {
-         Value: "GetCurrentCamera"
-         IsConstructor: "0"
-         IsSuper: "0"
+        Value {
+         Value: "scene"
+         Next: {
+          FunctionCall {
+           Value: "GetCamera"
+           IsConstructor: "0"
+           IsSuper: "0"
+          }
+         }
         }
        }
       }
@@ -380,6 +392,15 @@ Global {
        Name: "DeltaTime"
       }
      }
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "Scene"
+     Name: "GetScene"
     }
    }
   }
@@ -584,6 +605,20 @@ Global {
   Class {
    Name: "Window"
    Base: "Module"
+  }
+  Class {
+   Name: "Scene"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Name: "Native"
+      }
+     }
+     ReturnType: "Camera"
+     Name: "GetCamera"
+    }
+   }
   }
  }
 }

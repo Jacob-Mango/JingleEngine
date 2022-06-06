@@ -17,9 +17,13 @@
 #include "Rendering/Renderer.h"
 #include "Rendering/Shader.h"
 
+BEGIN_CLASS_LINK(Scene)
+	LINK_METHOD(GetCamera);
+END_CLASS_LINK()
+
 Scene* Scene::Create(std::string file)
 {
-	Scene* scene = new Scene();
+	Scene* scene = JingleScript::NewObject<Scene>("Scene");
 
 	Ref<Config> config = Config::Load(file);
 

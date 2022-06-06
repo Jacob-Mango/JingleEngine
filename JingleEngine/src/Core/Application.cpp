@@ -24,6 +24,7 @@
 
 BEGIN_CLASS_LINK(Application)
 	LINK_NAMED_VARIABLE(FPS, m_FPS);
+	LINK_METHOD(GetScene);
 END_CLASS_LINK()
 
 Application* Application::s_Instance = nullptr;

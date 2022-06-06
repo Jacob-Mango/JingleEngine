@@ -61,8 +61,8 @@ public:
 
 	uint64_t GetFPS() const;
 
-	inline Scene* GetScene() const { return m_Scene; }
-	inline void SetScene(Scene* scene) { m_Scene = scene; }
+	Scene* GetScene() const { return m_Scene; }
+	void SetScene(Scene* scene) { m_Scene = scene; }
 
 public:
 	int Initialize();

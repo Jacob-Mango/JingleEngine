@@ -16,7 +16,9 @@ class Application
 		ImGui_Text("WantCaptureKeyboard: " + b1);
 		ImGui_Text("WantCaptureMouse: " + b2);
 
-		Camera camera = GetCurrentCamera();
+		Scene scene = this.GetScene();
+		Camera camera = scene.GetCamera();
+
 		// null comparison broken??
 		//if (camera)
 		{
@@ -31,10 +33,10 @@ class Application
 
 		ImGui_End();
 	}
+
+	@Native
+	Scene GetScene();
 }
 
 @Native
 Application GetApplication();
-
-@Native
-Camera GetCurrentCamera();
