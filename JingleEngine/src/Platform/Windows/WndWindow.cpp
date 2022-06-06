@@ -42,7 +42,6 @@ void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsiz
 	std::cout << "Message: " << std::string(message, length) << std::endl;
 }
 
-HINSTANCE WndWindow::s_Instance;
 long WndWindow::s_MouseDeltaX;
 long WndWindow::s_MouseDeltaY;
 
@@ -52,9 +51,11 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 int WndWindow::Create(const WindowDesc& desc)
 {
+	m_Instance = NULL;
+
 	WNDCLASS wc = { 0 };
 	wc.lpfnWndProc = WndProc;
-	wc.hInstance = s_Instance;
+	wc.hInstance = m_Instance;
 	wc.hbrBackground = (HBRUSH)(COLOR_BACKGROUND);
 	wc.lpszClassName = L"oglversionchecksample";
 	wc.style = CS_OWNDC;
@@ -68,7 +69,8 @@ int WndWindow::Create(const WindowDesc& desc)
 
 	std::wstring title = std::wstring(desc.Title.begin(), desc.Title.end());
 
-	m_Window = CreateWindowW(wc.lpszClassName, title.c_str(), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, m_Width, m_Height, 0, 0, s_Instance, 0);
+	m_Window = CreateWindowW(wc.lpszClassName, title.c_str(), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, m_Width, m_Height, 0, 0, m_Instance, 0);
+	ShowWindow(m_Window, SW_RESTORE);
 	m_DeviceContext = GetDC(m_Window);
 
 	RAWINPUTDEVICE rid[1];
@@ -135,70 +137,6 @@ int WndWindow::Create(const WindowDesc& desc)
 	std::cout << "OpenGL Version: " << glVersion[0] << "." << glVersion[1] << std::endl;
 	//JS_INFO("OpenGL Version %d.%d", glVersion[0], glVersion[1]);
 
-/*
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-	{
-		std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-		return -1;
-	}
-
-	SDL_CaptureMouse(SDL_TRUE);
-
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-	int sdlFlags = 0;
-	SDL_GL_GetAttribute(SDL_GL_CONTEXT_FLAGS, &sdlFlags);
-	sdlFlags |= SDL_GL_CONTEXT_DEBUG_FLAG;
-
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, sdlFlags);
-
-	int width = desc.Width;
-	int height = desc.Height;
-
-	int windowsFlags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-	int posFlag = SDL_WINDOWPOS_CENTERED;
-
-	if (desc.FullScreen)
-	{
-		windowsFlags |= SDL_WINDOW_FULLSCREEN;
-		posFlag = SDL_WINDOWPOS_UNDEFINED;
-
-		width = 0;
-		height = 0;
-	}
-
-	m_SDLWindow = SDL_CreateWindow(desc.Title.c_str(), posFlag, posFlag, width, height, windowsFlags);
-	if (m_SDLWindow == nullptr)
-	{
-		return -2;
-	}
-
-	m_SDLRenderer = SDL_CreateRenderer(m_SDLWindow, -1, SDL_RENDERER_ACCELERATED);
-	if (m_SDLRenderer == nullptr)
-	{
-		return -3;
-	}
-
-	m_GLContext = SDL_GL_CreateContext(m_SDLWindow);
-
-	if (!gladLoadGLLoader((GLADloadproc)wglGetProcAddress))
-	{
-		return -4;
-	}
-
-	SDL_DisplayMode dm;
-	if (SDL_GetCurrentDisplayMode(0, &dm) != 0)
-	{
-		return -5;
-	}
-*/
-
 	GLint flags;
 	GL(glGetIntegerv(GL_CONTEXT_FLAGS, &flags));
 	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
@@ -222,7 +160,6 @@ int WndWindow::Create(const WindowDesc& desc)
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(m_Window);
-	//ImGui_ImplSDL2_InitForOpenGL(m_SDLWindow, (SDL_GLContext)m_GLContext);
 	ImGui_ImplOpenGL3_Init("#version 130");
 
 	SetVsync(false);
@@ -243,16 +180,10 @@ WndWindow::~WndWindow()
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplWin32_Shutdown();
-	//ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
 	DestroyWindow(m_Window);
-	UnregisterClass(L"openglversioncheck", s_Instance);
-
-	//SDL_GL_DeleteContext((SDL_GLContext)m_GLContext);
-	//SDL_DestroyRenderer(m_SDLRenderer);
-	//SDL_DestroyWindow(m_SDLWindow);
-	//SDL_Quit();
+	UnregisterClass(L"openglversioncheck", m_Instance);
 }
 
 bool WndWindow::IsVsync() const
@@ -480,47 +411,3 @@ void WndWindow::End()
 	wglMakeCurrent(m_DeviceContext, m_GLContext);
 	SwapBuffers(m_DeviceContext);
 }
-
-// Source: https://stackoverflow.com/questions/191842/how-do-i-get-console-output-in-c-with-a-windows-program
-#ifdef _DEBUG
-void RedirectIOToConsole()
-{
-	int hConHandle;
-	long lStdHandle;
-	CONSOLE_SCREEN_BUFFER_INFO coninfo;
-	FILE* fp;
-
-	// allocate a console for this app
-	AllocConsole();
-
-	// set the screen buffer to be big enough to let us scroll text
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &coninfo);
-	coninfo.dwSize.Y = MAX_CONSOLE_LINES;
-	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
-
-	// redirect unbuffered STDOUT to the console
-	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen(hConHandle, "w");
-	*stdout = *fp;
-	setvbuf(stdout, NULL, _IONBF, 0);
-
-	// redirect unbuffered STDIN to the console
-	lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen(hConHandle, "r");
-	*stdin = *fp;
-	setvbuf(stdin, NULL, _IONBF, 0);
-
-	// redirect unbuffered STDERR to the console
-	lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen(hConHandle, "w");
-	*stderr = *fp;
-	setvbuf(stderr, NULL, _IONBF, 0);
-
-	// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog
-	// point to console as well
-	std::ios::sync_with_stdio();
-}
-#endif

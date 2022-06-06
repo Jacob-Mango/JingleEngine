@@ -33,8 +33,7 @@ public:
 	static long s_MouseDeltaY;
 
 private:
-	static HINSTANCE s_Instance;
-
+	HINSTANCE m_Instance;
 	HGLRC m_GLContext;
 	HDC m_DeviceContext;
 	HWND m_Window;

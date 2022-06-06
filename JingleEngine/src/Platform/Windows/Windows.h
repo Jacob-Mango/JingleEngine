@@ -5,21 +5,11 @@
 
 #include "Platform/Windows/WndWindow.h"
 
-#ifdef _DEBUG
-void RedirectIOToConsole();
-#endif
-
 int JingleEngineMain(Application* app);
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
+int main(int argc, char** argv)
 {
-#ifdef _DEBUG
-	RedirectIOToConsole();
-#endif
-
 	using namespace JingleScript;
-
-	WndWindow::s_Instance = hInstance;
 
 	//! Core scripts have to be compiled before application initialization!
 	//! This is because Application inherits from JingleScript::Object and the 
