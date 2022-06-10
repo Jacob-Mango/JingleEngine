@@ -66,17 +66,23 @@ Global {
     }
    }
   }
- }
- Classes: {
-  Class {
-   Name: "float"
-   Variables: {
-    Variable {
-     Type: "float"
-     Name: "value"
+  Function {
+   Attributes: {
+    Attribute {
+     Name: "Native"
+    }
+   }
+   ReturnType: "void"
+   Name: "ImGui_Text"
+   Parameters: {
+    Parameter {
+     Type: "Object"
+     Name: "object"
     }
    }
   }
+ }
+ Classes: {
   Class {
    Name: "Application"
    Variables: {
@@ -246,6 +252,22 @@ Global {
         }
        }
       }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Value {
+            Value: "scene"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
       Variable {
        Type: "Camera"
        Name: "camera"
@@ -259,6 +281,22 @@ Global {
            IsSuper: "0"
           }
          }
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Value {
+            Value: "camera"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
         }
        }
       }
@@ -424,15 +462,6 @@ Global {
    Base: "Asset"
   }
   Class {
-   Name: "double"
-   Variables: {
-    Variable {
-     Type: "double"
-     Name: "value"
-    }
-   }
-  }
-  Class {
    Name: "Shader"
    Base: "Asset"
   }
@@ -542,37 +571,7 @@ Global {
    Base: "Attribute"
   }
   Class {
-   Name: "null"
-  }
-  Class {
-   Name: "byte"
-   Variables: {
-    Variable {
-     Type: "byte"
-     Name: "value"
-    }
-   }
-  }
-  Class {
-   Name: "int"
-   Variables: {
-    Variable {
-     Type: "int"
-     Name: "value"
-    }
-   }
-  }
-  Class {
-   Name: "Module"
-  }
-  Class {
-   Name: "bool"
-   Variables: {
-    Variable {
-     Type: "bool"
-     Name: "value"
-    }
-   }
+   Name: "DebugType"
   }
   Class {
    Name: "WndWindow"
@@ -582,13 +581,10 @@ Global {
    Name: "Debug"
   }
   Class {
-   Name: "string"
-  }
-  Class {
-   Name: "DebugType"
-  }
-  Class {
    Name: "EntityType"
+  }
+  Class {
+   Name: "Module"
   }
   Class {
    Name: "Renderer"
@@ -617,6 +613,59 @@ Global {
      }
      ReturnType: "Camera"
      Name: "GetCamera"
+    }
+   }
+  }
+ }
+ Structures: {
+  Struct {
+   Name: "null"
+  }
+  Struct {
+   Name: "byte"
+   Variables: {
+    Variable {
+     Type: "byte"
+     Name: "value"
+    }
+   }
+  }
+  Struct {
+   Name: "int"
+   Variables: {
+    Variable {
+     Type: "int"
+     Name: "value"
+    }
+   }
+  }
+  Struct {
+   Name: "float"
+   Variables: {
+    Variable {
+     Type: "float"
+     Name: "value"
+    }
+   }
+  }
+  Struct {
+   Name: "bool"
+   Variables: {
+    Variable {
+     Type: "bool"
+     Name: "value"
+    }
+   }
+  }
+  Struct {
+   Name: "string"
+  }
+  Struct {
+   Name: "double"
+   Variables: {
+    Variable {
+     Type: "double"
+     Name: "value"
     }
    }
   }

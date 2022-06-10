@@ -24,8 +24,21 @@ void ImGui_End()
 	ImGui::End();
 }
 
+template<typename T>
+void ImGui_Text(T text)
+{
+}
+
+template<>
 void ImGui_Text(std::string text)
 {
+	ImGui::Text(text.c_str());
+}
+
+template<>
+void ImGui_Text(JingleScript::Object* object)
+{
+	std::string text = object ? object->AsString() : "null";
 	ImGui::Text(text.c_str());
 }
 
@@ -38,5 +51,6 @@ void LinkImGUI()
 	LINK_FUNCTION(ImGui_WantCaptureKeyboard);
 	LINK_FUNCTION(ImGui_WantCaptureMouse);
 
-	LINK_FUNCTION(ImGui_Text);
+	LINK_NAMED_FUNCTION(ImGui_Text, ImGui_Text<std::string>);
+	LINK_NAMED_FUNCTION(ImGui_Text, ImGui_Text<JingleScript::Object*>);
 }

@@ -17,7 +17,9 @@ class Application
 		ImGui_Text("WantCaptureMouse: " + b2);
 
 		Scene scene = this.GetScene();
+		ImGui_Text(scene);
 		Camera camera = scene.GetCamera();
+		ImGui_Text(camera);
 
 		// null comparison broken??
 		//if (camera)

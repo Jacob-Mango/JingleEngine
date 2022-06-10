@@ -12,3 +12,6 @@ bool ImGui_WantCaptureMouse();
 
 @Native
 void ImGui_Text(string text);
+
+@Native
+void ImGui_Text(Object object);

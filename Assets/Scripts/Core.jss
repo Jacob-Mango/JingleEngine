@@ -29,47 +29,47 @@ class Native extends Attribute
 
 }
 
-class null
+struct null
 {
 	// All valid native operators are generated at compile time
 }
 
-class byte
+struct byte
 {
 	byte value;
 
 	// All valid native operators are generated at compile time
 }
 
-class int
+struct int
 {
 	int value;
 
 	// All valid native operators are generated at compile time
 }
 
-class bool
+struct bool
 {
 	bool value;
 
 	// All valid native operators are generated at compile time
 }
 
-class float
+struct float
 {
 	float value;
 
 	// All valid native operators are generated at compile time
 }
 
-class double
+struct double
 {
 	double value;
 
 	// All valid native operators are generated at compile time
 }
 
-class string
+struct string
 {
 	// All valid native operators are generated at compile time
 }
