@@ -92,7 +92,6 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 	}
 
 	std::vector<MeshComponent*> meshes;
-
 	for (int i = 0; i < m_Entities.size(); i++)
 	{
 		meshes.clear();
@@ -102,7 +101,12 @@ void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
 
 		glm::dmat4 transform = entity->GetWorldTransform();
 
-		if (entity->IsVisible()) entity->GetComponents(meshes);
+		if (!entity->IsVisible())
+		{
+			continue;
+		}
+		
+		entity->GetComponents<MeshComponent>(meshes);
 
 		for (auto& mesh : meshes)
 		{

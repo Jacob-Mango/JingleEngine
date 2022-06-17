@@ -19,6 +19,8 @@ class Scene : public JingleScript::ManagedObject
 
 	friend class Renderer;
 
+	friend class SceneHierarchyPanel;
+
 private:
 	std::vector<Entity*> m_Entities;
 	std::vector<Light*> m_Lights;

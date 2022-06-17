@@ -109,6 +109,8 @@ void Application::Run()
 	double frameTime = 0;
 	uint64_t frames = 0;
 
+	ImGuiRenderEventArgs imguiArgs;
+
 	while (m_IsRunning)
 	{
 		m_DeltaTime = time.Elapsed();
@@ -130,6 +132,9 @@ void Application::Run()
 		}
 
 		OnTick((float)m_DeltaTime);
+
+		imguiArgs.DeltaTime = m_DeltaTime;
+		Application::Get()->OnEvent(this, imguiArgs);
 
 		if (window)
 		{

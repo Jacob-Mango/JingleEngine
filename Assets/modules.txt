@@ -3,3 +3,4 @@ TestModule
 Renderer
 BindingModule
 AssetModule
+SceneHierarchyPanel

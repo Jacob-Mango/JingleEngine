@@ -909,6 +909,16 @@ class BindingModule extends Module {
   void BindingModule::~BindingModule() (Native)
 }
 
+class SceneHierarchyPanel extends EditorPanel {
+
+  void SceneHierarchyPanel::~SceneHierarchyPanel() (Native)
+}
+
+class EditorPanel extends Module {
+
+  void EditorPanel::~EditorPanel() (Native)
+}
+
 class AssetModule extends Module {
 
   void AssetModule::~AssetModule() (Native)

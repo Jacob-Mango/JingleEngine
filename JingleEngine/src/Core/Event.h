@@ -39,6 +39,12 @@ public:
 
 		return str;
 	}
+
+	template<typename T>
+	const T& As() const
+	{
+		return *((const T*)this);
+	}
 };
 
 typedef std::function<void(BaseClass*, EventArgs&)> Event;
@@ -106,4 +112,8 @@ EVENT(WindowResize, Window, 11)
 };
 
 EVENT(WindowClose, Window, 12)
+};
+
+EVENT_DEFAULT(ImGuiRender, 13)
+	double DeltaTime;
 };

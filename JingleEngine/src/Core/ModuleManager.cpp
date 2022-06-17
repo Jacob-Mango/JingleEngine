@@ -7,6 +7,40 @@
 
 void ModuleManager::Initialize()
 {
+	//! TODO: Initalize based on attributes on the script class
+
+	/*
+	@AbstractModule(platform: PlatformType.NONE)
+	class Window extends Module
+	{
+
+	}
+
+	@Module(platform: PlatformType.WINDOWS)
+	class Win32Window extends Window
+	{
+
+	}
+
+	@Module(platform: PlatformType.LINUX)
+	class LinuxWindow extends Window
+	{
+
+	}
+
+	@AbstractModule(editor: true)
+	class EditorPanel extends Module
+	{
+
+	}
+
+	@Module // inherits (editor: true)
+	class ScenePanel extends EditorPanel
+	{
+
+	}
+	*/
+
 	using namespace JingleScript;
 
 	ModuleManager& manager = Get();
