@@ -1,6 +1,10 @@
 #include "Renderer.h"
 
+#include "Rendering/Viewport.h"
+
 #include "Scene/Scene.h"
+
+#include "Scene/Components/MeshComponent.h"
 
 #include "Core/ModuleManager.h"
 #include "Core/Window.h"
@@ -15,9 +19,30 @@ void Renderer::SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform)
 	m_StaticMeshes[shader].push_back({ shader, mesh, transform });
 }
 
-void Renderer::OnTick(double DeltaTime)
+//! TODO: Refactor and abstract
+void Renderer::Process(double DeltaTime, Viewport* viewport)
 {
-	Scene* scene = Application::Get()->GetScene();
+	m_StaticMeshes.clear();
+
+	Scene* scene = viewport->m_Scene;
+
+	for (auto& entity : scene->m_Entities)
+	{
+		if (!entity->IsVisible())
+		{
+			continue;
+		}
+		
+		glm::dmat4 transform = entity->GetWorldTransform();
+
+		std::vector<MeshComponent*> components;
+		entity->GetComponents<MeshComponent>(components);
+
+		for (auto& component : components)
+		{
+			SubmitStaticMesh(component->GetMesh(), transform);
+		}
+	}
 
 	GL(glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS));
 	GL(glEnable(GL_DEPTH_TEST));
@@ -28,31 +53,19 @@ void Renderer::OnTick(double DeltaTime)
 	GL(glClearColor(0.0, 0.0, 0.0, 0.0));
 	GL(glClearDepth(1.0f));
 
-	auto window = ModuleManager::Get<Window>();
-
-	auto [width, height] = window->GetSize();
-
-	if (scene)
-	{
-		scene->SetProjectionMatrix(glm::perspective(glm::radians(90.0f), (GLfloat)width / (GLfloat)height, 0.001f, 1000.0f));
-	}
-
 	GL(glCullFace(GL_BACK));
 	GL(glFrontFace(GL_CCW));
 
 	GL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-	GL(glViewport(0, 0, width, height));
+	GL(glViewport(0, 0, viewport->m_Width, viewport->m_Height));
 
 	for (auto& [shader, commands] : m_StaticMeshes)
 	{
 		shader->Bind();
 
-		if (scene)
-		{
-			shader->Set("u_ProjectionMatrix", scene->GetProjectionMatrix());
-			shader->Set("u_ViewMatrix", scene->GetViewMatrix());
-			shader->Set("u_CameraPosition", scene->GetCamera() ? glm::vec3(scene->GetCamera()->GetPosition()) : glm::vec3(0));
-		}
+		shader->Set("u_ProjectionMatrix", viewport->m_ProjectionMatrix);
+		shader->Set("u_ViewMatrix", viewport->m_ViewMatrix);
+		shader->Set("u_CameraPosition", viewport->m_CameraPosition);
 
 		int numDirectionalLights = 0;
 		int numPointLights = 0;
@@ -84,6 +97,4 @@ void Renderer::OnTick(double DeltaTime)
 
 		shader->Unbind();
 	}
-
-	m_StaticMeshes.clear();
 }

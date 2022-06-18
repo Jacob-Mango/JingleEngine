@@ -11,9 +11,9 @@ void DebugType::Load(Config& config)
 	Super::Load(config);
 }
 
-void Debug::OnSimulate(double DeltaTime)
+void Debug::OnTick(double DeltaTime)
 {
-	Super::OnSimulate(DeltaTime);
+	Super::OnTick(DeltaTime);
 
 	Delete();
 }

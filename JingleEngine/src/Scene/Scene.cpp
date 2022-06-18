@@ -78,40 +78,12 @@ void Scene::OnStop()
 {
 }
 
-void Scene::OnSimulate(double DeltaTime, Renderer* Renderer)
+void Scene::OnTick(double DeltaTime)
 {
-	auto camera = GetCamera();
-	glm::vec3 cameraPos(0.0f);
-	if (camera)
-	{
-		cameraPos = camera->GetPosition();
-		glm::vec3 up = camera->GetUpDirection();
-		glm::vec3 forward = camera->GetForwardDirection();
-
-		m_ViewMatrix = glm::lookAt(cameraPos, cameraPos + forward, up);
-	}
-
-	std::vector<MeshComponent*> meshes;
 	for (int i = 0; i < m_Entities.size(); i++)
 	{
-		meshes.clear();
-
 		Entity* entity = m_Entities[i];
-		entity->OnSimulate(DeltaTime);
-
-		glm::dmat4 transform = entity->GetWorldTransform();
-
-		if (!entity->IsVisible())
-		{
-			continue;
-		}
-		
-		entity->GetComponents<MeshComponent>(meshes);
-
-		for (auto& mesh : meshes)
-		{
-			mesh->Submit(transform, Renderer);
-		}
+		entity->OnTick(DeltaTime);
 	}
 }
 
@@ -123,21 +95,6 @@ Camera* Scene::GetCamera()
 void Scene::SetCamera(Camera* camera)
 {
 	m_Camera = camera;
-}
-
-glm::mat4& Scene::GetProjectionMatrix()
-{
-	return m_ProjectionMatrix;
-}
-
-void Scene::SetProjectionMatrix(glm::mat4 transform)
-{
-	m_ProjectionMatrix = transform;
-}
-
-glm::mat4& Scene::GetViewMatrix()
-{
-	return m_ViewMatrix;
 }
 
 Ref<Texture> Scene::GetSkybox()

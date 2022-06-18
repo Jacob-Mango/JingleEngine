@@ -4,6 +4,7 @@ class Application
 	
 	void OnUpdate(double DeltaTime)
 	{
+		/*
 		ImGui_Begin("Test");
 
 		ImGui_Text("This is jingle script");
@@ -34,6 +35,7 @@ class Application
 		}
 
 		ImGui_End();
+		*/
 	}
 
 	@Native

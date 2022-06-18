@@ -5,19 +5,13 @@
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 
+#include "Rendering/Image.h"
+
 class Shader;
 
-enum class TextureFormat
+class Texture : public JingleScript::ManagedObject
 {
-	RGBA8,
-	RGBA16,
-	RGBA32,
-	DEPTH
-};
-
-class Texture : public Asset
-{
-	SETUP_ASSET(Texture, Asset);
+	DEFINE_CLASS(Texture, JingleScript::ManagedObject);
 
 	friend class Framebuffer;
 	friend class Scene;
@@ -26,23 +20,22 @@ private:
 	unsigned int m_Width;
 	unsigned int m_Height;
 
-	TextureFormat m_Format;
-	bool m_CubeMap;
+	ImageFormat m_ImageFormat;
+	ImageType m_ImageType;
 
 	GLuint m_ID;
 
 public:
-	Texture();
+	Texture() { }
 	virtual ~Texture();
 
-	static GLenum FormatToGL(TextureFormat format);
-
-	void Create(TextureFormat format, unsigned int width, unsigned int height, bool cubeMap);
+	static Texture* Create(Image* image);
+	static Texture* Create(ImageFormat format, ImageType type, unsigned int width, unsigned int height);
 
 	void Bind();
 	void Bind(int index);
 	void Unbind();
 
-public:
-	virtual bool OnLoad() override;
+	void ImGui(const ImVec2& size);
+
 };

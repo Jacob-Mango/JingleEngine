@@ -29,19 +29,19 @@ bool Material::OnLoad()
 	m_Shader = AssetModule::Get<Shader>(shader);
 
 	std::string ambient = (*config)["ambient"]["path"].String;
-	m_Ambient = AssetModule::Get<Texture>(ambient);
+	m_Ambient = AssetModule::Get<Image>(ambient);
 
 	std::string diffuse = (*config)["diffuse"]["path"].String;
-	m_Diffuse = AssetModule::Get<Texture>(diffuse);
+	m_Diffuse = AssetModule::Get<Image>(diffuse);
 
 	std::string metallic = (*config)["metallic"]["path"].String;
-	m_Metallic = AssetModule::Get<Texture>(metallic);
+	m_Metallic = AssetModule::Get<Image>(metallic);
 
 	std::string normal = (*config)["normal"]["path"].String;
-	m_Normal = AssetModule::Get<Texture>(normal);
+	m_Normal = AssetModule::Get<Image>(normal);
 
 	std::string roughness = (*config)["roughness"]["path"].String;
-	m_Roughness = AssetModule::Get<Texture>(roughness);
+	m_Roughness = AssetModule::Get<Image>(roughness);
 
 
 	#if 0
@@ -56,35 +56,35 @@ bool Material::OnLoad()
 		auto ambient = (*config)["ambient"];
 		auto path = ambient["path"].String;
 
-		m_Ambient = AssetModule::Get<Texture>(path);
+		m_Ambient = AssetModule::Get<Image>(path);
 	}
 
 	{
 		auto diffuse = (*config)["diffuse"];
 		auto path = diffuse["path"].String;
 
-		m_Diffuse = AssetModule::Get<Texture>(path);
+		m_Diffuse = AssetModule::Get<Image>(path);
 	}
 
 	{
 		auto metallic = (*config)["metallic"];
 		auto path = metallic["path"].String;
 
-		m_Metallic = AssetModule::Get<Texture>(path);
+		m_Metallic = AssetModule::Get<Image>(path);
 	}
 
 	{
 		auto normal = (*config)["normal"];
 		auto path = normal["path"].String;
 
-		m_Normal = AssetModule::Get<Texture>(path);
+		m_Normal = AssetModule::Get<Image>(path);
 	}
 
 	{
 		auto roughness = (*config)["roughness"];
 		auto path = roughness["path"].String;
 
-		m_Roughness = AssetModule::Get<Texture>(path);
+		m_Roughness = AssetModule::Get<Image>(path);
 	}
 	#endif
 

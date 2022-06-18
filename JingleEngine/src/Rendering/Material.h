@@ -15,11 +15,11 @@ class Material : public Asset
 	Ref<Shader> m_Shader;
 
 	//TODO: move to an array/map and assign based on uniforms found within the shader
-	Ref<Texture> m_Ambient;
-	Ref<Texture> m_Diffuse;
-	Ref<Texture> m_Metallic;
-	Ref<Texture> m_Normal;
-	Ref<Texture> m_Roughness;
+	Ref<Image> m_Ambient;
+	Ref<Image> m_Diffuse;
+	Ref<Image> m_Metallic;
+	Ref<Image> m_Normal;
+	Ref<Image> m_Roughness;
 
 public:
 	Material();

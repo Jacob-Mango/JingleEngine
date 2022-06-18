@@ -39,9 +39,9 @@ void Camera::OnCreate()
 	Binding_Left = bindingModule->GetByName("left");
 }
 
-void Camera::OnSimulate(double DeltaTime)
+void Camera::OnTick(double DeltaTime)
 {
-	Super::OnSimulate(DeltaTime);
+	Super::OnTick(DeltaTime);
 
 	auto& type = GetEntityType<CameraType>();
 

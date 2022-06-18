@@ -40,7 +40,7 @@ public:
 	Planet() {}
 
 	virtual void OnCreate() override;
-	virtual void OnSimulate(double DeltaTime) override;
+	virtual void OnTick(double DeltaTime) override;
 
 	void CreateFace(glm::dvec3 right, glm::dvec3 up, glm::dvec3 forward);
 

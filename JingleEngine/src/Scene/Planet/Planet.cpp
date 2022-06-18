@@ -30,7 +30,7 @@ void Planet::OnCreate()
 	CreateFace(glm::dvec3(0, -1, 0), glm::dvec3(-1, 0, 0), glm::dvec3(0, 0, -1));
 }
 
-void Planet::OnSimulate(double DeltaTime)
+void Planet::OnTick(double DeltaTime)
 {
 }
 

@@ -25,6 +25,7 @@
     <ClCompile Include="src\Core\ModuleManager.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Editor\EditorPanel.cpp" />
+    <ClCompile Include="src\Editor\EditorViewportPanel.cpp" />
     <ClCompile Include="src\Editor\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Input\Binding.cpp" />
     <ClCompile Include="src\Input\BindingModule.cpp" />
@@ -33,9 +34,11 @@
     <ClCompile Include="src\Core\Config.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Platform\Windows\WndWindow.cpp" />
+    <ClCompile Include="src\Rendering\Image.cpp" />
     <ClCompile Include="src\Rendering\ImGui.cpp" />
     <ClCompile Include="src\Rendering\MeshInstance.cpp" />
     <ClCompile Include="src\Rendering\Vertex.cpp" />
+    <ClCompile Include="src\Rendering\Viewport.cpp" />
     <ClCompile Include="src\Scene\Components\MeshComponent.cpp" />
     <ClCompile Include="src\Scene\Debug.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
@@ -70,6 +73,7 @@
     <ClInclude Include="src\Core\Module.h" />
     <ClInclude Include="src\Core\ModuleManager.h" />
     <ClInclude Include="src\Editor\EditorPanel.h" />
+    <ClInclude Include="src\Editor\EditorViewportPanel.h" />
     <ClInclude Include="src\Editor\SceneHierarchyPanel.h" />
     <ClInclude Include="src\Entry.h" />
     <ClInclude Include="src\Input\Binding.h" />
@@ -79,9 +83,11 @@
     <ClInclude Include="src\Platform\Windows\SDL_scancode.h" />
     <ClInclude Include="src\Platform\Windows\Windows.h" />
     <ClInclude Include="src\Platform\Windows\WndWindow.h" />
+    <ClInclude Include="src\Rendering\Image.h" />
     <ClInclude Include="src\Rendering\ImGui.h" />
     <ClInclude Include="src\Rendering\MeshInstance.h" />
     <ClInclude Include="src\Rendering\Vertex.h" />
+    <ClInclude Include="src\Rendering\Viewport.h" />
     <ClInclude Include="src\Scene\Components\MeshComponent.h" />
     <ClInclude Include="src\Scene\Debug.h" />
     <ClInclude Include="src\Core\Event.h" />

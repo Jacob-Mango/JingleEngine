@@ -35,7 +35,7 @@ void PlanetQuad::OnDestroy()
 	DestroyChildQuads();
 }
 
-void PlanetQuad::OnSimulate(double DeltaTime)
+void PlanetQuad::OnTick(double DeltaTime)
 {
 	glm::dvec3 position = GetWorldTransform()[3];
 	glm::vec3 cameraPosition = GetScene()->GetCamera()->GetPosition();

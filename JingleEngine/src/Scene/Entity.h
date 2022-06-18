@@ -123,5 +123,5 @@ public:
 
 	virtual void OnCreate();
 	virtual void OnDestroy();
-	virtual void OnSimulate(double DeltaTime);
+	virtual void OnTick(double DeltaTime);
 };

@@ -233,7 +233,7 @@ void Entity::OnDestroy()
 {
 }
 
-void Entity::OnSimulate(double DeltaTime)
+void Entity::OnTick(double DeltaTime)
 {
 PositionX = m_Transform[3][0];
 PositionY = m_Transform[3][1];

@@ -46,7 +46,7 @@ public:
 
 	virtual void OnCreate() override;
 	virtual void OnDestroy() override;
-	virtual void OnSimulate(double DeltaTime) override;
+	virtual void OnTick(double DeltaTime) override;
 
 	void SpawnChild(unsigned int quadrant);
 

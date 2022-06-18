@@ -2,45 +2,42 @@
 
 #include "Core/Core.h"
 
-class Shader;
-class Texture;
-enum class TextureFormat;
-/*
-class Framebuffer : public Countable
-{
-private:
-	std::string m_Name;
+#include "Rendering/Image.h"
+#include "Rendering/Texture.h"
 
+class Framebuffer : public JingleScript::ManagedObject
+{
+	DEFINE_CLASS(Framebuffer, JingleScript::ManagedObject);
+
+private:
 	GLuint m_ID;
 	GLuint m_RBOID;
 	unsigned int m_Width;
 	unsigned int m_Height;
 
-	bool m_CubeMap;
+	ImageType m_ImageType;
 
 	unsigned int m_NumColorAttachment;
 	std::map<unsigned int, Ref<Texture>> m_Attachments;
 
-	std::vector<TextureFormat> m_AttachmentArray;
+	std::vector<ImageFormat> m_AttachmentArray;
 
 public:
-	Framebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width = 512, unsigned int height = 512, bool cubeMap = false);
+	Framebuffer() {}
 	virtual ~Framebuffer();
+
+	static Framebuffer* Create(const std::vector<ImageFormat>& attachments, ImageType type, unsigned int width, unsigned int height);
 
 	void Bind();
 	void Unbind();
 
-	void Clear(unsigned int bits);
-
 	void Resize(unsigned int width, unsigned int height);
 
-	Ref<Texture> GetTexture(int index);
-	std::string GetName();
-
-	bool IsCubeMap();
+	Texture* GetTexture(int index);
+	ImageType GetImageType();
 
 private:
-	void AttachColor(TextureFormat format);
-	void AttachDepth(TextureFormat format);
+	void AttachColor(ImageFormat format);
+	void AttachDepth(ImageFormat format);
+
 };
-*/

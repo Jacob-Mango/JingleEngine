@@ -27,9 +27,6 @@ private:
 
 	unsigned int m_NextID = 0;
 
-	glm::mat4 m_ProjectionMatrix;
-	glm::mat4 m_ViewMatrix;
-
 	Ref<Texture> m_Skybox;
 
 	Camera* m_Camera;
@@ -49,7 +46,7 @@ public:
 
 	void OnStart();
 	void OnStop();
-	void OnSimulate(double DeltaTime, class Renderer* Renderer);
+	void OnTick(double DeltaTime);
 
 	template <typename T>
 	T* SpawnEntity(EntityType* entityType, glm::vec3 position = glm::vec3(0), glm::vec3 orientation = glm::vec3(0))
@@ -90,11 +87,6 @@ public:
 
 	Camera* GetCamera();
 	void SetCamera(Camera* camera);
-
-	glm::mat4& GetProjectionMatrix();
-	void SetProjectionMatrix(glm::mat4 transform);
-
-	glm::mat4& GetViewMatrix();
 
 	Ref<Texture> GetSkybox();
 	void SetSkybox(Ref<Texture> skybox);

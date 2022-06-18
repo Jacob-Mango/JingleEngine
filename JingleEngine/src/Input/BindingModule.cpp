@@ -89,16 +89,10 @@ void BindingModule::RegisterCombos(std::string name, std::initializer_list<std::
 
 void BindingModule::OnTick(double DeltaTime)
 {
-	ImGui::Begin("BindingModule");
-
 	for (const auto& [key, entry] : m_Bindings)
 	{
 		entry->UpdateState();
-
-		ImGui::Text(entry->ToString().c_str());
 	}
-
-	ImGui::End();
 
 	Input::Update();
 }

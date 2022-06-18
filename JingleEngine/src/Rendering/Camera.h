@@ -47,6 +47,6 @@ public:
 	Camera() {}
 
 	virtual void OnCreate() override;
-	virtual void OnSimulate(double DeltaTime) override;
+	virtual void OnTick(double DeltaTime) override;
 
 };

@@ -183,15 +183,15 @@ void Application::OnEvent(BaseClass* sender, const EventArgs& args)
 
 void Application::OnTick(double DeltaTime)
 {
+	if (m_Scene)
+	{
+		m_Scene->OnTick(DeltaTime);
+	}
+
+	Script_OnUpdate[this](DeltaTime);
+
 	ModuleManager::On([DeltaTime](Module* module)
 		{
 			module->OnTick(DeltaTime);
 		});
-
-	if (m_Scene)
-	{
-		m_Scene->OnSimulate(DeltaTime, ModuleManager::Get<Renderer>());
-	}
-
-	Script_OnUpdate[this](DeltaTime);
 }

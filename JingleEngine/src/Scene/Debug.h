@@ -26,6 +26,6 @@ class Debug : public MeshEntity
 public:
 	Debug() {}
 
-	virtual void OnSimulate(double DeltaTime) override;
+	virtual void OnTick(double DeltaTime) override;
 
 };

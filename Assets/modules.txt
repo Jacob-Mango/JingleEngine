@@ -4,3 +4,4 @@ Renderer
 BindingModule
 AssetModule
 SceneHierarchyPanel
+EditorViewportPanel

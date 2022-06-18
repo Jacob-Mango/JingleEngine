@@ -1,18 +1,26 @@
-#include "Framebuffer.h"
+#include "Rendering/Framebuffer.h"
 
 #include "Asset/AssetModule.h"
 
 #include "Rendering/Texture.h"
 
-/*
-Framebuffer::Framebuffer(std::string name, const std::vector<TextureFormat>& attachments, unsigned int width, unsigned int height, bool cubeMap) : m_Name(name), m_AttachmentArray(attachments), m_CubeMap(cubeMap)
-{
-	Resize(width, height);
-}
+BEGIN_CLASS_LINK(Framebuffer)
+END_CLASS_LINK()
 
 Framebuffer::~Framebuffer()
 {
 	GL(glDeleteFramebuffers(1, &m_ID));
+}
+
+Framebuffer* Framebuffer::Create(const std::vector<ImageFormat>& attachments, ImageType type, unsigned int width, unsigned int height)
+{
+	Framebuffer* framebuffer = JingleScript::NewObject<Framebuffer>("Framebuffer");
+
+	framebuffer->m_AttachmentArray = attachments;
+	framebuffer->m_ImageType = type;
+	framebuffer->Resize(width, height);
+
+	return framebuffer;
 }
 
 void Framebuffer::Bind()
@@ -26,15 +34,12 @@ void Framebuffer::Unbind()
 	GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-void Framebuffer::Clear(unsigned int bits)
-{
-	GL(glClear(bits));
-}
-
 void Framebuffer::Resize(unsigned int width, unsigned int height)
 {
-// MEMORY LEAK
-	return;
+	if (m_Width == width && m_Height == height)
+	{
+		return;
+	}
 
 	m_Width = width;
 	m_Height = height;
@@ -53,7 +58,7 @@ void Framebuffer::Resize(unsigned int width, unsigned int height)
 
 	for (auto& attachment : m_AttachmentArray)
 	{
-		if (attachment == TextureFormat::DEPTH)
+		if (attachment == ImageFormat::DEPTH)
 		{
 			AttachDepth(attachment);
 		}
@@ -94,7 +99,7 @@ void Framebuffer::Resize(unsigned int width, unsigned int height)
 	GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
-Ref<Texture> Framebuffer::GetTexture(int index)
+Texture* Framebuffer::GetTexture(int index)
 {
 	unsigned int attachment = GL_DEPTH_ATTACHMENT;
 	if (index >= 0)
@@ -106,27 +111,21 @@ Ref<Texture> Framebuffer::GetTexture(int index)
 	return it->second;
 }
 
-std::string Framebuffer::GetName()
+ImageType Framebuffer::GetImageType()
 {
-	return m_Name;
+	return m_ImageType;
 }
 
-bool Framebuffer::IsCubeMap()
-{
-	return m_CubeMap;
-}
-
-void Framebuffer::AttachColor(TextureFormat format)
+void Framebuffer::AttachColor(ImageFormat format)
 {
 	unsigned int attachment = GL_COLOR_ATTACHMENT0 + m_NumColorAttachment++;
 
-	Ref<Texture> texture = AssetModule::Get<Texture>(AssetID(m_Name + std::to_string(attachment)));
-	texture->Create(format, m_Width, m_Height, m_CubeMap);
+	Texture* texture = Texture::Create(format, m_ImageType, m_Width, m_Height);
 	m_Attachments[attachment] = texture;
 
 	texture->Bind();
 
-	if (m_CubeMap)
+	if (m_ImageType == ImageType::CUBEMAP)
 	{
 		GL(glFramebufferTexture(GL_FRAMEBUFFER, attachment, m_Attachments[attachment]->m_ID, 0));
 	}
@@ -138,17 +137,16 @@ void Framebuffer::AttachColor(TextureFormat format)
 	texture->Unbind();
 }
 
-void Framebuffer::AttachDepth(TextureFormat format)
+void Framebuffer::AttachDepth(ImageFormat format)
 {
 	unsigned int attachment = GL_DEPTH_ATTACHMENT;
 
-	Ref<Texture> texture = AssetModule::Get<Texture>(AssetID(m_Name + std::to_string(attachment)));
-	texture->Create(format, m_Width, m_Height, m_CubeMap);
+	Texture* texture = Texture::Create(format, m_ImageType, m_Width, m_Height);
 	m_Attachments[attachment] = texture;
 
 	texture->Bind();
 
-	if (m_CubeMap)
+	if (m_ImageType == ImageType::CUBEMAP)
 	{
 		GL(glFramebufferTexture(GL_FRAMEBUFFER, attachment, m_Attachments[attachment]->m_ID, 0));
 	}
@@ -159,4 +157,3 @@ void Framebuffer::AttachDepth(TextureFormat format)
 
 	texture->Unbind();
 }
-*/

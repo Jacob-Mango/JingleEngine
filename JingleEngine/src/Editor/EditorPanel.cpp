@@ -8,7 +8,8 @@ void EditorPanel::OnEvent(BaseClass* sender, const EventArgs& args)
 	switch (args.GetType())
 	{
 		case EventTypeImGuiRender:
-			if (ImGui::Begin("Scene Hierarchy", &m_IsOpen))
+			m_IsOpen = true;
+			if (ImGui::Begin(GetTitle().c_str(), &m_IsOpen))
 			{
 				OnRender(args.As<ImGuiRenderEventArgs>().DeltaTime);
 

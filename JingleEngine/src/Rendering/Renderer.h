@@ -27,5 +27,5 @@ public:
 
 	void SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform);
 
-	virtual void OnTick(double DeltaTime) override;
+	void Process(double DeltaTime, class Viewport* viewport);
 };
