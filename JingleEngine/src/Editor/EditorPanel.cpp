@@ -8,13 +8,11 @@ void EditorPanel::OnEvent(BaseClass* sender, const EventArgs& args)
 	switch (args.GetType())
 	{
 		case EventTypeImGuiRender:
-			m_IsOpen = true;
 			if (ImGui::Begin(GetTitle().c_str(), &m_IsOpen))
 			{
 				OnRender(args.As<ImGuiRenderEventArgs>().DeltaTime);
-
-				ImGui::End();
 			}
+			ImGui::End();
 			
 			break;
 	}

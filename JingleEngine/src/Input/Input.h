@@ -7,6 +7,9 @@ enum class InputState;
 class Input
 {
 	friend class BindingModule;
+	friend class EditorViewportPanel;
+
+	static bool s_CursorInViewport;
 
 public:
 	static void SetMousePosition(int x, int y);
@@ -17,9 +20,15 @@ public:
 	static bool IsCursorVisible();
 
 	static std::string StateToString(InputState state);
+
+	//! TODO: hacked in solution currently, only supports one viewport
+	static bool IsCursorInViewport() { return s_CursorInViewport; }
 	
 private:
 	static void Update();
+
+	static void SetCursorInViewport(bool in) { s_CursorInViewport = in; };
+
 };
 
 enum class InputState

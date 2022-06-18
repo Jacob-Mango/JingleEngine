@@ -1,8 +1,8 @@
 #include "Platform/Windows/WndWindow.h"
 
 #include <imgui.h>
-#include <imgui_impl_win32.h>
-#include <imgui_impl_opengl3.h>
+#include <backends/imgui_impl_win32.h>
+#include <backends/imgui_impl_opengl3.h>
 
 #include "Core/Application.h"
 #include "Core/ModuleManager.h"
@@ -152,16 +152,28 @@ int WndWindow::Create(const WindowDesc& desc)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;		// Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;		// Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;			// Enable Docking
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;			// Enable Multi-Viewport / Platform Windows
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	//ImGui::StyleColorsClassic();
 
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.15f, 0.15f, 0.15f, style.Colors[ImGuiCol_WindowBg].w);
+
+	style.WindowMenuButtonPosition = ImGuiDir_None; // ImGuiDir_Right; // Causes crash
+
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(m_Window);
-	ImGui_ImplOpenGL3_Init("#version 130");
+	ImGui_ImplOpenGL3_Init("#version 410");
 
 	//SetVsync(false);
 
@@ -185,14 +197,14 @@ WndWindow::~WndWindow()
 	UnregisterClass(L"openglversioncheck", m_Instance);
 }
 
-bool WndWindow::IsVsync() const
-{
-	return wglGetSwapIntervalEXT() != 0;
-}
-
 void WndWindow::SetVsync(bool enabled)
 {
 	wglSwapIntervalEXT(enabled);
+}
+
+bool WndWindow::IsVsync() const
+{
+	return wglGetSwapIntervalEXT() != 0;
 }
 
 void WndWindow::SetSize(std::pair<int, int> size)
@@ -211,6 +223,87 @@ std::pair<int, int> WndWindow::GetSize()
 	return { m_Width, m_Height };
 }
 
+void WndWindow::SetFullscreen(bool fullscreen)
+{
+	static bool forMetro = false;
+
+	SetWindowPos(m_Window, NULL, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOREPOSITION | SWP_NOSIZE | SWP_NOZORDER);
+
+	// Save current window state if not already fullscreen.
+	if (!m_Fullscreen.Active)
+	{
+		// Save current window information.  We force the window into restored mode
+		// before going fullscreen because Windows doesn't seem to hide the
+		// taskbar if the window is in the maximized state.
+		m_Fullscreen.Maximized = IsMaximized();
+		if (m_Fullscreen.Maximized)
+		{
+			SendMessage(m_Window, WM_SYSCOMMAND, SC_RESTORE, 0);
+		}
+
+		m_Fullscreen.Style = GetWindowLong(m_Window, GWL_STYLE);
+		m_Fullscreen.ExStyle = GetWindowLong(m_Window, GWL_EXSTYLE);
+		GetWindowRect(m_Window, &m_Fullscreen.Size);
+	}
+
+	m_Fullscreen.Active = fullscreen;
+
+	if (m_Fullscreen.Active)
+	{
+		SetWindowLong(m_Window, GWL_STYLE, m_Fullscreen.Style & ~(WS_CAPTION | WS_THICKFRAME));
+		SetWindowLong(m_Window, GWL_EXSTYLE, m_Fullscreen.ExStyle & ~(WS_EX_DLGMODALFRAME | WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
+
+		if (!forMetro)
+		{
+			MONITORINFO monitorInfo;
+			monitorInfo.cbSize = sizeof(monitorInfo);
+			GetMonitorInfo(MonitorFromWindow(m_Window, MONITOR_DEFAULTTONEAREST), &monitorInfo);
+
+			long x = monitorInfo.rcMonitor.left;
+			long y = monitorInfo.rcMonitor.top;
+			long w = monitorInfo.rcMonitor.right;
+			long h = monitorInfo.rcMonitor.bottom;
+
+			SetWindowPos(m_Window, NULL, w, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+		}
+	}
+	else
+	{
+		SetWindowLong(m_Window, GWL_STYLE, m_Fullscreen.Style);
+		SetWindowLong(m_Window, GWL_EXSTYLE, m_Fullscreen.ExStyle);
+
+		if (!forMetro)
+		{
+			long x = m_Fullscreen.Size.left;
+			long y = m_Fullscreen.Size.top;
+			long w = m_Fullscreen.Size.right;
+			long h = m_Fullscreen.Size.bottom;
+
+			SetWindowPos(m_Window, NULL, w, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+		}
+
+		if (m_Fullscreen.Maximized)
+		{
+			SendMessage(m_Window, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		}
+	}
+}
+
+bool WndWindow::IsFullscreen()
+{
+	return m_Fullscreen.Active;
+}
+
+void WndWindow::SetMaximized(bool maximized)
+{
+	
+}
+
+bool WndWindow::IsMaximized()
+{
+	return m_Maximized;
+}
+
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -221,7 +314,7 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 
-	if (Input::IsCursorVisible() && ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
 	{
 		return true;
 	}
@@ -232,6 +325,8 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	{
 	case WM_SIZE:
 	{
+		window->m_Maximized = wParam == SIZE_MAXIMIZED;
+
 		window->m_Width = LOWORD(lParam);
 		window->m_Height = HIWORD(lParam);
 
@@ -294,11 +389,15 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		break;
 	}
 	case WM_LBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+	case WM_MBUTTONDOWN:
 	{
 		if (io.WantCaptureMouse) break;
 
 		MouseButtonPressEventArgs args;
-		args.Button = MouseCode::MC_BUTTON_1;
+		if (message == WM_LBUTTONDOWN) args.Button = MouseCode::MC_BUTTON_1;
+		else if (message == WM_RBUTTONDOWN) args.Button = MouseCode::MC_BUTTON_2;
+		else if (message == WM_MBUTTONDOWN) args.Button = MouseCode::MC_BUTTON_3;
 
 		Application::Get()->OnMouseButtonPress.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);
@@ -306,59 +405,15 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		break;
 	}
 	case WM_LBUTTONUP:
-	{
-		if (io.WantCaptureMouse) break;
-
-		MouseButtonReleaseEventArgs args;
-		args.Button = MouseCode::MC_BUTTON_1;
-
-		Application::Get()->OnMouseButtonRelease.Invoke(window, args);
-		Application::Get()->OnEvent(window, args);
-
-		break;
-	}
-	case WM_RBUTTONDOWN:
-	{
-		if (io.WantCaptureMouse) break;
-
-		MouseButtonPressEventArgs args;
-		args.Button = MouseCode::MC_BUTTON_2;
-
-		Application::Get()->OnMouseButtonPress.Invoke(window, args);
-		Application::Get()->OnEvent(window, args);
-
-		break;
-	}
 	case WM_RBUTTONUP:
-	{
-		if (io.WantCaptureMouse) break;
-
-		MouseButtonReleaseEventArgs args;
-		args.Button = MouseCode::MC_BUTTON_2;
-
-		Application::Get()->OnMouseButtonRelease.Invoke(window, args);
-		Application::Get()->OnEvent(window, args);
-
-		break;
-	}
-	case WM_MBUTTONDOWN:
-	{
-		if (io.WantCaptureMouse) break;
-
-		MouseButtonPressEventArgs args;
-		args.Button = MouseCode::MC_BUTTON_3;
-
-		Application::Get()->OnMouseButtonPress.Invoke(window, args);
-		Application::Get()->OnEvent(window, args);
-
-		break;
-	}
 	case WM_MBUTTONUP:
 	{
 		if (io.WantCaptureMouse) break;
 
 		MouseButtonReleaseEventArgs args;
-		args.Button = MouseCode::MC_BUTTON_3;
+		if (message == WM_LBUTTONUP) args.Button = MouseCode::MC_BUTTON_1;
+		else if (message == WM_RBUTTONUP) args.Button = MouseCode::MC_BUTTON_2;
+		else if (message == WM_MBUTTONUP) args.Button = MouseCode::MC_BUTTON_3;
 
 		Application::Get()->OnMouseButtonRelease.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);
@@ -374,13 +429,9 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		Application::Get()->OnEvent(window, args);
 		break;
 	}
-	default:
-	{
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
 	}
 
-	return true;
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 void WndWindow::Begin()
@@ -395,12 +446,73 @@ void WndWindow::Begin()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuiStyle& style = ImGui::GetStyle();
+
+	io.ConfigWindowsResizeFromEdges = io.BackendFlags & ImGuiBackendFlags_HasMouseCursors;
+
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
+
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+	windowFlags |= ImGuiWindowFlags_NoBackground;
+
+	//ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, IsMaximized() ? ImVec2(6.0f, 6.0f) : ImVec2(1.0f, 1.0f));
+	//ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 3.0f);
+	//ImGui::PushStyleColor(ImGuiCol_MenuBarBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	if (ImGui::Begin("DockSpace Demo", nullptr, windowFlags))
+	{
+		ImGui::PopStyleVar();
+		ImGui::PopStyleVar(2);
+
+		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspaceFlags);
+		
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Options"))
+			{
+				if (ImGui::MenuItem("Close", NULL))
+				{
+					
+				}
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenuBar();
+		}
+
+		ImGui::End();
+	}
 }
 
 void WndWindow::End()
 {
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuiStyle& style = ImGui::GetStyle();
+
 	ImGui::Render();
+
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 	wglMakeCurrent(m_DeviceContext, m_GLContext);
 	SwapBuffers(m_DeviceContext);
+
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+	}
 }

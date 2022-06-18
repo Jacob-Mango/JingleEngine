@@ -1,5 +1,7 @@
 #include "Input/Input.h"
 
+bool Input::s_CursorInViewport;
+
 std::string Input::StateToString(InputState state)
 {
 	switch (state)

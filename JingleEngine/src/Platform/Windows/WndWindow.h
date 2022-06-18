@@ -19,11 +19,17 @@ public:
 
 	virtual int Create(const WindowDesc& desc) override;
 
-	virtual bool IsVsync() const override;
 	virtual void SetVsync(bool enabled) override;
+	virtual bool IsVsync() const override;
 
 	virtual void SetSize(std::pair<int, int> size) override;
 	virtual std::pair<int, int> GetSize() override;
+
+	virtual void SetFullscreen(bool fullscreen) override;
+	virtual bool IsFullscreen() override;
+
+	virtual void SetMaximized(bool maximized) override;
+	virtual bool IsMaximized() override;
 
 	virtual void Begin() override;
 	virtual void End() override;
@@ -43,6 +49,19 @@ private:
 
 	int m_Width;
 	int m_Height;
+
+	struct FullscreenState
+	{
+		bool Active;
+		bool Maximized;
+		tagRECT Size;
+
+		long Style;
+		long ExStyle;
+	};
+
+	FullscreenState m_Fullscreen;
+	bool m_Maximized;
 
 	friend LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	friend int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow);

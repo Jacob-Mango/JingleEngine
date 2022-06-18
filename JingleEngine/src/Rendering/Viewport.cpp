@@ -36,10 +36,6 @@ void Viewport::Process(double DeltaTime)
 	}
 
 	float aspect = (float)m_Width / (float)m_Height;
-	if (aspect < 1.0f)
-	{
-		aspect = (float)m_Height / (float)m_Width;
-	}
 
 	m_ProjectionMatrix = glm::perspective(glm::radians(90.0f), aspect, 0.001f, 1000.0f);
 

@@ -5,6 +5,7 @@
 #include "Core/Logging.h"
 #include "Core/Module.h"
 
+//! TODO: Don't have panels as Modules
 class EditorPanel : public Module
 {
 	DEFINE_VIRTUAL_MODULE(EditorPanel, Module);
