@@ -2,6 +2,8 @@
 
 #include "Core/Core.h"
 
+#include "Input/Input.h"
+
 #include <functional>
 
 #define EVENT_DEFAULT(type, value)												\
@@ -72,7 +74,7 @@ public:
 };
 
 EVENT_DEFAULT(Key, 1)
-	int Key;
+	InputCode Key;
 };
 
 EVENT(KeyPress, Key, 2)
@@ -85,7 +87,7 @@ EVENT_DEFAULT(Mouse, 4)
 };
 
 EVENT(MouseButton, Mouse, 5)
-	int Button;
+	InputCode Button;
 };
 
 EVENT(MouseButtonPress, MouseButton, 6)

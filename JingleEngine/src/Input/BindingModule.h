@@ -21,10 +21,10 @@ public:
 	virtual void OnDestroy() override;
 
 public:
-	void RegisterCombo(std::string name, std::initializer_list<std::pair<int, InputType>> combo);
-	void RegisterCombos(std::string name, std::initializer_list<std::initializer_list<std::pair<int, InputType>>> combos);
+	void RegisterCombo(std::string name, std::initializer_list<std::pair<InputCode, InputType>> combo);
+	void RegisterCombos(std::string name, std::initializer_list<std::initializer_list<std::pair<InputCode, InputType>>> combos);
 
 	Binding* GetByName(std::string name);
 
-	virtual void OnTick(double DeltaTime);
+	void Process(double DeltaTime);
 };

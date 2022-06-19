@@ -9,14 +9,15 @@
 #include "Core/Module.h"
 #include "Core/ModuleManager.h"
 
+#include "Input/BindingModule.h"
+
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"
 
 #include "Rendering/Framebuffer.h"
+#include "Rendering/ImGui.h"
 #include "Rendering/Material.h"
 #include "Rendering/Renderer.h"
-
-#include "Rendering/ImGui.h"
 
 #include <fstream>
 #include <iostream>
@@ -69,6 +70,8 @@ void Application::Run()
 	int error = 0;
 
 	auto window = ModuleManager::Get<Window>();
+	auto binding = ModuleManager::Get<BindingModule>();
+
 	if (window)
 	{
 		WindowDesc desc;
@@ -129,6 +132,11 @@ void Application::Run()
 		if (window)
 		{
 			window->Begin();
+		}
+
+		if (binding)
+		{
+			binding->Process(m_DeltaTime);
 		}
 
 		OnTick((float)m_DeltaTime);

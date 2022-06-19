@@ -38,10 +38,10 @@ void BindingModule::OnPreInitialize()
 	{
 		float scrollValue = args.Direction;
 
-		int keyCode = MouseCode::MC_WHEEL_UP;
+		InputCode keyCode = InputCode::MC_WHEEL_UP;
 		if (scrollValue < 0)
 		{
-			int keyCode = MouseCode::MC_WHEEL_DOWN;
+			InputCode keyCode = InputCode::MC_WHEEL_DOWN;
 		}
 
 		for (const auto& [key, binding] : m_Bindings)
@@ -69,7 +69,7 @@ Binding* BindingModule::GetByName(std::string name)
 	return it->second;
 }
 
-void BindingModule::RegisterCombo(std::string name, std::initializer_list<std::pair<int, InputType >> combo)
+void BindingModule::RegisterCombo(std::string name, std::initializer_list<std::pair<InputCode, InputType >> combo)
 {
 	auto it = m_Bindings.find(name);
 	Binding* binding = it == m_Bindings.end() ? new Binding(name) : it->second;
@@ -81,18 +81,29 @@ void BindingModule::RegisterCombo(std::string name, std::initializer_list<std::p
 	binding->RegisterCombo(combo);
 }
 
-void BindingModule::RegisterCombos(std::string name, std::initializer_list<std::initializer_list<std::pair<int, InputType>>> combos)
+void BindingModule::RegisterCombos(std::string name, std::initializer_list<std::initializer_list<std::pair<InputCode, InputType>>> combos)
 {
 	for (auto& combo : combos)
+	{
 		RegisterCombo(name, combo);
+	}
 }
 
-void BindingModule::OnTick(double DeltaTime)
+void BindingModule::Process(double DeltaTime)
 {
 	for (const auto& [key, entry] : m_Bindings)
 	{
 		entry->UpdateState();
 	}
+
+	if (ImGui::Begin("BindingModule"))
+	{
+		for (const auto& [key, entry] : m_Bindings)
+		{
+			ImGui::Text(entry->ToString().c_str());
+		}
+	}
+	ImGui::End();
 
 	Input::Update();
 }

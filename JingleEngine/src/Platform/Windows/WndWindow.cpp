@@ -340,22 +340,24 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		break;
 	}
 	case WM_KEYDOWN:
+    case WM_SYSKEYDOWN:
 	{
-		if (io.WantCaptureKeyboard) break;
-
 		KeyPressEventArgs args;
-		args.Key = wParam;
+		args.Key = (InputCode)wParam;
+
+		std::cout << "Press: " << args.Key << std::endl;
 
 		Application::Get()->OnKeyPress.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);
 		break;
 	}
-	case WM_KEYUP:
+    case WM_KEYUP:
+    case WM_SYSKEYUP:
 	{
-		if (io.WantCaptureKeyboard) break;
-
 		KeyReleaseEventArgs args;
-		args.Key = wParam;
+		args.Key = (InputCode)wParam;
+
+		std::cout << "Release: " << args.Key << std::endl;
 
 		Application::Get()->OnKeyRelease.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);
@@ -363,8 +365,6 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	}
 	case WM_INPUT:
 	{
-		if (io.WantCaptureMouse) break;
-
 		unsigned size = sizeof(RAWINPUT);
 		static RAWINPUT raw[sizeof(RAWINPUT)];
 		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, raw, &size, sizeof(RAWINPUTHEADER));
@@ -392,12 +392,10 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	{
-		if (io.WantCaptureMouse) break;
-
 		MouseButtonPressEventArgs args;
-		if (message == WM_LBUTTONDOWN) args.Button = MouseCode::MC_BUTTON_1;
-		else if (message == WM_RBUTTONDOWN) args.Button = MouseCode::MC_BUTTON_2;
-		else if (message == WM_MBUTTONDOWN) args.Button = MouseCode::MC_BUTTON_3;
+		if (message == WM_LBUTTONDOWN) args.Button = InputCode::MC_BUTTON_1;
+		else if (message == WM_RBUTTONDOWN) args.Button = InputCode::MC_BUTTON_2;
+		else if (message == WM_MBUTTONDOWN) args.Button = InputCode::MC_BUTTON_3;
 
 		Application::Get()->OnMouseButtonPress.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);
@@ -408,12 +406,10 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	case WM_RBUTTONUP:
 	case WM_MBUTTONUP:
 	{
-		if (io.WantCaptureMouse) break;
-
 		MouseButtonReleaseEventArgs args;
-		if (message == WM_LBUTTONUP) args.Button = MouseCode::MC_BUTTON_1;
-		else if (message == WM_RBUTTONUP) args.Button = MouseCode::MC_BUTTON_2;
-		else if (message == WM_MBUTTONUP) args.Button = MouseCode::MC_BUTTON_3;
+		if (message == WM_LBUTTONUP) args.Button = InputCode::MC_BUTTON_1;
+		else if (message == WM_RBUTTONUP) args.Button = InputCode::MC_BUTTON_2;
+		else if (message == WM_MBUTTONUP) args.Button = InputCode::MC_BUTTON_3;
 
 		Application::Get()->OnMouseButtonRelease.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);
@@ -444,7 +440,7 @@ void WndWindow::Begin()
 	}
 
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplWin32_NewFrame();
+	ImGui_ImplWin32_NewFrame(Input::IsCursorInViewport());
 	ImGui::NewFrame();
 
 	ImGuiIO& io = ImGui::GetIO();

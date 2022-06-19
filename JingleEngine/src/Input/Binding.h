@@ -10,20 +10,22 @@
 #include <map>
 
 class BindingModule;
+class Binding;
 
 class BindingEntry
 {
 	friend class Binding;
 
 private:
-	std::map<int, std::pair<InputState, InputType>> m_Combo;
+	std::map<InputCode, std::pair<InputState, InputType>> m_Combo;
 
 	InputState m_State = InputState::NONE;
 	float m_Value = 0;
+	Binding* m_Binding;
 
 private:
 	void UpdateState();
-	void UpdateKey(int keyCode, InputState state, InputType type, float value);
+	void UpdateKey(InputCode keyCode, InputState state, InputType type, float value);
 
 };
 
@@ -50,22 +52,29 @@ private:
 	inline void UpdateState()
 	{
 		for (auto entry : m_Entries)
+		{
 			entry->UpdateState();
+		}
 	}
 
-	inline void RegisterCombo(std::initializer_list<std::pair<int, InputType >> combo)
+	inline void RegisterCombo(std::initializer_list<std::pair<InputCode, InputType >> combo)
 	{
 		BindingEntry* entry = new BindingEntry();
 		for (auto key : combo)
+		{
 			entry->m_Combo[key.first] = { InputState::RELEASED, key.second };
-		
+		}
+
+		entry->m_Binding = this;
 		m_Entries.push_back(entry);
 	}
 
-	inline void UpdateKey(int keyCode, InputState state, InputType type, float value)
+	inline void UpdateKey(InputCode keyCode, InputState state, InputType type, float value)
 	{
 		for (auto entry : m_Entries)
+		{
 			entry->UpdateKey(keyCode, state, type, value);
+		}
 	}
 
 };

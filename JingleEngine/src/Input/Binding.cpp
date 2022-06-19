@@ -12,7 +12,7 @@ void BindingEntry::UpdateState()
 
 	for (auto& [key, value] : m_Combo)
 	{
-		if (value.second == InputType::MOUSE && (key == MouseCode::MC_WHEEL_UP || key == MouseCode::MC_WHEEL_DOWN || key == MouseCode::MC_WHEEL_LEFT || key == MouseCode::MC_WHEEL_RIGHT))
+		if (value.second == InputType::MOUSE && (key == InputCode::MC_WHEEL_UP || key == InputCode::MC_WHEEL_DOWN || key == InputCode::MC_WHEEL_LEFT || key == InputCode::MC_WHEEL_RIGHT))
 		{
 			value.first = InputState::RELEASED;
 			m_State = InputState::RELEASED;
@@ -27,10 +27,14 @@ void BindingEntry::UpdateState()
 	}
 
 	if (m_State == InputState::NONE && previousState > InputState::RELEASED)
+	{
 		m_State = InputState::RELEASED;
+	}
 	else if (m_State == InputState::PRESSED && previousState >= InputState::PRESSED)
+	{
 		m_State = InputState::HOLDING;
-
+	}
+	
 	if (m_State == InputState::RELEASED || m_State == InputState::NONE)
 	{
 		m_State = InputState::RELEASED;
@@ -38,13 +42,15 @@ void BindingEntry::UpdateState()
 	}
 }
 
-void BindingEntry::UpdateKey(int keyCode, InputState state, InputType type, float val)
+void BindingEntry::UpdateKey(InputCode keyCode, InputState state, InputType type, float val)
 {
 	for (const auto& [key, value] : m_Combo)
 	{
 		if (key == keyCode && type == m_Combo[key].second)
 		{
 			m_Value = val;
+
+			std::cout << m_Binding->GetName() << ": " << state << " (" << val << ") -> " << keyCode << std::endl;
 
 			m_Combo[key] = { state, type };
 		}
@@ -65,8 +71,12 @@ float Binding::GetValue() const
 {
 	float value = 0.0f;
 	for (auto entry : m_Entries)
+	{
 		if (entry->m_Value != 0.0f)
+		{
 			value = entry->m_Value;
+		}
+	}
 	return value;
 }
 
@@ -74,8 +84,12 @@ InputState Binding::GetState() const
 {
 	InputState state = InputState::NONE;
 	for (auto entry : m_Entries)
+	{
 		if (entry->m_State > state)
+		{
 			state = entry->m_State;
+		}
+	}
 	return state;
 }
 

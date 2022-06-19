@@ -399,7 +399,7 @@ static void ImGui_ImplWin32_UpdateMonitors()
     bd->WantUpdateMonitors = false;
 }
 
-void    ImGui_ImplWin32_NewFrame()
+void    ImGui_ImplWin32_NewFrame(bool cursorInViewport)
 {
     ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplWin32_Data* bd = ImGui_ImplWin32_GetBackendData();
@@ -424,12 +424,15 @@ void    ImGui_ImplWin32_NewFrame()
     // Process workarounds for known Windows key handling issues
     ImGui_ImplWin32_ProcessKeyEventsWorkarounds();
 
-    // Update OS mouse cursor with the cursor requested by imgui
-    ImGuiMouseCursor mouse_cursor = io.MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();
-    if (bd->LastMouseCursor != mouse_cursor)
+    if (!cursorInViewport)
     {
-        bd->LastMouseCursor = mouse_cursor;
-        ImGui_ImplWin32_UpdateMouseCursor();
+        // Update OS mouse cursor with the cursor requested by imgui
+        ImGuiMouseCursor mouse_cursor = io.MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();
+        if (bd->LastMouseCursor != mouse_cursor)
+        {
+            bd->LastMouseCursor = mouse_cursor;
+            ImGui_ImplWin32_UpdateMouseCursor();
+        }
     }
 
     // Update game controllers (if enabled and available)

@@ -42,6 +42,11 @@ void Camera::OnCreate()
 void Camera::OnTick(double DeltaTime)
 {
 	Super::OnTick(DeltaTime);
+	
+	if (!Input::IsCursorInViewport())
+	{
+		return;
+	}
 
 	auto& type = GetEntityType<CameraType>();
 
