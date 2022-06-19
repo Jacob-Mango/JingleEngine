@@ -95,12 +95,26 @@ void Input::Update()
 		g_ArrowCursor = LoadCursor(NULL, IDC_ARROW);
 	}
 
+	static bool cursorVisible = g_CursorVisible;
+
+	bool forceSetCursor = false;
+	if (cursorVisible != g_CursorVisible)
+	{
+		forceSetCursor = true;
+	}
+
 	if (g_CursorVisible)
 	{
-		SetCursor(g_ArrowCursor);
+		cursorVisible = true;
+
+		if (g_CursorInViewport || forceSetCursor)
+		{
+			SetCursor(g_ArrowCursor);
+		}
 	}
 	else
 	{
+		cursorVisible = false;
 		SetCursor(NULL);
 
 		if (g_CursorInViewport)

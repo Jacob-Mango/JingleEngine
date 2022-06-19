@@ -1,8 +1,8 @@
 #include "Platform/Windows/WndWindow.h"
 
 #include <imgui.h>
-#include <backends/imgui_impl_win32.h>
 #include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_win32.h>
 
 #include "Core/Application.h"
 #include "Core/ModuleManager.h"
@@ -174,8 +174,8 @@ int WndWindow::Create(const WindowDesc& desc)
 	style.WindowMenuButtonPosition = ImGuiDir_None; // ImGuiDir_Right; // Causes crash
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplWin32_Init(m_Window);
-	ImGui_ImplOpenGL3_Init("#version 410");
+	ImGui_ImplWin32_Init(m_Window, m_GLContext);
+	ImGui_ImplOpenGL3_Init("#version 120");
 
 	//SetVsync(false);
 
@@ -516,7 +516,10 @@ void WndWindow::End()
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
+		auto backUpDC = m_DeviceContext;
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
+		m_DeviceContext = backUpDC;
+		wglMakeCurrent(m_DeviceContext, m_GLContext);
 	}
 }

@@ -89,26 +89,30 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)lib</OutDir>
     <IntDir>$(ProjectDir)int</IntDir>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)lib</OutDir>
     <IntDir>$(ProjectDir)int</IntDir>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)lib</OutDir>
     <IntDir>$(ProjectDir)int</IntDir>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)lib</OutDir>
     <IntDir>$(ProjectDir)int</IntDir>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\glew-2.1.0\include\;$(IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(Configuration)_$(Platform)</TargetName>
+    <LibraryPath>$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
