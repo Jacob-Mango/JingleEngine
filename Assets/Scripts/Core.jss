@@ -21,12 +21,18 @@ class Type
 
 class Attribute
 {
+	Attribute()
+	{
 
+	}
 }
 
 class Native extends Attribute
 {
-
+	Native()
+	{
+		
+	}
 }
 
 struct null

@@ -46,11 +46,17 @@ Application* Application::Get()
 
 STATIC_FUNCTION(Application, OnUpdate, void, double);
 
+void ScriptDebug(JingleScript::Object* v1)
+{
+	throw;
+}
+
 int Application::Initialize()
 {
 	// Once static is in JingleScript, this won't be needed
 	LinkImGUI();
 	LINK_NAMED_FUNCTION(GetApplication, Application::Get);
+	LINK_NAMED_FUNCTION(Debug, ScriptDebug);
 
 	ModuleManager::Initialize();
 

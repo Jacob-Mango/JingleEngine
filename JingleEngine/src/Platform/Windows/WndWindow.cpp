@@ -7,6 +7,8 @@
 #include "Core/Application.h"
 #include "Core/ModuleManager.h"
 
+#include "Editor/EditorModule.h"
+
 #include "Input/Input.h"
 
 #include <windows.h>
@@ -487,11 +489,17 @@ void WndWindow::Begin()
 				ImGui::EndMenu();
 			}
 
+			auto editor = ModuleManager::Get<EditorModule>();
+			if (editor)
+			{
+				editor->RenderMenuBar();
+			}
+
 			ImGui::EndMenuBar();
 		}
-
-		ImGui::End();
 	}
+
+	ImGui::End();
 }
 
 void WndWindow::End()

@@ -24,7 +24,9 @@
     <ClCompile Include="src\Core\Module.cpp" />
     <ClCompile Include="src\Core\ModuleManager.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
-    <ClCompile Include="src\Editor\EditorPanel.cpp" />
+    <ClCompile Include="src\Editor\EditorAttribute.cpp" />
+    <ClCompile Include="src\Editor\EditorModule.cpp" />
+    <ClCompile Include="src\Editor\EditorPanelBase.cpp" />
     <ClCompile Include="src\Editor\EditorViewportPanel.cpp" />
     <ClCompile Include="src\Editor\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Input\Binding.cpp" />
@@ -72,7 +74,9 @@
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Module.h" />
     <ClInclude Include="src\Core\ModuleManager.h" />
-    <ClInclude Include="src\Editor\EditorPanel.h" />
+    <ClInclude Include="src\Editor\EditorAttribute.h" />
+    <ClInclude Include="src\Editor\EditorModule.h" />
+    <ClInclude Include="src\Editor\EditorPanelBase.h" />
     <ClInclude Include="src\Editor\EditorViewportPanel.h" />
     <ClInclude Include="src\Editor\SceneHierarchyPanel.h" />
     <ClInclude Include="src\Entry.h" />

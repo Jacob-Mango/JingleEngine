@@ -8,7 +8,7 @@ class Asset
 
 }
 
-class Texture extends Asset
+class Image extends Asset
 {
 
 }

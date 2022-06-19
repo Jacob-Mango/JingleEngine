@@ -9,10 +9,10 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
-BEGIN_MODULE_LINK(EditorViewportPanel);
-END_MODULE_LINK();
+BEGIN_CLASS_LINK(EditorViewportPanel);
+END_CLASS_LINK();
 
-void EditorViewportPanel::OnInitialize()
+EditorViewportPanel::EditorViewportPanel()
 {
 	m_Viewport = Viewport::Create(nullptr, 1, 1);
 }
@@ -61,9 +61,4 @@ void EditorViewportPanel::OnRender(double DeltaTime)
 		Input::ShowCursor(true);
 		Input::ClearViewport();
 	}
-}
-
-std::string EditorViewportPanel::GetTitle() const
-{
-	return "Viewport";
 }

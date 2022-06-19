@@ -3,7 +3,9 @@ Global {
   Function {
    Attributes: {
     Attribute {
-     Name: "Native"
+     Value: "Native"
+     IsConstructor: "1"
+     IsSuper: "0"
     }
    }
    ReturnType: "Application"
@@ -12,7 +14,9 @@ Global {
   Function {
    Attributes: {
     Attribute {
-     Name: "Native"
+     Value: "Native"
+     IsConstructor: "1"
+     IsSuper: "0"
     }
    }
    ReturnType: "bool"
@@ -27,7 +31,9 @@ Global {
   Function {
    Attributes: {
     Attribute {
-     Name: "Native"
+     Value: "Native"
+     IsConstructor: "1"
+     IsSuper: "0"
     }
    }
    ReturnType: "void"
@@ -36,7 +42,9 @@ Global {
   Function {
    Attributes: {
     Attribute {
-     Name: "Native"
+     Value: "Native"
+     IsConstructor: "1"
+     IsSuper: "0"
     }
    }
    ReturnType: "bool"
@@ -45,7 +53,9 @@ Global {
   Function {
    Attributes: {
     Attribute {
-     Name: "Native"
+     Value: "Native"
+     IsConstructor: "1"
+     IsSuper: "0"
     }
    }
    ReturnType: "bool"
@@ -54,7 +64,9 @@ Global {
   Function {
    Attributes: {
     Attribute {
-     Name: "Native"
+     Value: "Native"
+     IsConstructor: "1"
+     IsSuper: "0"
     }
    }
    ReturnType: "void"
@@ -69,7 +81,9 @@ Global {
   Function {
    Attributes: {
     Attribute {
-     Name: "Native"
+     Value: "Native"
+     IsConstructor: "1"
+     IsSuper: "0"
     }
    }
    ReturnType: "void"
@@ -105,7 +119,9 @@ Global {
     Method {
      Attributes: {
       Attribute {
-       Name: "Native"
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "Scene"
@@ -121,11 +137,10 @@ Global {
    Name: "Asset"
   }
   Class {
-   Name: "Mesh"
-   Base: "Asset"
+   Name: "EntityType"
   }
   Class {
-   Name: "Texture"
+   Name: "Image"
    Base: "Asset"
   }
   Class {
@@ -134,6 +149,10 @@ Global {
   }
   Class {
    Name: "Shader"
+   Base: "Asset"
+  }
+  Class {
+   Name: "Mesh"
    Base: "Asset"
   }
   Class {
@@ -167,7 +186,9 @@ Global {
     Method {
      Attributes: {
       Attribute {
-       Name: "Native"
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "string"
@@ -176,7 +197,9 @@ Global {
     Method {
      Attributes: {
       Attribute {
-       Name: "Native"
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "Type"
@@ -185,7 +208,9 @@ Global {
     Method {
      Attributes: {
       Attribute {
-       Name: "Native"
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "bool"
@@ -200,7 +225,9 @@ Global {
     Method {
      Attributes: {
       Attribute {
-       Name: "Native"
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "bool"
@@ -220,7 +247,9 @@ Global {
     Method {
      Attributes: {
       Attribute {
-       Name: "Native"
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "bool"
@@ -236,10 +265,26 @@ Global {
   }
   Class {
    Name: "Attribute"
+   Methods: {
+    Method {
+     ReturnType: "Attribute"
+     Name: "Attribute"
+    }
+   }
   }
   Class {
    Name: "Native"
    Base: "Attribute"
+   Methods: {
+    Method {
+     ReturnType: "Native"
+     Name: "Native"
+    }
+   }
+  }
+  Class {
+   Name: "EditorModule"
+   Base: "Module"
   }
   Class {
    Name: "DebugType"
@@ -249,10 +294,465 @@ Global {
    Base: "Window"
   }
   Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Script Test"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+    }
+   }
+   Name: "ScriptTestPanel"
+   Base: "EditorPanelBase"
+   Methods: {
+    Method {
+     Children: {
+      Variable {
+       Type: "Application"
+       Name: "app"
+       Right: {
+        FunctionCall {
+         Value: "GetApplication"
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Constant {
+            Value: "This is jingle script"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Constant {
+            Value: "DeltaTime: "
+           }
+           Value {
+            Value: "DeltaTime"
+           }
+           Operator {
+            Operator: "+"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Constant {
+            Value: "FPS: "
+           }
+           Value {
+            Value: "app"
+            Next: {
+             Value {
+              Value: "FPS"
+             }
+            }
+           }
+           Operator {
+            Operator: "+"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Variable {
+       Type: "bool"
+       Name: "b1"
+       Right: {
+        FunctionCall {
+         Value: "ImGui_WantCaptureKeyboard"
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Variable {
+       Type: "bool"
+       Name: "b2"
+       Right: {
+        FunctionCall {
+         Value: "ImGui_WantCaptureMouse"
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Constant {
+            Value: "WantCaptureKeyboard: "
+           }
+           Value {
+            Value: "b1"
+           }
+           Operator {
+            Operator: "+"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Constant {
+            Value: "WantCaptureMouse: "
+           }
+           Value {
+            Value: "b2"
+           }
+           Operator {
+            Operator: "+"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Variable {
+       Type: "Scene"
+       Name: "scene"
+       Right: {
+        Value {
+         Value: "app"
+         Next: {
+          FunctionCall {
+           Value: "GetScene"
+           IsConstructor: "0"
+           IsSuper: "0"
+          }
+         }
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Value {
+            Value: "scene"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Variable {
+       Type: "Camera"
+       Name: "camera"
+       Right: {
+        Value {
+         Value: "scene"
+         Next: {
+          FunctionCall {
+           Value: "GetCamera"
+           IsConstructor: "0"
+           IsSuper: "0"
+          }
+         }
+        }
+       }
+      }
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ImGui_Text"
+         Arguments: {
+          [0]: {
+           Value {
+            Value: "camera"
+           }
+          }
+         }
+         IsConstructor: "0"
+         IsSuper: "0"
+        }
+       }
+      }
+      Scope {
+       Children: {
+        Variable {
+         Type: "double"
+         Name: "x"
+         Right: {
+          Value {
+           Value: "camera"
+           Next: {
+            Value {
+             Value: "PositionX"
+            }
+           }
+          }
+         }
+        }
+        Variable {
+         Type: "double"
+         Name: "y"
+         Right: {
+          Value {
+           Value: "camera"
+           Next: {
+            Value {
+             Value: "PositionY"
+            }
+           }
+          }
+         }
+        }
+        Variable {
+         Type: "double"
+         Name: "z"
+         Right: {
+          Value {
+           Value: "camera"
+           Next: {
+            Value {
+             Value: "PositionZ"
+            }
+           }
+          }
+         }
+        }
+        Expression {
+         Right: {
+          FunctionCall {
+           Value: "ImGui_Text"
+           Arguments: {
+            [0]: {
+             Constant {
+              Value: "PositionX: "
+             }
+             Value {
+              Value: "x"
+             }
+             Operator {
+              Operator: "+"
+             }
+            }
+           }
+           IsConstructor: "0"
+           IsSuper: "0"
+          }
+         }
+        }
+        Expression {
+         Right: {
+          FunctionCall {
+           Value: "ImGui_Text"
+           Arguments: {
+            [0]: {
+             Constant {
+              Value: "PositionY: "
+             }
+             Value {
+              Value: "y"
+             }
+             Operator {
+              Operator: "+"
+             }
+            }
+           }
+           IsConstructor: "0"
+           IsSuper: "0"
+          }
+         }
+        }
+        Expression {
+         Right: {
+          FunctionCall {
+           Value: "ImGui_Text"
+           Arguments: {
+            [0]: {
+             Constant {
+              Value: "PositionZ: "
+             }
+             Value {
+              Value: "z"
+             }
+             Operator {
+              Operator: "+"
+             }
+            }
+           }
+           IsConstructor: "0"
+           IsSuper: "0"
+          }
+         }
+        }
+       }
+      }
+     }
+     ReturnType: "void"
+     Name: "OnRender"
+     Parameters: {
+      Parameter {
+       Type: "double"
+       Name: "DeltaTime"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Viewport"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+    }
+   }
+   Name: "EditorViewportPanel"
+   Base: "EditorPanelBase"
+  }
+  Class {
+   Name: "EditorAttribute"
+   Base: "Attribute"
+   Variables: {
+    Variable {
+     Type: "string"
+     Name: "m_Title"
+    }
+   }
+   Methods: {
+    Method {
+     Children: {
+      Expression {
+       Left: {
+        LValue {
+         Value: {
+          Value {
+           Value: "m_Title"
+          }
+         }
+         Operator: {
+          Operator {
+           Operator: "="
+          }
+         }
+        }
+       }
+       Right: {
+        Value {
+         Value: "title"
+        }
+       }
+      }
+     }
+     ReturnType: "EditorAttribute"
+     Name: "EditorAttribute"
+     Parameters: {
+      Parameter {
+       Type: "string"
+       Name: "title"
+      }
+     }
+    }
+   }
+  }
+  Class {
    Name: "Debug"
   }
   Class {
-   Name: "EntityType"
+   Name: "EditorPanelBase"
+   Methods: {
+    Method {
+     ReturnType: "void"
+     Name: "OnRender"
+     Parameters: {
+      Parameter {
+       Type: "double"
+       Name: "DeltaTime"
+      }
+     }
+    }
+   }
+  }
+  Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Scene Hierarchy"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+    }
+   }
+   Name: "SceneHierarchyPanel"
+   Base: "EditorPanelBase"
   }
   Class {
    Name: "Module"
@@ -279,7 +779,9 @@ Global {
     Method {
      Attributes: {
       Attribute {
-       Name: "Native"
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "Camera"

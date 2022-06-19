@@ -96,14 +96,5 @@ void BindingModule::Process(double DeltaTime)
 		entry->UpdateState();
 	}
 
-	if (ImGui::Begin("BindingModule"))
-	{
-		for (const auto& [key, entry] : m_Bindings)
-		{
-			ImGui::Text(entry->ToString().c_str());
-		}
-	}
-	ImGui::End();
-
 	Input::Update();
 }

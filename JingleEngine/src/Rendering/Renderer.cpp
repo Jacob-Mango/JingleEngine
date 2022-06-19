@@ -50,7 +50,7 @@ void Renderer::Process(double DeltaTime, Viewport* viewport)
 
 	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
 
-	GL(glClearColor(0.0, 0.0, 0.0, 0.0));
+	GL(glClearColor(0.0, 0.0, 0.0, 1.0));
 	GL(glClearDepth(1.0f));
 
 	GL(glCullFace(GL_BACK));

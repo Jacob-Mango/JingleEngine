@@ -1,15 +1,14 @@
 #pragma once
 
-#include "Editor/EditorPanel.h"
+#include "Editor/EditorPanelBase.h"
 
-class SceneHierarchyPanel : public EditorPanel
+class SceneHierarchyPanel : public EditorPanelBase
 {
-	DEFINE_MODULE(SceneHierarchyPanel, EditorPanel);
+	DEFINE_CLASS(SceneHierarchyPanel, EditorPanelBase);
 
 public:
 	SceneHierarchyPanel() {}
 
 	virtual void OnRender(double DeltaTime) override;
 
-	virtual std::string GetTitle() const override;
 };

@@ -1,19 +1,16 @@
 #pragma once
 
-#include "Editor/EditorPanel.h"
+#include "Editor/EditorPanelBase.h"
 
-class EditorViewportPanel : public EditorPanel
+class EditorViewportPanel : public EditorPanelBase
 {
-	DEFINE_MODULE(EditorViewportPanel, EditorPanel);
+	DEFINE_CLASS(EditorViewportPanel, EditorPanelBase);
 
 	class Viewport* m_Viewport;
 
 public:
-	EditorViewportPanel() {}
-
-	virtual void OnInitialize() override;
+	EditorViewportPanel();
 
 	virtual void OnRender(double DeltaTime) override;
 
-	virtual std::string GetTitle() const override;
 };

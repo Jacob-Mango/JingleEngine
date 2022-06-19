@@ -4,8 +4,8 @@
 
 #include <imgui.h>
 
-BEGIN_MODULE_LINK(SceneHierarchyPanel);
-END_MODULE_LINK();
+BEGIN_CLASS_LINK(SceneHierarchyPanel);
+END_CLASS_LINK();
 
 void SceneHierarchyPanel::OnRender(double DeltaTime)
 {
@@ -29,9 +29,4 @@ void SceneHierarchyPanel::OnRender(double DeltaTime)
 	}
 	
 	ImGui::EndTable();
-}
-
-std::string SceneHierarchyPanel::GetTitle() const
-{
-	return "Scene Hierarchy";
 }

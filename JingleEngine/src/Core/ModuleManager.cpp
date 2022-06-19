@@ -27,18 +27,6 @@ void ModuleManager::Initialize()
 	{
 
 	}
-
-	@AbstractModule(editor: true)
-	class EditorPanel extends Module
-	{
-
-	}
-
-	@Module // inherits (editor: true)
-	class ScenePanel extends EditorPanel
-	{
-
-	}
 	*/
 
 	using namespace JingleScript;
@@ -59,10 +47,12 @@ void ModuleManager::Initialize()
 		fileStream.close();
 	}
 
+	Type* baseType = Module::StaticType();
+
 	for (auto& name : modulesToLoad)
 	{
 		Type* type = TypeManager::Get(name);
-		if (type == nullptr)
+		if (type == nullptr || !type->IsInherited(baseType))
 		{
 			JS_CRITICAL("Invalid module %s", name.c_str());
 			continue;

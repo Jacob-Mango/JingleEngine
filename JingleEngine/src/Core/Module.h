@@ -7,7 +7,7 @@
 	DEFINE_NAMED_CLASS(type, type, baseTypeName)			\
 
 #define DEFINE_VIRTUAL_MODULE(type, baseTypeName)			\
-	DEFINE_NAMED_VIRTUAL_CLASS(type, type, baseTypeName)	\
+	DEFINE_VIRTUAL_CLASS(type, baseTypeName)				\
 
 #define BEGIN_MODULE_LINK(type)								\
 	BEGIN_CLASS_LINK(type)
