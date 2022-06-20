@@ -2,14 +2,12 @@
 
 #include "Editor/EditorPanelBase.h"
 
-class EditorViewportPanel : public EditorPanelBase
+class EntityPropertiesPanel : public EditorPanelBase
 {
-	DEFINE_CLASS(EditorViewportPanel, EditorPanelBase);
-
-	class Viewport* m_Viewport;
+	DEFINE_CLASS(EntityPropertiesPanel, EditorPanelBase);
 
 public:
-	EditorViewportPanel();
+	EntityPropertiesPanel() {}
 
 	virtual void OnBeginRender(double DeltaTime) override;
 	virtual void OnRender(double DeltaTime) override;

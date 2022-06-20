@@ -5,6 +5,8 @@
 #include "Core/Logging.h"
 #include "Core/Module.h"
 
+#include "Scene/Entity.h"
+
 class EditorPanelBase;
 class EditorAttribute;
 
@@ -21,16 +23,21 @@ class EditorModule : public Module
 
 	std::map<JingleScript::Type*, EditorPanelData> m_Panels;
 
+	Entity* m_SelectedEntity;
+
 public:
 	EditorModule() {}
 
 	virtual void OnInitialize() override;
-
 	virtual void OnEvent(BaseClass* sender, const EventArgs& args) override;
 
 	void RenderMenuBar();
 
 	EditorPanelBase* Open(std::string typeName);
+
+	void SelectEntity(Entity* entity);
+	Entity* GetSelectedEntity();
+	void ClearSelection();
 
 private:
 	int FindLowestNumber(std::vector<EditorPanelBase*> panels, int start, int end);

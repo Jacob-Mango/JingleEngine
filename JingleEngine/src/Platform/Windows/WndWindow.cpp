@@ -462,12 +462,6 @@ void WndWindow::Begin()
 	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-	windowFlags |= ImGuiWindowFlags_NoBackground;
-
-	//ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, IsMaximized() ? ImVec2(6.0f, 6.0f) : ImVec2(1.0f, 1.0f));
-	//ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 3.0f);
-	//ImGui::PushStyleColor(ImGuiCol_MenuBarBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
-
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	if (ImGui::Begin("DockSpace Demo", nullptr, windowFlags))
 	{

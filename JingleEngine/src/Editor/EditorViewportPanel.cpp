@@ -17,6 +17,11 @@ EditorViewportPanel::EditorViewportPanel()
 	m_Viewport = Viewport::Create(nullptr, 1, 1);
 }
 
+void EditorViewportPanel::OnBeginRender(double DeltaTime)
+{
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+}
+
 void EditorViewportPanel::OnRender(double DeltaTime)
 {
 	auto toVec2 = [](std::pair<int, int> val) { 
@@ -61,4 +66,9 @@ void EditorViewportPanel::OnRender(double DeltaTime)
 		Input::ShowCursor(true);
 		Input::ClearViewport();
 	}
+}
+
+void EditorViewportPanel::OnEndRender(double DeltaTime)
+{
+	ImGui::PopStyleVar();
 }

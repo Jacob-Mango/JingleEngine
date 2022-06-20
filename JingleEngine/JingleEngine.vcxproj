@@ -28,6 +28,7 @@
     <ClCompile Include="src\Editor\EditorModule.cpp" />
     <ClCompile Include="src\Editor\EditorPanelBase.cpp" />
     <ClCompile Include="src\Editor\EditorViewportPanel.cpp" />
+    <ClCompile Include="src\Editor\EntityPropertiesPanel.cpp" />
     <ClCompile Include="src\Editor\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Input\Binding.cpp" />
     <ClCompile Include="src\Input\BindingModule.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="src\Editor\EditorModule.h" />
     <ClInclude Include="src\Editor\EditorPanelBase.h" />
     <ClInclude Include="src\Editor\EditorViewportPanel.h" />
+    <ClInclude Include="src\Editor\EntityPropertiesPanel.h" />
     <ClInclude Include="src\Editor\SceneHierarchyPanel.h" />
     <ClInclude Include="src\Entry.h" />
     <ClInclude Include="src\Input\Binding.h" />

@@ -37,7 +37,9 @@ void EditorModule::OnInitialize()
 	}
 }
 
+STATIC_FUNCTION(EditorPanelBase, OnBeginRender, void, double);
 STATIC_FUNCTION(EditorPanelBase, OnRender, void, double);
+STATIC_FUNCTION(EditorPanelBase, OnEndRender, void, double);
 
 void EditorModule::OnEvent(BaseClass* sender, const EventArgs& args)
 {
@@ -63,12 +65,15 @@ void EditorModule::OnEvent(BaseClass* sender, const EventArgs& args)
 
 					bool isOpen = true;
 					bool canClose = true;
+
+					Script_OnBeginRender[panel](deltaTime);
+
 					if (ImGui::Begin(title.c_str(), &isOpen))
 					{
-						panel->OnRender(deltaTime);
-
 						Script_OnRender[panel](deltaTime);
 					}
+
+					Script_OnEndRender[panel](deltaTime);
 
 					panel->m_ShouldClose |= !isOpen;
 					if (panel->m_ShouldClose)
@@ -146,4 +151,19 @@ EditorPanelBase* EditorModule::Open(std::string typeName)
 	panel->m_OpenedIndex = lowest;
 	data.Instances.push_back(panel);
 	return panel;
+}
+
+void EditorModule::SelectEntity(Entity* entity)
+{
+	m_SelectedEntity = entity;
+}
+
+Entity* EditorModule::GetSelectedEntity()
+{
+	return m_SelectedEntity;
+}
+
+void EditorModule::ClearSelection()
+{
+	m_SelectedEntity = nullptr;
 }
