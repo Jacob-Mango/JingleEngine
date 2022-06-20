@@ -13,6 +13,7 @@ private:
 
 public:
 	EditorAttribute() {}
+	EditorAttribute(std::string title) { m_Title = title; }
 
 	std::string GetTitle() const { return m_Title; }
 

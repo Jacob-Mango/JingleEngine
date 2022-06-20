@@ -23,7 +23,7 @@ class Attribute
 {
 	Attribute()
 	{
-
+		super();
 	}
 }
 
@@ -31,7 +31,7 @@ class Native extends Attribute
 {
 	Native()
 	{
-		
+		super();
 	}
 }
 

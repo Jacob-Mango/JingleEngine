@@ -99,6 +99,7 @@ Global {
  Classes: {
   Class {
    Name: "Application"
+   Base: "Object"
    Variables: {
     Variable {
      Type: "int"
@@ -115,6 +116,8 @@ Global {
        Name: "DeltaTime"
       }
      }
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
     Method {
      Attributes: {
@@ -126,6 +129,8 @@ Global {
      }
      ReturnType: "Scene"
      Name: "GetScene"
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
    }
   }
@@ -135,9 +140,11 @@ Global {
   }
   Class {
    Name: "Asset"
+   Base: "Object"
   }
   Class {
    Name: "EntityType"
+   Base: "Object"
   }
   Class {
    Name: "Image"
@@ -165,6 +172,7 @@ Global {
   }
   Class {
    Name: "Entity"
+   Base: "Object"
    Variables: {
     Variable {
      Type: "double"
@@ -193,6 +201,8 @@ Global {
      }
      ReturnType: "string"
      Name: "ToString"
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
     Method {
      Attributes: {
@@ -204,6 +214,8 @@ Global {
      }
      ReturnType: "Type"
      Name: "GetType"
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
     Method {
      Attributes: {
@@ -221,6 +233,8 @@ Global {
        Name: "other"
       }
      }
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
     Method {
      Attributes: {
@@ -238,11 +252,14 @@ Global {
        Name: "other"
       }
      }
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
    }
   }
   Class {
    Name: "Type"
+   Base: "Object"
    Methods: {
     Method {
      Attributes: {
@@ -260,15 +277,31 @@ Global {
        Name: "other"
       }
      }
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
    }
   }
   Class {
    Name: "Attribute"
+   Base: "Object"
    Methods: {
     Method {
+     Children: {
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ctor"
+         IsConstructor: "0"
+         IsSuper: "1"
+        }
+       }
+      }
+     }
      ReturnType: "Attribute"
      Name: "Attribute"
+     IsConstructor: "1"
+     IsDestructor: "0"
     }
    }
   }
@@ -277,8 +310,21 @@ Global {
    Base: "Attribute"
    Methods: {
     Method {
+     Children: {
+      Expression {
+       Right: {
+        FunctionCall {
+         Value: "ctor"
+         IsConstructor: "0"
+         IsSuper: "1"
+        }
+       }
+      }
+     }
      ReturnType: "Native"
      Name: "Native"
+     IsConstructor: "1"
+     IsDestructor: "0"
     }
    }
   }
@@ -288,6 +334,7 @@ Global {
   }
   Class {
    Name: "DebugType"
+   Base: "Object"
   }
   Class {
    Name: "WndWindow"
@@ -644,6 +691,8 @@ Global {
        Name: "DeltaTime"
       }
      }
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
    }
   }
@@ -680,27 +729,11 @@ Global {
    }
    Methods: {
     Method {
-     Children: {
-      Expression {
-       Left: {
-        LValue {
-         Value: {
-          Value {
-           Value: "m_Title"
-          }
-         }
-         Operator: {
-          Operator {
-           Operator: "="
-          }
-         }
-        }
-       }
-       Right: {
-        Value {
-         Value: "title"
-        }
-       }
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
       }
      }
      ReturnType: "EditorAttribute"
@@ -711,16 +744,46 @@ Global {
        Name: "title"
       }
      }
+     IsConstructor: "1"
+     IsDestructor: "0"
     }
    }
   }
   Class {
    Name: "Debug"
+   Base: "Object"
   }
   Class {
    Name: "EditorPanelBase"
+   Base: "Object"
    Methods: {
     Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "OnBeginRender"
+     Parameters: {
+      Parameter {
+       Type: "double"
+       Name: "DeltaTime"
+      }
+     }
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+      }
+     }
      ReturnType: "void"
      Name: "OnRender"
      Parameters: {
@@ -729,6 +792,27 @@ Global {
        Name: "DeltaTime"
       }
      }
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "OnEndRender"
+     Parameters: {
+      Parameter {
+       Type: "double"
+       Name: "DeltaTime"
+      }
+     }
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
    }
   }
@@ -755,7 +839,30 @@ Global {
    Base: "EditorPanelBase"
   }
   Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Entity Properties"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+    }
+   }
+   Name: "EntityPropertiesPanel"
+   Base: "EditorPanelBase"
+  }
+  Class {
    Name: "Module"
+   Base: "Object"
   }
   Class {
    Name: "Renderer"
@@ -775,6 +882,7 @@ Global {
   }
   Class {
    Name: "Scene"
+   Base: "Object"
    Methods: {
     Method {
      Attributes: {
@@ -786,6 +894,8 @@ Global {
      }
      ReturnType: "Camera"
      Name: "GetCamera"
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
    }
   }
@@ -793,9 +903,11 @@ Global {
  Structures: {
   Struct {
    Name: "null"
+   Base: "Object"
   }
   Struct {
    Name: "byte"
+   Base: "Object"
    Variables: {
     Variable {
      Type: "byte"
@@ -805,6 +917,7 @@ Global {
   }
   Struct {
    Name: "int"
+   Base: "Object"
    Variables: {
     Variable {
      Type: "int"
@@ -814,6 +927,7 @@ Global {
   }
   Struct {
    Name: "float"
+   Base: "Object"
    Variables: {
     Variable {
      Type: "float"
@@ -823,6 +937,7 @@ Global {
   }
   Struct {
    Name: "bool"
+   Base: "Object"
    Variables: {
     Variable {
      Type: "bool"
@@ -832,9 +947,11 @@ Global {
   }
   Struct {
    Name: "string"
+   Base: "Object"
   }
   Struct {
    Name: "double"
+   Base: "Object"
    Variables: {
     Variable {
      Type: "double"

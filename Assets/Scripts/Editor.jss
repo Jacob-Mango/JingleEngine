@@ -7,17 +7,20 @@ class EditorAttribute extends Attribute
 {
 	string m_Title;
 
-	EditorAttribute(string title)
-	{
-		m_Title = title;
-	}
+	@Native
+	EditorAttribute(string title);
 }
 
 class EditorPanelBase
 {
-	void OnRender(double DeltaTime)
-	{
-	}
+	@Native
+	void OnBeginRender(double DeltaTime);
+
+	@Native
+	void OnRender(double DeltaTime);
+
+	@Native
+	void OnEndRender(double DeltaTime);
 }
 
 @EditorAttribute("Viewport")
@@ -28,6 +31,12 @@ class EditorViewportPanel extends EditorPanelBase
 
 @EditorAttribute("Scene Hierarchy")
 class SceneHierarchyPanel extends EditorPanelBase
+{
+
+}
+
+@EditorAttribute("Entity Properties")
+class EntityPropertiesPanel extends EditorPanelBase
 {
 
 }

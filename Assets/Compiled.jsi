@@ -1,32 +1,38 @@
 
 class TestModule extends Module {
 
-  void TestModule::~TestModule() (Native)
+  TestModule::dtor() (Native)
 }
 
 class Module extends Object {
 
-  void Module::~Module() (Native)
+  Module::dtor() (Native)
 }
 
 class Object {
 
-  bool Object::operator!=(Object) (Native)
+  Object::dtor() (Native)
 
-  void Object::~Object() (Native)
+  Object::ctor() (Native)
 
   string Object::ToString() (Native)
 
   Type Object::GetType() (Native)
 
   bool Object::operator==(Object) (Native)
+
+  bool Object::operator!=(Object) (Native)
 }
 
 struct string {
 
-  void string::~string() (Native)
-
   string string::operator+(int) (Native)
+
+  string::dtor() (Native)
+
+  bool string::operator<=(string) (Native)
+
+  string::ctor() (Native)
 
   string string::operator+(float) (Native)
 
@@ -34,19 +40,17 @@ struct string {
 
   string string::operator+(byte) (Native)
 
-  void string::operator=(string) (Native)
-
   string string::operator+(string) (Native)
 
   string string::operator+(double) (Native)
+
+  void string::operator=(string) (Native)
 
   bool string::operator>(string) (Native)
 
   bool string::operator>=(string) (Native)
 
   bool string::operator<(string) (Native)
-
-  bool string::operator<=(string) (Native)
 
   bool string::operator==(string) (Native)
 
@@ -56,25 +60,25 @@ struct string {
 struct bool {
    bool value
 
-  bool bool::operator>(bool) (Native)
+  bool bool::operator>=(bool) (Native)
 
-  bool bool::operator>=(double) (Native)
-
-  void bool::~bool() (Native)
+  bool::dtor() (Native)
 
   bool bool::operator==(bool) (Native)
 
   void bool::operator=(bool) (Native)
 
-  bool bool::operator>=(bool) (Native)
+  bool::ctor() (Native)
 
-  bool bool::operator!=(bool) (Native)
+  bool bool::operator>(bool) (Native)
 
   bool bool::operator<(bool) (Native)
 
   bool bool::operator!=(int) (Native)
 
   bool bool::operator<=(bool) (Native)
+
+  bool bool::operator!=(bool) (Native)
 
   void bool::operator=(byte) (Native)
 
@@ -97,6 +101,8 @@ struct bool {
   void bool::operator=(double) (Native)
 
   bool bool::operator>(double) (Native)
+
+  bool bool::operator>=(double) (Native)
 
   bool bool::operator<(double) (Native)
 
@@ -134,21 +140,23 @@ struct bool {
 struct byte {
    byte value
 
-  bool byte::operator!=(bool) (Native)
+  bool byte::operator>=(bool) (Native)
+
+  byte::dtor() (Native)
+
+  byte byte::operator-(double) (Native)
+
+  bool byte::operator==(bool) (Native)
+
+  byte::ctor() (Native)
 
   bool byte::operator<(bool) (Native)
 
   void byte::operator=(bool) (Native)
 
-  void byte::operator=(float) (Native)
-
-  void byte::~byte() (Native)
-
   byte byte::operator+(double) (Native)
 
   bool byte::operator>(bool) (Native)
-
-  bool byte::operator>=(bool) (Native)
 
   bool byte::operator!=(int) (Native)
 
@@ -156,9 +164,7 @@ struct byte {
 
   bool byte::operator<=(bool) (Native)
 
-  byte byte::operator-(double) (Native)
-
-  bool byte::operator==(bool) (Native)
+  bool byte::operator!=(bool) (Native)
 
   byte byte::operator*(byte) (Native)
 
@@ -218,6 +224,8 @@ struct byte {
 
   byte byte::operator+(float) (Native)
 
+  void byte::operator=(float) (Native)
+
   bool byte::operator>=(float) (Native)
 
   bool byte::operator>=(int) (Native)
@@ -252,9 +260,11 @@ struct double {
 
   bool double::operator>=(bool) (Native)
 
-  bool double::operator==(double) (Native)
+  double::dtor() (Native)
 
-  void double::~double() (Native)
+  bool double::operator==(bool) (Native)
+
+  double::ctor() (Native)
 
   void double::operator=(bool) (Native)
 
@@ -263,8 +273,6 @@ struct double {
   double double::operator-(byte) (Native)
 
   bool double::operator>(bool) (Native)
-
-  bool double::operator!=(bool) (Native)
 
   double double::operator-(float) (Native)
 
@@ -276,7 +284,7 @@ struct double {
 
   bool double::operator<=(bool) (Native)
 
-  bool double::operator==(bool) (Native)
+  bool double::operator!=(bool) (Native)
 
   double double::operator*(byte) (Native)
 
@@ -328,6 +336,8 @@ struct double {
 
   bool double::operator<(double) (Native)
 
+  bool double::operator==(double) (Native)
+
   double double::operator/(int) (Native)
 
   bool double::operator!=(double) (Native)
@@ -358,17 +368,19 @@ struct double {
 struct float {
    float value
 
-  bool float::operator>(bool) (Native)
+  bool float::operator>=(bool) (Native)
 
-  void float::~float() (Native)
+  void float::operator=(double) (Native)
+
+  float::dtor() (Native)
 
   bool float::operator==(bool) (Native)
 
   void float::operator=(bool) (Native)
 
-  bool float::operator>=(bool) (Native)
+  float::ctor() (Native)
 
-  bool float::operator!=(bool) (Native)
+  bool float::operator>(bool) (Native)
 
   float float::operator/(double) (Native)
 
@@ -377,6 +389,8 @@ struct float {
   bool float::operator!=(int) (Native)
 
   bool float::operator<=(bool) (Native)
+
+  bool float::operator!=(bool) (Native)
 
   float float::operator*(byte) (Native)
 
@@ -417,8 +431,6 @@ struct float {
   float float::operator+(double) (Native)
 
   float float::operator-(double) (Native)
-
-  void float::operator=(double) (Native)
 
   void float::operator=(int) (Native)
 
@@ -468,15 +480,13 @@ struct float {
 struct int {
    int value
 
-  bool int::operator!=(int) (Native)
+  bool int::operator>=(bool) (Native)
 
-  bool int::operator<=(bool) (Native)
+  int::dtor() (Native)
 
-  string int::operator+(string) (Native)
+  bool int::operator==(bool) (Native)
 
-  int int::operator+(int) (Native)
-
-  void int::~int() (Native)
+  int::ctor() (Native)
 
   void int::operator=(float) (Native)
 
@@ -484,13 +494,13 @@ struct int {
 
   void int::operator=(bool) (Native)
 
-  bool int::operator>=(bool) (Native)
-
-  bool int::operator!=(bool) (Native)
-
   bool int::operator<(bool) (Native)
 
-  bool int::operator==(bool) (Native)
+  bool int::operator!=(int) (Native)
+
+  bool int::operator<=(bool) (Native)
+
+  bool int::operator!=(bool) (Native)
 
   int int::operator*(byte) (Native)
 
@@ -570,6 +580,10 @@ struct int {
 
   int int::operator*(int) (Native)
 
+  string int::operator+(string) (Native)
+
+  int int::operator+(int) (Native)
+
   int int::operator-(int) (Native)
 
   bool int::operator>(int) (Native)
@@ -581,9 +595,7 @@ struct int {
 
 class #global extends Object {
 
-  void ImGui_Text(string) (Native)
-
-  void #global::~#global() (Native)
+  #global::dtor() (Native)
 
   void ImGui_Text(Object) (Native)
 
@@ -597,58 +609,75 @@ class #global extends Object {
 
   bool ImGui_Begin(string) (Native)
 
-  #global::#global() {
+  void ImGui_Text(string) (Native)
+
+  void #global::Initialize() {
     [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
     [00000001]   copy_address 0                                                                        
     [00000002]   push 32                                                                               JingleScript::ValueItem::Push
     [00000003]    copy_data string [Script Test] 32                                                    JingleScript::Compiler::CompileConstant
-    [00000004]    call_method [EditorAttribute::EditorAttribute(string)] 8                             JingleScript::Compiler::CompileFunctionCall
+    [00000004]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [00000005]   pop 32                                                                                JingleScript::ValueItem::Pop
     [00000006]   copy_address 0                                                                        
     [00000007]   push 32                                                                               JingleScript::ValueItem::Push
     [00000008]    copy_data string [Viewport] 32                                                       JingleScript::Compiler::CompileConstant
-    [00000009]    call_method [EditorAttribute::EditorAttribute(string)] 8                             JingleScript::Compiler::CompileFunctionCall
+    [00000009]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [0000000A]   pop 32                                                                                JingleScript::ValueItem::Pop
     [0000000B]   copy_address 0                                                                        
     [0000000C]   push 32                                                                               JingleScript::ValueItem::Push
     [0000000D]    copy_data string [Scene Hierarchy] 32                                                JingleScript::Compiler::CompileConstant
-    [0000000E]    call_method [EditorAttribute::EditorAttribute(string)] 8                             JingleScript::Compiler::CompileFunctionCall
+    [0000000E]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [0000000F]   pop 32                                                                                JingleScript::ValueItem::Pop
     [00000010]   copy_address 0                                                                        
-    [00000011]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000012]   copy_address 0                                                                        
-    [00000013]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000014]   copy_address 0                                                                        
-    [00000015]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000016]   copy_address 0                                                                        
-    [00000017]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000018]   copy_address 0                                                                        
-    [00000019]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000001A]   copy_address 0                                                                        
-    [0000001B]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000001C]   copy_address 0                                                                        
-    [0000001D]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000001E]   copy_address 0                                                                        
-    [0000001F]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000020]   copy_address 0                                                                        
-    [00000021]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000022]   copy_address 0                                                                        
-    [00000023]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000024]   copy_address 0                                                                        
-    [00000025]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000026]   copy_address 0                                                                        
-    [00000027]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000028]   copy_address 0                                                                        
-    [00000029]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000002A]   copy_address 0                                                                        
-    [0000002B]   call_method [Native::Native()] 7                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000002C]  pop 8                                                                                  JingleScript::ValueItem::Pop
+    [00000011]   push 32                                                                               JingleScript::ValueItem::Push
+    [00000012]    copy_data string [Entity Properties] 32                                              JingleScript::Compiler::CompileConstant
+    [00000013]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
+    [00000014]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [00000015]   copy_address 0                                                                        
+    [00000016]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000017]   copy_address 0                                                                        
+    [00000018]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000019]   copy_address 0                                                                        
+    [0000001A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000001B]   copy_address 0                                                                        
+    [0000001C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000001D]   copy_address 0                                                                        
+    [0000001E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000001F]   copy_address 0                                                                        
+    [00000020]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000021]   copy_address 0                                                                        
+    [00000022]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000023]   copy_address 0                                                                        
+    [00000024]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000025]   copy_address 0                                                                        
+    [00000026]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000027]   copy_address 0                                                                        
+    [00000028]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000029]   copy_address 0                                                                        
+    [0000002A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000002B]   copy_address 0                                                                        
+    [0000002C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000002D]   copy_address 0                                                                        
+    [0000002E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000002F]   copy_address 0                                                                        
+    [00000030]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000031]   copy_address 0                                                                        
+    [00000032]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000033]   copy_address 0                                                                        
+    [00000034]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000035]   copy_address 0                                                                        
+    [00000036]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000037]   copy_address 0                                                                        
+    [00000038]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000039]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
 struct null {
 
-  void null::~null() (Native)
+  null::dtor() (Native)
+
+  null::ctor() (Native)
 
   bool null::operator==(Object) (Native)
 
@@ -657,27 +686,31 @@ struct null {
 
 class Managed extends Object {
 
-  void Managed::~Managed() (Native)
+  Managed::dtor() (Native)
 }
 
 class Attribute extends Object {
 
-  void Attribute::~Attribute() (Native)
+  Attribute::dtor() (Native)
 
-  Attribute::Attribute() {
+  Attribute::ctor() {
+    [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
+    [00000001]   copy 8 16 [this] 8                                                                    JingleScript::Compiler::CompileFunctionCall
+    [00000002]   call_exact [Object::ctor()]                                                           JingleScript::Compiler::CompileFunctionCall
+    [00000003]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
-class Scene extends Managed {
+class Scene extends Object {
 
-  void Scene::~Scene() (Native)
+  Scene::dtor() (Native)
 
   Camera Scene::GetCamera() (Native)
 }
 
 class Camera extends Entity {
 
-  void Camera::~Camera() (Native)
+  Camera::dtor() (Native)
 }
 
 class Entity extends Object {
@@ -685,145 +718,145 @@ class Entity extends Object {
    double PositionY
    double PositionZ
 
-  void Entity::~Entity() (Native)
+  Entity::dtor() (Native)
 }
 
 class PlanetQuadType extends MeshEntityType {
 
-  void PlanetQuadType::~PlanetQuadType() (Native)
+  PlanetQuadType::dtor() (Native)
 }
 
 class MeshEntityType extends EntityType {
 
-  void MeshEntityType::~MeshEntityType() (Native)
+  MeshEntityType::dtor() (Native)
 }
 
 class EntityType extends Object {
 
-  void EntityType::~EntityType() (Native)
+  EntityType::dtor() (Native)
 }
 
 class PlanetQuad extends MeshEntity {
 
-  void PlanetQuad::~PlanetQuad() (Native)
+  PlanetQuad::dtor() (Native)
 }
 
 class MeshEntity extends Entity {
 
-  void MeshEntity::~MeshEntity() (Native)
+  MeshEntity::dtor() (Native)
 }
 
 class PlanetType extends MeshEntityType {
 
-  void PlanetType::~PlanetType() (Native)
+  PlanetType::dtor() (Native)
 }
 
 class Planet extends MeshEntity {
 
-  void Planet::~Planet() (Native)
+  Planet::dtor() (Native)
 }
 
 class EntityComponent extends Object {
 
-  void EntityComponent::~EntityComponent() (Native)
+  EntityComponent::dtor() (Native)
 }
 
 class Texture extends Managed {
 
-  void Texture::~Texture() (Native)
+  Texture::dtor() (Native)
 }
 
 class Shader extends Asset {
 
-  void Shader::~Shader() (Native)
+  Shader::dtor() (Native)
 }
 
-class Asset extends Managed {
+class Asset extends Object {
 
-  void Asset::~Asset() (Native)
+  Asset::dtor() (Native)
 }
 
 class Renderer extends Module {
 
-  void Renderer::~Renderer() (Native)
+  Renderer::dtor() (Native)
 }
 
 class Mesh extends Asset {
 
-  void Mesh::~Mesh() (Native)
+  Mesh::dtor() (Native)
 }
 
 class Material extends Asset {
 
-  void Material::~Material() (Native)
+  Material::dtor() (Native)
 }
 
 class LightType extends EntityType {
 
-  void LightType::~LightType() (Native)
+  LightType::dtor() (Native)
 }
 
 class Light extends Entity {
 
-  void Light::~Light() (Native)
+  Light::dtor() (Native)
 }
 
 class Framebuffer extends Managed {
 
-  void Framebuffer::~Framebuffer() (Native)
+  Framebuffer::dtor() (Native)
 }
 
 class CameraType extends EntityType {
 
-  void CameraType::~CameraType() (Native)
+  CameraType::dtor() (Native)
 }
 
-class DebugType extends MeshEntityType {
+class DebugType extends Object {
 
-  void DebugType::~DebugType() (Native)
+  DebugType::dtor() (Native)
 }
 
-class Debug extends MeshEntity {
+class Debug extends Object {
 
-  void Debug::~Debug() (Native)
+  Debug::dtor() (Native)
 }
 
 class MeshComponent extends EntityComponent {
 
-  void MeshComponent::~MeshComponent() (Native)
+  MeshComponent::dtor() (Native)
 }
 
 class Viewport extends Managed {
 
-  void Viewport::~Viewport() (Native)
+  Viewport::dtor() (Native)
 }
 
 struct Vertex {
 
-  void Vertex::~Vertex() (Native)
+  Vertex::dtor() (Native)
 }
 
 class Image extends Asset {
 
-  void Image::~Image() (Native)
+  Image::dtor() (Native)
 }
 
 class WndWindow extends Window {
 
-  void WndWindow::~WndWindow() (Native)
+  WndWindow::dtor() (Native)
 }
 
 class Window extends Module {
 
-  void Window::~Window() (Native)
+  Window::dtor() (Native)
 }
 
 class Application extends Object {
    int FPS
 
-  void Application::~Application() (Native)
-
   Scene Application::GetScene() (Native)
+
+  Application::dtor() (Native)
 
   void Application::OnUpdate(double) {
   }
@@ -831,59 +864,55 @@ class Application extends Object {
 
 class BindingModule extends Module {
 
-  void BindingModule::~BindingModule() (Native)
+  BindingModule::dtor() (Native)
 }
 
 class SceneHierarchyPanel extends EditorPanelBase {
 
-  void SceneHierarchyPanel::~SceneHierarchyPanel() (Native)
+  SceneHierarchyPanel::dtor() (Native)
 }
 
 class EditorPanelBase extends Object {
 
-  void EditorPanelBase::~EditorPanelBase() (Native)
+  EditorPanelBase::dtor() (Native)
 
-  void EditorPanelBase::OnRender(double) {
-  }
-}
+  void EditorPanelBase::Close() (Native)
 
-class EditorViewportPanel extends EditorPanelBase {
+  void EditorPanelBase::OnEndRender(double) (Native)
 
-  void EditorViewportPanel::~EditorViewportPanel() (Native)
+  void EditorPanelBase::OnBeginRender(double) (Native)
+
+  void EditorPanelBase::OnRender(double) (Native)
+
+  EditorModule EditorPanelBase::GetEditor() (Native)
 }
 
 class EditorModule extends Module {
 
-  void EditorModule::~EditorModule() (Native)
+  EditorModule::dtor() (Native)
+}
+
+class EntityPropertiesPanel extends EditorPanelBase {
+
+  EntityPropertiesPanel::dtor() (Native)
+}
+
+class EditorViewportPanel extends EditorPanelBase {
+
+  EditorViewportPanel::dtor() (Native)
 }
 
 class EditorAttribute extends Attribute {
    string m_Title
 
-  void EditorAttribute::~EditorAttribute() (Native)
+  EditorAttribute::dtor() (Native)
 
-  EditorAttribute::EditorAttribute(string) {
-    [00000000]  push 8                                                                                 JingleScript::ValueItem::PushAfter
-    [00000001]   copy 8 48 [this] 8                                                                    JingleScript::Compiler::CompileValue
-    [00000002]   copy_variable_from_object 8 72 [m_Title] 8                                            JingleScript::Compiler::CompileValue
-    [00000003]   resize 24                                                                             JingleScript::ValueItem::Resize
-    [00000004]   push 32                                                                               JingleScript::ValueItem::PushAfter
-    [00000005]    copy 32 96 [title] 32                                                                JingleScript::Compiler::CompileValue
-    [00000006]    call_exact [void string::operator=(string)]                                          JingleScript::HandleAssignmentOperator
-    [00000007]    push 8                                                                               JingleScript::ValueItem::PushAfter
-    [00000008]     copy 8 112 [this] 8                                                                 JingleScript::Compiler::CompileValue
-    [00000009]     copy_variable_to_object 8 40 72 [m_Title]                                           JingleScript::Compiler::CompileValue
-    [0000000A]     resize 24                                                                           JingleScript::ValueItem::Resize
-    [0000000B]    pop 32                                                                               JingleScript::ValueItem::Pop
-    [0000000C]   pop 32                                                                                JingleScript::ValueItem::Pop
-    [0000000D]   destructor [string]                                                                   JingleScript::ValueItem::Pop
-    [0000000E]  pop 32                                                                                 JingleScript::ValueItem::Pop
-  }
+  EditorAttribute::ctor(string) (Native)
 }
 
 class AssetModule extends Module {
 
-  void AssetModule::~AssetModule() (Native)
+  AssetModule::dtor() (Native)
 }
 
 class Type extends Object {
@@ -891,14 +920,18 @@ class Type extends Object {
   bool Type::IsInherited(Type) (Native)
 }
 
-class Type {
+class Type extends Object {
 
   bool Type::IsInherited(Type) (Native)
 }
 
 class Native extends Attribute {
 
-  Native::Native() {
+  Native::ctor() {
+    [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
+    [00000001]   copy 8 16 [this] 8                                                                    JingleScript::Compiler::CompileFunctionCall
+    [00000002]   call_exact [Attribute::ctor()]                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000003]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
@@ -976,7 +1009,7 @@ class ScriptTestPanel extends EditorPanelBase {
     [00000044]         push 8                                                                          JingleScript::ValueItem::Push
     [00000045]          push 8                                                                         JingleScript::ValueItem::PushAfter
     [00000046]           copy 8 24 [scene] 8                                                           JingleScript::Compiler::CompileValue
-    [00000047]           call_method [Camera Scene::GetCamera()] 7                                     JingleScript::Compiler::CompileFunctionCall
+    [00000047]           call_method [Camera Scene::GetCamera()] 6                                     JingleScript::Compiler::CompileFunctionCall
     [00000048]           copy 8 8 16 [camera]                                                          JingleScript::Compiler::CompileVariableScope
     [00000049]          pop 8                                                                          JingleScript::ValueItem::Pop
     [0000004A]          push 8                                                                         JingleScript::ValueItem::PushAfter
