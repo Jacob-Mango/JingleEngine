@@ -348,8 +348,6 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		KeyPressEventArgs args;
 		args.Key = (InputCode)wParam;
 
-		std::cout << "Press: " << args.Key << std::endl;
-
 		Application::Get()->OnKeyPress.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);
 		break;
@@ -359,8 +357,6 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	{
 		KeyReleaseEventArgs args;
 		args.Key = (InputCode)wParam;
-
-		std::cout << "Release: " << args.Key << std::endl;
 
 		Application::Get()->OnKeyRelease.Invoke(window, args);
 		Application::Get()->OnEvent(window, args);

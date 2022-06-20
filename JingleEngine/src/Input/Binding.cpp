@@ -50,8 +50,6 @@ void BindingEntry::UpdateKey(InputCode keyCode, InputState state, InputType type
 		{
 			m_Value = val;
 
-			std::cout << m_Binding->GetName() << ": " << state << " (" << val << ") -> " << keyCode << std::endl;
-
 			m_Combo[key] = { state, type };
 		}
 	}
