@@ -4,6 +4,7 @@
 #include "Rendering/Renderer.h"
 
 BEGIN_CLASS_LINK(Viewport)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 Viewport* Viewport::Create(Scene* scene, unsigned int width, unsigned int height)

@@ -1,4 +1,4 @@
 #include "Core/Window.h"
 
-BEGIN_MODULE_LINK(Window);
-END_MODULE_LINK();
+BEGIN_VIRTUAL_MODULE_LINK(Window);
+END_VIRTUAL_MODULE_LINK();

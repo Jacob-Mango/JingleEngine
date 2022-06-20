@@ -26,6 +26,7 @@
 #endif
 
 BEGIN_MODULE_LINK(WndWindow);
+	LINK_CONSTRUCTOR();
 END_MODULE_LINK();
 
 void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)

@@ -15,8 +15,6 @@ private:
 	std::unordered_map<std::string, Binding*> m_Bindings;
 
 public:
-	BindingModule() {}
-
 	virtual void OnPreInitialize() override;
 	virtual void OnDestroy() override;
 

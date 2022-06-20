@@ -23,9 +23,8 @@ private:
 	std::map<Shader*, std::vector<MeshCommand>> m_StaticMeshes;
 
 public:
-	Renderer() {}
-
 	void SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform);
 
 	void Process(double DeltaTime, class Viewport* viewport);
+
 };

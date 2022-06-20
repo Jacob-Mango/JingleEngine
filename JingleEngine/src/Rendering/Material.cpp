@@ -15,6 +15,7 @@ Material::~Material()
 }
 
 BEGIN_CLASS_LINK(Material)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 bool Material::OnLoad()

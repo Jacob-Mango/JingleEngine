@@ -13,6 +13,7 @@
 
 /*
 BEGIN_CLASS_LINK(PlanetQuad)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 void PlanetQuadType::Load(Config& config)

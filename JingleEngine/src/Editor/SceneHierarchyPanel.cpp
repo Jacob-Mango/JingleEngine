@@ -5,6 +5,7 @@
 #include <imgui.h>
 
 BEGIN_CLASS_LINK(SceneHierarchyPanel);
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK();
 
 void SceneHierarchyPanel::OnBeginRender(double DeltaTime)

@@ -6,6 +6,7 @@
 
 /*
 BEGIN_CLASS_LINK(Planet)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 void Planet::OnCreate()

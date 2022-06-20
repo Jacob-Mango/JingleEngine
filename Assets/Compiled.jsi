@@ -2,11 +2,15 @@
 class TestModule extends Module {
 
   TestModule::dtor() (Native)
+
+  TestModule::ctor() (Native)
 }
 
 class Module extends Object {
 
   Module::dtor() (Native)
+
+  Module::ctor() (Native)
 }
 
 class Object {
@@ -597,11 +601,11 @@ class #global extends Object {
 
   #global::dtor() (Native)
 
-  void ImGui_Text(Object) (Native)
-
   void ImGui_End() (Native)
 
   Application GetApplication() (Native)
+
+  #global::ctor() (Native)
 
   bool ImGui_WantCaptureMouse() (Native)
 
@@ -610,6 +614,8 @@ class #global extends Object {
   bool ImGui_Begin(string) (Native)
 
   void ImGui_Text(string) (Native)
+
+  void ImGui_Text(Object) (Native)
 
   void #global::Initialize() {
     [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
@@ -679,7 +685,9 @@ class #global extends Object {
     [00000040]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [00000041]   copy_address 0                                                                        
     [00000042]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000043]  pop 8                                                                                  JingleScript::ValueItem::Pop
+    [00000043]   copy_address 0                                                                        
+    [00000044]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000045]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
@@ -697,23 +705,22 @@ struct null {
 class Managed extends Object {
 
   Managed::dtor() (Native)
+
+  Managed::ctor() (Native)
 }
 
 class Attribute extends Object {
 
   Attribute::dtor() (Native)
 
-  Attribute::ctor() {
-    [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
-    [00000001]   copy 8 16 [this] 8                                                                    JingleScript::Compiler::CompileFunctionCall
-    [00000002]   call_exact [Object::ctor()]                                                           JingleScript::Compiler::CompileFunctionCall
-    [00000003]  pop 8                                                                                  JingleScript::ValueItem::Pop
-  }
+  Attribute::ctor() (Native)
 }
 
 class Scene extends Object {
 
   Scene::dtor() (Native)
+
+  Scene::ctor() (Native)
 
   Camera Scene::GetCamera() (Native)
 }
@@ -764,36 +771,50 @@ class Component extends Object {
 class EntityFile extends Asset {
 
   EntityFile::dtor() (Native)
+
+  EntityFile::ctor() (Native)
 }
 
 class Asset extends Object {
 
   Asset::dtor() (Native)
+
+  Asset::ctor() (Native)
 }
 
 class Texture extends Managed {
 
   Texture::dtor() (Native)
+
+  Texture::ctor() (Native)
 }
 
 class Shader extends Asset {
 
   Shader::dtor() (Native)
+
+  Shader::ctor() (Native)
 }
 
 class Renderer extends Module {
 
   Renderer::dtor() (Native)
+
+  Renderer::ctor() (Native)
 }
 
 class Mesh extends Asset {
 
   Mesh::dtor() (Native)
+
+  Mesh::ctor() (Native)
 }
 
 class Material extends Asset {
 
   Material::dtor() (Native)
+
+  Material::ctor() (Native)
 }
 
 class Light extends Entity {
@@ -806,6 +827,8 @@ class Light extends Entity {
 class Framebuffer extends Managed {
 
   Framebuffer::dtor() (Native)
+
+  Framebuffer::ctor() (Native)
 }
 
 class MeshComponent extends Component {
@@ -820,6 +843,8 @@ class MeshComponent extends Component {
 class Viewport extends Managed {
 
   Viewport::dtor() (Native)
+
+  Viewport::ctor() (Native)
 }
 
 struct Vertex {
@@ -830,11 +855,15 @@ struct Vertex {
 class Image extends Asset {
 
   Image::dtor() (Native)
+
+  Image::ctor() (Native)
 }
 
 class WndWindow extends Window {
 
   WndWindow::dtor() (Native)
+
+  WndWindow::ctor() (Native)
 }
 
 class Window extends Module {
@@ -849,6 +878,8 @@ class Application extends Object {
 
   Application::dtor() (Native)
 
+  Application::ctor() (Native)
+
   void Application::OnUpdate(double) {
   }
 }
@@ -856,16 +887,22 @@ class Application extends Object {
 class BindingModule extends Module {
 
   BindingModule::dtor() (Native)
+
+  BindingModule::ctor() (Native)
 }
 
 class SceneHierarchyPanel extends EditorPanelBase {
 
   SceneHierarchyPanel::dtor() (Native)
+
+  SceneHierarchyPanel::ctor() (Native)
 }
 
 class EditorPanelBase extends Object {
 
   EditorPanelBase::dtor() (Native)
+
+  EditorPanelBase::ctor() (Native)
 
   void EditorPanelBase::Close() (Native)
 
@@ -881,16 +918,22 @@ class EditorPanelBase extends Object {
 class EditorModule extends Module {
 
   EditorModule::dtor() (Native)
+
+  EditorModule::ctor() (Native)
 }
 
 class EntityPropertiesPanel extends EditorPanelBase {
 
   EntityPropertiesPanel::dtor() (Native)
+
+  EntityPropertiesPanel::ctor() (Native)
 }
 
 class EditorViewportPanel extends EditorPanelBase {
 
   EditorViewportPanel::dtor() (Native)
+
+  EditorViewportPanel::ctor() (Native)
 }
 
 class EditorAttribute extends Attribute {
@@ -904,6 +947,8 @@ class EditorAttribute extends Attribute {
 class AssetModule extends Module {
 
   AssetModule::dtor() (Native)
+
+  AssetModule::ctor() (Native)
 }
 
 class Type extends Object {

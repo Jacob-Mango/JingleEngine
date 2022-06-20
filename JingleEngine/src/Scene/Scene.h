@@ -31,10 +31,8 @@ private:
 
 	Camera* m_Camera;
 
-private:
-	Scene() {}
-
 public:
+	Scene() {}
 	virtual ~Scene() {}
 
 	static Scene* Create(std::string file);

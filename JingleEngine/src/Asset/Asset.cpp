@@ -14,6 +14,7 @@ Asset::~Asset()
 }
 
 BEGIN_CLASS_LINK(Asset)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 std::string Asset::GetPath() const

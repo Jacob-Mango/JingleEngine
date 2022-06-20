@@ -26,8 +26,6 @@ class EditorModule : public Module
 	Entity* m_SelectedEntity;
 
 public:
-	EditorModule() {}
-
 	virtual void OnInitialize() override;
 	virtual void OnEvent(BaseClass* sender, const EventArgs& args) override;
 

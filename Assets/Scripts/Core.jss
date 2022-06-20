@@ -21,10 +21,8 @@ class Type
 
 class Attribute
 {
-	Attribute()
-	{
-		super();
-	}
+	@Native
+	Attribute();
 }
 
 class Native extends Attribute

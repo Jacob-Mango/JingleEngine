@@ -5,6 +5,7 @@
 #include <imgui.h>
 
 BEGIN_CLASS_LINK(EntityPropertiesPanel);
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK();
 
 void EntityPropertiesPanel::OnBeginRender(double DeltaTime)

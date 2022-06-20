@@ -5,6 +5,7 @@
 #include "Rendering/Texture.h"
 
 BEGIN_CLASS_LINK(Framebuffer)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 Framebuffer::~Framebuffer()

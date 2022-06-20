@@ -14,7 +14,6 @@ class WndWindow : public Window
 	friend class Window;
 
 public:
-	WndWindow() {}
 	virtual ~WndWindow();
 
 	virtual int Create(const WindowDesc& desc) override;

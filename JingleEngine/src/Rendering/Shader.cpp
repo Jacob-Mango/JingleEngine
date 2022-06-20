@@ -30,6 +30,7 @@ Shader::~Shader()
 }
 
 BEGIN_CLASS_LINK(Shader)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 bool Shader::OnLoad()

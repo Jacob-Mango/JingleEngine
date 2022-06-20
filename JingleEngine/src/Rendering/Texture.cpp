@@ -5,6 +5,7 @@
 #include <imgui.h>
 
 BEGIN_CLASS_LINK(Texture)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 Texture::~Texture()

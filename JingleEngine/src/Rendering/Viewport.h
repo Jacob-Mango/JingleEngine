@@ -30,10 +30,9 @@ class Viewport : public JingleScript::ManagedObject
 	Ref<Scene> m_Scene;
 	Ref<Framebuffer> m_Framebuffer;
 
-private:
+public:
 	Viewport() {}
 
-public:
 	void Process(double DeltaTime);
 
 	void Resize(unsigned int width, unsigned int height);

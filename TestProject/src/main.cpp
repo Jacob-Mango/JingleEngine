@@ -13,10 +13,6 @@ class TestModule : public Module
 	Binding* Binding_Focus;
 
 public:
-	TestModule()
-	{
-	}
-
 	virtual void OnInitialize() override
 	{
 		auto bindingModule = ModuleManager::Get<BindingModule>();

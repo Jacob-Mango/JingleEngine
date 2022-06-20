@@ -5,6 +5,7 @@
 #include <stb_image.h>
 
 BEGIN_CLASS_LINK(Image)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 Image::~Image()

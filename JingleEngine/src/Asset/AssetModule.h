@@ -24,8 +24,6 @@ private:
 	std::unordered_map<AssetIDv, Ref<Asset>> m_Assets;
 
 public:
-	AssetModule() {}
-
 	virtual void OnPreInitialize() override;
 	virtual void OnInitialize() override;
 
@@ -44,6 +42,7 @@ private:
 	static void Unload(AssetID AssetID);
 
 	static AssetIDv ConvertPath(std::string path);
+
 };
 
 template <typename T>

@@ -19,6 +19,7 @@
 #include "Rendering/Shader.h"
 
 BEGIN_CLASS_LINK(Scene)
+	LINK_CONSTRUCTOR();
 	LINK_METHOD(GetCamera);
 END_CLASS_LINK()
 

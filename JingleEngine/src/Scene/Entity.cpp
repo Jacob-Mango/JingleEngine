@@ -13,6 +13,7 @@
 #include "Rendering/Material.h"
 
 BEGIN_CLASS_LINK(EntityFile)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 EntityFile::EntityFile()
@@ -45,7 +46,7 @@ std::string EntityFile::ToString() const
 }
 
 BEGIN_CLASS_LINK(Entity)
-	LINK_CONSTRUCTOR()
+	LINK_CONSTRUCTOR();
 	LINK_METHOD(OnCreate);
 	LINK_METHOD(OnDestroy);
 	LINK_METHOD(OnTick);

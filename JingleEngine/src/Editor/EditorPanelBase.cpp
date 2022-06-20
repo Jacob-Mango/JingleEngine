@@ -1,6 +1,7 @@
 #include "Editor/EditorPanelBase.h"
 
 BEGIN_CLASS_LINK(EditorPanelBase);
+	LINK_CONSTRUCTOR();
 	LINK_METHOD(OnBeginRender);
 	LINK_METHOD(OnRender);
 	LINK_METHOD(OnEndRender);

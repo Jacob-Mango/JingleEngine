@@ -18,6 +18,7 @@ Mesh::~Mesh()
 }
 
 BEGIN_CLASS_LINK(Mesh)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
 bool Mesh::OnLoad()

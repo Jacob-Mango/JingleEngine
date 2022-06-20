@@ -16,8 +16,6 @@ class Window : public Module
 	DEFINE_VIRTUAL_MODULE(Window, Module);
 
 public:
-	Window() {}
-
 	virtual int Create(const WindowDesc &desc = WindowDesc()) = 0;
 
 	virtual void SetVsync(bool enabled) = 0;
@@ -34,4 +32,5 @@ public:
 
 	virtual void Begin() = 0;
 	virtual void End() = 0;
+
 };

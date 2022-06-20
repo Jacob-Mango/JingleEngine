@@ -10,6 +10,7 @@
 #include <imgui_internal.h>
 
 BEGIN_CLASS_LINK(EditorViewportPanel);
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK();
 
 EditorViewportPanel::EditorViewportPanel()
