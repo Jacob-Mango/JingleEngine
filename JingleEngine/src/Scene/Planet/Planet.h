@@ -5,34 +5,24 @@
 #include "Core/Application.h"
 #include "Core/Config.h"
 
-#include "Scene/MeshEntity.h"
 #include "Scene/Scene.h"
 
 #include "PlanetQuad.h"
 
+/*
 class Scene;
-
-class PlanetType : public MeshEntityType
-{
-	DEFINE_CLASS(PlanetType, MeshEntityType)
-
-public:
-	PlanetQuadType* QuadType;
-	double Radius;
-
-public:
-	PlanetType() {}
-
-	virtual void Load(Config& config) override;
-
-};
+class PlanetQuad;
 
 class Planet : public MeshEntity
 {
 	DEFINE_CLASS(Planet, MeshEntity);
 
-	friend class PlanetQuad;
+	friend PlanetQuad;
 
+public:
+	double Radius;
+	AssetID QuadType;
+	
 private:
 	std::vector<PlanetQuad*> m_ChildQuads;
 
@@ -48,3 +38,4 @@ public:
 
 	PlanetQuadType& GetQuadType();
 };
+*/

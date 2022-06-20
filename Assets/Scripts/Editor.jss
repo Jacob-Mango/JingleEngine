@@ -62,17 +62,5 @@ class ScriptTestPanel extends EditorPanelBase
 		ImGui_Text(scene);
 		Camera camera = scene.GetCamera();
 		ImGui_Text(camera);
-
-		// null comparison broken??
-		//if (camera)
-		{
-			double x = camera.PositionX;
-			double y = camera.PositionY;
-			double z = camera.PositionZ;
-
-			ImGui_Text("PositionX: " + x);
-			ImGui_Text("PositionY: " + y);
-			ImGui_Text("PositionZ: " + z);
-		}
 	}
 }

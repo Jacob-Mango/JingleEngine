@@ -1,29 +1,33 @@
 #pragma once
 
+#include "Core/Config.h"
 #include "Core/Core.h"
 
 class Scene;
 class Config;
 class Entity;
-class EntityComponent;
+class Component;
 class Application;
 
 #include "Rendering/Material.h"
 #include "Rendering/MeshInstance.h"
 
-class EntityType : public JingleScript::Object
+class EntityFile : public Asset
 {
-	DEFINE_CLASS(EntityType, JingleScript::Object);
+	SETUP_ASSET(EntityFile, Asset)
+
+	friend Scene;
+
+	Ref<Config> m_Config;
 
 public:
-	std::string Name;
+	EntityFile();
+	virtual ~EntityFile();
 
-public:
-	EntityType() {}
+	virtual bool OnLoad() override;
 
-	virtual void Load(Config& config);
-	
 	virtual std::string ToString() const override;
+
 };
 
 class Entity : public JingleScript::Object
@@ -40,11 +44,9 @@ private:
 	Entity* m_Parent;
 	std::vector<Entity*> m_Children;
 
-	std::unordered_map<JingleScript::Type*, std::vector<EntityComponent*>> m_Components;
+	std::unordered_map<JingleScript::Type*, std::vector<Component*>> m_Components;
 
 	bool m_IsDeleting = false;
-
-	EntityType* m_EntityType;
 
 protected:
 	bool m_IsVisible = true;
@@ -52,15 +54,11 @@ protected:
 	glm::dmat4 m_Transform = glm::dmat4(1.0);
 	glm::vec3 m_BoundingBox[2];
 
-	double PositionX = 0;
-	double PositionY = 0;
-	double PositionZ = 0;
-
 public:
 	Entity();
 	virtual ~Entity();
 
-	void AddComponent(EntityComponent* component);
+	void AddComponent(Component* component);
 
 	template<typename T>
 	T* AddComponent()
@@ -107,14 +105,6 @@ public:
 	glm::dvec3 GetForwardDirection() const;
 
 	Scene* GetScene() const;
-
-	EntityType& GetEntityType() const;
-
-	template<typename T>
-	T& GetEntityType() const
-	{
-		return *(dynamic_cast<T*>(m_EntityType));
-	}
 
 	void SetVisible(bool visible);
 	bool IsVisible();

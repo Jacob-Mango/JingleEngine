@@ -1,7 +1,6 @@
 #pragma once
 
 class Scene;
-class EntityType;
 class Config;
 class Material;
 class Framebuffer;

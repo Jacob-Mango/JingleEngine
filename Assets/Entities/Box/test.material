@@ -1,0 +1,18 @@
+{
+	shader: "Assets/Shaders/pbr",
+	ambient: {
+		path: "Assets/Entities/Box/ambient.png",
+	},
+	diffuse: {
+		path: "Assets/Entities/Box/diffuse.png",
+	},
+	metallic: {
+		path: "Assets/Entities/Box/metallic.png",
+	},
+	normal: {
+		path: "Assets/Entities/Box/normal.png",
+	},
+	roughness: {
+		path: "Assets/Entities/Box/roughness.png",
+	},
+}

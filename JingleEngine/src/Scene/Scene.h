@@ -41,49 +41,12 @@ public:
 
 	void LoadScene(Config& entities);
 
-	Entity* SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation);
-	Entity* SpawnEntity(Config& entity);
+	//Entity* SpawnEntity(AssetID entity, glm::vec3 position, glm::vec3 orientation);
+	Entity* SpawnEntity(Config& entity, Entity* parent = nullptr);
 
 	void OnStart();
 	void OnStop();
 	void OnTick(double DeltaTime);
-
-	template <typename T>
-	T* SpawnEntity(EntityType* entityType, glm::vec3 position = glm::vec3(0), glm::vec3 orientation = glm::vec3(0))
-	{
-		using namespace JingleScript;
-
-		Type* type = TypeManager::Get(entityType->Name);
-		if (type == nullptr)
-		{
-			JS_ERROR("Invalid entity type");
-			return nullptr;
-		}
-
-		T* entity = type->InternalAllocate<T>();
-		if (!entity)
-		{
-			JS_ERROR("Failed to allocate entity");
-			return nullptr;
-		}
-
-		entity->m_EntityType = entityType;
-
-		AddEntity(entity);
-
-		Type::CallDefaultConstructor(entity, type);
-
-		entity->m_Parent = nullptr;
-
-		entity->SetOrientation(orientation);
-		entity->SetPosition(position);
-
-		type->InitializeScript(entity);
-
-		entity->OnCreate();
-
-		return entity;
-	}
 
 	Camera* GetCamera();
 	void SetCamera(Camera* camera);

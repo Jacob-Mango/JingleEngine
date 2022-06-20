@@ -1,52 +1,21 @@
 {
 	entities: [
 		{
-			position: "0 0 -2",
+			position: "0 0 0",
 			orientation: "0 0 0",
-			type: "MeshEntity",
+			file: "Assets\Entities\Box\test.ent",
 		},
 		{
 			position: "0 0 -5",
 			orientation: "0 0 0",
-			type: "Camera",
+			file: "Assets\Entities\camera.ent",
 			children: [
 				{
 					position: "0 0 0",
 					orientation: "0 0 0",
-					type: "Light",
+					file: "Assets\Entities\light.ent",
 				},
 			],
 		},
 	],
-	defaultTypes: {
-		Entity: {
-		},
-		MeshEntity: Entity {
-			model: "Assets/Models/Box/test.obj",
-			material: "Assets/Models/Box/test.material",
-		},
-		Debug: MeshEntity {
-			model: "Assets/Models/Box/test.obj",
-			material: "Assets/Models/Box/test.material",
-		},
-		Camera: Entity {
-			movementSpeed: 20.0,
-			movementBoostModifier: 2.0,
-			mouseSpeed: 20.0,
-		},
-		Light: Entity {
-			type: 2,
-			color: "1.0 1.0 1.0",
-			constant: 1.0,
-			linear: 0.0014,
-			quadratic: 0.000007,
-		},
-		Planet: MeshEntity {
-			quadType: "PlanetQuadType",
-			radius: 500.0,
-		},
-		PlanetQuad: MeshEntity {
-			material: "Assets/Models/Box/test.material",
-		},
-	},
 }

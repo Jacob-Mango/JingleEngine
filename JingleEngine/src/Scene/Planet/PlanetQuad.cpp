@@ -11,9 +11,7 @@
 #define V_DIST(a, b) D_DIST(a.x, b.x) + D_DIST(a.y, b.y) + D_DIST(a.z, b.z)
 #define V_LEN(a) D_LEN(a.x) + D_LEN(a.y) + D_LEN(a.z)
 
-BEGIN_CLASS_LINK(PlanetQuadType)
-END_CLASS_LINK()
-
+/*
 BEGIN_CLASS_LINK(PlanetQuad)
 END_CLASS_LINK()
 
@@ -114,7 +112,7 @@ double noise(glm::dvec3 position) {
 
 void PlanetQuad::SpawnChild(unsigned int quadrant)
 {
-	PlanetQuad* quad = GetScene()->SpawnEntity<PlanetQuad>(&GetEntityType<PlanetQuadType>());
+	PlanetQuad* quad = nullptr;//GetScene()->SpawnEntity<PlanetQuad>(&GetEntityType<PlanetQuadType>());
 	AddChild(quad);
 
 	quad->m_Quadrant = quadrant;
@@ -129,10 +127,7 @@ void PlanetQuad::SpawnChild(unsigned int quadrant)
 
 void PlanetQuad::CreateMesh()
 {
-	auto& planetType = m_Planet->GetEntityType<PlanetType>();
-	auto& type = GetEntityType<PlanetQuadType>();
-
-	double radius = planetType.Radius;
+	double radius = m_Planet->Radius;
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -239,7 +234,7 @@ void PlanetQuad::CreateMesh()
 		SetPosition(up * radius);
 	}
 
-	//m_Mesh = new Mesh(type.Material, vertices, indices);
+	//m_Mesh = new Mesh(Material, vertices, indices);
 }
 
 glm::dvec2 PlanetQuad::GetPlanetRelativePosition()
@@ -266,3 +261,4 @@ double PlanetQuad::GetPlanetRelativeScale()
 {
 	return 1.0 / (double)(((unsigned long long)1) << ((unsigned long long)m_Depth));
 }
+*/

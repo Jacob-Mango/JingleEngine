@@ -5,23 +5,11 @@
 #include "Core/Application.h"
 #include "Core/Config.h"
 
-#include "Scene/MeshEntity.h"
 #include "Scene/Scene.h"
 
+/*
 class Scene;
 class Planet;
-
-class PlanetQuad;
-class PlanetQuadType : public MeshEntityType
-{
-	DEFINE_CLASS(PlanetQuadType, MeshEntityType);
-
-public:
-	PlanetQuadType() {}
-
-	virtual void Load(Config& config) override;
-
-};
 
 class PlanetQuad : public MeshEntity
 {
@@ -58,3 +46,4 @@ public:
 	glm::dvec2 GetPlanetQuadrantRelativePosition();
 	double GetPlanetRelativeScale();
 };
+*/

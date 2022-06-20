@@ -14,10 +14,8 @@ private:
 	AssetIDv m_Value;
 	std::string m_Path;
 
-private:
-	AssetID();
-
 public:
+	AssetID();
 	AssetID(AssetIDv id);
 	AssetID(std::string path);
 	AssetID(const AssetID& other);

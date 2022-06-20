@@ -1,7 +1,8 @@
 #include "Scene.h"
 
+#include "Scene/Component.h"
 #include "Scene/Entity.h"
-#include "Scene/EntityComponent.h"
+#include "Scene/Property.h"
 
 #include "Scene/Components/MeshComponent.h"
 
@@ -27,12 +28,6 @@ Scene* Scene::Create(std::string file)
 
 	Ref<Config> config = Config::Load(file);
 
-	auto& types = (*config)["defaultTypes"];
-	for (int i = 0; i < types.Count; i++)
-	{
-		EntityTypeManager::Load(types[i]);
-	}
-
 	scene->LoadScene((*config)["entities"]);
 
 	return scene;
@@ -42,30 +37,128 @@ void Scene::LoadScene(Config& entities)
 {
 	for (int i = 0; i < entities.Count; i++)
 	{
-		SpawnEntity(entities[i]);
+		auto& config = entities[i];
+
+		auto position = config["position"].Vec3();
+		auto orientation = config["orientation"].Vec3();
+		auto file = config["file"].String;
+
+		auto entityFile = AssetModule::Get<EntityFile>(file);
+
+		Config* entityFileConfig = entityFile->m_Config.Get();
+		
+		Entity* entity = SpawnEntity((*entityFileConfig)[0]);
+		if (!entity)
+		{
+			continue;
+		}
+
+		entity->SetPosition(position);
+		entity->SetOrientation(orientation);
 	}
 }
 
+/*
 Entity* Scene::SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation)
 {
-	auto entType = EntityTypeManager::Get<EntityType>(type);
-	return SpawnEntity<Entity>(entType, position, orientation);
+	//auto entType = EntityTypeManager::Get<EntityType>(type);
+	//return SpawnEntity<Entity>(entType, position, orientation);
+	return nullptr;
 }
+*/
 
-Entity* Scene::SpawnEntity(Config& config)
+Entity* Scene::SpawnEntity(Config& cfgRoot, Entity* parent)
 {
-	glm::vec3 position = config["position"].Vec3();
-	glm::vec3 orientation = config["orientation"].Vec3();
-	Entity* entity = SpawnEntity(config["type"].String, position, orientation);
+	using namespace JingleScript;
 
-	auto& children = config["children"];
-	if (!children.IsNull())
+	auto parseConfig = [](Config& cfg, Object* object, Type* type)
 	{
-		for (int i = 0; i < children.Count; i++)
+		auto variables = type->GetVariables();
+
+		for (auto& variable : variables)
 		{
-			entity->AddChild(SpawnEntity(children[i]));
+			Property* prop = nullptr;
+			for (auto& attributeBase : variable->Attributes)
+			{
+				if (attributeBase->GetType() != Property::StaticType())
+				{
+					continue;
+				}
+
+				prop = static_cast<Property*>(attributeBase);
+			}
+
+			if (prop == nullptr)
+			{
+				continue;
+			}
+
+			void* src = nullptr;
+			void* dst = object->GetVariable(variable->Name);
+
+			if (variable->Type->IsStructure())
+			{
+				double dbl;
+
+				if (variable->Type == Integer::StaticType())
+				{
+					src = (void*)&(cfg[variable->Name].Int);
+				}
+				else if (variable->Type == Float::StaticType())
+				{
+					src = (void*)&(cfg[variable->Name].Float);
+				}
+				else if (variable->Type == Double::StaticType())
+				{
+					dbl = cfg[variable->Name].Float;
+					src = (void*)&(dbl);
+				}
+				else if (variable->Type == String::StaticType())
+				{
+					src = (void*)&(cfg[variable->Name].String);
+				}
+
+				Type::CallCopyConstructor(src, dst, variable->Type);
+			}
+			else
+			{
+				// not supported yet.
+				// spawn the class and assign the data
+			}
 		}
+	};
+
+	Type* type = TypeManager::Get(cfgRoot.GetName());
+
+	Entity* entity = type->New<Entity>();
+	entity->m_Parent = parent;
+	AddEntity(entity);
+
+	parseConfig(cfgRoot, entity, type);
+
+	auto& cfgComponents = cfgRoot["Components"];
+	for (int i = 0; i < cfgComponents.Count; i++)
+	{
+		auto& cfgComponent = cfgComponents[i];
+
+		Type* componentType = TypeManager::Get(cfgComponent.GetName());
+
+		Component* component = componentType->New<Component>(entity);
+
+		entity->AddComponent(component);
+
+		parseConfig(cfgComponent, component, componentType);
 	}
+
+	std::vector<Component*> components;
+	entity->GetComponents(components);
+
+	for (auto& component : components)
+	{
+		component->OnCreate();
+	}
+
+	entity->OnCreate();
 
 	return entity;
 }
@@ -83,7 +176,16 @@ void Scene::OnTick(double DeltaTime)
 	for (int i = 0; i < m_Entities.size(); i++)
 	{
 		Entity* entity = m_Entities[i];
+
 		entity->OnTick(DeltaTime);
+
+		std::vector<Component*> components;
+		entity->GetComponents(components);
+
+		for (auto& component : components)
+		{
+			component->OnTick(DeltaTime);
+		}
 	}
 }
 

@@ -4,19 +4,9 @@
 
 #include "Rendering/Renderer.h"
 
-BEGIN_CLASS_LINK(PlanetType)
-END_CLASS_LINK()
-
+/*
 BEGIN_CLASS_LINK(Planet)
 END_CLASS_LINK()
-
-void PlanetType::Load(Config& config)
-{
-	Super::Load(config);
-
-	QuadType = EntityTypeManager::Get<PlanetQuadType>(config["quadType"].String);
-	Radius = config["radius"].Float;
-}
 
 void Planet::OnCreate()
 {
@@ -59,8 +49,4 @@ glm::dvec3 Planet::CubeToSphere(glm::dvec3 point)
 	result.z = point.z * sqrt(1.0 - ((x2 + y2) * 0.5) + (x2 * y2 * 0.33333333333333333333));
 	return result;
 }
-
-PlanetQuadType& Planet::GetQuadType()
-{
-	return *(GetEntityType<PlanetType>().QuadType);
-}
+*/

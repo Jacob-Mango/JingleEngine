@@ -8,10 +8,11 @@ class Texture;
 class Shader;
 class Scene;
 
-class Light;
-class LightType : public EntityType
+class Light : public Entity
 {
-	DEFINE_CLASS(LightType, EntityType);
+	DEFINE_CLASS(Light, Entity);
+
+	friend Scene;
 
 public:
 	enum class Type
@@ -25,21 +26,6 @@ public:
 	float Constant;
 	float Linear;
 	float Quadratic;
-
-public:
-	LightType() {}
-
-	virtual void Load(Config& config) override;
-
-	virtual std::string ToString() const override;
-
-};
-
-class Light : public Entity
-{
-	DEFINE_CLASS(Light, Entity);
-
-	friend Scene;
 
 private:
 	glm::vec3 m_TempLightPosition;

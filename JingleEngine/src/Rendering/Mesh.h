@@ -14,8 +14,6 @@
 
 class Mesh : public Asset
 {
-	typedef Asset Super;
-
 	friend class MeshInstance;
 
 	SETUP_ASSET(Mesh, Asset)

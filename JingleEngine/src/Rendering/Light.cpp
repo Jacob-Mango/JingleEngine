@@ -4,32 +4,9 @@
 
 #include <sstream>
 
-BEGIN_CLASS_LINK(LightType)
-END_CLASS_LINK()
-
 BEGIN_CLASS_LINK(Light)
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
-
-void LightType::Load(Config& config)
-{
-	Super::Load(config);
-
-	switch (config["type"].Int)
-	{
-		case 1:
-			Type = Type::DIRECTIONAL;
-			break;
-		case 2:
-			Type = Type::POINT;
-			break;
-	}
-
-	Color = config["color"].Vec3();
-
-	Constant = config["constant"].Float;
-	Linear = config["linear"].Float;
-	Quadratic = config["quadratic"].Float;
-}
 
 void Light::OnCreate()
 {
@@ -49,20 +26,18 @@ void Light::Process(Ref<Shader> shader, int& pointIdx, int& directionalIdx)
 {
 	std::string prefix = "";
 
-	auto& type = GetEntityType<LightType>();
-
-	switch (type.Type)
+	switch (Type)
 	{
-	case LightType::Type::POINT:
+	case Type::POINT:
 		prefix = "u_PointLights[" + std::to_string(pointIdx) + "].";
 		pointIdx++;
 
-		shader->Set(prefix + "constant", type.Constant);
-		shader->Set(prefix + "linear", type.Linear);
-		shader->Set(prefix + "quadratic", type.Quadratic);
+		shader->Set(prefix + "constant", Constant);
+		shader->Set(prefix + "linear", Linear);
+		shader->Set(prefix + "quadratic", Quadratic);
 
 		break;
-	case LightType::Type::DIRECTIONAL:
+	case Type::DIRECTIONAL:
 		prefix = "u_DirectionalLights[" + std::to_string(directionalIdx) + "].";
 		directionalIdx++;
 
@@ -73,19 +48,10 @@ void Light::Process(Ref<Shader> shader, int& pointIdx, int& directionalIdx)
 	}
 
 	shader->Set(prefix + "position", glm::vec3(GetWorldTransform()[3]));
-	shader->Set(prefix + "color", type.Color);
+	shader->Set(prefix + "color", Color);
 }
 
 std::string Light::ToString() const
-{
-	std::stringstream ss;
-
-	ss << Super::ToString();
-
-	return ss.str();
-}
-
-std::string LightType::ToString() const
 {
 	std::stringstream ss;
 

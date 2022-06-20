@@ -14,6 +14,8 @@ END_MODULE_LINK();
 
 void Renderer::SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform)
 {
+	if (!mesh) return;
+
 	Ref<Shader> shader = mesh->GetMaterial()->GetShader();
 
 	m_StaticMeshes[shader].push_back({ shader, mesh, transform });

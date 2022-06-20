@@ -1,25 +1,32 @@
 #pragma once
 
+#include "Asset/AssetID.h"
+
 #include "Core/Core.h"
 
-#include "Scene/EntityComponent.h"
+#include "Scene/Component.h"
 
 class MeshInstance;
 class Renderer;
 
-class MeshComponent : public EntityComponent
+class MeshComponent : public Component
 {
-	DEFINE_CLASS(MeshComponent, EntityComponent);
+	DEFINE_CLASS(MeshComponent, Component);
+
+public:
+	std::string Model;
+	std::string Material;
 
 private:
-	//TODO: Instead of MeshInstance, use a storage mesh that has both the asset and multiple 'MeshInstance' per material
 	Ref<MeshInstance> m_Mesh;
 
 public:
 	MeshComponent() {}
+	MeshComponent(Entity* entity) : Super(entity) {}
+
+	virtual void OnCreate() override;
 
 public:
-	inline void SetMesh(MeshInstance* InMesh) { m_Mesh = InMesh; }
-	inline MeshInstance* GetMesh() const { return m_Mesh; }
+	MeshInstance* GetMesh() const { return m_Mesh; }
 
 };

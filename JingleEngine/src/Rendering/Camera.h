@@ -9,28 +9,17 @@
 #include "Scene/Entity.h"
 #include "Scene/Scene.h"
 
-class Camera;
-class CameraType : public EntityType
-{
-	DEFINE_CLASS(CameraType, EntityType);
-
-public:
-	float MovementSpeed;
-	float MovementBoostModifier;
-	
-	float MouseSpeed;
-
-public:
-	CameraType() {}
-
-	virtual void Load(Config& config) override;
-
-};
-
 class Camera : public Entity
 {
 	DEFINE_CLASS(Camera, Entity);
 
+public:
+	double MovementSpeed;
+	double MovementBoostModifier;
+	
+	double MouseSpeed;
+
+private:
 	float m_SpeedCoef = 1.0;
 
 	glm::vec3 m_Position;

@@ -3,7 +3,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 #include "Scene/Scene.h"
-#include "Scene/EntityComponent.h"
+#include "Scene/Component.h"
 
 #include "Core/Application.h"
 
@@ -12,19 +12,44 @@
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
 
-BEGIN_CLASS_LINK(Entity)
-	LINK_NAMED_VARIABLE(PositionX, PositionX);
-	LINK_NAMED_VARIABLE(PositionY, PositionY);
-	LINK_NAMED_VARIABLE(PositionZ, PositionZ);
+BEGIN_CLASS_LINK(EntityFile)
 END_CLASS_LINK()
 
-BEGIN_CLASS_LINK(EntityType)
-END_CLASS_LINK()
-
-void EntityType::Load(Config& config)
+EntityFile::EntityFile()
 {
-	Name = config.GetName();
 }
+
+EntityFile::~EntityFile()
+{
+}
+
+bool EntityFile::OnLoad()
+{
+	if (GetPath() == "")
+	{
+		return false;
+	}
+
+	m_Config = Config::Load(GetPath());
+	if (!m_Config)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+std::string EntityFile::ToString() const
+{
+	return std::string();
+}
+
+BEGIN_CLASS_LINK(Entity)
+	LINK_CONSTRUCTOR()
+	LINK_METHOD(OnCreate);
+	LINK_METHOD(OnDestroy);
+	LINK_METHOD(OnTick);
+END_CLASS_LINK()
 
 Entity::Entity()
 {
@@ -40,7 +65,7 @@ Entity::~Entity()
 	}
 }
 
-void Entity::AddComponent(EntityComponent* component)
+void Entity::AddComponent(Component* component)
 {
 	using namespace JingleScript;
 
@@ -49,10 +74,13 @@ void Entity::AddComponent(EntityComponent* component)
 	Type* type = component->GetType();
 	while (type != nullptr)
 	{
-		std::vector<EntityComponent*>& components = m_Components[type];
+		std::vector<Component*>& components = m_Components[type];
 		components.push_back(component);
 
-		if (type == EntityComponent::StaticType()) return;
+		if (type == Component::StaticType())
+		{
+			return;
+		}
 
 		type = type->GetBase();
 	}
@@ -180,31 +208,11 @@ Scene* Entity::GetScene() const
 	return m_Scene;
 }
 
-EntityType& Entity::GetEntityType() const
-{
-	return *m_EntityType;
-}
-
-std::string EntityType::ToString() const
-{
-	std::stringstream ss;
-
-	ss << Super::ToString();
-
-	ss << ", ";
-	ss << "Name=" << Name;
-
-	return ss.str();
-}
-
 std::string Entity::ToString() const
 {
 	std::stringstream ss;
 
 	ss << Super::ToString();
-
-	ss << ", ";
-	ss << "Type=" << GetEntityType().AsString();
 
 	ss << ", ";
 	ss << "Position=" << GetPosition();
@@ -235,7 +243,4 @@ void Entity::OnDestroy()
 
 void Entity::OnTick(double DeltaTime)
 {
-PositionX = m_Transform[3][0];
-PositionY = m_Transform[3][1];
-PositionZ = m_Transform[3][2];
 }

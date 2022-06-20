@@ -27,3 +27,8 @@ class Mesh extends Asset
 {
 
 }
+
+class EntityFile extends Asset
+{
+	
+}

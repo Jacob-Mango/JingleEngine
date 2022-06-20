@@ -1,11 +1,22 @@
-class EntityType
+class Property extends Attribute
 {
-
+	
 }
 
 class Entity
 {
-	double PositionX;
-	double PositionY;
-	double PositionZ;
+}
+
+class Component
+{
+
+}
+
+class MeshComponent extends Component
+{
+	@Property
+	string Model;
+
+	@Property
+	string Material;
 }

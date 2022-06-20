@@ -43,7 +43,6 @@
     <ClCompile Include="src\Rendering\Vertex.cpp" />
     <ClCompile Include="src\Rendering\Viewport.cpp" />
     <ClCompile Include="src\Scene\Components\MeshComponent.cpp" />
-    <ClCompile Include="src\Scene\Debug.cpp" />
     <ClCompile Include="src\Core\Logging.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\Windows\WndInput.cpp" />
@@ -58,11 +57,10 @@
     <ClCompile Include="src\Rendering\Shader.cpp" />
     <ClCompile Include="src\Rendering\Texture.cpp" />
     <ClCompile Include="src\Scene\Entity.cpp" />
-    <ClCompile Include="src\Scene\EntityComponent.cpp" />
-    <ClCompile Include="src\Scene\EntityTypeManager.cpp" />
-    <ClCompile Include="src\Scene\MeshEntity.cpp" />
+    <ClCompile Include="src\Scene\Component.cpp" />
     <ClCompile Include="src\Scene\Planet\Planet.cpp" />
     <ClCompile Include="src\Scene\Planet\PlanetQuad.cpp" />
+    <ClCompile Include="src\Scene\Property.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -95,7 +93,6 @@
     <ClInclude Include="src\Rendering\Vertex.h" />
     <ClInclude Include="src\Rendering\Viewport.h" />
     <ClInclude Include="src\Scene\Components\MeshComponent.h" />
-    <ClInclude Include="src\Scene\Debug.h" />
     <ClInclude Include="src\Core\Event.h" />
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\Logging.h" />
@@ -114,11 +111,10 @@
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Texture.h" />
     <ClInclude Include="src\Scene\Entity.h" />
-    <ClInclude Include="src\Scene\EntityComponent.h" />
-    <ClInclude Include="src\Scene\EntityTypeManager.h" />
-    <ClInclude Include="src\Scene\MeshEntity.h" />
+    <ClInclude Include="src\Scene\Component.h" />
     <ClInclude Include="src\Scene\Planet\Planet.h" />
     <ClInclude Include="src\Scene\Planet\PlanetQuad.h" />
+    <ClInclude Include="src\Scene\Property.h" />
     <ClInclude Include="src\Scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>

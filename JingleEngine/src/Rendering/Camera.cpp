@@ -4,21 +4,12 @@
 
 #include "Input/BindingModule.h"
 
-BEGIN_CLASS_LINK(CameraType)
-END_CLASS_LINK()
-
 BEGIN_CLASS_LINK(Camera)
+	LINK_VARIABLE(MovementSpeed);
+	LINK_VARIABLE(MovementBoostModifier);
+	LINK_VARIABLE(MouseSpeed);
+	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
-
-void CameraType::Load(Config& config)
-{
-	Super::Load(config);
-
-	MovementSpeed = config["movementSpeed"].Float;
-	MovementBoostModifier = config["movementBoostModifier"].Float;
-
-	MouseSpeed = config["mouseSpeed"].Float;
-}
 
 void Camera::OnCreate()
 {
@@ -48,8 +39,6 @@ void Camera::OnTick(double DeltaTime)
 		return;
 	}
 
-	auto& type = GetEntityType<CameraType>();
-
 	glm::dvec3 position = GetPosition();
 	glm::dvec3 orientation = GetOrientation();
 
@@ -57,8 +46,8 @@ void Camera::OnTick(double DeltaTime)
 	{
 		auto [mouseX, mouseY] = Input::GetMouseDelta();
 
-		orientation.x -= double(mouseX * type.MouseSpeed) * DeltaTime;
-		orientation.y += double(mouseY * type.MouseSpeed) * DeltaTime;
+		orientation.x -= double(mouseX) * MouseSpeed * DeltaTime;
+		orientation.y += double(mouseY) * MouseSpeed * DeltaTime;
 		orientation.z = 0;
 
 		if (orientation.y < -89.0)
@@ -72,11 +61,11 @@ void Camera::OnTick(double DeltaTime)
 
 	m_SpeedCoef = glm::clamp(m_SpeedCoef, 0.01f, 500.0f);
 
-	double speed = type.MovementSpeed;
+	double speed = MovementSpeed;
 
 	if (!Input::IsCursorVisible() && Binding_Turbo->GetState() >= InputState::PRESSED)
 	{
-		speed *= type.MovementBoostModifier;
+		speed *= MovementBoostModifier;
 	}
 
 	speed = speed * m_SpeedCoef;

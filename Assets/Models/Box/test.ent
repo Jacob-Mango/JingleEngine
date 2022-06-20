@@ -1,6 +1,0 @@
-{
-	Test: MeshEntity {
-		model: "Assets/Models/Box/test.obj",
-		material: "Assets/Models/Box/test.material",
-	}
-}
