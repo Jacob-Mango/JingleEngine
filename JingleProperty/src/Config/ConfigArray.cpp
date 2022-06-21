@@ -39,6 +39,14 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 			return true;
 		}
 
+		std::pair<std::string, std::string> typeAndName;
+		if (!DeserializeTypeAndName(lexer, typeAndName))
+		{
+			return false;
+		}
+
+		lexer->NextToken();
+
 		if (lexer->GetToken() != Tokens::LeftCurlyBracket)
 		{
 			lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
@@ -46,7 +54,8 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 		}
 
 		ConfigSection* cfgSection = new ConfigSection();
-		cfgSection->m_Name = "";
+		cfgSection->m_Type = typeAndName.first;
+		cfgSection->m_Name = typeAndName.second;
 
 		Add(cfgSection);
 
@@ -60,19 +69,29 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 	return false;
 }
 
-void ConfigArray::Serialize(std::ostringstream& output, std::string prefix) const
+void ConfigArray::Serialize(std::stringstream& output, std::string prefix) const
 {
-	output << prefix << m_Name << ": " << m_Entries.size() << std::endl;
+	output << prefix << SerializeTypeAndName() << "[" << std::endl;
 
+	int index = 0;
 	for (auto& v : m_Entries)
 	{
+		index++;
+
 		if (v == nullptr)
 		{
 			continue;
 		}
 
 		v->Serialize(output, prefix + " ");
+
+		if (index < m_Entries.size())
+		{
+			output << ", " << std::endl;
+		}
 	}
+
+	output << std::endl << prefix << "]";
 }
 
 std::string ConfigArray::ToString() const

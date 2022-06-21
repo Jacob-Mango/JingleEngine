@@ -59,20 +59,33 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 	}
 	else
 	{
-		if (!leftCurlyBracket)
+		std::pair<std::string, std::string> typeAndName;
+		if (!DeserializeTypeAndName(lexer, typeAndName, false))
 		{
-			leftCurlyBracket = true;
-
 			lexer->Error("Unexpected token '%s'", lexer->GetTokenValue().c_str());
 			return false;
 		}
 
+		m_Type = typeAndName.first;
+		m_Name = typeAndName.second;
+
+		if (!m_Name.empty())
+		{
+			lexer->Error("Root section can't be named.");
+			return false;
+		}
+
+		lexer->NextToken();
+		
+		leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
+
 		lexer->NextToken();
 	}
 
+	bool isFirst = true;
 	while (lexer->HasNext())
 	{
-		if (leftCurlyBracket && lexer->GetToken() == Tokens::RightCurlyBracket)
+		if (lexer->GetToken() == Tokens::RightCurlyBracket)
 		{
 			lexer->NextToken();
 
@@ -84,12 +97,28 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			return true;
 		}
 
-		std::string name = lexer->GetTokenValue();
-		lexer->NextToken();
-
-		if (lexer->GetToken() != Tokens::Colon)
+		if (!isFirst && lexer->GetToken() != Tokens::Comma)
 		{
-			lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue().c_str());
+			lexer->Error("Expected ',', got '%s'", lexer->GetTokenValue().c_str());
+			return false;
+		}
+
+		if (!isFirst)
+		{
+			lexer->NextToken();
+		}
+
+		isFirst = false;
+
+		std::pair<std::string, std::string> typeAndName;
+		if (!DeserializeTypeAndName(lexer, typeAndName))
+		{
+			return false;
+		}
+
+		if (typeAndName.second.empty())
+		{
+			lexer->Error("Data in sections must be named.");
 			return false;
 		}
 
@@ -99,7 +128,8 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			// section
 
 			ConfigSection* cfgSection = new ConfigSection();
-			cfgSection->m_Name = name;
+			cfgSection->m_Type = typeAndName.first;
+			cfgSection->m_Name = typeAndName.second;
 
 			Add(cfgSection);
 
@@ -113,7 +143,8 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			// array
 
 			ConfigArray* cfgArray = new ConfigArray();
-			cfgArray->m_Name = name;
+			cfgArray->m_Type = typeAndName.first;
+			cfgArray->m_Name = typeAndName.second;
 
 			Add(cfgArray);
 
@@ -131,7 +162,8 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 			{
 				ConfigSection* cfgSection = new ConfigSection();
-				cfgSection->m_Name = name;
+				cfgSection->m_Type = typeAndName.first;
+				cfgSection->m_Name = typeAndName.second;
 
 				Add(cfgSection);
 
@@ -145,16 +177,9 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			}
 			else
 			{
-				if (lexer->GetToken() != Tokens::Comma)
-				{
-					lexer->Error("Expected ',', got '%s'", lexer->GetTokenValue().c_str());
-					return false;
-				}
-
-				lexer->NextToken();
-
 				ConfigValue* cfgValue = new ConfigValue();
-				cfgValue->m_Name = name;
+				cfgValue->m_Type = typeAndName.first;
+				cfgValue->m_Name = typeAndName.second;
 
 				Add(cfgValue);
 
@@ -172,16 +197,37 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 	return true;
 }
 
-void ConfigSection::Serialize(std::ostringstream& output, std::string prefix) const
+void ConfigSection::Serialize(std::stringstream& output, std::string prefix) const
 {
-	output << prefix << m_Name << ": " << (m_Base ? m_Base->m_Name : "") << std::endl;
+	std::string typeAndName = SerializeTypeAndName();
+	bool indent = false;
+	if (m_Parent || !typeAndName.empty())
+	{
+		indent = true;
+		output << prefix << typeAndName << (m_Base ? m_Base->m_Name + " " : "") << "{" << std::endl;
+	}
 
+	int index = 0;
 	for (auto& [k, v] : m_Entries)
 	{
-		if (v == nullptr)
-			continue;
+		index++;
 
-		v->Serialize(output, prefix + " ");
+		if (v == nullptr)
+		{
+			continue;
+		}
+
+		v->Serialize(output, indent ? prefix + " " : prefix);
+
+		if (index < m_Entries.size())
+		{
+			output << ", " << std::endl;
+		}
+	}
+
+	if (indent)
+	{
+		output << std::endl << prefix << "}";
 	}
 }
 

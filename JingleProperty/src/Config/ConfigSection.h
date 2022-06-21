@@ -22,7 +22,7 @@ public:
 	virtual Config* GetBase() const override;
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer) override;
-	virtual void Serialize(std::ostringstream& output, std::string prefix = "") const override;
+	virtual void Serialize(std::stringstream& output, std::string prefix = "") const override;
 
 	virtual std::string ToString() const override;
 

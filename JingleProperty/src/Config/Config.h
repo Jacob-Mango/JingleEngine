@@ -26,6 +26,7 @@ class Config : public Countable
 	friend ConfigValue;
 
 protected:
+	std::string m_Type;
 	std::string m_Name;
 
 	Config* m_Parent = nullptr;
@@ -47,9 +48,13 @@ public:
 	virtual Config* GetParent() const { return m_Parent; }
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer);
-	virtual void Serialize(std::ostringstream& output, std::string prefix = "") const;
+	virtual void Serialize(std::stringstream& output, std::string prefix = "") const;
 	
 	virtual std::string ToString() const override;
+
+protected:
+	bool DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon = true);
+	std::string SerializeTypeAndName() const;
 
 public:
 	static Config* Load(std::string file);

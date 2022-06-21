@@ -32,8 +32,23 @@ class TestModule : public Module
 	Binding* Binding_Focus;
 
 public:
+	void SetColor(int color)
+	{
+#ifdef WINDOWS
+		HANDLE hConsole;
+
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, color);
+
+		hConsole = GetStdHandle(STD_ERROR_HANDLE);
+		SetConsoleTextAttribute(hConsole, color);
+#endif
+	}
+
 	virtual void OnInitialize() override
 	{
+		SetColor(15);
+
 		Config* cfg = Config::Load("Assets/test.cfg");
 
 		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
@@ -43,8 +58,12 @@ public:
 
 		obj->SerializeToObject(cls);
 
-		std::cout << std::endl;
+		std::stringstream ss;
+		cfg->Serialize(ss);
 
+		std::cout << ss.str() << std::endl;
+
+		std::cout << std::endl;
 
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
