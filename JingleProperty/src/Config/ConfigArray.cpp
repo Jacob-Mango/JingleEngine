@@ -2,6 +2,8 @@
 
 #include "Config/ConfigSection.h"
 
+using namespace JingleScript;
+
 void ConfigArray::Add(Config* other)
 {
 	other->m_Parent = this;
@@ -13,10 +15,8 @@ Config* ConfigArray::Get(int index) const
 	return m_Entries[index];
 }
 
-bool ConfigArray::Deserialize(JingleScript::Lexer* lexer)
+bool ConfigArray::Deserialize(Lexer* lexer)
 {
-	using namespace JingleScript;
-
 	if (lexer->GetToken() != Tokens::LeftSquareBracket)
 	{
 		lexer->Error("Expected '[', got '%s'", lexer->GetTokenValue().c_str());
@@ -25,7 +25,7 @@ bool ConfigArray::Deserialize(JingleScript::Lexer* lexer)
 	
 	lexer->NextToken();
 
-	while (true)
+	while (lexer->HasNext())
 	{
 		if (lexer->GetToken() == Tokens::RightSquareBracket)
 		{
@@ -47,13 +47,17 @@ bool ConfigArray::Deserialize(JingleScript::Lexer* lexer)
 
 		ConfigSection* cfgSection = new ConfigSection();
 		cfgSection->m_Name = "";
+
+		Add(cfgSection);
+
 		if (!cfgSection->Deserialize(lexer))
 		{
 			return false;
 		}
-
-		Add(cfgSection);
 	}
+
+	lexer->Error("Unexpected end of file.");
+	return false;
 }
 
 void ConfigArray::Serialize(std::ostringstream& output, std::string prefix) const

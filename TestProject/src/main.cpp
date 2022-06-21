@@ -38,10 +38,10 @@ public:
 
 		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
 
-		PropertyObject* obj = new PropertyObject(cls->GetType(), nullptr);
-		obj->OnDeserialize(cfg->Get(0));
+		PropertyObject* obj = new PropertyObject(cls->GetType());
+		obj->OnDeserialize(cfg);
 
-		obj->OnSerialize(cls);
+		obj->SerializeToObject(cls);
 
 		std::cout << std::endl;
 

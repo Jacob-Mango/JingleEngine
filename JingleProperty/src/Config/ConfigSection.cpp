@@ -46,17 +46,33 @@ Config* ConfigSection::GetBase() const
 
 bool ConfigSection::Deserialize(Lexer* lexer)
 {
-	if (lexer->GetToken() != Tokens::LeftCurlyBracket)
+	bool leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
+	if (m_Parent)
 	{
-		lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
-		return false;
+		if (!leftCurlyBracket)
+		{
+			lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
+			return false;
+		}
+
+		lexer->NextToken();
+	}
+	else
+	{
+		if (!leftCurlyBracket)
+		{
+			leftCurlyBracket = true;
+
+			lexer->Error("Unexpected token '%s'", lexer->GetTokenValue().c_str());
+			return false;
+		}
+
+		lexer->NextToken();
 	}
 
-	lexer->NextToken();
-
-	while (true)
+	while (lexer->HasNext())
 	{
-		if (lexer->GetToken() == Tokens::RightCurlyBracket)
+		if (leftCurlyBracket && lexer->GetToken() == Tokens::RightCurlyBracket)
 		{
 			lexer->NextToken();
 
@@ -85,12 +101,12 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			ConfigSection* cfgSection = new ConfigSection();
 			cfgSection->m_Name = name;
 
+			Add(cfgSection);
+
 			if (!cfgSection->Deserialize(lexer))
 			{
 				return false;
 			}
-
-			Add(cfgSection);
 		}
 		else if (lexer->GetToken() == Tokens::LeftSquareBracket)
 		{
@@ -99,12 +115,12 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			ConfigArray* cfgArray = new ConfigArray();
 			cfgArray->m_Name = name;
 
+			Add(cfgArray);
+
 			if (!cfgArray->Deserialize(lexer))
 			{
 				return false;
 			}
-
-			Add(cfgArray);
 		}
 		else
 		{
@@ -116,14 +132,16 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			{
 				ConfigSection* cfgSection = new ConfigSection();
 				cfgSection->m_Name = name;
+
+				Add(cfgSection);
+
+				//! TODO: Base will be another file
 				cfgSection->m_Base = Get(value);
 
 				if (!cfgSection->Deserialize(lexer))
 				{
 					return false;
 				}
-
-				Add(cfgSection);
 			}
 			else
 			{
@@ -137,12 +155,21 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 
 				ConfigValue* cfgValue = new ConfigValue();
 				cfgValue->m_Name = name;
-				cfgValue->m_Value = value;
 
 				Add(cfgValue);
+
+				cfgValue->m_Value = value;
 			}
 		}
 	}
+
+	if (m_Parent)
+	{
+		lexer->Error("Unexpected end of file.");
+		return false;
+	}
+
+	return true;
 }
 
 void ConfigSection::Serialize(std::ostringstream& output, std::string prefix) const

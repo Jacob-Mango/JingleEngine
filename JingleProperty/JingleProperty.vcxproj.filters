@@ -24,7 +24,7 @@
     <ClInclude Include="src\Property\PropertyItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Property\PropertyMap.h">
+    <ClInclude Include="src\Property\PropertyArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Property\PropertyObject.h">
@@ -59,7 +59,7 @@
     <ClCompile Include="src\Property\PropertyItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Property\PropertyMap.cpp">
+    <ClCompile Include="src\Property\PropertyArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Property\PropertyObject.cpp">

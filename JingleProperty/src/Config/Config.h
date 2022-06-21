@@ -28,7 +28,7 @@ class Config : public Countable
 protected:
 	std::string m_Name;
 
-	Config* m_Parent;
+	Config* m_Parent = nullptr;
 
 public:
 	virtual void Add(Config* other) {}

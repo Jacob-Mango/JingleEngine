@@ -192,7 +192,7 @@
     <ClInclude Include="src\Property\Property.h" />
     <ClInclude Include="src\Property\PropertyBase.h" />
     <ClInclude Include="src\Property\PropertyItem.h" />
-    <ClInclude Include="src\Property\PropertyMap.h" />
+    <ClInclude Include="src\Property\PropertyArray.h" />
     <ClInclude Include="src\Property\PropertyObject.h" />
   </ItemGroup>
   <ItemGroup>
@@ -203,7 +203,7 @@
     <ClCompile Include="src\Property\Property.cpp" />
     <ClCompile Include="src\Property\PropertyBase.cpp" />
     <ClCompile Include="src\Property\PropertyItem.cpp" />
-    <ClCompile Include="src\Property\PropertyMap.cpp" />
+    <ClCompile Include="src\Property\PropertyArray.cpp" />
     <ClCompile Include="src\Property\PropertyObject.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
