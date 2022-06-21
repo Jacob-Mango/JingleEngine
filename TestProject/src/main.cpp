@@ -12,6 +12,7 @@ class SomeTestClass : public JingleScript::Object
 public:
 	int value0;
 	std::string value1;
+	std::string value2;
 
 	SomeTestClass() {}
 	~SomeTestClass() {}
@@ -21,6 +22,7 @@ public:
 BEGIN_CLASS_LINK(SomeTestClass)
 	LINK_VARIABLE(value0);
 	LINK_VARIABLE(value1);
+	LINK_VARIABLE(value2);
 	LINK_CONSTRUCTOR()
 END_CLASS_LINK()
 
@@ -49,7 +51,7 @@ public:
 	{
 		SetColor(15);
 
-		Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/test.cfg");
+		Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/test2.cfg");
 
 		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
 

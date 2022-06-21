@@ -1,5 +1,6 @@
 #include "Config/ConfigArray.h"
 
+#include "Config/ConfigAsset.h"
 #include "Config/ConfigSection.h"
 
 using namespace JingleScript;

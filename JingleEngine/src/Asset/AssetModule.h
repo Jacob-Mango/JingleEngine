@@ -52,18 +52,19 @@ static Ref<T> AssetModule::Get(std::string path)
 }
 
 template <typename T>
-static Ref<T> AssetModule::Get(AssetID AssetID)
+static Ref<T> AssetModule::Get(AssetID id)
 {
-	auto it = s_Instance->m_Assets.find(AssetID.GetValue());
+	auto it = s_Instance->m_Assets.find(id.GetValue());
 	if (it == s_Instance->m_Assets.end())
 	{
-		JS_INFO("Create asset: %s", T::StaticName().c_str());
+		JS_INFO("Create Asset: %s", T::StaticName().c_str());
+
 		T* asset = JingleScript::NewObject<T>(T::StaticName());
-		asset->m_AssetID = AssetID;
-		s_Instance->m_Assets.insert({ AssetID.GetValue(), asset });
+		asset->m_AssetID = id;
+		s_Instance->m_Assets.insert({ id.GetValue(), asset });
 	}
 
-	Ref<T> result = dynamic_cast<T*>(s_Instance->m_Assets[AssetID.GetValue()].Get());
+	Ref<T> result = dynamic_cast<T*>(s_Instance->m_Assets[id.GetValue()].Get());
 
 	if (!result->IsLoaded() && result->OnLoad())
 	{
@@ -79,7 +80,11 @@ static Ref<T> AssetModule::Get(AssetIDv id)
 	auto it = s_Instance->m_Assets.find(id);
 	if (it == s_Instance->m_Assets.end())
 	{
-		s_Instance->m_Assets.insert({ id, new T(new AssetID(id)) });
+		JS_INFO("Create Asset: %s", T::StaticName().c_str());
+
+		T* asset = JingleScript::NewObject<T>(T::StaticName());
+		asset->m_AssetID = { id };
+		s_Instance->m_Assets.insert({ id, asset });
 	}
 
 	Ref<T> result = dynamic_cast<T*>(s_Instance->m_Assets[id].Get());

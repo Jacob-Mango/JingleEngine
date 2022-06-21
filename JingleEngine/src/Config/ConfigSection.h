@@ -4,6 +4,8 @@
 
 #include "Config/Config.h"
 
+class ConfigAsset;
+
 class ConfigSection : public Config
 {
 	typedef Config Super;
@@ -16,7 +18,7 @@ class ConfigSection : public Config
 protected:
 	std::map<std::string, Config*> m_Entries;
 
-	Config* m_Base;
+	Ref<ConfigAsset> m_Base;
 
 protected:
 	ConfigSection();

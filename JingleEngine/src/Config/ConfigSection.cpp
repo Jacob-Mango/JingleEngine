@@ -1,5 +1,6 @@
 #include "Config/ConfigSection.h"
 
+#include "Config/ConfigAsset.h"
 #include "Config/ConfigArray.h"
 #include "Config/ConfigValue.h"
 
@@ -7,7 +8,6 @@ using namespace JingleScript;
 
 ConfigSection::ConfigSection()
 {
-	m_Base = nullptr;
 }
 
 ConfigSection::~ConfigSection()
@@ -89,6 +89,15 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 		}
 
 		lexer->NextToken();
+
+		bool quotes = lexer->GetTokenType() == TokenType::QUOTE;
+		if (quotes)
+		{
+			std::string value = lexer->GetTokenValue();
+			lexer->NextToken();
+
+			m_Base = AssetModule::Get<ConfigAsset>(value);
+		}
 		
 		leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
 
@@ -109,6 +118,8 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 
 			return true;
 		}
+
+		bool wasFirst = isFirst;
 
 		if (!isFirst && lexer->GetToken() != Tokens::Comma)
 		{
@@ -180,8 +191,7 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 
 				Add(cfgSection);
 
-				//! TODO: Base will be another file
-				cfgSection->m_Base = Get(value);
+				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(value);
 
 				if (!cfgSection->Deserialize(lexer))
 				{

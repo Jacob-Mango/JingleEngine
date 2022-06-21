@@ -2,6 +2,7 @@
 class SomeTestClass extends Object {
    int value0
    string value1
+   string value2
 
   SomeTestClass::dtor() (Native)
 
@@ -125,7 +126,7 @@ class #global extends Object {
     [00000021]   copy_address 0                                                                        
     [00000022]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [00000023]   copy_address 0                                                                        
-    [00000024]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000024]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [00000025]   copy_address 0                                                                        
     [00000026]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [00000027]   copy_address 0                                                                        
@@ -162,7 +163,9 @@ class #global extends Object {
     [00000046]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [00000047]   copy_address 0                                                                        
     [00000048]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000049]  pop 8                                                                                  JingleScript::ValueItem::Pop
+    [00000049]   copy_address 0                                                                        
+    [0000004A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000004B]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 

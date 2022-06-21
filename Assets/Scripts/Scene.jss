@@ -12,4 +12,7 @@ class SomeTestClass
 
 	@Property
 	string value1;
+
+	@Property
+	string value2;
 }
