@@ -28,7 +28,21 @@ class Mesh extends Asset
 
 }
 
-class EntityFile extends Asset
+class ConfigAsset extends Asset
 {
 	
+}
+
+class EntityFile extends ConfigAsset
+{
+	
+}
+
+class Scene extends ConfigAsset
+{
+	@ArrayProperty("Entity")
+	EntityArray Entities;
+
+	@Native
+	Camera GetCamera();
 }

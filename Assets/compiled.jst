@@ -205,12 +205,61 @@ Global {
    Base: "Asset"
   }
   Class {
-   Name: "EntityFile"
+   Name: "Mesh"
    Base: "Asset"
   }
   Class {
-   Name: "Mesh"
+   Name: "ConfigAsset"
    Base: "Asset"
+  }
+  Class {
+   Name: "EntityFile"
+   Base: "ConfigAsset"
+  }
+  Class {
+   Name: "Scene"
+   Base: "ConfigAsset"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "ArrayProperty"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "Entity"
+           }
+          }
+         }
+        }
+       }
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "EntityArray"
+     Name: "Entities"
+    }
+   }
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "Camera"
+     Name: "GetCamera"
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+   }
   }
   Class {
    Name: "Camera"
@@ -257,6 +306,31 @@ Global {
   Class {
    Name: "Entity"
    Base: "Object"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "ArrayProperty"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "Component"
+           }
+          }
+         }
+        }
+       }
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "ComponentArray"
+     Name: "Components"
+    }
+   }
   }
   Class {
    Name: "Object"
@@ -982,26 +1056,6 @@ Global {
     }
    }
   }
-  Class {
-   Name: "Scene"
-   Base: "Object"
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "Camera"
-     Name: "GetCamera"
-     IsConstructor: "0"
-     IsDestructor: "0"
-    }
-   }
-  }
  }
  Structures: {
   Struct {
@@ -1087,6 +1141,14 @@ Global {
      Name: "value"
     }
    }
+  }
+  Struct {
+   Name: "EntityArray"
+   Base: "Array"
+  }
+  Struct {
+   Name: "ComponentArray"
+   Base: "Array"
   }
   Struct {
    Name: "TestArray"

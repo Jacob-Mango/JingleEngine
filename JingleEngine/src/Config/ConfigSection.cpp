@@ -59,6 +59,9 @@ Config* ConfigSection::GetBase() const
 
 bool ConfigSection::Deserialize(Lexer* lexer)
 {
+	//! very messy :)
+	
+	std::pair<std::string, std::string> typeAndName;
 	bool leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
 	if (m_Parent)
 	{
@@ -72,36 +75,50 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 	}
 	else
 	{
-		std::pair<std::string, std::string> typeAndName;
-		if (!DeserializeTypeAndName(lexer, typeAndName, false))
+		int res = DeserializeTypeAndName(lexer, typeAndName, false);
+		if (res == 0)
 		{
 			lexer->Error("Unexpected token '%s'", lexer->GetTokenValue().c_str());
 			return false;
 		}
 
-		m_CType = typeAndName.first;
-		m_Name = typeAndName.second;
-
-		if (!m_Name.empty())
+		if (res == 1)
 		{
-			lexer->Error("Root section can't be named.");
-			return false;
-		}
+			m_CType = typeAndName.first;
+			m_Name = typeAndName.second;
 
-		lexer->NextToken();
+			if (!m_Name.empty())
+			{
+				lexer->Error("Root section can't be named.");
+				return false;
+			}
 
-		bool quotes = lexer->GetTokenType() == TokenType::QUOTE;
-		if (quotes)
-		{
-			std::string value = lexer->GetTokenValue();
 			lexer->NextToken();
 
-			m_Base = AssetModule::Get<ConfigAsset>(value);
-		}
-		
-		leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
+			bool quotes = lexer->GetTokenType() == TokenType::QUOTE;
+			if (quotes)
+			{
+				std::string value = lexer->GetTokenValue();
+				lexer->NextToken();
 
-		lexer->NextToken();
+				m_Base = AssetModule::Get<ConfigAsset>(value);
+			}
+		
+			leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
+
+			if (leftCurlyBracket)
+			{
+				lexer->NextToken();
+			}
+		}
+		else
+		{
+			leftCurlyBracket = true;
+
+			lexer->PreviousToken();
+			lexer->PreviousToken();
+			lexer->PreviousToken();
+		}
 	}
 
 	bool isFirst = true;
@@ -134,7 +151,6 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 
 		isFirst = false;
 
-		std::pair<std::string, std::string> typeAndName;
 		if (!DeserializeTypeAndName(lexer, typeAndName))
 		{
 			return false;
@@ -146,7 +162,6 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			return false;
 		}
 
-		lexer->NextToken();
 		if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 		{
 			// section

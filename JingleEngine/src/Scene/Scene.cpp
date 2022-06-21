@@ -17,155 +17,49 @@
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 
+BEGIN_STRUCTURE_LINK(EntityArray)
+	LINK_CONSTRUCTOR();
+	LINK_METHOD(Insert);
+END_STRUCTURE_LINK()
+
+void EntityArray::Insert(JingleScript::Object* value)
+{
+	push_back(static_cast<Entity*>(value));
+}
+
 BEGIN_CLASS_LINK(Scene)
+	LINK_NAMED_VARIABLE(Entities, m_Entities); //! TODO: Seperate 'SceneData' from 'Scene'
 	LINK_CONSTRUCTOR();
 	LINK_METHOD(GetCamera);
 END_CLASS_LINK()
 
-Scene* Scene::Create(std::string file)
+bool Scene::OnLoad()
 {
-	Scene* scene = JingleScript::NewObject<Scene>("Scene");
-
-	//Ref<Config> config = Config::Load(file);
-
-	//scene->LoadScene((*config)["entities"]);
-
-	return scene;
-}
-
-void Scene::LoadScene(Config& entities)
-{
-	/*
-	for (int i = 0; i < entities.Count(); i++)
+	if (!Super::OnLoad())
 	{
-		auto& config = entities.Get(i);
+		return false;
+	}
 
-		auto position = config["position"].Vec3();
-		auto orientation = config["orientation"].Vec3();
-		auto file = config["file"].String;
+	if (!WriteToObject(this))
+	{
+		return false;
+	}
 
-		auto entityFile = AssetModule::Get<EntityFile>(file);
+	for (auto& entity : m_Entities)
+	{
+		entity->m_Scene = this;
+		entity->m_Parent = nullptr;
 
-		Config* entityFileConfig = entityFile->m_Config.Get();
-		
-		Entity* entity = SpawnEntity((*entityFileConfig)[0]);
-		if (!entity)
+		for (auto& component : entity->GetComponents())
 		{
-			continue;
+			component->m_Entity = entity;
+			component->OnCreate();
 		}
 
-		entity->SetPosition(position);
-		entity->SetOrientation(orientation);
-	}
-		*/
-}
-
-/*
-Entity* Scene::SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orientation)
-{
-	//auto entType = EntityTypeManager::Get<EntityType>(type);
-	//return SpawnEntity<Entity>(entType, position, orientation);
-	return nullptr;
-}
-*/
-
-Entity* Scene::SpawnEntity(Config& cfgRoot, Entity* parent)
-{
-	/*
-	using namespace JingleScript;
-
-	auto parseConfig = [](Config& cfg, Object* object, Type* type)
-	{
-		auto variables = type->GetVariables();
-
-		for (auto& variable : variables)
-		{
-			Property* prop = nullptr;
-			for (auto& attributeBase : variable->Attributes)
-			{
-				if (attributeBase->GetType() != Property::StaticType())
-				{
-					continue;
-				}
-
-				prop = static_cast<Property*>(attributeBase);
-			}
-
-			if (prop == nullptr)
-			{
-				continue;
-			}
-
-			void* src = nullptr;
-			void* dst = object->GetVariable(variable->Name);
-
-			if (variable->Type->IsStructure())
-			{
-				double dbl;
-
-				if (variable->Type == Integer::StaticType())
-				{
-					src = (void*)&(cfg[variable->Name].Int);
-				}
-				else if (variable->Type == Float::StaticType())
-				{
-					src = (void*)&(cfg[variable->Name].Float);
-				}
-				else if (variable->Type == Double::StaticType())
-				{
-					dbl = cfg[variable->Name].Float;
-					src = (void*)&(dbl);
-				}
-				else if (variable->Type == String::StaticType())
-				{
-					src = (void*)&(cfg[variable->Name].String);
-				}
-
-				Type::CallCopyConstructor(src, dst, variable->Type);
-			}
-			else
-			{
-				// not supported yet.
-				// spawn the class and assign the data
-			}
-		}
-	};
-
-	Type* type = TypeManager::Get(cfgRoot.GetName());
-
-	Entity* entity = type->New<Entity>();
-	entity->m_Parent = parent;
-	AddEntity(entity);
-
-	parseConfig(cfgRoot, entity, type);
-
-	auto& cfgComponents = cfgRoot["Components"];
-	for (int i = 0; i < cfgComponents.Count; i++)
-	{
-		auto& cfgComponent = cfgComponents[i];
-
-		Type* componentType = TypeManager::Get(cfgComponent.GetName());
-
-		Component* component = componentType->New<Component>(entity);
-
-		entity->AddComponent(component);
-
-		parseConfig(cfgComponent, component, componentType);
+		entity->OnCreate();
 	}
 
-	std::vector<Component*> components;
-	entity->GetComponents(components);
-
-	for (auto& component : components)
-	{
-		component->OnCreate();
-	}
-
-	entity->OnCreate();
-
-	return entity;
-		*/
-		return nullptr;
+	return true;
 }
 
 void Scene::OnStart()

@@ -65,23 +65,9 @@ class TestModule : public Module
 	Binding* Binding_Focus;
 
 public:
-	void SetColor(int color)
-	{
-#ifdef WINDOWS
-		HANDLE hConsole;
-
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, color);
-
-		hConsole = GetStdHandle(STD_ERROR_HANDLE);
-		SetConsoleTextAttribute(hConsole, color);
-#endif
-	}
-
 	virtual void OnInitialize() override
 	{
-		SetColor(15);
-
+		/*
 		Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/test.cfg");
 
 		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
@@ -94,12 +80,17 @@ public:
 		cfg->Output();
 
 		exit(0);
+		*/
 
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
 
-		Application::Get()->SetScene(Scene::Create("Assets/Scenes/game.scene"));
+		//Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/Entities/Box/test.ent");
+
+		Ref<Scene> scene = AssetModule::Get<Scene>("Assets/Scenes/game.scene");
+
+		Application::Get()->SetScene(scene);
 	}
 
 	virtual void OnTick(double DeltaTime) override

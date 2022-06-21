@@ -9,9 +9,18 @@ class Camera;
 class Texture;
 class Light;
 
-class Scene : public JingleScript::ManagedObject
+class EntityArray : public JingleScript::Array, public std::vector<Entity*>
 {
-	DEFINE_CLASS(Scene, JingleScript::ManagedObject);
+	DEFINE_BASE_STRUCTURE(EntityArray, JingleScript::Array);
+
+public:
+	void Insert(JingleScript::Object* value);
+
+};
+
+class Scene : public ConfigAsset
+{
+	SETUP_ASSET(Scene, ConfigAsset);
 	
 	friend class Entity;
 	friend class Light;
@@ -21,7 +30,7 @@ class Scene : public JingleScript::ManagedObject
 	friend class SceneHierarchyPanel;
 
 private:
-	std::vector<Entity*> m_Entities;
+	EntityArray m_Entities;
 	std::vector<Light*> m_Lights;
 
 	unsigned int m_NextID = 0;
@@ -34,12 +43,7 @@ public:
 	Scene() {}
 	virtual ~Scene() {}
 
-	static Scene* Create(std::string file);
-
-	void LoadScene(Config& entities);
-
-	//Entity* SpawnEntity(AssetID entity, glm::vec3 position, glm::vec3 orientation);
-	Entity* SpawnEntity(Config& entity, Entity* parent = nullptr);
+	virtual bool OnLoad() override;
 
 	void OnStart();
 	void OnStop();

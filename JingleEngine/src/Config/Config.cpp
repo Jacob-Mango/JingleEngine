@@ -20,6 +20,25 @@ Config::~Config()
 
 }
 
+std::string Config::GetName() const
+{
+	return m_Name;
+}
+
+std::string Config::GetType() const
+{
+	std::string type;
+
+	const Config* cfg = this;
+	while (cfg)
+	{
+		type = cfg->m_CType;
+		cfg = cfg->GetBase();
+	}
+
+	return type;
+}
+
 bool Config::Deserialize(Lexer* lexer)
 {
 	return false;
@@ -30,7 +49,7 @@ bool Config::Serialize(std::stringstream& output, std::string prefix) const
 	return true;
 }
 
-bool Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon)
+int Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon)
 {
 	std::string tempName = lexer->GetTokenValue();
 
@@ -40,20 +59,22 @@ bool Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::st
 		result.first = "";
 		result.second = "";
 
+		lexer->NextToken();
+
 		if (checkColon)
 		{
-			lexer->NextToken();
-
 			if (lexer->GetToken() != Tokens::Colon)
 			{
 				lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue().c_str());
-				return false;
+				return 0;
 			}
+
+			lexer->NextToken();
 		}
 
 		result.second = tempName;
 
-		return true;
+		return 1;
 	}
 
 	lexer->NextToken();
@@ -65,13 +86,12 @@ bool Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::st
 	//! Handling '{ value:'
 	if (lexer->GetToken() == Tokens::Colon)
 	{
-		lexer->PreviousToken();
-		lexer->PreviousToken();
+		lexer->NextToken();
 
+		result.second = result.first;
 		result.first = "";
-		result.second = "";
 
-		return true;
+		return 2;
 	}
 
 	bool isComma = lexer->GetToken() == Tokens::Comma;
@@ -93,22 +113,24 @@ bool Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::st
 		{
 			lexer->Error("Expected ',', got '%s'", lexer->GetTokenValue().c_str());
 
-			return false;
+			return 0;
 		}
 
 		lexer->PreviousToken();
 
-		return true;
+		return 1;
 	}
 
 	lexer->NextToken();
 	if (lexer->GetToken() != Tokens::Colon)
 	{
 		lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue().c_str());
-		return false;
+		return 0;
 	}
 
-	return true;
+	lexer->NextToken();
+
+	return 1;
 }
 
 std::string Config::SerializeTypeAndName() const

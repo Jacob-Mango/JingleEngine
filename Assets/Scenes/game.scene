@@ -1,21 +1,8 @@
-{
-	entities: [
-		{
-			position: "0 0 0",
-			orientation: "0 0 0",
-			file: "Assets\Entities\Box\test.ent",
+{Scene}: {
+	Entities: [
+		"Assets\Entities\Box\test.ent" {
 		},
-		{
-			position: "0 0 -5",
-			orientation: "0 0 0",
-			file: "Assets\Entities\camera.ent",
-			children: [
-				{
-					position: "0 0 0",
-					orientation: "0 0 0",
-					file: "Assets\Entities\light.ent",
-				},
-			],
-		},
-	],
+		"Assets\Entities\camera.ent" {
+		}
+	]
 }

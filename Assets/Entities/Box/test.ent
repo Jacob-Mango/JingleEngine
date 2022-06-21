@@ -1,10 +1,8 @@
-{
-	Entity: {
-		Components: {
-			MeshComponent: {
-				Model: "Assets/Entities/Box/test.obj",
-				Material: "Assets/Entities/Box/test.material",
-			}
+{Entity}: {
+	Components: [
+		{MeshComponent}: {
+			Model: "Assets/Entities/Box/test.obj",
+			Material: "Assets/Entities/Box/test.material"
 		}
-	}
+	]
 }

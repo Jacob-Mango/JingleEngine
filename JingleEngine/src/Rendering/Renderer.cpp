@@ -32,7 +32,7 @@ void Renderer::Process(double DeltaTime, Viewport* viewport)
 	{
 		if (!entity->IsVisible())
 		{
-			continue;
+		//	continue;
 		}
 		
 		glm::dmat4 transform = entity->GetWorldTransform();

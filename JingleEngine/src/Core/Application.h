@@ -35,7 +35,7 @@ private:
 	uint64_t m_FPS = 0;
 	double m_DeltaTime = 0;
 
-	Scene* m_Scene = nullptr;
+	Ref<Scene> m_Scene;
 
 public:
 	EventHandler<KeyPressEventArgs> OnKeyPress;

@@ -53,10 +53,28 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 			return true;
 		}
 
-		std::pair<std::string, std::string> typeAndName;
-		if (!DeserializeTypeAndName(lexer, typeAndName))
+		ConfigSection* cfgSection = new ConfigSection();
+
+		if (lexer->GetTokenType() != TokenType::QUOTE)
 		{
-			return false;
+			std::pair<std::string, std::string> typeAndName;
+			if (!DeserializeTypeAndName(lexer, typeAndName))
+			{
+				return false;
+			}
+
+			cfgSection->m_CType = typeAndName.first;
+			cfgSection->m_Name = typeAndName.second;
+		}
+
+		Add(cfgSection);
+
+		if (lexer->GetTokenType() == TokenType::QUOTE)
+		{
+			std::string value = lexer->GetTokenValue();
+			lexer->NextToken();
+
+			cfgSection->m_Base = AssetModule::Get<ConfigAsset>(value);
 		}
 
 		if (lexer->GetToken() != Tokens::LeftCurlyBracket)
@@ -64,12 +82,6 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 			lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
 			return false;
 		}
-
-		ConfigSection* cfgSection = new ConfigSection();
-		cfgSection->m_CType = typeAndName.first;
-		cfgSection->m_Name = typeAndName.second;
-
-		Add(cfgSection);
 
 		if (!cfgSection->Deserialize(lexer))
 		{

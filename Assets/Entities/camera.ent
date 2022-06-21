@@ -1,7 +1,5 @@
-{
-	Camera: {
-		MovementSpeed: 20.0,
-		MovementBoostModifier: 2.0,
-		MouseSpeed: 20.0,
-	}
+{Camera}: {
+	MovementSpeed: 20.0,
+	MovementBoostModifier: 2.0,
+	MouseSpeed: 20.0
 }

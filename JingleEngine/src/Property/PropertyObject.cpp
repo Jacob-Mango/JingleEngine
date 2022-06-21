@@ -51,7 +51,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 	{
 		m_Type = newType;
 	}
-	else if (newType->IsInherited(m_Type))
+	else if (!newType->IsInherited(m_Type))
 	{
 		return false;
 	}

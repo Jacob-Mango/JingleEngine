@@ -1,9 +1,3 @@
-class Scene
-{
-	@Native
-	Camera GetCamera();
-}
-
 struct TestArray extends Array
 {
 	@Native

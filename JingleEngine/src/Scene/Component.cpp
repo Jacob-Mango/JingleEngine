@@ -1,6 +1,7 @@
 #include "Scene/Component.h"
 
 BEGIN_CLASS_LINK(Component)
+	LINK_CONSTRUCTOR();
 	LINK_CONSTRUCTOR(Entity*);
 	LINK_METHOD(OnCreate);
 	LINK_METHOD(OnDestroy);

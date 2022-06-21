@@ -54,8 +54,9 @@ public:
 	virtual Config* Get(std::string name) const { return nullptr; }
 	virtual Config* Get(int index) const { return nullptr; }
 
-	virtual std::string GetName() const { return m_Name; }
-	virtual std::string GetType() const { return m_CType; }
+	std::string GetName() const;
+	std::string GetType() const;
+
 	virtual Config* GetBase() const { return nullptr; }
 	virtual Config* GetParent() const { return m_Parent; }
 
@@ -63,7 +64,7 @@ public:
 	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const;
 
 protected:
-	bool DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon = true);
+	int DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon = true);
 	std::string SerializeTypeAndName() const;
 
 };

@@ -31,7 +31,18 @@ std::string EntityFile::ToString() const
 	return "";
 }
 
+BEGIN_STRUCTURE_LINK(ComponentArray)
+	LINK_CONSTRUCTOR();
+	LINK_METHOD(Insert);
+END_STRUCTURE_LINK()
+
+void ComponentArray::Insert(JingleScript::Object* value)
+{
+	push_back(static_cast<Component*>(value));
+}
+
 BEGIN_CLASS_LINK(Entity)
+	LINK_NAMED_VARIABLE(Components, m_Components);
 	LINK_CONSTRUCTOR();
 	LINK_METHOD(OnCreate);
 	LINK_METHOD(OnDestroy);

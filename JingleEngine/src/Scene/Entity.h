@@ -15,7 +15,7 @@ class Application;
 
 class EntityFile : public ConfigAsset
 {
-	SETUP_ASSET(EntityFile, ConfigAsset)
+	SETUP_ASSET(EntityFile, ConfigAsset);
 
 	friend Scene;
 
@@ -31,6 +31,11 @@ public:
 
 class ComponentArray : public JingleScript::Array, public std::vector<Component*>
 {
+	DEFINE_BASE_STRUCTURE(ComponentArray, JingleScript::Array);
+
+public:
+	void Insert(JingleScript::Object* value);
+
 };
 
 class Entity : public JingleScript::Object
