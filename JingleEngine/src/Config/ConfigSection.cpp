@@ -220,14 +220,17 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 	return true;
 }
 
-void ConfigSection::Serialize(std::stringstream& output, std::string prefix) const
+bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) const
 {
+	bool canOutput = m_Parent == nullptr;
+	std::stringstream tempOut;
+
 	std::string typeAndName = SerializeTypeAndName();
 	bool indent = false;
 	if (m_Parent || !typeAndName.empty())
 	{
 		indent = true;
-		output << prefix << typeAndName << (m_Base ? m_Base->m_Name + " " : "") << "{" << std::endl;
+		tempOut << prefix << typeAndName << (m_Base ? m_Base->m_Name + " " : "") << "{" << std::endl;
 	}
 
 	int index = 0;
@@ -240,16 +243,23 @@ void ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 			continue;
 		}
 
-		v->Serialize(output, indent ? prefix + " " : prefix);
+		canOutput |= v->Serialize(tempOut, indent ? prefix + " " : prefix);
 
 		if (index < m_Entries.size())
 		{
-			output << ", " << std::endl;
+			tempOut << ", " << std::endl;
 		}
 	}
 
 	if (indent)
 	{
-		output << std::endl << prefix << "}";
+		tempOut << std::endl << prefix << "}";
 	}
+
+	if (canOutput)
+	{
+		output << tempOut.str();
+	}
+
+	return canOutput;
 }

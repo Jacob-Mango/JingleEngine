@@ -59,8 +59,6 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 			return false;
 		}
 
-		lexer->NextToken();
-
 		if (lexer->GetToken() != Tokens::LeftCurlyBracket)
 		{
 			lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
@@ -83,9 +81,12 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 	return false;
 }
 
-void ConfigArray::Serialize(std::stringstream& output, std::string prefix) const
+bool ConfigArray::Serialize(std::stringstream& output, std::string prefix) const
 {
-	output << prefix << SerializeTypeAndName() << "[" << std::endl;
+	bool canOutput = false;
+	std::stringstream tempOut;
+
+	tempOut << prefix << SerializeTypeAndName() << "[" << std::endl;
 
 	int index = 0;
 	for (auto& v : m_Entries)
@@ -97,13 +98,20 @@ void ConfigArray::Serialize(std::stringstream& output, std::string prefix) const
 			continue;
 		}
 
-		v->Serialize(output, prefix + " ");
+		canOutput |= v->Serialize(tempOut, prefix + " ");
 
 		if (index < m_Entries.size())
 		{
-			output << ", " << std::endl;
+			tempOut << ", " << std::endl;
 		}
 	}
 
-	output << std::endl << prefix << "]";
+	tempOut << std::endl << prefix << "]";
+
+	if (canOutput)
+	{
+		output << tempOut.str();
+	}
+
+	return canOutput;
 }

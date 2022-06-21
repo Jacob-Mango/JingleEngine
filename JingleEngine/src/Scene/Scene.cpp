@@ -183,11 +183,8 @@ void Scene::OnTick(double DeltaTime)
 		Entity* entity = m_Entities[i];
 
 		entity->OnTick(DeltaTime);
-
-		std::vector<Component*> components;
-		entity->GetComponents(components);
-
-		for (auto& component : components)
+				
+		for (auto& component : entity->GetComponents())
 		{
 			component->OnTick(DeltaTime);
 		}

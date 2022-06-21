@@ -20,7 +20,9 @@ public:
 	virtual bool OnDeserialize(Config* cfg) override;
 	virtual bool OnSerialize(Config* cfg) override;
 
-	virtual void OnReadObject(JingleScript::Object* instance) override;
-	virtual void OnWriteObject(JingleScript::Object* instance) override;
+	virtual bool OnReadObject(JingleScript::Object* instance) override;
+	virtual bool OnWriteObject(JingleScript::Object* instance) override;
+
+	virtual JingleScript::Object* GetWriteInstance(JingleScript::Object* instance) override;
 
 };

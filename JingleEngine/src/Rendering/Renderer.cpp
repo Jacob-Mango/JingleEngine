@@ -37,12 +37,14 @@ void Renderer::Process(double DeltaTime, Viewport* viewport)
 		
 		glm::dmat4 transform = entity->GetWorldTransform();
 
-		std::vector<MeshComponent*> components;
-		entity->GetComponents<MeshComponent>(components);
-
+		auto& components = entity->GetComponents();
 		for (auto& component : components)
 		{
-			SubmitStaticMesh(component->GetMesh(), transform);
+			MeshComponent* comp = dynamic_cast<MeshComponent*>(component);
+			if (comp)
+			{
+				SubmitStaticMesh(comp->GetMesh(), transform);
+			}
 		}
 	}
 

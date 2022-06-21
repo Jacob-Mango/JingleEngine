@@ -57,20 +57,12 @@ void Entity::AddComponent(Component* component)
 	using namespace JingleScript;
 
 	component->m_Entity = this;
+	m_Components.push_back(component);
+}
 
-	Type* type = component->GetType();
-	while (type != nullptr)
-	{
-		std::vector<Component*>& components = m_Components[type];
-		components.push_back(component);
-
-		if (type == Component::StaticType())
-		{
-			return;
-		}
-
-		type = type->GetBase();
-	}
+ComponentArray& Entity::GetComponents()
+{
+	return m_Components;
 }
 
 void Entity::AddChild(Entity* child)

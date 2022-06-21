@@ -1,8 +1,3 @@
-class Property extends Attribute
-{
-	
-}
-
 class Entity
 {
 }

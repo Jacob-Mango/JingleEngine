@@ -1,5 +1,6 @@
 #include "Property/PropertyObject.h"
 
+#include "Property/PropertyArray.h"
 #include "Property/PropertyItem.h"
 
 using namespace JingleScript;
@@ -10,7 +11,7 @@ PropertyObject::PropertyObject()
 
 }
 
-PropertyObject::PropertyObject(JingleScript::Type* type, Property* property, uint64_t offset)
+PropertyObject::PropertyObject(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset)
 {
 
@@ -25,7 +26,7 @@ Property* FindProperty(Type::VariableDefinition* variable)
 {
 	for (auto& attributeBase : variable->Attributes)
 	{
-		if (attributeBase->GetType() == Property::StaticType())
+		if (attributeBase->GetType()->IsInherited(Property::StaticType()))
 		{
 			return static_cast<Property*>(attributeBase);
 		}
@@ -39,11 +40,18 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 	m_Properties.clear();
 
 	Type* newType = TypeManager::Get(cfg->GetType());
-	if (m_Type == nullptr || newType->IsInherited(m_Type))
+	if (newType == nullptr)
+	{
+		if (m_Type == nullptr)
+		{
+			return false;
+		}
+	}
+	else if (m_Type == nullptr)
 	{
 		m_Type = newType;
 	}
-	else
+	else if (newType->IsInherited(m_Type))
 	{
 		return false;
 	}
@@ -53,7 +61,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
     for (auto& variable : variables)
     {
 		auto& name = variable->Name;
-		auto& type = variable->Type;
+		auto& baseType = variable->Type;
 		auto& offset = variable->Offset;
 		Property* property = FindProperty(variable);
 
@@ -68,7 +76,34 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 			continue;
 		}
 
-		if (type->IsStructure())
+		Type* type = baseType;
+		std::string typeStr = cfgVariable->GetType();
+		if (!typeStr.empty())
+		{
+			type = TypeManager::Get(typeStr);
+			if (type == nullptr)
+			{
+				return false;
+			}
+
+			if (!type->IsInherited(baseType))
+			{
+				return false;
+			}
+		}
+
+		if (type->IsInherited(Array::StaticType()))
+		{
+			PropertyArray* array = new PropertyArray(type, property, offset);
+
+			if (!array->OnDeserialize(cfgVariable))
+			{
+				return false;
+			}
+
+			m_Properties.push_back(array);
+		}
+		else if (type->IsStructure())
 		{
 			PropertyItem* item = new PropertyItem(type, property, offset);
 
@@ -81,7 +116,14 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 		}
 		else
 		{
-			//! TODO: 
+			PropertyObject* object = new PropertyObject(type, property, offset);
+
+			if (!object->OnDeserialize(cfgVariable))
+			{
+				return false;
+			}
+
+			m_Properties.push_back(object);
 		}
     }
 
@@ -93,28 +135,35 @@ bool PropertyObject::OnSerialize(Config* cfg)
     return true;
 }
 
-void PropertyObject::OnReadObject(JingleScript::Object* instance)
-{
-	ReadObject(instance);
-}
-
-void PropertyObject::OnWriteObject(JingleScript::Object* instance)
-{
-	WriteObject(instance);
-}
-
-void PropertyObject::ReadObject(JingleScript::Object* instance)
+bool PropertyObject::OnReadObject(Object* instance)
 {
 	for (auto& property : m_Properties)
 	{
-		property->OnReadObject(instance);
+		if (!property->OnReadObject(instance))
+		{
+			return false;
+		}
 	}
+
+	return true;
 }
 
-void PropertyObject::WriteObject(JingleScript::Object* instance)
+bool PropertyObject::OnWriteObject(Object* instance)
 {
 	for (auto& property : m_Properties)
 	{
-		property->OnWriteObject(instance);
+		Object* write = property->GetWriteInstance(instance);
+		
+		if (!property->OnWriteObject(write))
+		{
+			return false;
+		}
 	}
+
+	return true;
+}
+
+Object* PropertyObject::GetWriteInstance(Object* instance)
+{
+	return m_Type->New<Object>();
 }

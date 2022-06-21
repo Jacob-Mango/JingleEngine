@@ -25,8 +25,9 @@ bool Config::Deserialize(Lexer* lexer)
 	return false;
 }
 
-void Config::Serialize(std::stringstream& output, std::string prefix) const
+bool Config::Serialize(std::stringstream& output, std::string prefix) const
 {
+	return true;
 }
 
 bool Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon)

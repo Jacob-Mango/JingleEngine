@@ -29,6 +29,6 @@ public:
 	virtual Config* Get(int index) const override;
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer) override;
-	virtual void Serialize(std::stringstream& output, std::string prefix = "") const override;
+	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const override;
 
 };

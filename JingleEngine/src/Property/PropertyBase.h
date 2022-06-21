@@ -23,9 +23,11 @@ public:
 	virtual bool OnSerialize(Config* cfg) = 0;
 
 	//! The property is read from the object
-	virtual void OnReadObject(JingleScript::Object* instance) = 0;
+	virtual bool OnReadObject(JingleScript::Object* instance) = 0;
 
 	//! The property is written to the object
-	virtual void OnWriteObject(JingleScript::Object* instance) = 0;
+	virtual bool OnWriteObject(JingleScript::Object* instance) = 0;
+
+	virtual JingleScript::Object* GetWriteInstance(JingleScript::Object* instance) = 0;
 
 };

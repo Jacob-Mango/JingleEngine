@@ -59,7 +59,7 @@ public:
 	virtual Config* GetParent() const { return m_Parent; }
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer);
-	virtual void Serialize(std::stringstream& output, std::string prefix = "") const;
+	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const;
 
 protected:
 	bool DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon = true);

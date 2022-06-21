@@ -2,7 +2,7 @@
 
 using namespace JingleScript;
 
-PropertyItem::PropertyItem(JingleScript::Type* type, Property* property, uint64_t offset)
+PropertyItem::PropertyItem(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset), m_Data(nullptr)
 {
 
@@ -66,11 +66,12 @@ bool PropertyItem::OnSerialize(Config* cfg)
 	return true;
 }
 
-void PropertyItem::OnReadObject(JingleScript::Object* instance)
+bool PropertyItem::OnReadObject(Object* instance)
 {
+	return true;
 }
 
-void PropertyItem::OnWriteObject(JingleScript::Object* instance)
+bool PropertyItem::OnWriteObject(Object* instance)
 {
 	void* dst = (void*)((char*)instance + m_Offset);
 
@@ -82,4 +83,11 @@ void PropertyItem::OnWriteObject(JingleScript::Object* instance)
 	{
 		memcpy(dst, m_Data, sizeof(void*));
 	}
+
+	return true;
+}
+
+Object* PropertyItem::GetWriteInstance(Object* instance)
+{
+	return instance;
 }

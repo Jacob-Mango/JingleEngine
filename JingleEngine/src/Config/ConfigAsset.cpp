@@ -45,12 +45,20 @@ bool ConfigAsset::OnLoad()
 
 bool ConfigAsset::WriteToObject(JingleScript::Object* instance)
 {
-	m_Properties->WriteObject(instance);
+	if (!m_Properties->OnWriteObject(instance))
+	{
+		return false;
+	}
+
 	return true;
 }
 
 bool ConfigAsset::ReadFromObject(JingleScript::Object* instance)
 {
-	m_Properties->ReadObject(instance);
+	if (!m_Properties->OnReadObject(instance))
+	{
+		return false;
+	}
+
 	return true;
 }
