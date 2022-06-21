@@ -35,6 +35,10 @@ void EditorModule::OnInitialize()
 
 		m_Panels.insert({ type, data});
 	}
+
+	Open("EditorViewportPanel");
+	Open("EntityPropertiesPanel");
+	Open("SceneHierarchyPanel");
 }
 
 STATIC_FUNCTION(EditorPanelBase, OnBeginRender, void, double);
