@@ -1,16 +1,11 @@
 
-class TestModule extends Module {
+class SomeTestClass extends Object {
+   int value0
+   string value1
 
-  TestModule::dtor() (Native)
+  SomeTestClass::dtor() (Native)
 
-  TestModule::ctor() (Native)
-}
-
-class Module extends Object {
-
-  Module::dtor() (Native)
-
-  Module::ctor() (Native)
+  SomeTestClass::ctor() (Native)
 }
 
 class Object {
@@ -59,6 +54,116 @@ struct string {
   bool string::operator==(string) (Native)
 
   bool string::operator!=(string) (Native)
+}
+
+class #global extends Object {
+
+  float FromString(string) (Native)
+
+  bool FromString(string) (Native)
+
+  #global::dtor() (Native)
+
+  Application GetApplication() (Native)
+
+  double FromString(string) (Native)
+
+  string FromString(string) (Native)
+
+  #global::ctor() (Native)
+
+  byte FromString(string) (Native)
+
+  int FromString(string) (Native)
+
+  bool ImGui_Begin(string) (Native)
+
+  void ImGui_End() (Native)
+
+  bool ImGui_WantCaptureKeyboard() (Native)
+
+  bool ImGui_WantCaptureMouse() (Native)
+
+  void ImGui_Text(string) (Native)
+
+  void ImGui_Text(Object) (Native)
+
+  void #global::Initialize() {
+    [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
+    [00000001]   copy_address 0                                                                        
+    [00000002]   push 32                                                                               JingleScript::ValueItem::Push
+    [00000003]    copy_data string [Script Test] 32                                                    JingleScript::Compiler::CompileConstant
+    [00000004]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
+    [00000005]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [00000006]   copy_address 0                                                                        
+    [00000007]   push 32                                                                               JingleScript::ValueItem::Push
+    [00000008]    copy_data string [Viewport] 32                                                       JingleScript::Compiler::CompileConstant
+    [00000009]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
+    [0000000A]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [0000000B]   copy_address 0                                                                        
+    [0000000C]   push 32                                                                               JingleScript::ValueItem::Push
+    [0000000D]    copy_data string [Scene Hierarchy] 32                                                JingleScript::Compiler::CompileConstant
+    [0000000E]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
+    [0000000F]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [00000010]   copy_address 0                                                                        
+    [00000011]   push 32                                                                               JingleScript::ValueItem::Push
+    [00000012]    copy_data string [Entity Properties] 32                                              JingleScript::Compiler::CompileConstant
+    [00000013]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
+    [00000014]   pop 32                                                                                JingleScript::ValueItem::Pop
+    [00000015]   copy_address 0                                                                        
+    [00000016]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000017]   copy_address 0                                                                        
+    [00000018]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000019]   copy_address 0                                                                        
+    [0000001A]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000001B]   copy_address 0                                                                        
+    [0000001C]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000001D]   copy_address 0                                                                        
+    [0000001E]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000001F]   copy_address 0                                                                        
+    [00000020]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000021]   copy_address 0                                                                        
+    [00000022]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000023]   copy_address 0                                                                        
+    [00000024]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000025]   copy_address 0                                                                        
+    [00000026]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000027]   copy_address 0                                                                        
+    [00000028]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000029]   copy_address 0                                                                        
+    [0000002A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000002B]   copy_address 0                                                                        
+    [0000002C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000002D]   copy_address 0                                                                        
+    [0000002E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000002F]   copy_address 0                                                                        
+    [00000030]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000031]   copy_address 0                                                                        
+    [00000032]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000033]   copy_address 0                                                                        
+    [00000034]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000035]   copy_address 0                                                                        
+    [00000036]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000037]   copy_address 0                                                                        
+    [00000038]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000039]   copy_address 0                                                                        
+    [0000003A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000003B]   copy_address 0                                                                        
+    [0000003C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000003D]   copy_address 0                                                                        
+    [0000003E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000003F]   copy_address 0                                                                        
+    [00000040]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000041]   copy_address 0                                                                        
+    [00000042]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000043]   copy_address 0                                                                        
+    [00000044]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000045]   copy_address 0                                                                        
+    [00000046]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000047]   copy_address 0                                                                        
+    [00000048]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000049]  pop 8                                                                                  JingleScript::ValueItem::Pop
+  }
 }
 
 struct bool {
@@ -597,98 +702,18 @@ struct int {
   bool int::operator==(int) (Native)
 }
 
-class #global extends Object {
+class TestModule extends Module {
 
-  #global::dtor() (Native)
+  TestModule::dtor() (Native)
 
-  void ImGui_End() (Native)
+  TestModule::ctor() (Native)
+}
 
-  Application GetApplication() (Native)
+class Module extends Object {
 
-  #global::ctor() (Native)
+  Module::dtor() (Native)
 
-  bool ImGui_WantCaptureMouse() (Native)
-
-  bool ImGui_WantCaptureKeyboard() (Native)
-
-  bool ImGui_Begin(string) (Native)
-
-  void ImGui_Text(string) (Native)
-
-  void ImGui_Text(Object) (Native)
-
-  void #global::Initialize() {
-    [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
-    [00000001]   copy_address 0                                                                        
-    [00000002]   push 32                                                                               JingleScript::ValueItem::Push
-    [00000003]    copy_data string [Script Test] 32                                                    JingleScript::Compiler::CompileConstant
-    [00000004]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
-    [00000005]   pop 32                                                                                JingleScript::ValueItem::Pop
-    [00000006]   copy_address 0                                                                        
-    [00000007]   push 32                                                                               JingleScript::ValueItem::Push
-    [00000008]    copy_data string [Viewport] 32                                                       JingleScript::Compiler::CompileConstant
-    [00000009]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
-    [0000000A]   pop 32                                                                                JingleScript::ValueItem::Pop
-    [0000000B]   copy_address 0                                                                        
-    [0000000C]   push 32                                                                               JingleScript::ValueItem::Push
-    [0000000D]    copy_data string [Scene Hierarchy] 32                                                JingleScript::Compiler::CompileConstant
-    [0000000E]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
-    [0000000F]   pop 32                                                                                JingleScript::ValueItem::Pop
-    [00000010]   copy_address 0                                                                        
-    [00000011]   push 32                                                                               JingleScript::ValueItem::Push
-    [00000012]    copy_data string [Entity Properties] 32                                              JingleScript::Compiler::CompileConstant
-    [00000013]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
-    [00000014]   pop 32                                                                                JingleScript::ValueItem::Pop
-    [00000015]   copy_address 0                                                                        
-    [00000016]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000017]   copy_address 0                                                                        
-    [00000018]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000019]   copy_address 0                                                                        
-    [0000001A]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000001B]   copy_address 0                                                                        
-    [0000001C]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000001D]   copy_address 0                                                                        
-    [0000001E]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000001F]   copy_address 0                                                                        
-    [00000020]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000021]   copy_address 0                                                                        
-    [00000022]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000023]   copy_address 0                                                                        
-    [00000024]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000025]   copy_address 0                                                                        
-    [00000026]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000027]   copy_address 0                                                                        
-    [00000028]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000029]   copy_address 0                                                                        
-    [0000002A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000002B]   copy_address 0                                                                        
-    [0000002C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000002D]   copy_address 0                                                                        
-    [0000002E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000002F]   copy_address 0                                                                        
-    [00000030]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000031]   copy_address 0                                                                        
-    [00000032]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000033]   copy_address 0                                                                        
-    [00000034]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000035]   copy_address 0                                                                        
-    [00000036]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000037]   copy_address 0                                                                        
-    [00000038]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000039]   copy_address 0                                                                        
-    [0000003A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000003B]   copy_address 0                                                                        
-    [0000003C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000003D]   copy_address 0                                                                        
-    [0000003E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000003F]   copy_address 0                                                                        
-    [00000040]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000041]   copy_address 0                                                                        
-    [00000042]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000043]   copy_address 0                                                                        
-    [00000044]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000045]  pop 8                                                                                  JingleScript::ValueItem::Pop
-  }
+  Module::ctor() (Native)
 }
 
 struct null {
@@ -746,13 +771,6 @@ class Entity extends Object {
   void Entity::OnDestroy() (Native)
 
   void Entity::OnTick(double) (Native)
-}
-
-class Property extends Attribute {
-
-  Property::dtor() (Native)
-
-  Property::ctor() (Native)
 }
 
 class Component extends Object {
@@ -949,6 +967,13 @@ class AssetModule extends Module {
   AssetModule::dtor() (Native)
 
   AssetModule::ctor() (Native)
+}
+
+class Property extends Attribute {
+
+  Property::dtor() (Native)
+
+  Property::ctor() (Native)
 }
 
 class Type extends Object {

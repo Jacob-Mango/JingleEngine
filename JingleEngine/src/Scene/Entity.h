@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/Config.h"
 #include "Core/Core.h"
 
 class Scene;

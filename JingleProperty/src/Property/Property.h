@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Core.h"
 
-#include "Core/Logging.h"
+#include "Config/Config.h"
 
 class Property : public JingleScript::Attribute
 {

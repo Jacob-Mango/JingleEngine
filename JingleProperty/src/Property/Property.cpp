@@ -1,4 +1,4 @@
-#include "Scene/Property.h"
+#include "Property/Property.h"
 
 BEGIN_CLASS_LINK(Property);
 	LINK_CONSTRUCTOR();

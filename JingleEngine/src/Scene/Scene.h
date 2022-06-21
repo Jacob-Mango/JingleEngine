@@ -2,7 +2,6 @@
 
 #include "Core/Core.h"
 #include "Core/Application.h"
-#include "Core/Config.h"
 
 #include "Scene/Entity.h"
 

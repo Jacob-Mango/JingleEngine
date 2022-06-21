@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JingleEngine", "JingleEngine\JingleEngine.vcxproj", "{E1D53BB2-CAA1-4A70-A3AD-1F9482573642}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BBAEB705-1669-40F3-8567-04CF6A991F4C} = {BBAEB705-1669-40F3-8567-04CF6A991F4C}
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42} = {DB6876C3-E14A-4D76-894E-B43BE3039A42}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "Libraries\imgui\imgui.vcxproj", "{BBAEB705-1669-40F3-8567-04CF6A991F4C}"
@@ -62,6 +63,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Box", "Box", "{6068248A-1AB
 		Assets\Models\Box\test.material = Assets\Models\Box\test.material
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JingleProperty", "JingleProperty\JingleProperty.vcxproj", "{DB6876C3-E14A-4D76-894E-B43BE3039A42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83F52DF3-6684-4641-9889-E17F4A3CFC19} = {83F52DF3-6684-4641-9889-E17F4A3CFC19}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -102,6 +108,14 @@ Global
 		{83F52DF3-6684-4641-9889-E17F4A3CFC19}.Release|x64.Build.0 = Release|x64
 		{83F52DF3-6684-4641-9889-E17F4A3CFC19}.Release|x86.ActiveCfg = Release|Win32
 		{83F52DF3-6684-4641-9889-E17F4A3CFC19}.Release|x86.Build.0 = Release|Win32
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Debug|x64.ActiveCfg = Debug|x64
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Debug|x64.Build.0 = Debug|x64
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Debug|x86.ActiveCfg = Debug|Win32
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Debug|x86.Build.0 = Debug|Win32
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Release|x64.ActiveCfg = Release|x64
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Release|x64.Build.0 = Release|x64
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Release|x86.ActiveCfg = Release|Win32
+		{DB6876C3-E14A-4D76-894E-B43BE3039A42}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

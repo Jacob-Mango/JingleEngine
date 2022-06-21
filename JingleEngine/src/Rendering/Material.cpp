@@ -1,7 +1,5 @@
 #include "Material.h"
 
-#include "Core/Config.h"
-
 #include <vector>
 #include <string>
 #include <fstream>
@@ -26,22 +24,22 @@ bool Material::OnLoad()
 
 	std::cout << "MATERIAL:: " << config->AsString() << std::endl;
 
-	std::string shader = (*config)["shader"].String;
+	std::string shader = config->GetValue("shader");
 	m_Shader = AssetModule::Get<Shader>(shader);
 
-	std::string ambient = (*config)["ambient"]["path"].String;
+	std::string ambient = config->Get("ambient")->GetValue("path");
 	m_Ambient = AssetModule::Get<Image>(ambient);
 
-	std::string diffuse = (*config)["diffuse"]["path"].String;
+	std::string diffuse = config->Get("diffuse")->GetValue("path");
 	m_Diffuse = AssetModule::Get<Image>(diffuse);
 
-	std::string metallic = (*config)["metallic"]["path"].String;
+	std::string metallic = config->Get("metallic")->GetValue("path");
 	m_Metallic = AssetModule::Get<Image>(metallic);
 
-	std::string normal = (*config)["normal"]["path"].String;
+	std::string normal = config->Get("normal")->GetValue("path");
 	m_Normal = AssetModule::Get<Image>(normal);
 
-	std::string roughness = (*config)["roughness"]["path"].String;
+	std::string roughness = config->Get("roughness")->GetValue("path");
 	m_Roughness = AssetModule::Get<Image>(roughness);
 
 

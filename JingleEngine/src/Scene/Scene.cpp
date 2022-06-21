@@ -1,22 +1,21 @@
 #include "Scene.h"
 
-#include "Scene/Component.h"
-#include "Scene/Entity.h"
-#include "Scene/Property.h"
-
-#include "Scene/Components/MeshComponent.h"
-
-#include <glm/ext.hpp>
-#include <glm/glm.hpp>
+#include "Asset/AssetModule.h"
 
 #include "Core/Application.h"
 
-#include "Asset/AssetModule.h"
+#include "Scene/Component.h"
+#include "Scene/Entity.h"
+
+#include "Scene/Components/MeshComponent.h"
 
 #include "Rendering/Camera.h"
 #include "Rendering/Mesh.h"
 #include "Rendering/Renderer.h"
 #include "Rendering/Shader.h"
+
+#include <glm/ext.hpp>
+#include <glm/glm.hpp>
 
 BEGIN_CLASS_LINK(Scene)
 	LINK_CONSTRUCTOR();
@@ -27,18 +26,19 @@ Scene* Scene::Create(std::string file)
 {
 	Scene* scene = JingleScript::NewObject<Scene>("Scene");
 
-	Ref<Config> config = Config::Load(file);
+	//Ref<Config> config = Config::Load(file);
 
-	scene->LoadScene((*config)["entities"]);
+	//scene->LoadScene((*config)["entities"]);
 
 	return scene;
 }
 
 void Scene::LoadScene(Config& entities)
 {
-	for (int i = 0; i < entities.Count; i++)
+	/*
+	for (int i = 0; i < entities.Count(); i++)
 	{
-		auto& config = entities[i];
+		auto& config = entities.Get(i);
 
 		auto position = config["position"].Vec3();
 		auto orientation = config["orientation"].Vec3();
@@ -57,6 +57,7 @@ void Scene::LoadScene(Config& entities)
 		entity->SetPosition(position);
 		entity->SetOrientation(orientation);
 	}
+		*/
 }
 
 /*
@@ -70,6 +71,7 @@ Entity* Scene::SpawnEntity(std::string type, glm::vec3 position, glm::vec3 orien
 
 Entity* Scene::SpawnEntity(Config& cfgRoot, Entity* parent)
 {
+	/*
 	using namespace JingleScript;
 
 	auto parseConfig = [](Config& cfg, Object* object, Type* type)
@@ -162,6 +164,8 @@ Entity* Scene::SpawnEntity(Config& cfgRoot, Entity* parent)
 	entity->OnCreate();
 
 	return entity;
+		*/
+		return nullptr;
 }
 
 void Scene::OnStart()

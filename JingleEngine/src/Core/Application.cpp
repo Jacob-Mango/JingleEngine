@@ -3,7 +3,6 @@
 #include "Asset/AssetModule.h"
 
 #include "Core/Core.h"
-#include "Core/Config.h"
 #include "Core/Event.h"
 #include "Core/Window.h"
 #include "Core/Module.h"

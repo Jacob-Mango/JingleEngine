@@ -3,6 +3,7 @@
 #define GL_GLEXT_PROTOTYPES
 
 #include <JingleScript.h>
+#include <JingleProperty.h>
 
 #include <GL/glew.h>
 #include <GL/GL.h>

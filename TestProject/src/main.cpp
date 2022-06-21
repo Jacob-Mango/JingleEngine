@@ -5,6 +5,25 @@
 #include "Scene/Planet/Planet.h"
 #include "Scene/Planet/PlanetQuad.h"
 
+class SomeTestClass : public JingleScript::Object
+{
+	DEFINE_CLASS(SomeTestClass, JingleScript::Object);
+
+public:
+	int value0;
+	std::string value1;
+
+	SomeTestClass() {}
+	~SomeTestClass() {}
+
+};
+
+BEGIN_CLASS_LINK(SomeTestClass)
+	LINK_VARIABLE(value0);
+	LINK_VARIABLE(value1);
+	LINK_CONSTRUCTOR()
+END_CLASS_LINK()
+
 class TestModule : public Module
 {
 	DEFINE_MODULE(TestModule, Module);
@@ -15,6 +34,18 @@ class TestModule : public Module
 public:
 	virtual void OnInitialize() override
 	{
+		Config* cfg = Config::Load("Assets/test.cfg");
+
+		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
+
+		PropertyObject* obj = new PropertyObject(cls->GetType(), nullptr);
+		obj->OnDeserialize(cfg->Get(0));
+
+		obj->OnSerialize(cls);
+
+		std::cout << std::endl;
+
+
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");

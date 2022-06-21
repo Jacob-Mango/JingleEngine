@@ -2,7 +2,6 @@
 
 #include "Core/Core.h"
 #include "Core/Application.h"
-#include "Core/Config.h"
 
 #include "Input/Binding.h"
 
