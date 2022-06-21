@@ -101,7 +101,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 				return false;
 			}
 
-			m_Properties.push_back(array);
+			m_Properties.insert({name, array});
 		}
 		else if (type->IsStructure())
 		{
@@ -112,7 +112,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 				return false;
 			}
 
-			m_Properties.push_back(item);
+			m_Properties.insert({name, item});
 		}
 		else
 		{
@@ -123,7 +123,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 				return false;
 			}
 
-			m_Properties.push_back(object);
+			m_Properties.insert({name, object});
 		}
     }
 
@@ -132,14 +132,39 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 
 bool PropertyObject::OnSerialize(Config* cfg)
 {
+    auto variables = m_Type->GetVariables();
+
+    for (auto& variable : variables)
+    {
+		auto& name = variable->Name;
+		auto& baseType = variable->Type;
+		auto& offset = variable->Offset;
+		auto it = m_Properties.find(name);
+		if (it == m_Properties.end())
+		{
+			//! TODO: Add to property list
+			continue;
+		}
+
+		Config* cfgVariable = cfg->Get(name);
+		if (!cfgVariable)
+		{
+			continue;
+		}
+
+		it->second->OnSerialize(cfgVariable);
+	}
+
     return true;
 }
 
 bool PropertyObject::OnReadObject(Object* instance)
 {
-	for (auto& property : m_Properties)
+	for (auto& [name, property] : m_Properties)
 	{
-		if (!property->OnReadObject(instance))
+		Object* read = property->GetWriteInstance(instance);
+
+		if (!property->OnReadObject(read))
 		{
 			return false;
 		}
@@ -150,7 +175,7 @@ bool PropertyObject::OnReadObject(Object* instance)
 
 bool PropertyObject::OnWriteObject(Object* instance)
 {
-	for (auto& property : m_Properties)
+	for (auto& [name, property] : m_Properties)
 	{
 		Object* write = property->GetWriteInstance(instance);
 		
@@ -161,6 +186,11 @@ bool PropertyObject::OnWriteObject(Object* instance)
 	}
 
 	return true;
+}
+
+Object* PropertyObject::GetReadInstance(Object* instance)
+{
+	return *(Object**)((char*)instance + m_Offset);
 }
 
 Object* PropertyObject::GetWriteInstance(Object* instance)

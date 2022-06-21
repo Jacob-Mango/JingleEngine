@@ -28,6 +28,7 @@ public:
 	//! The property is written to the object
 	virtual bool OnWriteObject(JingleScript::Object* instance) = 0;
 
+	virtual JingleScript::Object* GetReadInstance(JingleScript::Object* instance) = 0;
 	virtual JingleScript::Object* GetWriteInstance(JingleScript::Object* instance) = 0;
 
 };

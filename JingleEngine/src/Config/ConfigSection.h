@@ -29,7 +29,7 @@ protected:
 public:
 	virtual void Add(Config* other) override;
 
-	virtual size_t Count() const { return m_Entries.size(); }
+	virtual size_t Count() const override { return m_Entries.size(); }
 
 	virtual Config* Get(std::string name) const override;
 	virtual Config* Get(int index) const override;

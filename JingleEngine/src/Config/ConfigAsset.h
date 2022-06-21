@@ -19,6 +19,8 @@ public:
 
 	virtual bool OnLoad() override;
 
+	void Output();
+
 	bool WriteToObject(JingleScript::Object* instance);
 	bool ReadFromObject(JingleScript::Object* instance);
 

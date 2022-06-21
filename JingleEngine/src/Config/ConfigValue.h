@@ -25,8 +25,9 @@ protected:
 	~ConfigValue();
 
 public:
-	virtual std::string GetValue() const { return m_Value; }
-	virtual std::string* GetValuePtr() { return &m_Value; }
+	virtual std::string GetValue() const override { return m_Value; }
+	virtual void SetValue(std::string value) override { m_Value = value; }
+	virtual std::string* GetValuePtr() override { return &m_Value; }
 
 	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const override;
 

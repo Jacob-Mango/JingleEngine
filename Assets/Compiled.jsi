@@ -32,15 +32,17 @@ struct string extends Object {
 
   string::ctor() (Native)
 
+  string string::ToString() (Native)
+
   string string::operator+(float) (Native)
 
   string string::operator+(bool) (Native)
 
   string string::operator+(byte) (Native)
 
-  string string::operator+(string) (Native)
-
   string string::operator+(double) (Native)
+
+  string string::operator+(string) (Native)
 
   void string::operator=(string) (Native)
 
@@ -227,6 +229,8 @@ struct bool extends Object {
 
   bool bool::operator<(double) (Native)
 
+  string bool::ToString() (Native)
+
   bool bool::operator==(float) (Native)
 
   bool bool::operator<=(double) (Native)
@@ -353,6 +357,8 @@ struct byte extends Object {
 
   bool byte::operator<(float) (Native)
 
+  string byte::ToString() (Native)
+
   byte byte::operator+(int) (Native)
 
   bool byte::operator!=(float) (Native)
@@ -441,6 +447,8 @@ struct double extends Object {
 
   bool double::operator!=(byte) (Native)
 
+  string double::ToString() (Native)
+
   double double::operator*(double) (Native)
 
   double double::operator/(double) (Native)
@@ -498,6 +506,8 @@ struct float extends Object {
   bool float::operator==(bool) (Native)
 
   void float::operator=(bool) (Native)
+
+  string float::ToString() (Native)
 
   float::ctor() (Native)
 
@@ -626,6 +636,8 @@ struct int extends Object {
   int int::operator*(byte) (Native)
 
   int int::operator/(byte) (Native)
+
+  string int::ToString() (Native)
 
   bool int::operator>=(double) (Native)
 

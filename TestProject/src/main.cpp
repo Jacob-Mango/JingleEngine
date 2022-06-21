@@ -82,16 +82,16 @@ public:
 	{
 		SetColor(15);
 
-		Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/test2.cfg");
+		Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/test.cfg");
 
 		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
 
 		cfg->WriteToObject(cls);
+		cfg->Output();
 
-		std::stringstream ss;
-		cfg->Serialize(ss);
-
-		std::cout << ss.str() << std::endl;
+		cls->value1 = "my name";
+		cfg->ReadFromObject(cls);
+		cfg->Output();
 
 		exit(0);
 

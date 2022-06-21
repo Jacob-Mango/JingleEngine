@@ -19,6 +19,7 @@ public:
 	virtual bool OnReadObject(JingleScript::Object* instance) override;
 	virtual bool OnWriteObject(JingleScript::Object* instance) override;
 
+	virtual JingleScript::Object* GetReadInstance(JingleScript::Object* instance) override;
 	virtual JingleScript::Object* GetWriteInstance(JingleScript::Object* instance) override;
 
 };

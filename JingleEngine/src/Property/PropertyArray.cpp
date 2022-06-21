@@ -164,6 +164,11 @@ bool PropertyArray::OnWriteObject(Object* instance)
 	return true;
 }
 
+Object* PropertyArray::GetReadInstance(Object* instance)
+{
+	return instance;
+}
+
 Object* PropertyArray::GetWriteInstance(Object* instance)
 {
 	return instance;

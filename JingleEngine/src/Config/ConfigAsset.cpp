@@ -43,6 +43,13 @@ bool ConfigAsset::OnLoad()
 	return true;
 }
 
+void ConfigAsset::Output()
+{
+	std::stringstream ss;
+	Serialize(ss);
+	std::cout << ss.str() << std::endl;
+}
+
 bool ConfigAsset::WriteToObject(JingleScript::Object* instance)
 {
 	if (!m_Properties->OnWriteObject(instance))
@@ -56,6 +63,11 @@ bool ConfigAsset::WriteToObject(JingleScript::Object* instance)
 bool ConfigAsset::ReadFromObject(JingleScript::Object* instance)
 {
 	if (!m_Properties->OnReadObject(instance))
+	{
+		return false;
+	}
+
+	if (!m_Properties->OnSerialize(this))
 	{
 		return false;
 	}
