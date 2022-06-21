@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClCompile Include="src\Asset\AssetID.cpp" />
     <ClCompile Include="src\Asset\AssetModule.cpp" />
+    <ClCompile Include="src\Config\Config.cpp" />
+    <ClCompile Include="src\Config\ConfigArray.cpp" />
+    <ClCompile Include="src\Config\ConfigSection.cpp" />
+    <ClCompile Include="src\Config\ConfigValue.cpp" />
     <ClCompile Include="src\Core\Module.cpp" />
     <ClCompile Include="src\Core\ModuleManager.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
@@ -36,6 +40,11 @@
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Platform\Windows\WndWindow.cpp" />
+    <ClCompile Include="src\Property\Property.cpp" />
+    <ClCompile Include="src\Property\PropertyArray.cpp" />
+    <ClCompile Include="src\Property\PropertyBase.cpp" />
+    <ClCompile Include="src\Property\PropertyItem.cpp" />
+    <ClCompile Include="src\Property\PropertyObject.cpp" />
     <ClCompile Include="src\Rendering\Image.cpp" />
     <ClCompile Include="src\Rendering\ImGui.cpp" />
     <ClCompile Include="src\Rendering\MeshInstance.cpp" />
@@ -65,6 +74,10 @@
     <ClInclude Include="src\Asset\Asset.h" />
     <ClInclude Include="src\Asset\AssetID.h" />
     <ClInclude Include="src\Asset\AssetModule.h" />
+    <ClInclude Include="src\Config\Config.h" />
+    <ClInclude Include="src\Config\ConfigArray.h" />
+    <ClInclude Include="src\Config\ConfigSection.h" />
+    <ClInclude Include="src\Config\ConfigValue.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\Core.h" />
@@ -84,6 +97,11 @@
     <ClInclude Include="src\Platform\Windows\SDL_scancode.h" />
     <ClInclude Include="src\Platform\Windows\Windows.h" />
     <ClInclude Include="src\Platform\Windows\WndWindow.h" />
+    <ClInclude Include="src\Property\Property.h" />
+    <ClInclude Include="src\Property\PropertyArray.h" />
+    <ClInclude Include="src\Property\PropertyBase.h" />
+    <ClInclude Include="src\Property\PropertyItem.h" />
+    <ClInclude Include="src\Property\PropertyObject.h" />
     <ClInclude Include="src\Rendering\Image.h" />
     <ClInclude Include="src\Rendering\ImGui.h" />
     <ClInclude Include="src\Rendering\MeshInstance.h" />
@@ -179,7 +197,7 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)dist\$(Platform)\;$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <IncludePath>$(SolutionDir)JingleProperty\src;$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -187,7 +205,7 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)dist\$(Platform)\;$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x86\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <IncludePath>$(SolutionDir)JingleProperty\src;$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -195,7 +213,7 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)dist\$(Platform)\;$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>$(SolutionDir)JingleProperty\src;$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -203,7 +221,7 @@
     <IntDir>$(ProjectDir)..\dist\$(Platform)\int\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>$(SolutionDir)dist\$(Platform)\;$(SolutionDir)..\JingleScript\dist\$(Platform)\;$(SolutionDir)Libraries\imgui\lib;$(SolutionDir)Libraries\bullet3\bin\;$(SolutionDir)Libraries\assimp-5.0.1\lib\Debug\;$(SolutionDir)Libraries\glew-2.1.0\lib\Release\$(Platform)\;$(SolutionDir)Libraries\SDL2-2.0.14\lib\x64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>$(SolutionDir)JingleProperty\src;$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\JingleScript\JingleScript\src;$(SolutionDir)Libraries\imgui;$(SolutionDir)Libraries\bullet3\src\;$(SolutionDir)Libraries\assimp-5.0.1\include\;$(SolutionDir)Libraries\stb\;$(SolutionDir)Libraries\glm\;$(SolutionDir)Libraries\glew-2.1.0\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

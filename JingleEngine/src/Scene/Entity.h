@@ -2,14 +2,16 @@
 
 #include "Core/Core.h"
 
+#include "Config/Config.h"
+
+#include "Rendering/Material.h"
+#include "Rendering/MeshInstance.h"
+
 class Scene;
 class Config;
 class Entity;
 class Component;
 class Application;
-
-#include "Rendering/Material.h"
-#include "Rendering/MeshInstance.h"
 
 class EntityFile : public Asset
 {

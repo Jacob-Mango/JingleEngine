@@ -1,5 +1,7 @@
 #include "Material.h"
 
+#include "Config/Config.h"
+
 #include <vector>
 #include <string>
 #include <fstream>

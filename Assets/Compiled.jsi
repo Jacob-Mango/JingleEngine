@@ -877,6 +877,13 @@ class Image extends Asset {
   Image::ctor() (Native)
 }
 
+class Property extends Attribute {
+
+  Property::dtor() (Native)
+
+  Property::ctor() (Native)
+}
+
 class WndWindow extends Window {
 
   WndWindow::dtor() (Native)
@@ -967,13 +974,6 @@ class AssetModule extends Module {
   AssetModule::dtor() (Native)
 
   AssetModule::ctor() (Native)
-}
-
-class Property extends Attribute {
-
-  Property::dtor() (Native)
-
-  Property::ctor() (Native)
 }
 
 class Type extends Object {
