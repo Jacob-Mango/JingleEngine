@@ -9,6 +9,16 @@
 
 using namespace JingleScript;
 
+Config::Config()
+{
+	m_Parent = nullptr;
+}
+
+Config::~Config()
+{
+
+}
+
 bool Config::Deserialize(Lexer* lexer)
 {
 	return false;
@@ -16,38 +26,6 @@ bool Config::Deserialize(Lexer* lexer)
 
 void Config::Serialize(std::stringstream& output, std::string prefix) const
 {
-}
-
-std::string Config::ToString() const
-{
-	std::stringstream ss;
-	ss << Super::ToString();
-
-	ss << ", ";
-	ss << "Name=" << m_Type;
-
-	ss << ", ";
-	ss << "Name=" << m_Name;
-
-	return ss.str();
-}
-
-Config* Config::Load(std::string file)
-{
-	Ref<Lexer> lexer = Lexer::ParseFile(file);
-
-	if (!lexer->HasNext())
-	{
-		return nullptr;
-	}
-
-	ConfigSection* section = new ConfigSection();
-	if (!section->Deserialize(lexer))
-	{
-		return nullptr;
-	}
-
-	return section;
 }
 
 bool Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon)
@@ -133,11 +111,11 @@ bool Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::st
 
 std::string Config::SerializeTypeAndName() const
 {
-	if (m_Name.empty() && m_Type.empty()) return "";
+	if (m_Name.empty() && m_CType.empty()) return "";
 
-	if (m_Type.empty()) return m_Name + ": ";
+	if (m_CType.empty()) return m_Name + ": ";
 
-	if (m_Name.empty()) return "{" + m_Type + "}: ";
+	if (m_Name.empty()) return "{" + m_CType + "}: ";
 
-	return "{" + m_Type + ", " + m_Name + "}: ";
+	return "{" + m_CType + ", " + m_Name + "}: ";
 }

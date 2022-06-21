@@ -49,14 +49,11 @@ public:
 	{
 		SetColor(15);
 
-		Config* cfg = Config::Load("Assets/test.cfg");
+		Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/test.cfg");
 
 		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
 
-		PropertyObject* obj = new PropertyObject(cls->GetType());
-		obj->OnDeserialize(cfg);
-
-		obj->SerializeToObject(cls);
+		cfg->WriteToObject(cls);
 
 		std::stringstream ss;
 		cfg->Serialize(ss);

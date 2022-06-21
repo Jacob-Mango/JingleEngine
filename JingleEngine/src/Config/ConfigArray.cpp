@@ -4,6 +4,19 @@
 
 using namespace JingleScript;
 
+ConfigArray::ConfigArray()
+{
+
+}
+
+ConfigArray::~ConfigArray()
+{
+	for (auto& entry : m_Entries)
+	{
+		delete entry;
+	}
+}
+
 void ConfigArray::Add(Config* other)
 {
 	other->m_Parent = this;
@@ -54,7 +67,7 @@ bool ConfigArray::Deserialize(Lexer* lexer)
 		}
 
 		ConfigSection* cfgSection = new ConfigSection();
-		cfgSection->m_Type = typeAndName.first;
+		cfgSection->m_CType = typeAndName.first;
 		cfgSection->m_Name = typeAndName.second;
 
 		Add(cfgSection);
@@ -92,23 +105,4 @@ void ConfigArray::Serialize(std::stringstream& output, std::string prefix) const
 	}
 
 	output << std::endl << prefix << "]";
-}
-
-std::string ConfigArray::ToString() const
-{
-	std::stringstream ss;
-	ss << Super::ToString();
-
-	ss << ", ";
-	ss << "Count=" << m_Entries.size();
-
-	int index = 0;
-	for (auto entry : m_Entries)
-	{
-		ss << ", ";
-		ss << "Entry_" << index++ << "=" << entry->AsString();
-		index++;
-	}
-
-	return ss.str();
 }

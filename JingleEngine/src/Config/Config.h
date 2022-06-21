@@ -2,6 +2,8 @@
 
 #include "Core/Core.h"
 
+#include "Asset/Asset.h"
+
 #include <fstream>
 #include <map>
 #include <sstream>
@@ -17,19 +19,26 @@ namespace JingleScript
 	class Lexer;
 }
 
-class Config : public Countable
+class Config
 {
 	typedef Countable Super;
 
+	friend Config;
 	friend ConfigArray;
 	friend ConfigSection;
 	friend ConfigValue;
 
 protected:
-	std::string m_Type;
+	std::string m_CType;
 	std::string m_Name;
 
-	Config* m_Parent = nullptr;
+	Config* m_Parent;
+
+protected:
+	Config();
+	Config(Config&) = delete;
+	Config(Config&&) = delete;
+	~Config();
 
 public:
 	virtual void Add(Config* other) {}
@@ -44,19 +53,15 @@ public:
 	virtual Config* Get(int index) const { return nullptr; }
 
 	virtual std::string GetName() const { return m_Name; }
+	virtual std::string GetType() const { return m_CType; }
 	virtual Config* GetBase() const { return nullptr; }
 	virtual Config* GetParent() const { return m_Parent; }
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer);
 	virtual void Serialize(std::stringstream& output, std::string prefix = "") const;
-	
-	virtual std::string ToString() const override;
 
 protected:
 	bool DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon = true);
 	std::string SerializeTypeAndName() const;
-
-public:
-	static Config* Load(std::string file);
 
 };

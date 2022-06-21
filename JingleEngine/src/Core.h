@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Config/Config.h"
+#include "Config/ConfigAsset.h"
 
 #include "Core/Core.h"
 #include "Core/Application.h"

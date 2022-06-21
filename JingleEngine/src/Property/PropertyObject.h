@@ -10,16 +10,17 @@ class PropertyObject : public PropertyBase
 	uint64_t m_Offset;
 
 public:
-	PropertyObject(JingleScript::Type* type);
+	PropertyObject();
 	PropertyObject(JingleScript::Type* type, Property* property, uint64_t offset);
 	virtual ~PropertyObject();
 
 	virtual bool OnDeserialize(Config* cfg) override;
 	virtual bool OnSerialize(Config* cfg) override;
 
-	virtual void OnDeserialize(JingleScript::Object* instance) override;
-	virtual void OnSerialize(JingleScript::Object* instance) override;
+	virtual void OnReadObject(JingleScript::Object* instance) override;
+	virtual void OnWriteObject(JingleScript::Object* instance) override;
 
-	void SerializeToObject(JingleScript::Object* instance);
+	void ReadObject(JingleScript::Object* instance);
+	void WriteObject(JingleScript::Object* instance);
 
 };

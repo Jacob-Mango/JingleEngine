@@ -57,11 +57,11 @@ bool PropertyItem::OnSerialize(Config* cfg)
 	return true;
 }
 
-void PropertyItem::OnDeserialize(JingleScript::Object* instance)
+void PropertyItem::OnReadObject(JingleScript::Object* instance)
 {
 }
 
-void PropertyItem::OnSerialize(JingleScript::Object* instance)
+void PropertyItem::OnWriteObject(JingleScript::Object* instance)
 {
 	void* dst = (void*)((char*)instance + m_Offset);
 

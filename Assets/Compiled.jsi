@@ -793,6 +793,13 @@ class EntityFile extends Asset {
   EntityFile::ctor() (Native)
 }
 
+class ConfigAsset extends Asset {
+
+  ConfigAsset::dtor() (Native)
+
+  ConfigAsset::ctor() (Native)
+}
+
 class Asset extends Object {
 
   Asset::dtor() (Native)

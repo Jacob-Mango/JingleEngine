@@ -57,7 +57,7 @@ static Ref<T> AssetModule::Get(AssetID AssetID)
 	auto it = s_Instance->m_Assets.find(AssetID.GetValue());
 	if (it == s_Instance->m_Assets.end())
 	{
-	JS_INFO("Create asset: %s", T::StaticName().c_str());
+		JS_INFO("Create asset: %s", T::StaticName().c_str());
 		T* asset = JingleScript::NewObject<T>(T::StaticName());
 		asset->m_AssetID = AssetID;
 		s_Instance->m_Assets.insert({ AssetID.GetValue(), asset });

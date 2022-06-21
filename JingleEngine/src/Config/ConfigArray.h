@@ -8,8 +8,19 @@ class ConfigArray : public Config
 {
 	typedef Config Super;
 
+	friend Config;
+	friend ConfigArray;
+	friend ConfigSection;
+	friend ConfigValue;
+
 protected:
 	std::vector<Config*> m_Entries;
+
+protected:
+	ConfigArray();
+	ConfigArray(ConfigArray&) = delete;
+	ConfigArray(ConfigArray&&) = delete;
+	~ConfigArray();
 
 public:
 	virtual void Add(Config* other) override;
@@ -19,7 +30,5 @@ public:
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer) override;
 	virtual void Serialize(std::stringstream& output, std::string prefix = "") const override;
-
-	virtual std::string ToString() const override;
 
 };

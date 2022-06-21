@@ -4,8 +4,8 @@
 
 using namespace JingleScript;
 
-PropertyObject::PropertyObject(JingleScript::Type* type)
-	: PropertyObject(type, nullptr, 0)
+PropertyObject::PropertyObject()
+	: PropertyObject(nullptr, nullptr, 0)
 {
 
 }
@@ -37,6 +37,16 @@ Property* FindProperty(Type::VariableDefinition* variable)
 bool PropertyObject::OnDeserialize(Config* cfg)
 {
 	m_Properties.clear();
+
+	Type* newType = TypeManager::Get(cfg->GetType());
+	if (m_Type == nullptr || newType->IsInherited(m_Type))
+	{
+		m_Type = newType;
+	}
+	else
+	{
+		return false;
+	}
 
     auto variables = m_Type->GetVariables();
 
@@ -83,19 +93,28 @@ bool PropertyObject::OnSerialize(Config* cfg)
     return true;
 }
 
-void PropertyObject::OnDeserialize(JingleScript::Object* instance)
+void PropertyObject::OnReadObject(JingleScript::Object* instance)
 {
+	ReadObject(instance);
 }
 
-void PropertyObject::OnSerialize(JingleScript::Object* instance)
+void PropertyObject::OnWriteObject(JingleScript::Object* instance)
 {
-	SerializeToObject(instance);
+	WriteObject(instance);
 }
 
-void PropertyObject::SerializeToObject(JingleScript::Object* instance)
+void PropertyObject::ReadObject(JingleScript::Object* instance)
 {
 	for (auto& property : m_Properties)
 	{
-		property->OnSerialize(instance);
+		property->OnReadObject(instance);
+	}
+}
+
+void PropertyObject::WriteObject(JingleScript::Object* instance)
+{
+	for (auto& property : m_Properties)
+	{
+		property->OnWriteObject(instance);
 	}
 }

@@ -2,7 +2,7 @@
 
 #include "Core/Core.h"
 
-#include "Config/Config.h"
+#include "Config/ConfigAsset.h"
 
 #include "Rendering/Material.h"
 #include "Rendering/MeshInstance.h"
@@ -13,17 +13,15 @@ class Entity;
 class Component;
 class Application;
 
-class EntityFile : public Asset
+class EntityFile : public ConfigAsset
 {
-	SETUP_ASSET(EntityFile, Asset)
+	SETUP_ASSET(EntityFile, ConfigAsset)
 
 	friend Scene;
 
-	Ref<Config> m_Config;
-
 public:
-	EntityFile();
-	virtual ~EntityFile();
+	EntityFile() {}
+	virtual ~EntityFile() {}
 
 	virtual bool OnLoad() override;
 

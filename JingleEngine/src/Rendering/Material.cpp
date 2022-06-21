@@ -20,74 +20,28 @@ END_CLASS_LINK()
 
 bool Material::OnLoad()
 {
-	if (GetPath() == "") return false;
+	if (!Super::OnLoad())
+	{
+		return false;
+	}
 
-	auto config = Config::Load(GetPath());
-
-	std::cout << "MATERIAL:: " << config->AsString() << std::endl;
-
-	std::string shader = config->GetValue("shader");
+	std::string shader = GetValue("shader");
 	m_Shader = AssetModule::Get<Shader>(shader);
 
-	std::string ambient = config->Get("ambient")->GetValue("path");
+	std::string ambient = Get("ambient")->GetValue("path");
 	m_Ambient = AssetModule::Get<Image>(ambient);
 
-	std::string diffuse = config->Get("diffuse")->GetValue("path");
+	std::string diffuse = Get("diffuse")->GetValue("path");
 	m_Diffuse = AssetModule::Get<Image>(diffuse);
 
-	std::string metallic = config->Get("metallic")->GetValue("path");
+	std::string metallic = Get("metallic")->GetValue("path");
 	m_Metallic = AssetModule::Get<Image>(metallic);
 
-	std::string normal = config->Get("normal")->GetValue("path");
+	std::string normal = Get("normal")->GetValue("path");
 	m_Normal = AssetModule::Get<Image>(normal);
 
-	std::string roughness = config->Get("roughness")->GetValue("path");
+	std::string roughness = Get("roughness")->GetValue("path");
 	m_Roughness = AssetModule::Get<Image>(roughness);
-
-
-	#if 0
-	{
-		auto shader = (*config)["shader"];
-		auto path = shader.String;
-
-		m_Shader = AssetModule::Get<Shader>(path);
-	}
-
-	{
-		auto ambient = (*config)["ambient"];
-		auto path = ambient["path"].String;
-
-		m_Ambient = AssetModule::Get<Image>(path);
-	}
-
-	{
-		auto diffuse = (*config)["diffuse"];
-		auto path = diffuse["path"].String;
-
-		m_Diffuse = AssetModule::Get<Image>(path);
-	}
-
-	{
-		auto metallic = (*config)["metallic"];
-		auto path = metallic["path"].String;
-
-		m_Metallic = AssetModule::Get<Image>(path);
-	}
-
-	{
-		auto normal = (*config)["normal"];
-		auto path = normal["path"].String;
-
-		m_Normal = AssetModule::Get<Image>(path);
-	}
-
-	{
-		auto roughness = (*config)["roughness"];
-		auto path = roughness["path"].String;
-
-		m_Roughness = AssetModule::Get<Image>(path);
-	}
-	#endif
 
 	std::cout << "Shader: " << m_Shader.AsString() << std::endl;
 	std::cout << "Ambient: " << m_Ambient.AsString() << std::endl;

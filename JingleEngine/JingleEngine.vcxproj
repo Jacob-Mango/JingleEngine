@@ -23,6 +23,7 @@
     <ClCompile Include="src\Asset\AssetModule.cpp" />
     <ClCompile Include="src\Config\Config.cpp" />
     <ClCompile Include="src\Config\ConfigArray.cpp" />
+    <ClCompile Include="src\Config\ConfigAsset.cpp" />
     <ClCompile Include="src\Config\ConfigSection.cpp" />
     <ClCompile Include="src\Config\ConfigValue.cpp" />
     <ClCompile Include="src\Core\Module.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="src\Asset\AssetModule.h" />
     <ClInclude Include="src\Config\Config.h" />
     <ClInclude Include="src\Config\ConfigArray.h" />
+    <ClInclude Include="src\Config\ConfigAsset.h" />
     <ClInclude Include="src\Config\ConfigSection.h" />
     <ClInclude Include="src\Config\ConfigValue.h" />
     <ClInclude Include="src\Core.h" />

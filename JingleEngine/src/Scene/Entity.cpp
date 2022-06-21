@@ -16,23 +16,9 @@ BEGIN_CLASS_LINK(EntityFile)
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-EntityFile::EntityFile()
-{
-}
-
-EntityFile::~EntityFile()
-{
-}
-
 bool EntityFile::OnLoad()
 {
-	if (GetPath() == "")
-	{
-		return false;
-	}
-
-	m_Config = Config::Load(GetPath());
-	if (!m_Config)
+	if (!Super::OnLoad())
 	{
 		return false;
 	}
@@ -42,7 +28,7 @@ bool EntityFile::OnLoad()
 
 std::string EntityFile::ToString() const
 {
-	return std::string();
+	return "";
 }
 
 BEGIN_CLASS_LINK(Entity)

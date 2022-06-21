@@ -5,12 +5,14 @@
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 
+#include "Config/ConfigAsset.h"
+
 #include "Rendering/Texture.h"
 #include "Rendering/Shader.h"
 
-class Material : public Asset
+class Material : public ConfigAsset
 {
-	SETUP_ASSET(Material, Asset)
+	SETUP_ASSET(Material, ConfigAsset)
 
 	Ref<Shader> m_Shader;
 

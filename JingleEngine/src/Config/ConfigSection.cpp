@@ -5,6 +5,19 @@
 
 using namespace JingleScript;
 
+ConfigSection::ConfigSection()
+{
+	m_Base = nullptr;
+}
+
+ConfigSection::~ConfigSection()
+{
+	for (auto& [name, entry] : m_Entries)
+	{
+		delete entry;
+	}
+}
+
 void ConfigSection::Add(Config* other)
 {
 	other->m_Parent = this;
@@ -66,7 +79,7 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			return false;
 		}
 
-		m_Type = typeAndName.first;
+		m_CType = typeAndName.first;
 		m_Name = typeAndName.second;
 
 		if (!m_Name.empty())
@@ -128,7 +141,7 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			// section
 
 			ConfigSection* cfgSection = new ConfigSection();
-			cfgSection->m_Type = typeAndName.first;
+			cfgSection->m_CType = typeAndName.first;
 			cfgSection->m_Name = typeAndName.second;
 
 			Add(cfgSection);
@@ -143,7 +156,7 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			// array
 
 			ConfigArray* cfgArray = new ConfigArray();
-			cfgArray->m_Type = typeAndName.first;
+			cfgArray->m_CType = typeAndName.first;
 			cfgArray->m_Name = typeAndName.second;
 
 			Add(cfgArray);
@@ -162,7 +175,7 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 			{
 				ConfigSection* cfgSection = new ConfigSection();
-				cfgSection->m_Type = typeAndName.first;
+				cfgSection->m_CType = typeAndName.first;
 				cfgSection->m_Name = typeAndName.second;
 
 				Add(cfgSection);
@@ -178,7 +191,7 @@ bool ConfigSection::Deserialize(Lexer* lexer)
 			else
 			{
 				ConfigValue* cfgValue = new ConfigValue();
-				cfgValue->m_Type = typeAndName.first;
+				cfgValue->m_CType = typeAndName.first;
 				cfgValue->m_Name = typeAndName.second;
 
 				Add(cfgValue);
@@ -229,22 +242,4 @@ void ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 	{
 		output << std::endl << prefix << "}";
 	}
-}
-
-std::string ConfigSection::ToString() const
-{
-	std::stringstream ss;
-	ss << Super::ToString();
-
-	ss << ", ";
-	ss << "Count=" << m_Entries.size();
-
-	int index = 0;
-	for (auto entry : m_Entries)
-	{
-		ss << ", ";
-		ss << "Entry_" << index++ << "=" << entry.second->AsString();
-	}
-
-	return ss.str();
 }

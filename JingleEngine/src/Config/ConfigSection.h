@@ -8,10 +8,21 @@ class ConfigSection : public Config
 {
 	typedef Config Super;
 
-public:
+	friend Config;
+	friend ConfigArray;
+	friend ConfigSection;
+	friend ConfigValue;
+
+protected:
 	std::map<std::string, Config*> m_Entries;
 
 	Config* m_Base;
+
+protected:
+	ConfigSection();
+	ConfigSection(ConfigSection&) = delete;
+	ConfigSection(ConfigSection&&) = delete;
+	~ConfigSection();
 
 public:
 	virtual void Add(Config* other) override;
@@ -25,7 +36,5 @@ public:
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer) override;
 	virtual void Serialize(std::stringstream& output, std::string prefix = "") const override;
-
-	virtual std::string ToString() const override;
 
 };
