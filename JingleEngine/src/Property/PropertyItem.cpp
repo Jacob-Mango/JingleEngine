@@ -15,6 +15,22 @@ PropertyItem::~PropertyItem()
 
 bool PropertyItem::OnDeserialize(Config* cfg)
 {
+	uint64_t size = m_Type->GetReferenceSize();
+
+	m_Data = malloc(size);
+	if (!m_Data)
+	{
+		return false;
+	}
+
+	std::string& value = *cfg->GetValuePtr();
+
+	if (m_Type == String::StaticType())
+	{
+		memcpy(m_Data, &value, size);
+		return true;
+	}
+
 	FunctionSignature signature;
 	signature.Name = "FromString";
 	signature.Owner = nullptr;
@@ -32,19 +48,12 @@ bool PropertyItem::OnDeserialize(Config* cfg)
 	Thread* thread = Thread::Current();
 	ValueStack* stack = &thread->Stack;
 
-	uint64_t size = m_Type->GetReferenceSize();
 	stack->Push(size);
 
 	uint64_t offset = size;
-	Function_Parameter(stack, cfg->GetValue(), offset);
+	Function_Parameter(stack, value, offset);
 
 	function->Call(thread);
-
-	m_Data = malloc(size);
-	if (!m_Data)
-	{
-		return false;
-	}
 
 	memcpy(m_Data, stack->Get(offset), size);
 	stack->Pop(offset);

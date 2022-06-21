@@ -46,6 +46,7 @@ public:
 	virtual size_t Count() const { return 0; }
 
 	virtual std::string GetValue() const { return ""; }
+	virtual std::string* GetValuePtr() { return nullptr; }
 	virtual std::string GetValue(std::string name) const { return Get(name)->GetValue(); }
 	virtual std::string GetValue(int index) const { return Get(index)->GetValue(); }
 

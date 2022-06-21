@@ -26,6 +26,7 @@ protected:
 
 public:
 	virtual std::string GetValue() const { return m_Value; }
+	virtual std::string* GetValuePtr() { return &m_Value; }
 
 	virtual void Serialize(std::stringstream& output, std::string prefix = "") const override;
 
