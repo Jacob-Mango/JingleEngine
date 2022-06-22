@@ -11,17 +11,21 @@
 #include "Asset/Asset.h"
 #include "Asset/AssetID.h"
 
+class Asset;
+class AssetID;
+
 class AssetModule : public Module
 {
 	DEFINE_MODULE(AssetModule, Module);
 
-	friend class Asset;
-	friend class AssetID;
+	friend Asset;
+	friend AssetID;
 
 private:
 	static AssetModule* s_Instance;
 
 	std::unordered_map<AssetIDv, Ref<Asset>> m_Assets;
+	bool m_IsDestroying = false;
 
 public:
 	virtual void OnPreInitialize() override;
@@ -33,13 +37,13 @@ public:
 	static Ref<T> Get(std::string path);
 
 	template <typename T>
-	static Ref<T> Get(AssetID AssetID);
+	static Ref<T> Get(AssetID id);
 
 	template <typename T>
-	static Ref<T> Get(AssetIDv AssetID);
+	static Ref<T> Get(AssetIDv id);
 
 private:
-	static void Unload(AssetID AssetID);
+	static void Unload(AssetID id);
 
 	static AssetIDv ConvertPath(std::string path);
 
