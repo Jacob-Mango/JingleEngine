@@ -6,6 +6,28 @@
 #include <string>
 #include <fstream>
 
+BEGIN_CLASS_LINK(MaterialImage)
+	LINK_NAMED_VARIABLE(File, m_File);
+	LINK_NAMED_VARIABLE(Name, m_Name);
+	LINK_CONSTRUCTOR();
+END_CLASS_LINK()
+
+BEGIN_STRUCTURE_LINK(MaterialImageArray)
+	LINK_CONSTRUCTOR();
+	LINK_METHOD(Insert);
+END_STRUCTURE_LINK()
+
+void MaterialImageArray::Insert(JingleScript::Object* value)
+{
+	push_back(static_cast<MaterialImage*>(value));
+}
+
+BEGIN_CLASS_LINK(Material)
+	LINK_NAMED_VARIABLE(Shader, m_Shader);
+	LINK_NAMED_VARIABLE(Images, m_Images);
+	LINK_CONSTRUCTOR();
+END_CLASS_LINK()
+
 Material::Material()
 {
 }
@@ -14,10 +36,6 @@ Material::~Material()
 {
 }
 
-BEGIN_CLASS_LINK(Material)
-	LINK_CONSTRUCTOR();
-END_CLASS_LINK()
-
 bool Material::OnLoad()
 {
 	if (!Super::OnLoad())
@@ -25,59 +43,39 @@ bool Material::OnLoad()
 		return false;
 	}
 
-	std::string shader = GetValue("shader");
-	m_Shader = AssetModule::Get<Shader>(shader);
-
-	std::string ambient = Get("ambient")->GetValue("path");
-	m_Ambient = AssetModule::Get<Image>(ambient);
-
-	std::string diffuse = Get("diffuse")->GetValue("path");
-	m_Diffuse = AssetModule::Get<Image>(diffuse);
-
-	std::string metallic = Get("metallic")->GetValue("path");
-	m_Metallic = AssetModule::Get<Image>(metallic);
-
-	std::string normal = Get("normal")->GetValue("path");
-	m_Normal = AssetModule::Get<Image>(normal);
-
-	std::string roughness = Get("roughness")->GetValue("path");
-	m_Roughness = AssetModule::Get<Image>(roughness);
-
-	std::cout << "Shader: " << m_Shader.AsString() << std::endl;
-	std::cout << "Ambient: " << m_Ambient.AsString() << std::endl;
-	std::cout << "Diffuse: " << m_Diffuse.AsString() << std::endl;
-	std::cout << "Metallic: " << m_Metallic.AsString() << std::endl;
-	std::cout << "Normal: " << m_Normal.AsString() << std::endl;
-	std::cout << "Roughness: " << m_Roughness.AsString() << std::endl;
+	if (!WriteToObject(this))
+	{
+		return false;
+	}
 
 	return true;
 }
 
 void Material::Bind(Ref<Shader> shader)
 {
-	m_Shader->Set("u_Material.ambientMap", 0);
-	m_Ambient->Bind(0);
+	int index = 0;
+	for (auto& image : m_Images)
+	{
+		auto& file = image->m_File;
+		auto& name = image->m_Name;
 
-	m_Shader->Set("u_Material.diffuseMap", 1);
-	m_Diffuse->Bind(1);
+		std::string uniform = "u_Material." + name;
 
-	m_Shader->Set("u_Material.metallicMap", 2);
-	m_Metallic->Bind(2);
+		m_Shader->Set(uniform, index);
+		file->Bind(index);
 
-	m_Shader->Set("u_Material.normalMap", 3);
-	m_Normal->Bind(3);
-
-	m_Shader->Set("u_Material.roughnessMap", 4);
-	m_Roughness->Bind(4);
+		index++;
+	}
 }
 
 void Material::Unbind(Ref<Shader> shader)
 {
-	m_Ambient->Unbind();
-	m_Diffuse->Unbind();
-	m_Metallic->Unbind();
-	m_Normal->Unbind();
-	m_Roughness->Unbind();
+	for (auto& image : m_Images)
+	{
+		auto& file = image->m_File;
+
+		file->Unbind();
+	}
 }
 
 Ref<Shader> Material::GetShader()

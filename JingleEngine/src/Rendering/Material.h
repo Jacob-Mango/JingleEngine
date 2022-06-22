@@ -10,11 +10,39 @@
 #include "Rendering/Texture.h"
 #include "Rendering/Shader.h"
 
+class Material;
+
+class MaterialImage : public JingleScript::Object
+{
+	DEFINE_CLASS(MaterialImage, JingleScript::Object);
+
+	friend Material;
+
+private:
+	Image* m_File;
+	std::string m_Name;
+
+public:
+	MaterialImage() {}
+	~MaterialImage() {}
+
+};
+
+class MaterialImageArray : public JingleScript::Array, public std::vector<MaterialImage*>
+{
+	DEFINE_BASE_STRUCTURE(MaterialImageArray, JingleScript::Array);
+
+public:
+	void Insert(JingleScript::Object* value);
+
+};
+
 class Material : public ConfigAsset
 {
 	SETUP_ASSET(Material, ConfigAsset)
 
-	Ref<Shader> m_Shader;
+	Shader* m_Shader;
+	MaterialImageArray m_Images;
 
 	//TODO: move to an array/map and assign based on uniforms found within the shader
 	Ref<Image> m_Ambient;

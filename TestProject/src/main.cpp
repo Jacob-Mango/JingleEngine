@@ -67,29 +67,11 @@ class TestModule : public Module
 public:
 	virtual void OnInitialize() override
 	{
-		/*
-		Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/test.cfg");
-
-		SomeTestClass* cls = JingleScript::NewObject<SomeTestClass>("SomeTestClass");
-
-		cfg->WriteToObject(cls);
-		cfg->Output();
-
-		cls->value1 = "my name";
-		cfg->ReadFromObject(cls);
-		cfg->Output();
-
-		exit(0);
-		*/
-
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
 
-		//Ref<ConfigAsset> cfg = AssetModule::Get<ConfigAsset>("Assets/Entities/Box/test.ent");
-
 		Ref<Scene> scene = AssetModule::Get<Scene>("Assets/Scenes/game.scene");
-
 		Application::Get()->SetScene(scene);
 	}
 

@@ -105,6 +105,44 @@ Global {
  }
  Classes: {
   Class {
+   Name: "TestModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "Window"
+   Base: "Module"
+  }
+  Class {
+   Name: "MaterialImage"
+   Base: "Object"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "Image"
+     Name: "File"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Name"
+    }
+   }
+  }
+  Class {
    Name: "Application"
    Base: "Object"
    Variables: {
@@ -179,6 +217,43 @@ Global {
   Class {
    Name: "Material"
    Base: "Asset"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "Shader"
+     Name: "Shader"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "ArrayProperty"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "MaterialImage"
+           }
+          }
+         }
+        }
+       }
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "MaterialImageArray"
+     Name: "Images"
+    }
+   }
   }
   Class {
    Name: "Property"
@@ -955,14 +1030,6 @@ Global {
   }
   Class {
    Name: "BindingModule"
-   Base: "Module"
-  }
-  Class {
-   Name: "TestModule"
-   Base: "Module"
-  }
-  Class {
-   Name: "Window"
    Base: "Module"
   }
   Class {

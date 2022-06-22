@@ -1,5 +1,6 @@
 #include "Property/PropertyObject.h"
 
+#include "Property/PropertyAsset.h"
 #include "Property/PropertyArray.h"
 #include "Property/PropertyItem.h"
 
@@ -61,7 +62,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
     for (auto& variable : variables)
     {
 		auto& name = variable->Name;
-		auto& baseType = variable->Type;
+		auto& type = variable->Type;
 		auto& offset = variable->Offset;
 		Property* property = FindProperty(variable);
 
@@ -76,55 +77,49 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 			continue;
 		}
 
-		Type* type = baseType;
-		std::string typeStr = cfgVariable->GetType();
-		if (!typeStr.empty())
+		std::string overrideTypeStr = cfgVariable->GetType();
+		if (!overrideTypeStr.empty())
 		{
-			type = TypeManager::Get(typeStr);
-			if (type == nullptr)
+			Type* overrideType = TypeManager::Get(overrideTypeStr);
+			if (overrideType == nullptr)
 			{
 				return false;
 			}
 
-			if (!type->IsInherited(baseType))
+			if (!overrideType->IsInherited(type))
 			{
 				return false;
 			}
+
+			type = overrideType;
 		}
+
+		PropertyBase* propertyData = nullptr;
 
 		if (type->IsInherited(Array::StaticType()))
 		{
-			PropertyArray* array = new PropertyArray(type, property, offset);
-
-			if (!array->OnDeserialize(cfgVariable))
-			{
-				return false;
-			}
-
-			m_Properties.insert({name, array});
+			propertyData = new PropertyArray(type, property, offset);
+		}
+		else if (type->IsInherited(Asset::StaticType()))
+		{
+			propertyData = new PropertyAsset(type, property, offset);
 		}
 		else if (type->IsStructure())
 		{
-			PropertyItem* item = new PropertyItem(type, property, offset);
-
-			if (!item->OnDeserialize(cfgVariable))
-			{
-				return false;
-			}
-
-			m_Properties.insert({name, item});
+			propertyData = new PropertyItem(type, property, offset);
 		}
 		else
 		{
-			PropertyObject* object = new PropertyObject(type, property, offset);
-
-			if (!object->OnDeserialize(cfgVariable))
-			{
-				return false;
-			}
-
-			m_Properties.insert({name, object});
+			propertyData = new PropertyObject(type, property, offset);
 		}
+		
+
+		if (!propertyData || !propertyData->OnDeserialize(cfgVariable))
+		{
+			return false;
+		}
+
+		m_Properties.insert({name, propertyData});
     }
 
     return true;
@@ -139,6 +134,7 @@ bool PropertyObject::OnSerialize(Config* cfg)
 		auto& name = variable->Name;
 		auto& baseType = variable->Type;
 		auto& offset = variable->Offset;
+
 		auto it = m_Properties.find(name);
 		if (it == m_Properties.end())
 		{

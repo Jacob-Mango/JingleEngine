@@ -20,7 +20,7 @@ protected:
 
 	Ref<ConfigAsset> m_Base;
 
-protected:
+public:
 	ConfigSection();
 	ConfigSection(ConfigSection&) = delete;
 	ConfigSection(ConfigSection&&) = delete;
@@ -36,7 +36,7 @@ public:
 
 	virtual Config* GetBase() const override;
 
-	virtual bool Deserialize(JingleScript::Lexer* lexer) override;
+	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;
 	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const override;
 
 };

@@ -60,11 +60,11 @@ public:
 	virtual Config* GetBase() const { return nullptr; }
 	virtual Config* GetParent() const { return m_Parent; }
 
-	virtual bool Deserialize(JingleScript::Lexer* lexer);
+	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent);
 	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const;
 
 protected:
-	int DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon = true);
+	bool DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result);
 	std::string SerializeTypeAndName() const;
 
 };

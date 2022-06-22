@@ -20,7 +20,6 @@ ConfigSection::~ConfigSection()
 
 void ConfigSection::Add(Config* other)
 {
-	other->m_Parent = this;
 	m_Entries[other->m_Name] = other;
 }
 
@@ -57,179 +56,123 @@ Config* ConfigSection::GetBase() const
 	return m_Base;
 }
 
-bool ConfigSection::Deserialize(Lexer* lexer)
+bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 {
-	//! very messy :)
-	
-	std::pair<std::string, std::string> typeAndName;
-	bool leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
-	if (m_Parent)
+	if (!Super::Deserialize(lexer, parent))
 	{
-		if (!leftCurlyBracket)
+		return false;
+	}
+
+	if (!m_Parent)
+	{
+		std::pair<std::string, std::string> result;
+		if (!DeserializeTypeAndName(lexer, result))
 		{
-			lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
 			return false;
 		}
 
-		lexer->NextToken();
+		m_CType = result.first;
+		m_Name = result.second;
+
+		if (!m_Name.empty())
+		{
+		lexer->Error("Root sections can't be named.");
+		return false;
+		}
 	}
-	else
+
+	if (lexer->GetToken() != Tokens::LeftCurlyBracket)
 	{
-		int res = DeserializeTypeAndName(lexer, typeAndName, false);
-		if (res == 0)
-		{
-			lexer->Error("Unexpected token '%s'", lexer->GetTokenValue().c_str());
-			return false;
-		}
-
-		if (res == 1)
-		{
-			m_CType = typeAndName.first;
-			m_Name = typeAndName.second;
-
-			if (!m_Name.empty())
-			{
-				lexer->Error("Root section can't be named.");
-				return false;
-			}
-
-			lexer->NextToken();
-
-			bool quotes = lexer->GetTokenType() == TokenType::QUOTE;
-			if (quotes)
-			{
-				std::string value = lexer->GetTokenValue();
-				lexer->NextToken();
-
-				m_Base = AssetModule::Get<ConfigAsset>(value);
-			}
-		
-			leftCurlyBracket = lexer->GetToken() == Tokens::LeftCurlyBracket;
-
-			if (leftCurlyBracket)
-			{
-				lexer->NextToken();
-			}
-		}
-		else
-		{
-			leftCurlyBracket = true;
-
-			lexer->PreviousToken();
-			lexer->PreviousToken();
-			lexer->PreviousToken();
-		}
+		lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
+		return false;
 	}
 
-	bool isFirst = true;
-	while (lexer->HasNext())
+	lexer->NextToken();
+
+	while (true)
 	{
 		if (lexer->GetToken() == Tokens::RightCurlyBracket)
 		{
+			break;
+		}
+
+		std::pair<std::string, std::string> result;
+		if (!DeserializeTypeAndName(lexer, result))
+		{
+			return false;
+		}
+
+		std::string baseLinkPath = "";
+
+		// Possibly linking to external config as base for section
+		if (lexer->GetTokenType() == TokenType::QUOTE)
+		{
+			baseLinkPath = lexer->GetTokenValue();
 			lexer->NextToken();
 
-			if (lexer->GetToken() == Tokens::Comma)
+			if (lexer->GetToken() != Tokens::LeftCurlyBracket)
 			{
-				lexer->NextToken();
+				lexer->PreviousToken();
+				baseLinkPath = "";
 			}
-
-			return true;
-		}
-
-		bool wasFirst = isFirst;
-
-		if (!isFirst && lexer->GetToken() != Tokens::Comma)
-		{
-			lexer->Error("Expected ',', got '%s'", lexer->GetTokenValue().c_str());
-			return false;
-		}
-
-		if (!isFirst)
-		{
-			lexer->NextToken();
-		}
-
-		isFirst = false;
-
-		if (!DeserializeTypeAndName(lexer, typeAndName))
-		{
-			return false;
-		}
-
-		if (typeAndName.second.empty())
-		{
-			lexer->Error("Data in sections must be named.");
-			return false;
 		}
 
 		if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 		{
-			// section
-
 			ConfigSection* cfgSection = new ConfigSection();
-			cfgSection->m_CType = typeAndName.first;
-			cfgSection->m_Name = typeAndName.second;
+			cfgSection->m_CType = result.first;
+			cfgSection->m_Name = result.second;
 
-			Add(cfgSection);
+			if (!baseLinkPath.empty())
+			{
+				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath);
+			}
 
-			if (!cfgSection->Deserialize(lexer))
+			if (!cfgSection->Deserialize(lexer, this))
 			{
 				return false;
 			}
 		}
 		else if (lexer->GetToken() == Tokens::LeftSquareBracket)
 		{
-			// array
-
 			ConfigArray* cfgArray = new ConfigArray();
-			cfgArray->m_CType = typeAndName.first;
-			cfgArray->m_Name = typeAndName.second;
-
-			Add(cfgArray);
-
-			if (!cfgArray->Deserialize(lexer))
+			cfgArray->m_CType = result.first;
+			cfgArray->m_Name = result.second;
+			if (!cfgArray->Deserialize(lexer, this))
 			{
 				return false;
 			}
 		}
 		else
 		{
-			bool quotes = lexer->GetTokenType() == TokenType::QUOTE;
-			std::string value = lexer->GetTokenValue();
-			lexer->NextToken();
-
-			if (lexer->GetToken() == Tokens::LeftCurlyBracket)
+			ConfigValue* cfgValue = new ConfigValue();
+			cfgValue->m_CType = result.first;
+			cfgValue->m_Name = result.second;
+			if (!cfgValue->Deserialize(lexer, this))
 			{
-				ConfigSection* cfgSection = new ConfigSection();
-				cfgSection->m_CType = typeAndName.first;
-				cfgSection->m_Name = typeAndName.second;
-
-				Add(cfgSection);
-
-				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(value);
-
-				if (!cfgSection->Deserialize(lexer))
-				{
-					return false;
-				}
-			}
-			else
-			{
-				ConfigValue* cfgValue = new ConfigValue();
-				cfgValue->m_CType = typeAndName.first;
-				cfgValue->m_Name = typeAndName.second;
-
-				Add(cfgValue);
-
-				cfgValue->m_Value = value;
+				return false;
 			}
 		}
+
+		if (lexer->GetToken() != Tokens::Comma)
+		{
+			break;
+		}
+
+		lexer->NextToken();
 	}
+
+	if (lexer->GetToken() != Tokens::RightCurlyBracket)
+	{
+		lexer->Error("Expected '}', got '%s'", lexer->GetTokenValue().c_str());
+		return false;
+	}
+	
+	lexer->NextToken();
 
 	if (m_Parent)
 	{
-		lexer->Error("Unexpected end of file.");
-		return false;
+		m_Parent->Add(this);
 	}
 
 	return true;

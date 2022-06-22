@@ -7,7 +7,6 @@ using namespace JingleScript;
 
 ConfigArray::ConfigArray()
 {
-
 }
 
 ConfigArray::~ConfigArray()
@@ -20,7 +19,6 @@ ConfigArray::~ConfigArray()
 
 void ConfigArray::Add(Config* other)
 {
-	other->m_Parent = this;
 	m_Entries.push_back(other);
 }
 
@@ -29,68 +27,92 @@ Config* ConfigArray::Get(int index) const
 	return m_Entries[index];
 }
 
-bool ConfigArray::Deserialize(Lexer* lexer)
+bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 {
+	if (!Super::Deserialize(lexer, parent))
+	{
+		return false;
+	}
+
 	if (lexer->GetToken() != Tokens::LeftSquareBracket)
 	{
 		lexer->Error("Expected '[', got '%s'", lexer->GetTokenValue().c_str());
 		return false;
 	}
-	
+
 	lexer->NextToken();
 
-	while (lexer->HasNext())
+	while (true)
 	{
 		if (lexer->GetToken() == Tokens::RightSquareBracket)
 		{
-			lexer->NextToken();
-
-			if (lexer->GetToken() == Tokens::Comma)
-			{
-				lexer->NextToken();
-			}
-
-			return true;
+			break;
 		}
 
-		ConfigSection* cfgSection = new ConfigSection();
-
-		if (lexer->GetTokenType() != TokenType::QUOTE)
+		std::pair<std::string, std::string> result;
+		if (!DeserializeTypeAndName(lexer, result))
 		{
-			std::pair<std::string, std::string> typeAndName;
-			if (!DeserializeTypeAndName(lexer, typeAndName))
+			return false;
+		}
+
+		std::string baseLinkPath = "";
+
+		// Possibly linking to external config as base for section
+		if (lexer->GetTokenType() == TokenType::QUOTE)
+		{
+			baseLinkPath = lexer->GetTokenValue();
+			lexer->NextToken();
+
+			if (lexer->GetToken() != Tokens::LeftCurlyBracket)
+			{
+				lexer->PreviousToken();
+				baseLinkPath = "";
+			}
+		}
+
+		if (lexer->GetToken() == Tokens::LeftCurlyBracket)
+		{
+			ConfigSection* cfgSection = new ConfigSection();
+			cfgSection->m_CType = result.first;
+			cfgSection->m_Name = result.second;
+
+			if (!baseLinkPath.empty())
+			{
+				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath);
+			}
+
+			if (!cfgSection->Deserialize(lexer, this))
 			{
 				return false;
 			}
-
-			cfgSection->m_CType = typeAndName.first;
-			cfgSection->m_Name = typeAndName.second;
 		}
-
-		Add(cfgSection);
-
-		if (lexer->GetTokenType() == TokenType::QUOTE)
+		else
 		{
-			std::string value = lexer->GetTokenValue();
-			lexer->NextToken();
-
-			cfgSection->m_Base = AssetModule::Get<ConfigAsset>(value);
+			//! TODO: 
 		}
 
-		if (lexer->GetToken() != Tokens::LeftCurlyBracket)
+		if (lexer->GetToken() != Tokens::Comma)
 		{
-			lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue().c_str());
-			return false;
+			break;
 		}
 
-		if (!cfgSection->Deserialize(lexer))
-		{
-			return false;
-		}
+		lexer->NextToken();
 	}
 
-	lexer->Error("Unexpected end of file.");
-	return false;
+	if (lexer->GetToken() != Tokens::RightSquareBracket)
+	{
+		lexer->Error("Expected ']', got '%s'", lexer->GetTokenValue().c_str());
+		return false;
+	}
+	
+	lexer->NextToken();
+
+	if (m_Parent)
+	{
+		m_Parent->Add(this);
+	}
+
+	return true;
 }
 
 bool ConfigArray::Serialize(std::stringstream& output, std::string prefix) const

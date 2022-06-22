@@ -43,6 +43,7 @@
     <ClCompile Include="src\Platform\Windows\WndWindow.cpp" />
     <ClCompile Include="src\Property\Property.cpp" />
     <ClCompile Include="src\Property\PropertyArray.cpp" />
+    <ClCompile Include="src\Property\PropertyAsset.cpp" />
     <ClCompile Include="src\Property\PropertyBase.cpp" />
     <ClCompile Include="src\Property\PropertyItem.cpp" />
     <ClCompile Include="src\Property\PropertyObject.cpp" />
@@ -101,6 +102,7 @@
     <ClInclude Include="src\Platform\Windows\WndWindow.h" />
     <ClInclude Include="src\Property\Property.h" />
     <ClInclude Include="src\Property\PropertyArray.h" />
+    <ClInclude Include="src\Property\PropertyAsset.h" />
     <ClInclude Include="src\Property\PropertyBase.h" />
     <ClInclude Include="src\Property\PropertyItem.h" />
     <ClInclude Include="src\Property\PropertyObject.h" />

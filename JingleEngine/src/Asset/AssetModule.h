@@ -33,14 +33,16 @@ public:
 
 	virtual void OnDestroy() override;
 
-	template <typename T>
-	static Ref<T> Get(std::string path);
+	//! TODO: Config files read seperately so the root type can be used
 
 	template <typename T>
-	static Ref<T> Get(AssetID id);
+	static Ref<T> Get(std::string path, JingleScript::Type* type = nullptr);
 
 	template <typename T>
-	static Ref<T> Get(AssetIDv id);
+	static Ref<T> Get(AssetID id, JingleScript::Type* type = nullptr);
+
+	template <typename T>
+	static Ref<T> Get(AssetIDv id, JingleScript::Type* type = nullptr);
 
 private:
 	static void Unload(AssetID id);
@@ -50,20 +52,25 @@ private:
 };
 
 template <typename T>
-static Ref<T> AssetModule::Get(std::string path)
+static Ref<T> AssetModule::Get(std::string path, JingleScript::Type* type)
 {
-	return Get<T>(AssetID(path));
+	return Get<T>(AssetID(path), type);
 }
 
 template <typename T>
-static Ref<T> AssetModule::Get(AssetID id)
+static Ref<T> AssetModule::Get(AssetID id, JingleScript::Type* type)
 {
+	if (type == nullptr)
+	{
+		type = T::StaticType();
+	}
+
 	auto it = s_Instance->m_Assets.find(id.GetValue());
 	if (it == s_Instance->m_Assets.end())
 	{
 		JS_INFO("Create Asset: %s", T::StaticName().c_str());
 
-		T* asset = JingleScript::NewObject<T>(T::StaticName());
+		T* asset = type->New<T>();
 		asset->m_AssetID = id;
 		s_Instance->m_Assets.insert({ id.GetValue(), asset });
 	}
@@ -79,14 +86,19 @@ static Ref<T> AssetModule::Get(AssetID id)
 }
 
 template <typename T>
-static Ref<T> AssetModule::Get(AssetIDv id)
+static Ref<T> AssetModule::Get(AssetIDv id, JingleScript::Type* type)
 {
+	if (type == nullptr)
+	{
+		type = T::StaticType();
+	}
+
 	auto it = s_Instance->m_Assets.find(id);
 	if (it == s_Instance->m_Assets.end())
 	{
 		JS_INFO("Create Asset: %s", T::StaticName().c_str());
 
-		T* asset = JingleScript::NewObject<T>(T::StaticName());
+		T* asset = type->New<T>();
 		asset->m_AssetID = { id };
 		s_Instance->m_Assets.insert({ id, asset });
 	}

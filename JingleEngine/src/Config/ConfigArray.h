@@ -28,7 +28,7 @@ public:
 	virtual size_t Count() const override { return m_Entries.size(); }
 	virtual Config* Get(int index) const override;
 
-	virtual bool Deserialize(JingleScript::Lexer* lexer) override;
+	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;
 	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const override;
 
 };

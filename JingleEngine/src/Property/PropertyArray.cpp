@@ -26,7 +26,7 @@ bool PropertyArray::OnDeserialize(Config* cfg)
 		return false;
 	}
 
-	Type* baseType = JingleScript::TypeManager::Get(arrayProp->m_TemplateType);
+	Type* baseType = arrayProp->m_TemplateType;
 
 	int count = cfg->Count();
 	for (int i = 0; i < count; i++)

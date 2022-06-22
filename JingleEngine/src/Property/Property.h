@@ -4,6 +4,8 @@
 
 #include "Config/Config.h"
 
+class PropertyArray;
+
 class Property : public JingleScript::Attribute
 {
 	DEFINE_CLASS(Property, JingleScript::Attribute);
@@ -17,14 +19,14 @@ class ArrayProperty : public Property
 {
 	DEFINE_CLASS(ArrayProperty, Property);
 
-	friend class PropertyArray;
+	friend PropertyArray;
 
-	std::string m_TemplateType;
+private:
+	JingleScript::Type* m_TemplateType;
 
 public:
-	ArrayProperty() {}
-	ArrayProperty(JingleScript::String templateType) : m_TemplateType(templateType) {}
+	ArrayProperty(JingleScript::String templateType);
 
-	virtual std::string ToString() const { return m_TemplateType; }
+	virtual std::string ToString() const { return m_TemplateType->Name(); }
 
 };

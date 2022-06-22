@@ -39,9 +39,10 @@ std::string Config::GetType() const
 	return type;
 }
 
-bool Config::Deserialize(Lexer* lexer)
+bool Config::Deserialize(Lexer* lexer, Config* parent)
 {
-	return false;
+	m_Parent = parent;
+	return true;
 }
 
 bool Config::Serialize(std::stringstream& output, std::string prefix) const
@@ -49,88 +50,67 @@ bool Config::Serialize(std::stringstream& output, std::string prefix) const
 	return true;
 }
 
-int Config::DeserializeTypeAndName(Lexer* lexer, std::pair<std::string, std::string>& result, bool checkColon)
+bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result)
 {
-	std::string tempName = lexer->GetTokenValue();
-
-	//! Handling 'name:'
-	if (lexer->GetToken() != Tokens::LeftCurlyBracket)
+	if (lexer->GetTokenType() == TokenType::QUOTE)
 	{
-		result.first = "";
-		result.second = "";
+		return true;
+	}
 
+	if (lexer->GetToken() == Tokens::LeftCurlyBracket)
+	{
 		lexer->NextToken();
 
-		if (checkColon)
+		result.first = lexer->GetTokenValue();
+		lexer->NextToken();
+		
+		if (lexer->GetToken() == Tokens::Colon)
 		{
-			if (lexer->GetToken() != Tokens::Colon)
+			result.first = "";
+
+			// We aren't deserizaling name or type override
+			lexer->PreviousToken();
+			lexer->PreviousToken();
+
+			return true;
+		}
+		else if (lexer->GetToken() == Tokens::Comma)
+		{
+			result.second = lexer->GetTokenValue();
+			lexer->NextToken();
+
+			if (lexer->GetToken() != Tokens::RightCurlyBracket)
 			{
-				lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue().c_str());
-				return 0;
+				lexer->Error("Expected '}', got '%s'", lexer->GetTokenValue().c_str());
+				return false;
 			}
 
 			lexer->NextToken();
 		}
-
-		result.second = tempName;
-
-		return 1;
-	}
-
-	lexer->NextToken();
-
-	result.first = lexer->GetTokenValue();
-
-	lexer->NextToken();
-	
-	//! Handling '{ value:'
-	if (lexer->GetToken() == Tokens::Colon)
-	{
-		lexer->NextToken();
-
-		result.second = result.first;
-		result.first = "";
-
-		return 2;
-	}
-
-	bool isComma = lexer->GetToken() == Tokens::Comma;
-	if (isComma)
-	{
-		lexer->NextToken();
-
-		result.second = lexer->GetTokenValue();
-
-		lexer->NextToken();
-	}
-
-	if (lexer->GetToken() != Tokens::RightCurlyBracket)
-	{
-		lexer->PreviousToken();
-		lexer->PreviousToken();
-
-		if (isComma)
+		else if (lexer->GetToken() == Tokens::RightCurlyBracket)
 		{
-			lexer->Error("Expected ',', got '%s'", lexer->GetTokenValue().c_str());
-
-			return 0;
+			lexer->NextToken();
 		}
-
-		lexer->PreviousToken();
-
-		return 1;
+		else
+		{
+			lexer->Error("Expected ',' or '}', got '%s'", lexer->GetTokenValue().c_str());
+			return false;
+		}
+	}
+	else
+	{
+		result.second = lexer->GetTokenValue();
+		lexer->NextToken();
 	}
 
-	lexer->NextToken();
 	if (lexer->GetToken() != Tokens::Colon)
 	{
 		lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue().c_str());
-		return 0;
+		return false;
 	}
 
 	lexer->NextToken();
-
-	return 1;
+	return true;
 }
 
 std::string Config::SerializeTypeAndName() const

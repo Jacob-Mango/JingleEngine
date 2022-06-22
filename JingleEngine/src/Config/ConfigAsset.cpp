@@ -30,7 +30,7 @@ bool ConfigAsset::OnLoad()
 		return false;
 	}
 
-	if (!Deserialize(lexer))
+	if (!Deserialize(lexer, nullptr))
 	{
 		return false;
 	}
