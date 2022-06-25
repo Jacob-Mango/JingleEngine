@@ -11,6 +11,8 @@ int main(int argc, char** argv)
 {
 	using namespace JingleScript;
 
+	//! TODO: Project files are loaded before application initialization. 
+
 	//! Core scripts have to be compiled before application initialization!
 	//! This is because Application inherits from JingleScript::Object and the 
 	//!  virtual table is created when the scripts are compiled.
@@ -18,15 +20,18 @@ int main(int argc, char** argv)
 	//!  allocated objects but that requires tracking.
 	std::string folder = "Assets";
 
+	std::string projectName = "TestProject";
+
 	Ref<Parser> parser = new Parser();
 	bool success = parser->ParseFiles(folder + "/Scripts/");
-	parser->SerializeNodes(folder + "/compiled.jst");
+	parser->SerializeNodes(projectName + ".jst");
 
 	if (success)
 	{
 		success &= Compiler::Compile(parser);
-		Globals::Output(folder + "/Compiled.jsi");
 	}
+
+	Globals::Output(projectName + ".jsi");
 
 	if (!success)
 	{
