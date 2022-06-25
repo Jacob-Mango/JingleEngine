@@ -19,9 +19,16 @@ namespace JingleScript
 	class Lexer;
 }
 
-class Config
+struct ConfigTypeInfo
 {
-	typedef Countable Super;
+	std::string m_Type;
+	std::string m_Name;
+	bool m_DirectlyLinked = true;
+};
+
+class Config : public JingleScript::Object
+{
+	DEFINE_CLASS(Config, JingleScript::Object);
 
 	friend Config;
 	friend ConfigArray;
@@ -29,15 +36,12 @@ class Config
 	friend ConfigValue;
 
 protected:
-	std::string m_CType;
-	std::string m_Name;
+	ConfigTypeInfo m_TypeInfo;
 
 	Config* m_Parent;
 
-protected:
+public:
 	Config();
-	Config(Config&) = delete;
-	Config(Config&&) = delete;
 	~Config();
 
 public:
@@ -55,7 +59,8 @@ public:
 	virtual Config* Get(int index) const { return nullptr; }
 
 	std::string GetName() const;
-	std::string GetType() const;
+	std::string GetLinkedType() const;
+	bool IsLinkedDirectly() const;
 
 	virtual Config* GetBase() const { return nullptr; }
 	virtual Config* GetParent() const { return m_Parent; }
@@ -64,7 +69,7 @@ public:
 	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const;
 
 protected:
-	bool DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result);
+	bool DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& result);
 	std::string SerializeTypeAndName() const;
 
 };

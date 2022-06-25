@@ -6,7 +6,7 @@
 
 class ConfigArray : public Config
 {
-	typedef Config Super;
+	DEFINE_CLASS(ConfigArray, Config);
 
 	friend Config;
 	friend ConfigArray;
@@ -16,10 +16,8 @@ class ConfigArray : public Config
 protected:
 	std::vector<Config*> m_Entries;
 
-protected:
+public:
 	ConfigArray();
-	ConfigArray(ConfigArray&) = delete;
-	ConfigArray(ConfigArray&&) = delete;
 	~ConfigArray();
 
 public:

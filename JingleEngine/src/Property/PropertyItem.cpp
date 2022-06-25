@@ -5,16 +5,20 @@ using namespace JingleScript;
 PropertyItem::PropertyItem(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset), m_Data(nullptr)
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 PropertyItem::~PropertyItem()
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 bool PropertyItem::OnDeserialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
 	uint64_t size = m_Type->GetReferenceSize();
 
 	m_Data = malloc(size);
@@ -62,6 +66,8 @@ bool PropertyItem::OnDeserialize(Config* cfg)
 
 bool PropertyItem::OnSerialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
 	uint64_t size = m_Type->GetReferenceSize();
 
 	FunctionSignature signature;
@@ -103,6 +109,8 @@ bool PropertyItem::OnSerialize(Config* cfg)
 
 bool PropertyItem::OnReadObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	if (!m_Type->IsStructure())
 	{
 		return false;
@@ -116,6 +124,8 @@ bool PropertyItem::OnReadObject(Object* instance)
 
 bool PropertyItem::OnWriteObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	if (!m_Type->IsStructure())
 	{
 		return false;
@@ -129,10 +139,14 @@ bool PropertyItem::OnWriteObject(Object* instance)
 
 Object* PropertyItem::GetReadInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return instance;
 }
 
 Object* PropertyItem::GetWriteInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return instance;
 }

@@ -13,22 +13,6 @@ class Entity;
 class Component;
 class Application;
 
-class EntityFile : public ConfigAsset
-{
-	SETUP_ASSET(EntityFile, ConfigAsset);
-
-	friend Scene;
-
-public:
-	EntityFile() {}
-	virtual ~EntityFile() {}
-
-	virtual bool OnLoad() override;
-
-	virtual std::string ToString() const override;
-
-};
-
 class ComponentArray : public JingleScript::Array, public std::vector<Component*>
 {
 	DEFINE_BASE_STRUCTURE(ComponentArray, JingleScript::Array);

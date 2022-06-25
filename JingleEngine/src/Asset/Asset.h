@@ -16,7 +16,6 @@ class Asset : public JingleScript::ManagedObject
 
 private:
 	AssetID m_AssetID;
-	bool m_IsLoaded = false;
 
 public:
 	Asset();
@@ -25,8 +24,6 @@ public:
 	std::string GetPath() const;
 	std::string GetExtension() const;
 	AssetID GetAssetID() const;
-
-	bool IsLoaded() const;
 
 	virtual bool OnLoad();
 

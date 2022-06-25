@@ -4,8 +4,6 @@ class Entity
 	ComponentArray Components;
 }
 
-struct EntityArray extends Array { }
-
 class Component
 {
 

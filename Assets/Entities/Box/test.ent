@@ -1,4 +1,4 @@
-{Entity}: {
+{#Entity}: {
 	Components: [
 		{MeshComponent}: {
 			Model: "Assets/Entities/Box/test.obj",

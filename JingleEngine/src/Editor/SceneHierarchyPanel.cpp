@@ -15,36 +15,63 @@ void SceneHierarchyPanel::OnBeginRender(double DeltaTime)
 
 void SceneHierarchyPanel::OnRender(double DeltaTime)
 {
-	if (!ImGui::BeginTable("test", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Hideable))
+	Scene* scene = Application::Get()->GetScene();
+	if (!scene)
 	{
 		return;
 	}
 
-	//ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
-	//ImGui::TableSetColumnIndex(0);
-	//ImGui::Text("Entities");
-
-	Scene* scene = Application::Get()->GetScene();
-	for (auto& entity : scene->m_Entities)
+	if (ImGui::BeginTable("Data", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Hideable))
 	{
-		std::string name = entity->GetType()->Name();
-		bool selected = GetEditor()->GetSelectedEntity() == entity;
-		bool wasSelected = selected;
+		ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("Data");
 
-		ImGui::TableNextRow(ImGuiTableRowFlags_None);
-		ImGui::TableNextColumn();
-
-		ImGui::SetCursorPosX(5);
-
-		ImGui::Selectable(name.c_str(), &selected, ImGuiSelectableFlags_SpanAllColumns);
-
-		if (selected && !wasSelected)
+		int count = scene->m_EntitiesData->Count();
+		for (int i = 0; i < count; i++)
 		{
-			GetEditor()->SelectEntity(entity);
+			const auto& entity = scene->m_EntitiesData->Get(i);
+
+			std::string name = entity->GetName();
+
+			ImGui::TableNextRow(ImGuiTableRowFlags_None);
+			ImGui::TableNextColumn();
+
+			ImGui::SetCursorPosX(5);
+
+			ImGui::TextUnformatted(name.c_str());
 		}
+
+		ImGui::EndTable();
 	}
-	
-	ImGui::EndTable();
+
+	if (ImGui::BeginTable("Entities", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Hideable))
+	{
+		ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("Entities");
+
+		for (auto& entity : scene->m_Entities)
+		{
+			std::string name = entity->GetType()->Name();
+			bool selected = GetEditor()->GetSelectedEntity() == entity;
+			bool wasSelected = selected;
+
+			ImGui::TableNextRow(ImGuiTableRowFlags_None);
+			ImGui::TableNextColumn();
+
+			ImGui::SetCursorPosX(5);
+
+			ImGui::Selectable(name.c_str(), &selected, ImGuiSelectableFlags_SpanAllColumns);
+
+			if (selected && !wasSelected)
+			{
+				GetEditor()->SelectEntity(entity);
+			}
+		}
+
+		ImGui::EndTable();
+	}
 }
 
 void SceneHierarchyPanel::OnEndRender(double DeltaTime)

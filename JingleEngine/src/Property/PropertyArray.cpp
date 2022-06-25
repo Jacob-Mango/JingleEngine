@@ -8,16 +8,20 @@ using namespace JingleScript;
 PropertyArray::PropertyArray(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset)
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 PropertyArray::~PropertyArray()
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 bool PropertyArray::OnDeserialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
 	m_Properties.clear();
 
 	ArrayProperty* arrayProp = dynamic_cast<ArrayProperty*>(m_Property);
@@ -36,64 +40,15 @@ bool PropertyArray::OnDeserialize(Config* cfg)
 		{
 			continue;
 		}
+		std::string typeStr = ""; //cfgVariable->GetLinkedType();
 
-		Type* type = baseType;
-		std::string typeStr = cfgVariable->GetType();
-		if (!typeStr.empty())
+		PropertyBase* propertyData = arrayProp->CreateContainer(typeStr, i);
+		if (!propertyData || !propertyData->OnDeserialize(cfgVariable))
 		{
-			type = TypeManager::Get(typeStr);
-			if (type == nullptr)
-			{
-				return false;
-			}
-
-			if (!type->IsInherited(baseType))
-			{
-				return false;
-			}
-		}
-
-		if (type->IsInherited(Array::StaticType()))
-		{
-			/*
-			PropertyArray* array = new PropertyArray(type, m_Property, i);
-
-			if (!array->OnDeserialize(cfgVariable))
-			{
-				return false;
-			}
-
-			m_Properties.push_back(array);
-			*/
-
 			return false;
 		}
-		else if (type->IsStructure())
-		{
-			/*
-			PropertyItem* item = new PropertyItem(type, m_Property, i);
 
-			if (!item->OnDeserialize(cfgVariable))
-			{
-				return false;
-			}
-
-			m_Properties.push_back(item);
-			*/
-
-			return false;
-		}
-		else
-		{
-			PropertyObject* object = new PropertyObject(type, m_Property, i);
-
-			if (!object->OnDeserialize(cfgVariable))
-			{
-				return false;
-			}
-
-			m_Properties.push_back(object);
-		}
+		m_Properties.push_back(propertyData);
     }
 
     return true;
@@ -101,16 +56,22 @@ bool PropertyArray::OnDeserialize(Config* cfg)
 
 bool PropertyArray::OnSerialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
     return true;
 }
 
 bool PropertyArray::OnReadObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return true;
 }
 
 bool PropertyArray::OnWriteObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	FunctionSignature signature;
 	signature.Name = "Insert";
 	signature.Owner = m_Type;
@@ -166,10 +127,14 @@ bool PropertyArray::OnWriteObject(Object* instance)
 
 Object* PropertyArray::GetReadInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return instance;
 }
 
 Object* PropertyArray::GetWriteInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return instance;
 }

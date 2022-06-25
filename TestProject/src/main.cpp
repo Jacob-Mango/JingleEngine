@@ -71,7 +71,7 @@ public:
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
 
-		Ref<Scene> scene = AssetModule::Get<Scene>("Assets/Scenes/game.scene");
+		Scene* scene = AssetModule::Get<Scene>("Assets/Scenes/game.scene");
 		Application::Get()->SetScene(scene);
 	}
 

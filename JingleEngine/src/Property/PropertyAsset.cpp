@@ -5,28 +5,36 @@ using namespace JingleScript;
 PropertyAsset::PropertyAsset(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset)
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 PropertyAsset::~PropertyAsset()
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 bool PropertyAsset::OnDeserialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
 	m_ID = *cfg->GetValuePtr();
 	return true;
 }
 
 bool PropertyAsset::OnSerialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
 	cfg->SetValue(m_ID.GetPath());
 	return true;
 }
 
 bool PropertyAsset::OnReadObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	Asset* asset = (Asset*)((char*)instance + m_Offset);
 	if (asset != nullptr)
 	{
@@ -38,6 +46,8 @@ bool PropertyAsset::OnReadObject(Object* instance)
 
 bool PropertyAsset::OnWriteObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	Asset* asset = AssetModule::Get<Asset>(m_ID, m_Type);
 	*(void**)((char*)instance + m_Offset) = asset;
 	
@@ -46,10 +56,14 @@ bool PropertyAsset::OnWriteObject(Object* instance)
 
 Object* PropertyAsset::GetReadInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return instance;
 }
 
 Object* PropertyAsset::GetWriteInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return instance;
 }

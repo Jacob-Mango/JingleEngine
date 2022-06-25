@@ -5,25 +5,27 @@
 #include "Config/Config.h"
 
 class ConfigAsset;
+class AssetModule;
 
 class ConfigSection : public Config
 {
-	typedef Config Super;
+	DEFINE_CLASS(ConfigSection, Config);
 
 	friend Config;
 	friend ConfigArray;
 	friend ConfigSection;
 	friend ConfigValue;
 
+	friend AssetModule;
+
 protected:
 	std::map<std::string, Config*> m_Entries;
 
-	Ref<ConfigAsset> m_Base;
+	//Ref<ConfigAsset> m_Base; //! TODO: use ConfigAsset
+	Config* m_Base = nullptr;
 
 public:
 	ConfigSection();
-	ConfigSection(ConfigSection&) = delete;
-	ConfigSection(ConfigSection&&) = delete;
 	~ConfigSection();
 
 public:

@@ -2,6 +2,12 @@
 
 #include <Compiler/Lexer.h>
 
+using namespace JingleScript;
+
+BEGIN_CLASS_LINK(ConfigValue)
+	LINK_CONSTRUCTOR();
+END_CLASS_LINK()
+
 ConfigValue::ConfigValue()
 {
 }

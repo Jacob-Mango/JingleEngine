@@ -33,11 +33,6 @@ AssetID Asset::GetAssetID() const
 	return m_AssetID;
 }
 
-bool Asset::IsLoaded() const
-{
-	return m_IsLoaded;
-}
-
 bool Asset::OnLoad()
 {
 	return false;

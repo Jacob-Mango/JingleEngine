@@ -12,25 +12,6 @@
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
 
-BEGIN_CLASS_LINK(EntityFile)
-	LINK_CONSTRUCTOR();
-END_CLASS_LINK()
-
-bool EntityFile::OnLoad()
-{
-	if (!Super::OnLoad())
-	{
-		return false;
-	}
-
-	return true;
-}
-
-std::string EntityFile::ToString() const
-{
-	return "";
-}
-
 BEGIN_STRUCTURE_LINK(ComponentArray)
 	LINK_CONSTRUCTOR();
 	LINK_METHOD(Insert);

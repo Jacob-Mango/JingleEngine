@@ -5,6 +5,10 @@
 
 using namespace JingleScript;
 
+BEGIN_CLASS_LINK(ConfigArray)
+	LINK_CONSTRUCTOR();
+END_CLASS_LINK()
+
 ConfigArray::ConfigArray()
 {
 }
@@ -13,7 +17,7 @@ ConfigArray::~ConfigArray()
 {
 	for (auto& entry : m_Entries)
 	{
-		delete entry;
+		//delete entry;
 	}
 }
 
@@ -29,14 +33,14 @@ Config* ConfigArray::Get(int index) const
 
 bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 {
-	if (!Super::Deserialize(lexer, parent))
+	if (!Config::Deserialize(lexer, parent))
 	{
 		return false;
 	}
 
 	if (lexer->GetToken() != Tokens::LeftSquareBracket)
 	{
-		lexer->Error("Expected '[', got '%s'", lexer->GetTokenValue().c_str());
+		lexer->Error("Expected '[', got '%s'", lexer->GetTokenValue());
 		return false;
 	}
 
@@ -49,8 +53,8 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 			break;
 		}
 
-		std::pair<std::string, std::string> result;
-		if (!DeserializeTypeAndName(lexer, result))
+		ConfigTypeInfo typeInfo;
+		if (!DeserializeTypeAndName(lexer, typeInfo))
 		{
 			return false;
 		}
@@ -72,13 +76,12 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 
 		if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 		{
-			ConfigSection* cfgSection = new ConfigSection();
-			cfgSection->m_CType = result.first;
-			cfgSection->m_Name = result.second;
+			ConfigSection* cfgSection = NewObject<ConfigSection>("ConfigSection");
+			cfgSection->m_TypeInfo = typeInfo;
 
 			if (!baseLinkPath.empty())
 			{
-				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath);
+				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath)->m_Config;
 			}
 
 			if (!cfgSection->Deserialize(lexer, this))
@@ -101,7 +104,7 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 
 	if (lexer->GetToken() != Tokens::RightSquareBracket)
 	{
-		lexer->Error("Expected ']', got '%s'", lexer->GetTokenValue().c_str());
+		lexer->Error("Expected ']', got '%s'", lexer->GetTokenValue());
 		return false;
 	}
 	

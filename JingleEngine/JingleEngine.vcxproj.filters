@@ -171,6 +171,12 @@
     <ClCompile Include="src\Property\PropertyAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Property\PropertyConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Tracers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering\Shader.h">
@@ -356,5 +362,14 @@
     <ClInclude Include="src\Property\PropertyAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Property\PropertyConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Tracers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

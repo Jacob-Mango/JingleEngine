@@ -43,11 +43,6 @@ bool Material::OnLoad()
 		return false;
 	}
 
-	if (!WriteToObject(this))
-	{
-		return false;
-	}
-
 	return true;
 }
 

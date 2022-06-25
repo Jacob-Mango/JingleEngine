@@ -9,22 +9,27 @@ using namespace JingleScript;
 PropertyObject::PropertyObject()
 	: PropertyObject(nullptr, nullptr, 0)
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 PropertyObject::PropertyObject(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset)
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 PropertyObject::~PropertyObject()
 {
+	JS_TRACE(Tracers::Property);
 
 }
 
 Property* FindProperty(Type::VariableDefinition* variable)
 {
+	JS_TRACE(Tracers::Property);
+
 	for (auto& attributeBase : variable->Attributes)
 	{
 		if (attributeBase->GetType()->IsInherited(Property::StaticType()))
@@ -38,9 +43,11 @@ Property* FindProperty(Type::VariableDefinition* variable)
 
 bool PropertyObject::OnDeserialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
 	m_Properties.clear();
 
-	Type* newType = TypeManager::Get(cfg->GetType());
+	Type* newType = TypeManager::Get(cfg->GetLinkedType());
 	if (newType == nullptr)
 	{
 		if (m_Type == nullptr)
@@ -54,7 +61,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 	}
 	else if (!newType->IsInherited(m_Type))
 	{
-		return false;
+		//return false;
 	}
 
     auto variables = m_Type->GetVariables();
@@ -77,43 +84,7 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 			continue;
 		}
 
-		std::string overrideTypeStr = cfgVariable->GetType();
-		if (!overrideTypeStr.empty())
-		{
-			Type* overrideType = TypeManager::Get(overrideTypeStr);
-			if (overrideType == nullptr)
-			{
-				return false;
-			}
-
-			if (!overrideType->IsInherited(type))
-			{
-				return false;
-			}
-
-			type = overrideType;
-		}
-
-		PropertyBase* propertyData = nullptr;
-
-		if (type->IsInherited(Array::StaticType()))
-		{
-			propertyData = new PropertyArray(type, property, offset);
-		}
-		else if (type->IsInherited(Asset::StaticType()))
-		{
-			propertyData = new PropertyAsset(type, property, offset);
-		}
-		else if (type->IsStructure())
-		{
-			propertyData = new PropertyItem(type, property, offset);
-		}
-		else
-		{
-			propertyData = new PropertyObject(type, property, offset);
-		}
-		
-
+		PropertyBase* propertyData = property->CreateContainer(cfgVariable->GetLinkedType(), offset);
 		if (!propertyData || !propertyData->OnDeserialize(cfgVariable))
 		{
 			return false;
@@ -127,6 +98,8 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 
 bool PropertyObject::OnSerialize(Config* cfg)
 {
+	JS_TRACE(Tracers::Property);
+
     auto variables = m_Type->GetVariables();
 
     for (auto& variable : variables)
@@ -156,6 +129,8 @@ bool PropertyObject::OnSerialize(Config* cfg)
 
 bool PropertyObject::OnReadObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	for (auto& [name, property] : m_Properties)
 	{
 		Object* read = property->GetWriteInstance(instance);
@@ -171,6 +146,8 @@ bool PropertyObject::OnReadObject(Object* instance)
 
 bool PropertyObject::OnWriteObject(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	for (auto& [name, property] : m_Properties)
 	{
 		Object* write = property->GetWriteInstance(instance);
@@ -186,10 +163,14 @@ bool PropertyObject::OnWriteObject(Object* instance)
 
 Object* PropertyObject::GetReadInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return *(Object**)((char*)instance + m_Offset);
 }
 
 Object* PropertyObject::GetWriteInstance(Object* instance)
 {
+	JS_TRACE(Tracers::Property);
+
 	return m_Type->New<Object>();
 }

@@ -10,6 +10,10 @@
 
 using namespace JingleScript;
 
+BEGIN_CLASS_LINK(Config)
+	LINK_CONSTRUCTOR();
+END_CLASS_LINK()
+
 Config::Config()
 {
 	m_Parent = nullptr;
@@ -22,21 +26,26 @@ Config::~Config()
 
 std::string Config::GetName() const
 {
-	return m_Name;
+	return m_TypeInfo.m_Name;
 }
 
-std::string Config::GetType() const
+std::string Config::GetLinkedType() const
 {
 	std::string type;
 
 	const Config* cfg = this;
 	while (cfg)
 	{
-		type = cfg->m_CType;
+		type = cfg->m_TypeInfo.m_Type;
 		cfg = cfg->GetBase();
 	}
 
 	return type;
+}
+
+bool Config::IsLinkedDirectly() const
+{
+	return m_TypeInfo.m_DirectlyLinked;
 }
 
 bool Config::Deserialize(Lexer* lexer, Config* parent)
@@ -50,7 +59,7 @@ bool Config::Serialize(std::stringstream& output, std::string prefix) const
 	return true;
 }
 
-bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::string, std::string>& result)
+bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& result)
 {
 	if (lexer->GetTokenType() == TokenType::QUOTE)
 	{
@@ -61,12 +70,18 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::s
 	{
 		lexer->NextToken();
 
-		result.first = lexer->GetTokenValue();
+		if (lexer->GetToken() == Tokens::Hash)
+		{
+			result.m_DirectlyLinked = false;
+			lexer->NextToken();
+		}
+
+		result.m_Type = lexer->GetTokenValue();
 		lexer->NextToken();
 		
 		if (lexer->GetToken() == Tokens::Colon)
 		{
-			result.first = "";
+			result.m_Type = "";
 
 			// We aren't deserizaling name or type override
 			lexer->PreviousToken();
@@ -76,12 +91,12 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::s
 		}
 		else if (lexer->GetToken() == Tokens::Comma)
 		{
-			result.second = lexer->GetTokenValue();
+			result.m_Name = lexer->GetTokenValue();
 			lexer->NextToken();
 
 			if (lexer->GetToken() != Tokens::RightCurlyBracket)
 			{
-				lexer->Error("Expected '}', got '%s'", lexer->GetTokenValue().c_str());
+				lexer->Error("Expected '}', got '%s'", lexer->GetTokenValue());
 				return false;
 			}
 
@@ -93,19 +108,19 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::s
 		}
 		else
 		{
-			lexer->Error("Expected ',' or '}', got '%s'", lexer->GetTokenValue().c_str());
+			lexer->Error("Expected ',' or '}', got '%s'", lexer->GetTokenValue());
 			return false;
 		}
 	}
 	else
 	{
-		result.second = lexer->GetTokenValue();
+		result.m_Name = lexer->GetTokenValue();
 		lexer->NextToken();
 	}
 
 	if (lexer->GetToken() != Tokens::Colon)
 	{
-		lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue().c_str());
+		lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue());
 		return false;
 	}
 
@@ -115,11 +130,15 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, std::pair<std::s
 
 std::string Config::SerializeTypeAndName() const
 {
-	if (m_Name.empty() && m_CType.empty()) return "";
+	const std::string& name = m_TypeInfo.m_Name;
+	const std::string& type = m_TypeInfo.m_Type;
+	const std::string directlyLinked = m_TypeInfo.m_DirectlyLinked ? "#" : "";
 
-	if (m_CType.empty()) return m_Name + ": ";
+	if (name.empty() && type.empty()) return "";
 
-	if (m_Name.empty()) return "{" + m_CType + "}: ";
+	if (type.empty()) return name + ": ";
 
-	return "{" + m_CType + ", " + m_Name + "}: ";
+	if (name.empty()) return "{" + directlyLinked + type + "}: ";
+
+	return "{" + directlyLinked + type + ", " + name + "}: ";
 }

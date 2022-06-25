@@ -33,16 +33,16 @@ public:
 
 	virtual void OnDestroy() override;
 
-	//! TODO: Config files read seperately so the root type can be used
+	Asset* Get(AssetID id, JingleScript::Type* type);
 
 	template <typename T>
-	static Ref<T> Get(std::string path, JingleScript::Type* type = nullptr);
+	static T* Get(std::string path, JingleScript::Type* type = nullptr);
 
 	template <typename T>
-	static Ref<T> Get(AssetID id, JingleScript::Type* type = nullptr);
+	static T* Get(AssetID id, JingleScript::Type* type = nullptr);
 
 	template <typename T>
-	static Ref<T> Get(AssetIDv id, JingleScript::Type* type = nullptr);
+	static T* Get(AssetIDv id, JingleScript::Type* type = nullptr);
 
 private:
 	static void Unload(AssetID id);
@@ -52,63 +52,41 @@ private:
 };
 
 template <typename T>
-static Ref<T> AssetModule::Get(std::string path, JingleScript::Type* type)
+static T* AssetModule::Get(std::string path, JingleScript::Type* type)
 {
 	return Get<T>(AssetID(path), type);
 }
 
 template <typename T>
-static Ref<T> AssetModule::Get(AssetID id, JingleScript::Type* type)
+static T* AssetModule::Get(AssetID id, JingleScript::Type* type)
 {
 	if (type == nullptr)
 	{
 		type = T::StaticType();
 	}
 
-	auto it = s_Instance->m_Assets.find(id.GetValue());
-	if (it == s_Instance->m_Assets.end())
+	Asset* asset = s_Instance->Get(id, type);
+	if (!asset)
 	{
-		JS_INFO("Create Asset: %s", T::StaticName().c_str());
-
-		T* asset = type->New<T>();
-		asset->m_AssetID = id;
-		s_Instance->m_Assets.insert({ id.GetValue(), asset });
+		return nullptr;
 	}
 
-	Ref<T> result = dynamic_cast<T*>(s_Instance->m_Assets[id.GetValue()].Get());
-
-	if (!result->IsLoaded() && result->OnLoad())
-	{
-		result->m_IsLoaded = true;
-	}
-
-	return result;
+	return static_cast<T*>(asset);
 }
 
 template <typename T>
-static Ref<T> AssetModule::Get(AssetIDv id, JingleScript::Type* type)
+static T* AssetModule::Get(AssetIDv id, JingleScript::Type* type)
 {
 	if (type == nullptr)
 	{
 		type = T::StaticType();
 	}
 
-	auto it = s_Instance->m_Assets.find(id);
-	if (it == s_Instance->m_Assets.end())
+	Asset* asset = s_Instance->Get({ id }, type);
+	if (!asset)
 	{
-		JS_INFO("Create Asset: %s", T::StaticName().c_str());
-
-		T* asset = type->New<T>();
-		asset->m_AssetID = { id };
-		s_Instance->m_Assets.insert({ id, asset });
+		return nullptr;
 	}
 
-	Ref<T> result = dynamic_cast<T*>(s_Instance->m_Assets[id].Get());
-
-	if (!result->IsLoaded() && result->OnLoad())
-	{
-		result->m_IsLoaded = true;
-	}
-
-	return result;
+	return static_cast<T*>(asset);
 }

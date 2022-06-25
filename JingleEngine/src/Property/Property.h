@@ -5,6 +5,7 @@
 #include "Config/Config.h"
 
 class PropertyArray;
+class PropertyBase;
 
 class Property : public JingleScript::Attribute
 {
@@ -12,6 +13,8 @@ class Property : public JingleScript::Attribute
 
 public:
 	Property() : JingleScript::Attribute() {}
+
+	PropertyBase* CreateContainer(std::string cfgTypeName, uint64_t offset);
 
 };
 

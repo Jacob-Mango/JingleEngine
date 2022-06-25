@@ -28,6 +28,7 @@
     <ClCompile Include="src\Config\ConfigValue.cpp" />
     <ClCompile Include="src\Core\Module.cpp" />
     <ClCompile Include="src\Core\ModuleManager.cpp" />
+    <ClCompile Include="src\Core\Tracers.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Editor\EditorAttribute.cpp" />
     <ClCompile Include="src\Editor\EditorModule.cpp" />
@@ -45,6 +46,7 @@
     <ClCompile Include="src\Property\PropertyArray.cpp" />
     <ClCompile Include="src\Property\PropertyAsset.cpp" />
     <ClCompile Include="src\Property\PropertyBase.cpp" />
+    <ClCompile Include="src\Property\PropertyConfig.cpp" />
     <ClCompile Include="src\Property\PropertyItem.cpp" />
     <ClCompile Include="src\Property\PropertyObject.cpp" />
     <ClCompile Include="src\Rendering\Image.cpp" />
@@ -86,6 +88,7 @@
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Module.h" />
     <ClInclude Include="src\Core\ModuleManager.h" />
+    <ClInclude Include="src\Core\Tracers.h" />
     <ClInclude Include="src\Editor\EditorAttribute.h" />
     <ClInclude Include="src\Editor\EditorModule.h" />
     <ClInclude Include="src\Editor\EditorPanelBase.h" />
@@ -104,6 +107,7 @@
     <ClInclude Include="src\Property\PropertyArray.h" />
     <ClInclude Include="src\Property\PropertyAsset.h" />
     <ClInclude Include="src\Property\PropertyBase.h" />
+    <ClInclude Include="src\Property\PropertyConfig.h" />
     <ClInclude Include="src\Property\PropertyItem.h" />
     <ClInclude Include="src\Property\PropertyObject.h" />
     <ClInclude Include="src\Rendering\Image.h" />
@@ -142,6 +146,9 @@
     <ProjectReference Include="..\Libraries\imgui\imgui.vcxproj">
       <Project>{bbaeb705-1669-40f3-8567-04cf6a991f4c}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -233,7 +240,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;DEBUG;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -258,7 +265,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;RELEASE;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -282,7 +289,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -307,7 +314,7 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;RELEASE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -327,5 +334,12 @@ xcopy /y /d "$(SolutionDir)Libraries\assimp-5.0.1\bin\Debug\zlibd.dll" "$(OutDir
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\fmt.7.0.1\build\fmt.targets" Condition="Exists('..\packages\fmt.7.0.1\build\fmt.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\fmt.7.0.1\build\fmt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\fmt.7.0.1\build\fmt.targets'))" />
+  </Target>
 </Project>

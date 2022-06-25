@@ -18,35 +18,13 @@ ConfigAsset::~ConfigAsset()
 
 bool ConfigAsset::OnLoad()
 {
-	std::string path = GetPath();
-	if (path.empty())
-	{
-		return false;
-	}
-
-	Ref<Lexer> lexer = Lexer::ParseFile(path);
-	if (!lexer->HasNext())
-	{
-		return false;
-	}
-
-	if (!Deserialize(lexer, nullptr))
-	{
-		return false;
-	}
-
-	if (!m_Properties->OnDeserialize(this))
-	{
-		return false;
-	}
-
 	return true;
 }
 
 void ConfigAsset::Output()
 {
 	std::stringstream ss;
-	Serialize(ss);
+	m_Config->Serialize(ss);
 	std::cout << ss.str() << std::endl;
 }
 
@@ -67,7 +45,7 @@ bool ConfigAsset::ReadFromObject(JingleScript::Object* instance)
 		return false;
 	}
 
-	if (!m_Properties->OnSerialize(this))
+	if (!m_Properties->OnSerialize(m_Config))
 	{
 		return false;
 	}

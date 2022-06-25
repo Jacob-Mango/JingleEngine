@@ -189,24 +189,6 @@ Global {
    Base: "Object"
   }
   Class {
-   Name: "TestClassA"
-   Base: "Object"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "string"
-     Name: "value0"
-    }
-   }
-  }
-  Class {
    Name: "Image"
    Base: "Asset"
   }
@@ -284,59 +266,6 @@ Global {
    Base: "Asset"
   }
   Class {
-   Name: "ConfigAsset"
-   Base: "Asset"
-  }
-  Class {
-   Name: "EntityFile"
-   Base: "ConfigAsset"
-  }
-  Class {
-   Name: "Scene"
-   Base: "ConfigAsset"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "ArrayProperty"
-       Arguments: {
-        [0]: {
-         Expression {
-          Right: {
-           Constant {
-            Value: "Entity"
-           }
-          }
-         }
-        }
-       }
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "EntityArray"
-     Name: "Entities"
-    }
-   }
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "Camera"
-     Name: "GetCamera"
-     IsConstructor: "0"
-     IsDestructor: "0"
-    }
-   }
-  }
-  Class {
    Name: "Camera"
    Base: "Entity"
    Variables: {
@@ -375,6 +304,30 @@ Global {
      }
      Type: "double"
      Name: "MouseSpeed"
+    }
+   }
+  }
+  Class {
+   Name: "ConfigAsset"
+   Base: "Asset"
+  }
+  Class {
+   Name: "ConfigArray"
+   Base: "Object"
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "ConfigArray"
+     Name: "ConfigArray"
+     IsConstructor: "1"
+     IsDestructor: "0"
     }
    }
   }
@@ -1033,71 +986,6 @@ Global {
    Base: "Module"
   }
   Class {
-   Name: "SomeTestClass"
-   Base: "Object"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "int"
-     Name: "value0"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "string"
-     Name: "value1"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "string"
-     Name: "value2"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "ArrayProperty"
-       Arguments: {
-        [0]: {
-         Expression {
-          Right: {
-           Constant {
-            Value: "TestClassA"
-           }
-          }
-         }
-        }
-       }
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "TestArray"
-     Name: "value3"
-    }
-   }
-  }
-  Class {
    Name: "ArrayProperty"
    Base: "Property"
    Methods: {
@@ -1119,6 +1007,40 @@ Global {
       }
      }
      IsConstructor: "1"
+     IsDestructor: "0"
+    }
+   }
+  }
+  Class {
+   Name: "Scene"
+   Base: "ConfigAsset"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "ConfigArray"
+     Name: "Entities"
+    }
+   }
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "Camera"
+     Name: "GetCamera"
+     IsConstructor: "0"
      IsDestructor: "0"
     }
    }
@@ -1210,38 +1132,8 @@ Global {
    }
   }
   Struct {
-   Name: "EntityArray"
-   Base: "Array"
-  }
-  Struct {
    Name: "ComponentArray"
    Base: "Array"
-  }
-  Struct {
-   Name: "TestArray"
-   Base: "Array"
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "void"
-     Name: "Insert"
-     Parameters: {
-      Parameter {
-       Type: "Object"
-       Name: "instance"
-      }
-     }
-     IsConstructor: "0"
-     IsDestructor: "0"
-    }
-   }
   }
  }
 }

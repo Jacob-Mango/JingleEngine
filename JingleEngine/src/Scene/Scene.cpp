@@ -17,36 +17,43 @@
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 
-BEGIN_STRUCTURE_LINK(EntityArray)
-	LINK_CONSTRUCTOR();
-	LINK_METHOD(Insert);
-END_STRUCTURE_LINK()
-
-void EntityArray::Insert(JingleScript::Object* value)
-{
-	push_back(static_cast<Entity*>(value));
-}
-
+//! TODO: Seperate 'SceneData' from 'Scene'
 BEGIN_CLASS_LINK(Scene)
-	LINK_NAMED_VARIABLE(Entities, m_Entities); //! TODO: Seperate 'SceneData' from 'Scene'
+	LINK_NAMED_VARIABLE(Entities, m_EntitiesData);
 	LINK_CONSTRUCTOR();
 	LINK_METHOD(GetCamera);
 END_CLASS_LINK()
 
+Scene::Scene()
+{
+	m_EntitiesData = nullptr;
+}
+
+Scene::~Scene()
+{
+
+}
+
 bool Scene::OnLoad()
 {
+	using namespace JingleScript;
+
 	if (!Super::OnLoad())
 	{
 		return false;
 	}
 
-	if (!WriteToObject(this))
+	for (int i = 0; i < m_EntitiesData->Count(); i++)
 	{
-		return false;
-	}
+	/*
+		auto cfg = m_EntitiesData->Get(i);
 
-	for (auto& entity : m_Entities)
-	{
+		std::string typeName = cfg->GetLinkedType();
+		Type* type = TypeManager::Get(typeName);
+		Entity* entity = type->New<Entity>();
+
+		cfg->WriteToObject(entity);
+
 		entity->m_Scene = this;
 		entity->m_Parent = nullptr;
 
@@ -57,6 +64,7 @@ bool Scene::OnLoad()
 		}
 
 		entity->OnCreate();
+	*/
 	}
 
 	return true;

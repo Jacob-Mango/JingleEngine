@@ -8,7 +8,7 @@ class ConfigSection;
 
 class ConfigValue : public Config
 {
-	typedef Config Super;
+	DEFINE_CLASS(ConfigValue, Config);
 
 	friend Config;
 	friend ConfigArray;
@@ -18,10 +18,8 @@ class ConfigValue : public Config
 protected:
 	std::string m_Value;
 
-protected:
+public:
 	ConfigValue();
-	ConfigValue(ConfigValue&) = delete;
-	ConfigValue(ConfigValue&&) = delete;
 	~ConfigValue();
 
 public:

@@ -9,15 +9,6 @@ class Camera;
 class Texture;
 class Light;
 
-class EntityArray : public JingleScript::Array, public std::vector<Entity*>
-{
-	DEFINE_BASE_STRUCTURE(EntityArray, JingleScript::Array);
-
-public:
-	void Insert(JingleScript::Object* value);
-
-};
-
 class Scene : public ConfigAsset
 {
 	SETUP_ASSET(Scene, ConfigAsset);
@@ -28,21 +19,24 @@ class Scene : public ConfigAsset
 	friend class Renderer;
 
 	friend class SceneHierarchyPanel;
-
+	
 private:
-	EntityArray m_Entities;
+	ConfigArray* m_EntitiesData;
+
+	std::vector<Entity*> m_Entities;
 	std::vector<Light*> m_Lights;
 
 	unsigned int m_NextID = 0;
 
 	Ref<Texture> m_Skybox;
 
-	Camera* m_Camera;
+	Camera* m_Camera = nullptr;
 
 public:
-	Scene() {}
-	virtual ~Scene() {}
+	Scene();
+	~Scene();
 
+public:
 	virtual bool OnLoad() override;
 
 	void OnStart();

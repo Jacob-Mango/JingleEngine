@@ -44,13 +44,6 @@ class Material : public ConfigAsset
 	Shader* m_Shader;
 	MaterialImageArray m_Images;
 
-	//TODO: move to an array/map and assign based on uniforms found within the shader
-	Ref<Image> m_Ambient;
-	Ref<Image> m_Diffuse;
-	Ref<Image> m_Metallic;
-	Ref<Image> m_Normal;
-	Ref<Image> m_Roughness;
-
 public:
 	Material();
 	virtual ~Material();
