@@ -1,0 +1,10 @@
+^H:\RMIT\RR\SAMPLE\LIBS\ASSIMP-5.0.1\CMAKEFILES\052ECFA485CB9853E36EC2607D141093\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SH:/RMIT/RR/Sample/libs/assimp-5.0.1 -BH:/RMIT/RR/Sample/libs/assimp-5.0.1 --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file H:/RMIT/RR/Sample/libs/assimp-5.0.1/Assimp.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
