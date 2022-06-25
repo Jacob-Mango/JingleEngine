@@ -1,16 +1,14 @@
-project "TestProject"
-kind "ConsoleApp"
+project "JingleEngine"
+kind "StaticLib"
 language "C++"
 cppdialect "C++17"
 staticruntime "off"
-		
+
 targetdir ("bin/")
 objdir ("bin-int/" .. outputdir)
 
-debugdir "%{wks.location}"
-		
 flags { "NoPCH" }
-		
+
 files
 {
 	"src/**.h", 
@@ -28,17 +26,7 @@ includedirs
 	"%{IncludeDir.stb}",
 	"%{IncludeDir.Assimp}",
 	"%{IncludeDir.glm}",
-	"%{IncludeDir.glew}",
-	"%{IncludeDir.JingleEngine}"
-}
-
-links
-{
-	"JingleScript",
-	"ImGui",
-	"JingleEngine",
-	"%{Library.Glew}",
-	"opengl32.lib"
+	"%{IncludeDir.glew}"
 }
 
 defines
@@ -50,11 +38,6 @@ defines
 
 filter "system:windows"
 	systemversion "latest"
-	linkoptions
-	{
-		"/WHOLEARCHIVE:JingleScript.lib",
-		"/WHOLEARCHIVE:JingleEngine.lib"
-	}
 
 	defines
 	{
@@ -64,27 +47,7 @@ filter "system:windows"
 filter "configurations:Debug"
 	runtime "Debug"
 	symbols "on"
-
-	links
-	{
-		"%{Library.Assimp_Debug}"
-	}
-
-	postbuildcommands 
-	{
-		'{COPY} "%{Binaries.Assimp_Debug}" "%{cfg.targetdir}"'
-	}
 	
 filter "configurations:Release"
 	runtime "Release"
 	optimize "on"
-
-	links
-	{
-		"%{Library.Assimp_Release}"
-	}
-
-	postbuildcommands 
-	{
-		'{COPY} "%{Binaries.Assimp_Release}" "%{cfg.targetdir}"'
-	}

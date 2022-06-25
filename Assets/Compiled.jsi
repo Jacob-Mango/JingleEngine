@@ -1,10 +1,16 @@
 
-class TestClassA extends Object {
-   string value0
+class TestModule extends Module {
 
-  TestClassA::dtor() (Native)
+  TestModule::dtor() (Native)
 
-  TestClassA::ctor() (Native)
+  TestModule::ctor() (Native)
+}
+
+class Module extends Object {
+
+  Module::dtor() (Native)
+
+  Module::ctor() (Native)
 }
 
 class Object {
@@ -733,47 +739,6 @@ struct int extends Object {
   bool int::operator==(int) (Native)
 }
 
-struct TestArray extends Array {
-
-  void TestArray::Insert(Object) (Native)
-
-  TestArray::dtor() (Native)
-
-  TestArray::ctor() (Native)
-}
-
-struct Array extends Object {
-
-  void Array::Insert(Object) (Native)
-
-  Array::dtor() (Native)
-}
-
-class SomeTestClass extends Object {
-   int value0
-   string value1
-   string value2
-   TestArray value3
-
-  SomeTestClass::dtor() (Native)
-
-  SomeTestClass::ctor() (Native)
-}
-
-class TestModule extends Module {
-
-  TestModule::dtor() (Native)
-
-  TestModule::ctor() (Native)
-}
-
-class Module extends Object {
-
-  Module::dtor() (Native)
-
-  Module::ctor() (Native)
-}
-
 struct null extends Object {
 
   null::dtor() (Native)
@@ -797,6 +762,13 @@ class Attribute extends Object {
   Attribute::dtor() (Native)
 
   Attribute::ctor() (Native)
+}
+
+struct Array extends Object {
+
+  void Array::Insert(Object) (Native)
+
+  Array::dtor() (Native)
 }
 
 class Scene extends ConfigAsset {
@@ -847,6 +819,26 @@ class Entity extends Object {
   void Entity::OnTick(double) (Native)
 }
 
+struct ComponentArray extends Array {
+
+  ComponentArray::dtor() (Native)
+
+  ComponentArray::ctor() (Native)
+
+  void ComponentArray::Insert(Object) (Native)
+}
+
+class MeshComponent extends Component {
+   string Model
+   string Material
+
+  MeshComponent::dtor() (Native)
+
+  MeshComponent::ctor(Entity) (Native)
+
+  MeshComponent::ctor() (Native)
+}
+
 class Component extends Object {
 
   void Component::OnCreate() (Native)
@@ -862,13 +854,16 @@ class Component extends Object {
   void Component::OnTick(double) (Native)
 }
 
-struct ComponentArray extends Array {
+class Viewport extends Managed {
 
-  ComponentArray::dtor() (Native)
+  Viewport::dtor() (Native)
 
-  ComponentArray::ctor() (Native)
+  Viewport::ctor() (Native)
+}
 
-  void ComponentArray::Insert(Object) (Native)
+struct Vertex {
+
+  Vertex::dtor() (Native)
 }
 
 class Texture extends Managed {
@@ -933,41 +928,18 @@ class Light extends Entity {
   Light::ctor() (Native)
 }
 
-class Framebuffer extends Managed {
-
-  Framebuffer::dtor() (Native)
-
-  Framebuffer::ctor() (Native)
-}
-
-class MeshComponent extends Component {
-   string Model
-   string Material
-
-  MeshComponent::dtor() (Native)
-
-  MeshComponent::ctor(Entity) (Native)
-
-  MeshComponent::ctor() (Native)
-}
-
-class Viewport extends Managed {
-
-  Viewport::dtor() (Native)
-
-  Viewport::ctor() (Native)
-}
-
-struct Vertex {
-
-  Vertex::dtor() (Native)
-}
-
 class Image extends Asset {
 
   Image::dtor() (Native)
 
   Image::ctor() (Native)
+}
+
+class Framebuffer extends Managed {
+
+  Framebuffer::dtor() (Native)
+
+  Framebuffer::ctor() (Native)
 }
 
 class Property extends Attribute {
@@ -994,19 +966,6 @@ class WndWindow extends Window {
 class Window extends Module {
 
   Window::dtor() (Native)
-}
-
-class Application extends Object {
-   int FPS
-
-  Scene Application::GetScene() (Native)
-
-  Application::dtor() (Native)
-
-  Application::ctor() (Native)
-
-  void Application::OnUpdate(double) {
-  }
 }
 
 class BindingModule extends Module {
@@ -1067,6 +1026,19 @@ class EditorAttribute extends Attribute {
   EditorAttribute::dtor() (Native)
 
   EditorAttribute::ctor(string) (Native)
+}
+
+class Application extends Object {
+   int FPS
+
+  Scene Application::GetScene() (Native)
+
+  Application::dtor() (Native)
+
+  Application::ctor() (Native)
+
+  void Application::OnUpdate(double) {
+  }
 }
 
 class ConfigValue extends Config {

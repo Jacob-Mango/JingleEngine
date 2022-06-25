@@ -2,61 +2,6 @@
 
 #include "Core/ModuleManager.h"
 
-class TestClassA : public JingleScript::Object
-{
-	DEFINE_CLASS(TestClassA, JingleScript::Object);
-
-public:
-	std::string value0;
-
-	TestClassA() {}
-	~TestClassA() {}
-};
-
-BEGIN_CLASS_LINK(TestClassA)
-	LINK_VARIABLE(value0);
-	LINK_CONSTRUCTOR()
-END_CLASS_LINK()
-
-class TestArray : public JingleScript::Array, public std::vector<TestClassA*>
-{
-	DEFINE_BASE_STRUCTURE(TestArray, JingleScript::Array);
-
-public:
-	void Insert(JingleScript::Object* value)
-	{
-		push_back(static_cast<TestClassA *>(value));
-	}
-};
-
-BEGIN_STRUCTURE_LINK(TestArray)
-	LINK_CONSTRUCTOR();
-	LINK_METHOD(Insert);
-END_STRUCTURE_LINK()
-
-class SomeTestClass : public JingleScript::Object
-{
-	DEFINE_CLASS(SomeTestClass, JingleScript::Object);
-
-public:
-	int value0;
-	std::string value1;
-	std::string value2;
-	TestArray value3;
-
-	SomeTestClass() {}
-	~SomeTestClass() {}
-
-};
-
-BEGIN_CLASS_LINK(SomeTestClass)
-	LINK_VARIABLE(value0);
-	LINK_VARIABLE(value1);
-	LINK_VARIABLE(value2);
-	LINK_VARIABLE(value3);
-	LINK_CONSTRUCTOR()
-END_CLASS_LINK()
-
 class TestModule : public Module
 {
 	DEFINE_MODULE(TestModule, Module);
