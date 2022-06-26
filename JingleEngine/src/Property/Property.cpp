@@ -31,7 +31,7 @@ JingleScript::Type* Property::GetPropertyType()
 	return m_TypeOverride == nullptr ? GetOwner() : m_TypeOverride;
 }
 
-PropertyBase* Property::CreateContainer(std::string cfgTypeName, uint64_t offset)
+PropertyBase* Property::CreateContainerDefault(std::string cfgTypeName, uint64_t offset)
 {
 	JS_TRACE(Tracers::Property);
 
@@ -63,6 +63,11 @@ PropertyBase* Property::CreateContainer(std::string cfgTypeName, uint64_t offset
 	return CreateContainer(type, offset);
 }
 
+PropertyBase* Property::CreateContainer(std::string cfgTypeName, uint64_t offset)
+{
+	return CreateContainerDefault(cfgTypeName, offset);
+}
+
 PropertyBase* Property::CreateContainer(Type* type, uint64_t offset)
 {
 	JS_TRACE(Tracers::Property);
@@ -84,12 +89,15 @@ PropertyBase* Property::CreateContainer(Type* type, uint64_t offset)
 }
 
 BEGIN_CLASS_LINK(ArrayProperty);
-	LINK_CONSTRUCTOR(JingleScript::String);
+	LINK_CONSTRUCTOR(std::string);
 END_CLASS_LINK();
 
-ArrayProperty::ArrayProperty(JingleScript::String templateType)
+ArrayProperty::ArrayProperty(std::string templateType) : Property(templateType)
 {
 	JS_TRACE(Tracers::Property);
+}
 
-	m_TemplateType = JingleScript::TypeManager::Get(templateType);
+PropertyBase* ArrayProperty::CreateContainer(std::string cfgTypeName, uint64_t offset)
+{
+	return NewObject<PropertyArray>("PropertyArray", m_TypeOverride, this, offset);
 }

@@ -83,7 +83,7 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 
 	if (lexer->GetToken() != Tokens::LeftCurlyBracket)
 	{
-		lexer->Error("Expected '{', got '%s'", lexer->GetTokenValue());
+		lexer->Error("Expected '{', got '{}'", lexer->GetTokenValue());
 		return false;
 	}
 
@@ -163,7 +163,7 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 
 	if (lexer->GetToken() != Tokens::RightCurlyBracket)
 	{
-		lexer->Error("Expected '}', got '%s'", lexer->GetTokenValue());
+		lexer->Error("Expected '}', got '{}'", lexer->GetTokenValue());
 		return false;
 	}
 	

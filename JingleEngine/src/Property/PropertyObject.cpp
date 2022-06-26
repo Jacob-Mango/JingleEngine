@@ -50,6 +50,7 @@ Property* FindProperty(Type::VariableDefinition* variable)
 bool PropertyObject::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
 
 	m_Properties.clear();
 
@@ -80,18 +81,20 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 		auto& offset = variable->Offset;
 		Property* property = FindProperty(variable);
 
+		JS_TINFO("Checking variable {}:{}", type->Name(), name);
+
 		if (!property)
 		{
 			continue;
 		}
 
 		Config* cfgVariable = cfg->Get(name);
-		if (!cfgVariable)
-		{
-			continue;
-		}
+		std::string typeStr;
 
-		std::string typeStr = cfgVariable->GetLinkedType();
+		if (cfgVariable)
+		{
+			typeStr = cfgVariable->GetLinkedType();
+		}
 
 		PropertyBase* propertyData = nullptr;
 		if (property->GetOwner()->IsInherited(PropertyBase::StaticType()))
@@ -110,9 +113,16 @@ bool PropertyObject::OnDeserialize(Config* cfg)
 			return false;
 		}
 
-		if (!propertyData->OnDeserialize(cfgVariable))
+		if (cfgVariable)
 		{
-			return false;
+			if (!propertyData->OnDeserialize(cfgVariable))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			//propertyData->LoadDefault();
 		}
 
 		m_Properties.insert({name, propertyData});

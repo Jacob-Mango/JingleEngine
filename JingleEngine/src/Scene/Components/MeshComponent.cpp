@@ -4,18 +4,17 @@
 
 BEGIN_CLASS_LINK(MeshComponent)
 	LINK_VARIABLE(Model);
-	LINK_VARIABLE(Material);
+	LINK_VARIABLE(MaterialOverride);
 	LINK_CONSTRUCTOR();
 	LINK_CONSTRUCTOR(Entity*);
 END_CLASS_LINK()
 
 void MeshComponent::OnCreate()
 {
-	m_Mesh = new MeshInstance(AssetModule::Get<Mesh>(Model));
+	m_Mesh = new MeshInstance(Model);
 
-	auto material = AssetModule::Get<::Material>(Material);
-	if (material != nullptr)
+	if (MaterialOverride != nullptr)
 	{
-		m_Mesh->SetMaterial(material);
+		m_Mesh->SetMaterial(MaterialOverride);
 	}
 }

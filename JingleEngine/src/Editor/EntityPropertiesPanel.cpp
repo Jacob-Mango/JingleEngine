@@ -32,19 +32,19 @@ void ImGui_Vec3(std::string name, glm::vec3& vec)
 
 	//ImGui::GetStyle().
 
-	//ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
+	ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
 	ImGui::AlignTextToFramePadding();
 
-	auto render = [&](const char* title, int index)
+	auto render = [&](int index)
 	{
 		ImGui::TableNextColumn();
 
-		//ImGui::PushItemWidth(contentRegionAvailable.x / 6.0f);
+		ImGui::PushItemWidth(contentRegionAvailable.x / 3.0f);
 
 		std::string str = std::to_string(vec[index]);
 
 		strcpy_s(Buff, str.length() + 1, str.c_str());
-		if (ImGui::InputText(title, Buff, BuffSize))
+		if (ImGui::InputText("", Buff, BuffSize))
 		{
 			std::stringstream ss;
 			ss << Buff;
@@ -53,9 +53,9 @@ void ImGui_Vec3(std::string name, glm::vec3& vec)
 	};
 
 	ImGui::TableNextRow();
-	render("X", 0);
-	render("Y", 1);
-	render("Z", 2);
+	render(0);
+	render(1);
+	render(2);
 
 	ImGui::EndTable();
 }
@@ -65,15 +65,15 @@ void EntityPropertiesPanel::OnRender(double DeltaTime)
 	Entity* entity = GetEditor()->GetSelectedEntity();
 	if (entity == nullptr)
 	{
-	//	return;
+		return;
 	}
-
-	static glm::vec3 pos;
 
 	if (!ImGui::BeginTable("EntityPropertiesPanel", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings))
 	{
 		return;
 	}
+
+	//entity->m_Properties
 
 	ImGui::TableNextRow(0, g_RowHeight);
 	ImGui::TableNextColumn();

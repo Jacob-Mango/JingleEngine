@@ -26,11 +26,15 @@ Config::~Config()
 
 std::string Config::GetName() const
 {
+	JS_TRACE(Tracers::Property);
+
 	return m_TypeInfo.m_Name;
 }
 
 std::string Config::GetLinkedType() const
 {
+	JS_TRACE(Tracers::Property);
+
 	std::string type;
 
 	const Config* cfg = this;
@@ -43,8 +47,17 @@ std::string Config::GetLinkedType() const
 	return type;
 }
 
+std::string Config::GetTypeAndName() const
+{
+	JS_TRACE(Tracers::Property);
+
+	return SerializeTypeAndName();
+}
+
 bool Config::IsLinkedDirectly() const
 {
+	JS_TRACE(Tracers::Property);
+
 	return m_TypeInfo.m_DirectlyLinked;
 }
 
@@ -96,7 +109,7 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& 
 
 			if (lexer->GetToken() != Tokens::RightCurlyBracket)
 			{
-				lexer->Error("Expected '}', got '%s'", lexer->GetTokenValue());
+				lexer->Error("Expected '}', got '{}'", lexer->GetTokenValue());
 				return false;
 			}
 
@@ -108,7 +121,7 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& 
 		}
 		else
 		{
-			lexer->Error("Expected ',' or '}', got '%s'", lexer->GetTokenValue());
+			lexer->Error("Expected ',' or '}', got '{}'", lexer->GetTokenValue());
 			return false;
 		}
 	}
@@ -120,7 +133,7 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& 
 
 	if (lexer->GetToken() != Tokens::Colon)
 	{
-		lexer->Error("Expected ':', got '%s'", lexer->GetTokenValue());
+		lexer->Error("Expected ':', got '{}'", lexer->GetTokenValue());
 		return false;
 	}
 

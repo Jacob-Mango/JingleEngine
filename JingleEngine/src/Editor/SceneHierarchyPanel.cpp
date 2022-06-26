@@ -23,6 +23,7 @@ void SceneHierarchyPanel::OnRender(double DeltaTime)
 		return;
 	}
 
+	/*
 	if (ImGui::BeginTable("Data", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Hideable))
 	{
 		ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
@@ -46,6 +47,7 @@ void SceneHierarchyPanel::OnRender(double DeltaTime)
 
 		ImGui::EndTable();
 	}
+	*/
 
 	if (ImGui::BeginTable("Entities", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Hideable))
 	{

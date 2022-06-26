@@ -39,10 +39,13 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 
 	Asset* asset = nullptr;
 
+	JS_TINFO("Searching for asset {:x}:{} of type {}", id.GetValue(), id.GetPath(), type->Name());
+
 	auto it = s_Instance->m_Assets.find(id.GetValue());
 	if (it == s_Instance->m_Assets.end())
 	{
 		bool isCfg = type->IsInherited(ConfigAsset::StaticType());
+		JS_TINFO("Is Config: {}", isCfg);
 		if (isCfg)
 		{
 			std::string path = id.GetPath();
@@ -105,8 +108,6 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 		{
 			asset = type->New<Asset>();
 		}
-
-		//std::cout << "Loading path=" << id.GetPath() << " type=" << type->Name() << " as " << (isCfg ? "Config" : "Asset") << std::endl;
 
 		asset->m_AssetID = id;
 		if (!asset->OnLoad())

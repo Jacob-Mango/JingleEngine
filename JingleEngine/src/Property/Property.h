@@ -11,6 +11,7 @@ class Property : public JingleScript::Attribute
 {
 	DEFINE_CLASS(Property, JingleScript::Attribute);
 
+protected:
 	JingleScript::Type* m_TypeOverride;
 
 public:
@@ -19,8 +20,10 @@ public:
 
 	JingleScript::Type* GetPropertyType();
 
-	PropertyBase* CreateContainer(std::string cfgTypeName, uint64_t offset);
-	PropertyBase* CreateContainer(JingleScript::Type* type, uint64_t offset);
+	PropertyBase* CreateContainerDefault(std::string cfgTypeName, uint64_t offset);
+
+	virtual PropertyBase* CreateContainer(std::string cfgTypeName, uint64_t offset);
+	virtual PropertyBase* CreateContainer(JingleScript::Type* type, uint64_t offset);
 };
 
 class ArrayProperty : public Property
@@ -29,12 +32,9 @@ class ArrayProperty : public Property
 
 	friend PropertyArray;
 
-private:
-	JingleScript::Type* m_TemplateType;
-
 public:
-	ArrayProperty(JingleScript::String templateType);
+	ArrayProperty(std::string templateType);
 
-	virtual std::string ToString() const { return m_TemplateType->Name(); }
+	virtual PropertyBase* CreateContainer(std::string cfgTypeName, uint64_t offset) override;
 
 };

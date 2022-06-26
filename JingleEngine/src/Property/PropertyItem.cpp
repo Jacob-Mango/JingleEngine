@@ -22,6 +22,7 @@ PropertyItem::~PropertyItem()
 bool PropertyItem::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
 
 	uint64_t size = m_PropertyType->GetReferenceSize();
 

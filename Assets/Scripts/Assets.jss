@@ -27,7 +27,7 @@ class MaterialImage
 	string Name;
 }
 
-class Material extends Asset
+class Material extends ConfigAsset
 {
 	@Property
 	Shader Shader;

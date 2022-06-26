@@ -18,9 +18,13 @@ void Renderer::SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform)
 
 	Ref<Material> material = mesh->GetMaterial();
 
-	//Ref<Shader> shader = material->GetShader();
-	//
-	//m_StaticMeshes[shader].push_back({ shader, mesh, transform });
+	if (!material) return;
+
+	Ref<Shader> shader = material->GetShader();
+
+	if (!shader) return;
+
+	m_StaticMeshes[shader].push_back({ shader, mesh, transform });
 }
 
 //! TODO: Refactor and abstract

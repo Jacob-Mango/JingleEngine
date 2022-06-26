@@ -14,8 +14,8 @@ struct ComponentArray extends Array { }
 class MeshComponent extends Component
 {
 	@Property
-	string Model;
+	Mesh Model;
 
 	@Property
-	string Material;
+	Material MaterialOverride;
 }

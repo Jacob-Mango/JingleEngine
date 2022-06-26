@@ -12,6 +12,8 @@ class TestModule : public Module
 public:
 	virtual void OnInitialize() override
 	{
+		//TestMaterialConfig();
+
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
@@ -50,6 +52,33 @@ public:
 		{
 			Input::ShowCursor(false);
 		}
+	}
+
+	void TestMaterialConfig()
+	{
+		using namespace JingleScript;
+
+		std::string path = "Assets/Entities/Box/test.material";
+
+		Ref<Lexer> lexer = Lexer::ParseFile(path);
+		ConfigSection* cfg = NewObject<ConfigSection>("ConfigSection");
+		cfg->Deserialize(lexer, nullptr);
+
+		PropertyObject* properties = NewObject<PropertyObject>("PropertyObject");
+
+		properties->OnDeserialize(cfg);
+
+		Type* type = TypeManager::Get("Material");
+
+		Material* cls = type->New<Material>();
+
+		//Material* cls = JingleScript::NewObject<Material>("Material");
+
+		properties->OnWriteObject(cls);
+
+		//cfg->Output();
+
+		exit(0);
 	}
 };
 

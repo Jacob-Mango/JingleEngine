@@ -54,7 +54,7 @@ void ModuleManager::Initialize()
 		Type* type = TypeManager::Get(name);
 		if (type == nullptr || !type->IsInherited(baseType))
 		{
-			JS_CRITICAL("Invalid module %s", name.c_str());
+			JS_CRITICAL("Invalid module {}", name);
 			continue;
 		}
 

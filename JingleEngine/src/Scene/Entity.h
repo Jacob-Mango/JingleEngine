@@ -12,6 +12,7 @@ class Config;
 class Entity;
 class Component;
 class Application;
+class EntityPropertiesPanel;
 
 class ComponentArray : public JingleScript::Array, public std::vector<Component*>
 {
@@ -27,11 +28,13 @@ class Entity : public JingleScript::Object
 	DEFINE_CLASS(Entity, JingleScript::Object);
 
 	friend Scene;
+	friend EntityPropertiesPanel;
 
 private:
 	unsigned int m_ID;
 
 	Scene* m_Scene;
+	PropertyObject* m_Properties;
 
 	Entity* m_Parent;
 	std::vector<Entity*> m_Children;

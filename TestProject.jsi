@@ -1082,8 +1082,8 @@ struct ComponentArray extends Array {
 }
 
 class MeshComponent extends Component {
-   string Model
-   string Material
+   Mesh Model
+   Material MaterialOverride
 
   MeshComponent::dtor() (Native)
 
@@ -1165,7 +1165,7 @@ struct MaterialImageArray extends Array {
   MaterialImageArray::ctor() (Native)
 }
 
-class Material extends Asset {
+class Material extends ConfigAsset {
    Shader Shader
    MaterialImageArray Images
 

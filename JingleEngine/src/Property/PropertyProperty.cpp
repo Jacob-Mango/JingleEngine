@@ -24,6 +24,7 @@ PropertyProperty::~PropertyProperty()
 bool PropertyProperty::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
 
 	//! TODO: Figure out why the constructor isn't being called
 	//m_PropertyData = m_PropertyType->New<PropertyBase>(m_PropertyType, m_Property, m_Offset);

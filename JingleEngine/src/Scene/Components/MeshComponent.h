@@ -14,8 +14,8 @@ class MeshComponent : public Component
 	DEFINE_CLASS(MeshComponent, Component);
 
 public:
-	std::string Model;
-	std::string Material;
+	Mesh* Model = nullptr;
+	Material* MaterialOverride = nullptr;
 
 private:
 	Ref<MeshInstance> m_Mesh;

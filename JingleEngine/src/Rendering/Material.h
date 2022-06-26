@@ -41,7 +41,7 @@ class Material : public ConfigAsset
 {
 	SETUP_ASSET(Material, ConfigAsset)
 
-	Shader* m_Shader;
+	Shader* m_Shader = nullptr;
 	MaterialImageArray m_Images;
 
 public:

@@ -22,6 +22,7 @@ PropertyConfig::~PropertyConfig()
 bool PropertyConfig::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
 
 	m_Config = cfg;
 

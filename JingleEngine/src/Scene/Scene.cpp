@@ -53,7 +53,9 @@ bool Scene::OnLoad()
 
 	for (int i = 0; i < m_EntitiesData->Count(); i++)
 	{
-		const auto& property = m_EntitiesData->Get(i);
+		auto property = m_EntitiesData->Get(i);
+
+		//! TODO: In runtime, maybe once the scene is loaded the property information will be deleted.
 
 		Type* type = property->GetPropertyType();
 		Entity* entity = type->New<Entity>();
@@ -61,6 +63,7 @@ bool Scene::OnLoad()
 		property->OnWriteObject(entity);
 		
 		AddEntity(entity);
+		entity->m_Properties = dynamic_cast<PropertyObject*>(property);
 		entity->m_Parent = nullptr;
 		
 		for (auto& component : entity->GetComponents())

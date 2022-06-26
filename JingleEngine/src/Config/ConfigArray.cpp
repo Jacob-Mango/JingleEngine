@@ -40,7 +40,7 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 
 	if (lexer->GetToken() != Tokens::LeftSquareBracket)
 	{
-		lexer->Error("Expected '[', got '%s'", lexer->GetTokenValue());
+		lexer->Error("Expected '[', got '{}'", lexer->GetTokenValue());
 		return false;
 	}
 
@@ -104,7 +104,7 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 
 	if (lexer->GetToken() != Tokens::RightSquareBracket)
 	{
-		lexer->Error("Expected ']', got '%s'", lexer->GetTokenValue());
+		lexer->Error("Expected ']', got '{}'", lexer->GetTokenValue());
 		return false;
 	}
 	

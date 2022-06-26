@@ -25,6 +25,7 @@ PropertyArray::~PropertyArray()
 bool PropertyArray::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
 
 	m_Properties.clear();
 
@@ -38,7 +39,7 @@ bool PropertyArray::OnDeserialize(Config* cfg)
 		}
 
 		std::string typeStr = cfgVariable->GetLinkedType();
-		PropertyBase* propertyData = m_Property->CreateContainer(typeStr, i);
+		PropertyBase* propertyData = m_Property->CreateContainerDefault(typeStr, i);
 		if (!propertyData)
 		{
 			JS_TINFO("Couldn't create container for type '{}'.", typeStr);
@@ -78,7 +79,7 @@ bool PropertyArray::OnWriteObject(Object* instance)
 
 	FunctionSignature signature;
 	signature.Name = "Insert";
-	signature.Owner = m_PropertyType;
+	signature.Owner = m_Property->GetOwner();
 	signature.ReturnType = nullptr;
 	signature.Parameters.push_back({ Object::StaticType() });
 
@@ -90,7 +91,7 @@ bool PropertyArray::OnWriteObject(Object* instance)
 		return false;
 	}
 
-	uint64_t size = m_PropertyType->GetReferenceSize();
+	uint64_t size = sizeof(std::vector<Object*>);
 
 	Thread* thread = Thread::Current();
 	ValueStack* stack = &thread->Stack;

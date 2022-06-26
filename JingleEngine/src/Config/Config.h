@@ -60,6 +60,7 @@ public:
 
 	std::string GetName() const;
 	std::string GetLinkedType() const;
+	std::string GetTypeAndName() const;
 	bool IsLinkedDirectly() const;
 
 	virtual Config* GetBase() const { return nullptr; }

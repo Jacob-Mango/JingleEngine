@@ -10,6 +10,7 @@
 
 Mesh::Mesh()
 {
+	m_Material = nullptr;
 }
 
 Mesh::~Mesh()
@@ -23,19 +24,16 @@ END_CLASS_LINK()
 
 bool Mesh::OnLoad()
 {
-	if (GetPath() == "")
-		return false;
-
 	std::string file = GetPath();
 
-	std::cout << "file: " << file << std::endl;
+	JS_INFO("File '{}'", file);
 
 	uint32_t meshImportFlags = 0;
 	meshImportFlags |= aiProcessPreset_TargetRealtime_MaxQuality;
 
 	Assimp::Importer* importer = new Assimp::Importer();
 	const aiScene* scene = importer->ReadFile(file, meshImportFlags);
-	std::cout << "scene: " << PointerToString(scene) << std::endl;
+	JS_INFO("Scene '{}'", PointerToString(scene));
 	if (!scene || !scene->HasMeshes())
 	{
 		return false;
@@ -75,7 +73,7 @@ bool Mesh::OnLoad()
 		indexOffset += mesh->mNumFaces * 3;
 	}
 
-	JS_INFO("Mesh '%s'", ToString().c_str());
+	JS_INFO("Mesh '{}'", ToString());
 
 	return true;
 }
@@ -92,8 +90,8 @@ std::string Mesh::ToString() const
 	ss << ", ";
 	ss << "Indices=" << m_Indices.size();
 
-	//ss << ", ";
-	//ss << "Material=" << m_Material.AsString();
+	ss << ", ";
+	ss << "Material=" << m_Material.AsString();
 
 	return ss.str();
 }
