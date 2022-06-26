@@ -10,6 +10,8 @@ class Property;
 
 class PropertyAsset : public PropertyBase
 {
+	DEFINE_CLASS(PropertyAsset, PropertyBase);
+
 	uint64_t m_Offset;
 	AssetID m_ID;
 

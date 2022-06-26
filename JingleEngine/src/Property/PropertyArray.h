@@ -6,6 +6,8 @@
 
 class PropertyArray : public PropertyBase
 {
+	DEFINE_CLASS(PropertyArray, PropertyBase);
+
 	std::vector<PropertyBase*> m_Properties;
 	uint64_t m_Offset;
 
@@ -21,5 +23,8 @@ public:
 
 	virtual JingleScript::Object* GetReadInstance(JingleScript::Object* instance) override;
 	virtual JingleScript::Object* GetWriteInstance(JingleScript::Object* instance) override;
+
+	size_t Count() const;
+	PropertyBase* Get(size_t index) const;
 
 };

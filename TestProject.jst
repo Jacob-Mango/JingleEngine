@@ -434,6 +434,10 @@ Global {
    }
   }
   Class {
+   Name: "PropertyBase"
+   Base: "Object"
+  }
+  Class {
    Name: "Type"
    Base: "Object"
    Methods: {
@@ -951,6 +955,10 @@ Global {
    Base: "EditorPanelBase"
   }
   Class {
+   Name: "PropertyObject"
+   Base: "PropertyBase"
+  }
+  Class {
    Attributes: {
     Attribute {
      Value: "EditorAttribute"
@@ -1012,6 +1020,26 @@ Global {
    }
   }
   Class {
+   Name: "PropertyArray"
+   Base: "PropertyBase"
+  }
+  Class {
+   Name: "PropertyAsset"
+   Base: "PropertyBase"
+  }
+  Class {
+   Name: "PropertyConfig"
+   Base: "PropertyBase"
+  }
+  Class {
+   Name: "PropertyItem"
+   Base: "PropertyBase"
+  }
+  Class {
+   Name: "PropertyProperty"
+   Base: "PropertyBase"
+  }
+  Class {
    Name: "Scene"
    Base: "ConfigAsset"
    Variables: {
@@ -1019,12 +1047,23 @@ Global {
      Attributes: {
       Attribute {
        Value: "Property"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "Entity"
+           }
+          }
+         }
+        }
+       }
        IsConstructor: "1"
        IsSuper: "0"
        ForceExact: "0"
       }
      }
-     Type: "ConfigArray"
+     Type: "PropertyArray"
      Name: "Entities"
     }
    }

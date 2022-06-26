@@ -2,6 +2,10 @@
 
 using namespace JingleScript;
 
+BEGIN_CLASS_LINK(PropertyConfig)
+	LINK_CONSTRUCTOR(Type*, Property*, uint64_t);
+END_CLASS_LINK()
+
 PropertyConfig::PropertyConfig(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset), m_Config(nullptr)
 {
@@ -36,17 +40,16 @@ bool PropertyConfig::OnSerialize(Config* cfg)
 bool PropertyConfig::OnReadObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
 	return true;
 }
 
-#include "Scene/Scene.h"
-
 bool PropertyConfig::OnWriteObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
-	Scene* scene = static_cast<Scene*>(instance);
 	*(Config**)((char*)instance + m_Offset) = m_Config;
 	return true;
 }

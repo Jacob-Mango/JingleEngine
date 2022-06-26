@@ -2,6 +2,10 @@
 
 using namespace JingleScript;
 
+BEGIN_CLASS_LINK(PropertyItem)
+	LINK_CONSTRUCTOR(Type*, Property*, uint64_t);
+END_CLASS_LINK()
+
 PropertyItem::PropertyItem(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset), m_Data(nullptr)
 {
@@ -19,17 +23,18 @@ bool PropertyItem::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
 
-	uint64_t size = m_Type->GetReferenceSize();
+	uint64_t size = m_PropertyType->GetReferenceSize();
 
 	m_Data = malloc(size);
 	if (!m_Data)
 	{
+		JS_TINFO("Couldn't allocate memory.");
 		return false;
 	}
 
 	std::string& value = *cfg->GetValuePtr();
 
-	if (m_Type == String::StaticType())
+	if (m_PropertyType == String::StaticType())
 	{
 		memcpy(m_Data, &value, size);
 		return true;
@@ -38,7 +43,7 @@ bool PropertyItem::OnDeserialize(Config* cfg)
 	FunctionSignature signature;
 	signature.Name = "FromString";
 	signature.Owner = nullptr;
-	signature.ReturnType = m_Type;
+	signature.ReturnType = m_PropertyType;
 	signature.Parameters.push_back({ String::StaticType() });
 
 	auto function = signature.Find();
@@ -68,11 +73,11 @@ bool PropertyItem::OnSerialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
 
-	uint64_t size = m_Type->GetReferenceSize();
+	uint64_t size = m_PropertyType->GetReferenceSize();
 
 	FunctionSignature signature;
 	signature.Name = "ToString";
-	signature.Owner = m_Type;
+	signature.Owner = m_PropertyType;
 	signature.ReturnType = String::StaticType();
 
 	auto function = signature.Find();
@@ -93,7 +98,7 @@ bool PropertyItem::OnSerialize(Config* cfg)
 	ValueData dst;
 	dst.Size = size;
 	dst.Offset = offset;
-	dst.IsPointer = !m_Type->IsStructure();
+	dst.IsPointer = !m_PropertyType->IsStructure();
 
 	stack->CopyFrom(dst, m_Data);
 
@@ -110,14 +115,15 @@ bool PropertyItem::OnSerialize(Config* cfg)
 bool PropertyItem::OnReadObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
-	if (!m_Type->IsStructure())
+	if (!m_PropertyType->IsStructure())
 	{
 		return false;
 	}
 
 	void* src = (void*)((char*)instance + m_Offset);
-	Type::CallCopyConstructor(src, m_Data, m_Type);
+	Type::CallCopyConstructor(src, m_Data, m_PropertyType);
 
 	return true;
 }
@@ -125,14 +131,15 @@ bool PropertyItem::OnReadObject(Object* instance)
 bool PropertyItem::OnWriteObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
-	if (!m_Type->IsStructure())
+	if (!m_PropertyType->IsStructure())
 	{
 		return false;
 	}
 
 	void* dst = (void*)((char*)instance + m_Offset);
-	Type::CallCopyConstructor(m_Data, dst, m_Type);
+	Type::CallCopyConstructor(m_Data, dst, m_PropertyType);
 
 	return true;
 }

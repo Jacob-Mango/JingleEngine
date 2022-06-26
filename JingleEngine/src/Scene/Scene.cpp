@@ -9,6 +9,8 @@
 
 #include "Scene/Components/MeshComponent.h"
 
+#include "Property/PropertyArray.h"
+
 #include "Rendering/Camera.h"
 #include "Rendering/Mesh.h"
 #include "Rendering/Renderer.h"
@@ -26,6 +28,8 @@ END_CLASS_LINK()
 
 Scene::Scene()
 {
+	JS_TRACE(Tracers::Asset);
+
 	m_EntitiesData = nullptr;
 }
 
@@ -36,6 +40,8 @@ Scene::~Scene()
 
 bool Scene::OnLoad()
 {
+	JS_TRACE(Tracers::Asset);
+
 	using namespace JingleScript;
 
 	if (!Super::OnLoad())
@@ -43,28 +49,27 @@ bool Scene::OnLoad()
 		return false;
 	}
 
+	JS_TINFO("Instance: {}", PointerToString(this));
+
 	for (int i = 0; i < m_EntitiesData->Count(); i++)
 	{
-	/*
-		auto cfg = m_EntitiesData->Get(i);
+		const auto& property = m_EntitiesData->Get(i);
 
-		std::string typeName = cfg->GetLinkedType();
-		Type* type = TypeManager::Get(typeName);
+		Type* type = property->GetPropertyType();
 		Entity* entity = type->New<Entity>();
-
-		cfg->WriteToObject(entity);
-
-		entity->m_Scene = this;
+		
+		property->OnWriteObject(entity);
+		
+		AddEntity(entity);
 		entity->m_Parent = nullptr;
-
+		
 		for (auto& component : entity->GetComponents())
 		{
 			component->m_Entity = entity;
 			component->OnCreate();
 		}
-
+		
 		entity->OnCreate();
-	*/
 	}
 
 	return true;

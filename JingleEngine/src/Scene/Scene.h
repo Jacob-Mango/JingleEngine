@@ -21,7 +21,7 @@ class Scene : public ConfigAsset
 	friend class SceneHierarchyPanel;
 	
 private:
-	ConfigArray* m_EntitiesData;
+	PropertyArray* m_EntitiesData;
 
 	std::vector<Entity*> m_Entities;
 	std::vector<Light*> m_Lights;

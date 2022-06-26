@@ -83,6 +83,8 @@ class #global extends Object {
 
   int FromString(string) (Native)
 
+  uint64_t FromString(string) (Native)
+
   bool ImGui_Begin(string) (Native)
 
   void ImGui_End() (Native)
@@ -144,52 +146,55 @@ class #global extends Object {
     [0000002D]   copy_address 0                                                                        
     [0000002E]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [0000002F]   copy_address 0                                                                        
-    [00000030]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000031]   copy_address 0                                                                        
-    [00000032]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000033]   copy_address 0                                                                        
-    [00000034]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000035]   copy_address 0                                                                        
-    [00000036]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000037]   copy_address 0                                                                        
-    [00000038]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000039]   copy_address 0                                                                        
-    [0000003A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000003B]   copy_address 0                                                                        
-    [0000003C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000003D]   copy_address 0                                                                        
-    [0000003E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000003F]   copy_address 0                                                                        
-    [00000040]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000041]   copy_address 0                                                                        
-    [00000042]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000043]   copy_address 0                                                                        
-    [00000044]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000045]   copy_address 0                                                                        
-    [00000046]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000047]   copy_address 0                                                                        
-    [00000048]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000049]   copy_address 0                                                                        
-    [0000004A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000004B]   copy_address 0                                                                        
-    [0000004C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000004D]   copy_address 0                                                                        
-    [0000004E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000004F]   copy_address 0                                                                        
-    [00000050]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000051]   copy_address 0                                                                        
-    [00000052]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000053]   copy_address 0                                                                        
-    [00000054]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000055]   copy_address 0                                                                        
-    [00000056]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000057]   copy_address 0                                                                        
-    [00000058]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000059]   copy_address 0                                                                        
-    [0000005A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000005B]   copy_address 0                                                                        
-    [0000005C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000005D]  pop 8                                                                                  JingleScript::ValueItem::Pop
+    [00000030]   push 40                                                                               JingleScript::ValueItem::Push
+    [00000031]    copy_data string [Entity] 40                                                         JingleScript::Compiler::CompileConstant
+    [00000032]    call_method [Property::ctor(string)] 6                                               JingleScript::Compiler::CompileFunctionCall
+    [00000033]   pop 40                                                                                JingleScript::ValueItem::Pop
+    [00000034]   copy_address 0                                                                        
+    [00000035]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000036]   copy_address 0                                                                        
+    [00000037]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000038]   copy_address 0                                                                        
+    [00000039]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000003A]   copy_address 0                                                                        
+    [0000003B]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000003C]   copy_address 0                                                                        
+    [0000003D]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000003E]   copy_address 0                                                                        
+    [0000003F]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000040]   copy_address 0                                                                        
+    [00000041]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000042]   copy_address 0                                                                        
+    [00000043]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000044]   copy_address 0                                                                        
+    [00000045]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000046]   copy_address 0                                                                        
+    [00000047]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000048]   copy_address 0                                                                        
+    [00000049]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000004A]   copy_address 0                                                                        
+    [0000004B]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000004C]   copy_address 0                                                                        
+    [0000004D]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000004E]   copy_address 0                                                                        
+    [0000004F]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000050]   copy_address 0                                                                        
+    [00000051]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000052]   copy_address 0                                                                        
+    [00000053]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000054]   copy_address 0                                                                        
+    [00000055]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000056]   copy_address 0                                                                        
+    [00000057]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000058]   copy_address 0                                                                        
+    [00000059]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000005A]   copy_address 0                                                                        
+    [0000005B]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000005C]   copy_address 0                                                                        
+    [0000005D]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000005E]   copy_address 0                                                                        
+    [0000005F]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000060]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
@@ -205,6 +210,8 @@ struct bool extends Object {
   void bool::operator=(bool) (Native)
 
   bool::ctor() (Native)
+
+  bool bool::operator>=(uint64_t) (Native)
 
   bool bool::operator>(bool) (Native)
 
@@ -234,6 +241,8 @@ struct bool extends Object {
 
   bool bool::operator!=(byte) (Native)
 
+  bool bool::operator==(uint64_t) (Native)
+
   void bool::operator=(double) (Native)
 
   bool bool::operator>(double) (Native)
@@ -250,7 +259,11 @@ struct bool extends Object {
 
   bool bool::operator==(double) (Native)
 
+  bool bool::operator<(uint64_t) (Native)
+
   bool bool::operator!=(double) (Native)
+
+  bool bool::operator<=(uint64_t) (Native)
 
   void bool::operator=(float) (Native)
 
@@ -270,7 +283,13 @@ struct bool extends Object {
 
   bool bool::operator<(int) (Native)
 
+  bool bool::operator>(uint64_t) (Native)
+
   bool bool::operator==(int) (Native)
+
+  void bool::operator=(uint64_t) (Native)
+
+  bool bool::operator!=(uint64_t) (Native)
 
   string bool::operator+(string) (Native)
 }
@@ -291,6 +310,8 @@ struct byte extends Object {
   bool byte::operator<(bool) (Native)
 
   void byte::operator=(bool) (Native)
+
+  bool byte::operator>=(uint64_t) (Native)
 
   byte byte::operator+(double) (Native)
 
@@ -356,6 +377,8 @@ struct byte extends Object {
 
   bool byte::operator==(double) (Native)
 
+  bool byte::operator<(uint64_t) (Native)
+
   bool byte::operator!=(double) (Native)
 
   byte byte::operator*(float) (Native)
@@ -364,13 +387,13 @@ struct byte extends Object {
 
   void byte::operator=(float) (Native)
 
+  byte byte::operator*(uint64_t) (Native)
+
   bool byte::operator>=(float) (Native)
 
   bool byte::operator>=(int) (Native)
 
   bool byte::operator<(float) (Native)
-
-  string byte::ToString() (Native)
 
   byte byte::operator+(int) (Native)
 
@@ -378,11 +401,13 @@ struct byte extends Object {
 
   byte byte::operator*(int) (Native)
 
+  byte byte::operator%(uint64_t) (Native)
+
   byte byte::operator/(int) (Native)
 
-  byte byte::operator-(int) (Native)
+  byte byte::operator+(uint64_t) (Native)
 
-  string byte::operator+(string) (Native)
+  byte byte::operator-(int) (Native)
 
   void byte::operator=(int) (Native)
 
@@ -390,7 +415,25 @@ struct byte extends Object {
 
   bool byte::operator<(int) (Native)
 
+  bool byte::operator>(uint64_t) (Native)
+
   bool byte::operator==(int) (Native)
+
+  byte byte::operator/(uint64_t) (Native)
+
+  byte byte::operator-(uint64_t) (Native)
+
+  void byte::operator=(uint64_t) (Native)
+
+  bool byte::operator<=(uint64_t) (Native)
+
+  bool byte::operator==(uint64_t) (Native)
+
+  bool byte::operator!=(uint64_t) (Native)
+
+  string byte::operator+(string) (Native)
+
+  string byte::ToString() (Native)
 }
 
 struct double extends Object {
@@ -408,9 +451,11 @@ struct double extends Object {
 
   void double::operator=(bool) (Native)
 
-  double double::operator/(float) (Native)
-
   double double::operator-(byte) (Native)
+
+  bool double::operator>=(uint64_t) (Native)
+
+  double double::operator/(float) (Native)
 
   bool double::operator>(bool) (Native)
 
@@ -450,6 +495,8 @@ struct double extends Object {
 
   bool double::operator<(byte) (Native)
 
+  double double::operator-(uint64_t) (Native)
+
   bool double::operator<=(byte) (Native)
 
   double double::operator+(float) (Native)
@@ -460,11 +507,11 @@ struct double extends Object {
 
   bool double::operator!=(byte) (Native)
 
-  string double::ToString() (Native)
-
   double double::operator*(double) (Native)
 
   double double::operator/(double) (Native)
+
+  void double::operator=(uint64_t) (Native)
 
   string double::operator+(string) (Native)
 
@@ -480,11 +527,17 @@ struct double extends Object {
 
   bool double::operator==(double) (Native)
 
+  bool double::operator<(uint64_t) (Native)
+
   double double::operator/(int) (Native)
 
   bool double::operator!=(double) (Native)
 
+  bool double::operator!=(uint64_t) (Native)
+
   double double::operator*(float) (Native)
+
+  double double::operator*(uint64_t) (Native)
 
   void double::operator=(float) (Native)
 
@@ -496,6 +549,8 @@ struct double extends Object {
 
   double double::operator*(int) (Native)
 
+  double double::operator+(uint64_t) (Native)
+
   double double::operator-(int) (Native)
 
   void double::operator=(int) (Native)
@@ -504,7 +559,17 @@ struct double extends Object {
 
   bool double::operator<(int) (Native)
 
+  bool double::operator>(uint64_t) (Native)
+
   bool double::operator==(int) (Native)
+
+  double double::operator/(uint64_t) (Native)
+
+  bool double::operator<=(uint64_t) (Native)
+
+  bool double::operator==(uint64_t) (Native)
+
+  string double::ToString() (Native)
 }
 
 struct float extends Object {
@@ -512,17 +577,17 @@ struct float extends Object {
 
   bool float::operator>=(bool) (Native)
 
-  void float::operator=(double) (Native)
-
   float::dtor() (Native)
+
+  void float::operator=(double) (Native)
 
   bool float::operator==(bool) (Native)
 
   void float::operator=(bool) (Native)
 
-  string float::ToString() (Native)
-
   float::ctor() (Native)
+
+  bool float::operator>=(uint64_t) (Native)
 
   bool float::operator>(bool) (Native)
 
@@ -533,6 +598,8 @@ struct float extends Object {
   bool float::operator!=(int) (Native)
 
   bool float::operator<=(bool) (Native)
+
+  float float::operator/(uint64_t) (Native)
 
   bool float::operator!=(bool) (Native)
 
@@ -551,6 +618,8 @@ struct float extends Object {
   void float::operator=(byte) (Native)
 
   bool float::operator>(byte) (Native)
+
+  float float::operator*(uint64_t) (Native)
 
   bool float::operator>=(byte) (Native)
 
@@ -584,9 +653,13 @@ struct float extends Object {
 
   bool float::operator<(double) (Native)
 
+  void float::operator=(uint64_t) (Native)
+
   float float::operator*(int) (Native)
 
   bool float::operator==(double) (Native)
+
+  bool float::operator<(uint64_t) (Native)
 
   bool float::operator!=(double) (Native)
 
@@ -610,15 +683,29 @@ struct float extends Object {
 
   float float::operator/(int) (Native)
 
+  bool float::operator<=(uint64_t) (Native)
+
+  float float::operator+(uint64_t) (Native)
+
   float float::operator-(int) (Native)
 
   bool float::operator>(int) (Native)
 
   bool float::operator<(int) (Native)
 
+  bool float::operator>(uint64_t) (Native)
+
   bool float::operator==(int) (Native)
 
+  float float::operator-(uint64_t) (Native)
+
+  bool float::operator==(uint64_t) (Native)
+
+  bool float::operator!=(uint64_t) (Native)
+
   string float::operator+(string) (Native)
+
+  string float::ToString() (Native)
 }
 
 struct int extends Object {
@@ -631,6 +718,8 @@ struct int extends Object {
   bool int::operator==(bool) (Native)
 
   int::ctor() (Native)
+
+  bool int::operator>=(uint64_t) (Native)
 
   void int::operator=(float) (Native)
 
@@ -696,6 +785,8 @@ struct int extends Object {
 
   int int::operator-(double) (Native)
 
+  int int::operator%(uint64_t) (Native)
+
   int int::operator/(int) (Native)
 
   void int::operator=(double) (Native)
@@ -708,9 +799,13 @@ struct int extends Object {
 
   bool int::operator==(double) (Native)
 
-  void int::operator=(int) (Native)
+  bool int::operator<(uint64_t) (Native)
 
   bool int::operator!=(double) (Native)
+
+  void int::operator=(int) (Native)
+
+  void int::operator=(uint64_t) (Native)
 
   int int::operator*(float) (Native)
 
@@ -718,17 +813,21 @@ struct int extends Object {
 
   int int::operator-(float) (Native)
 
+  int int::operator/(uint64_t) (Native)
+
   bool int::operator>=(float) (Native)
 
   bool int::operator<=(float) (Native)
 
   bool int::operator!=(float) (Native)
 
+  int int::operator*(uint64_t) (Native)
+
   int int::operator*(int) (Native)
 
-  string int::operator+(string) (Native)
-
   int int::operator+(int) (Native)
+
+  int int::operator+(uint64_t) (Native)
 
   int int::operator-(int) (Native)
 
@@ -736,7 +835,161 @@ struct int extends Object {
 
   bool int::operator<(int) (Native)
 
+  bool int::operator>(uint64_t) (Native)
+
   bool int::operator==(int) (Native)
+
+  int int::operator-(uint64_t) (Native)
+
+  bool int::operator<=(uint64_t) (Native)
+
+  bool int::operator==(uint64_t) (Native)
+
+  bool int::operator!=(uint64_t) (Native)
+
+  string int::operator+(string) (Native)
+}
+
+struct uint64_t {
+   uint64_t value
+
+  bool uint64_t::operator>=(bool) (Native)
+
+  uint64_t::dtor() (Native)
+
+  uint64_t uint64_t::operator*(int) (Native)
+
+  bool uint64_t::operator==(bool) (Native)
+
+  uint64_t::ctor() (Native)
+
+  bool uint64_t::operator==(byte) (Native)
+
+  void uint64_t::operator=(bool) (Native)
+
+  bool uint64_t::operator>=(uint64_t) (Native)
+
+  bool uint64_t::operator>(bool) (Native)
+
+  bool uint64_t::operator<(bool) (Native)
+
+  uint64_t uint64_t::operator+(double) (Native)
+
+  bool uint64_t::operator!=(int) (Native)
+
+  bool uint64_t::operator<=(bool) (Native)
+
+  bool uint64_t::operator!=(bool) (Native)
+
+  bool uint64_t::operator>(uint64_t) (Native)
+
+  bool uint64_t::operator==(int) (Native)
+
+  uint64_t uint64_t::operator*(byte) (Native)
+
+  uint64_t uint64_t::operator/(byte) (Native)
+
+  uint64_t uint64_t::operator+(byte) (Native)
+
+  uint64_t uint64_t::operator/(float) (Native)
+
+  bool uint64_t::operator>=(double) (Native)
+
+  uint64_t uint64_t::operator-(byte) (Native)
+
+  uint64_t uint64_t::operator%(byte) (Native)
+
+  void uint64_t::operator=(byte) (Native)
+
+  bool uint64_t::operator>(byte) (Native)
+
+  bool uint64_t::operator>=(byte) (Native)
+
+  bool uint64_t::operator>(float) (Native)
+
+  bool uint64_t::operator<(byte) (Native)
+
+  bool uint64_t::operator<=(byte) (Native)
+
+  bool uint64_t::operator<=(int) (Native)
+
+  bool uint64_t::operator!=(byte) (Native)
+
+  void uint64_t::operator=(float) (Native)
+
+  uint64_t uint64_t::operator*(double) (Native)
+
+  uint64_t uint64_t::operator/(double) (Native)
+
+  uint64_t uint64_t::operator-(double) (Native)
+
+  uint64_t uint64_t::operator%(int) (Native)
+
+  void uint64_t::operator=(double) (Native)
+
+  bool uint64_t::operator>(double) (Native)
+
+  uint64_t uint64_t::operator%(uint64_t) (Native)
+
+  uint64_t uint64_t::operator/(int) (Native)
+
+  bool uint64_t::operator<(double) (Native)
+
+  bool uint64_t::operator==(float) (Native)
+
+  bool uint64_t::operator<=(double) (Native)
+
+  bool uint64_t::operator==(double) (Native)
+
+  bool uint64_t::operator<(uint64_t) (Native)
+
+  uint64_t uint64_t::operator*(float) (Native)
+
+  bool uint64_t::operator!=(double) (Native)
+
+  uint64_t uint64_t::operator+(float) (Native)
+
+  uint64_t uint64_t::operator-(float) (Native)
+
+  void uint64_t::operator=(int) (Native)
+
+  bool uint64_t::operator>=(float) (Native)
+
+  bool uint64_t::operator>=(int) (Native)
+
+  bool uint64_t::operator<(float) (Native)
+
+  bool uint64_t::operator<=(float) (Native)
+
+  bool uint64_t::operator!=(float) (Native)
+
+  uint64_t uint64_t::operator+(int) (Native)
+
+  uint64_t uint64_t::operator+(uint64_t) (Native)
+
+  uint64_t uint64_t::operator-(int) (Native)
+
+  bool uint64_t::operator>(int) (Native)
+
+  bool uint64_t::operator<(int) (Native)
+
+  void uint64_t::operator=(uint64_t) (Native)
+
+  uint64_t uint64_t::operator*(uint64_t) (Native)
+
+  uint64_t uint64_t::operator/(uint64_t) (Native)
+
+  uint64_t uint64_t::operator-(uint64_t) (Native)
+
+  bool uint64_t::operator<=(uint64_t) (Native)
+
+  bool uint64_t::operator==(uint64_t) (Native)
+
+  bool uint64_t::operator!=(uint64_t) (Native)
+
+  string uint64_t::operator+(string) (Native)
+
+  string uint64_t::ToString() (Native)
 }
 
 struct null extends Object {
@@ -772,7 +1025,7 @@ struct Array extends Object {
 }
 
 class Scene extends ConfigAsset {
-   ConfigArray Entities
+   PropertyArray Entities
 
   Scene::dtor() (Native)
 
@@ -942,11 +1195,67 @@ class Framebuffer extends Managed {
   Framebuffer::ctor() (Native)
 }
 
+class PropertyProperty extends PropertyBase {
+
+  PropertyProperty::dtor() (Native)
+
+  PropertyProperty::ctor(Type, Property, uint64_t) (Native)
+}
+
+class PropertyBase extends Object {
+
+  PropertyBase::dtor() (Native)
+}
+
+class Type extends Object {
+
+  bool Type::IsInherited(Type) (Native)
+}
+
 class Property extends Attribute {
 
   Property::dtor() (Native)
 
   Property::ctor() (Native)
+
+  Property::ctor(string) (Native)
+}
+
+class PropertyObject extends PropertyBase {
+
+  PropertyObject::ctor(Type, Property, uint64_t) (Native)
+
+  PropertyObject::dtor() (Native)
+
+  PropertyObject::ctor() (Native)
+}
+
+class PropertyItem extends PropertyBase {
+
+  PropertyItem::ctor(Type, Property, uint64_t) (Native)
+
+  PropertyItem::dtor() (Native)
+}
+
+class PropertyConfig extends PropertyBase {
+
+  PropertyConfig::dtor() (Native)
+
+  PropertyConfig::ctor(Type, Property, uint64_t) (Native)
+}
+
+class PropertyAsset extends PropertyBase {
+
+  PropertyAsset::dtor() (Native)
+
+  PropertyAsset::ctor(Type, Property, uint64_t) (Native)
+}
+
+class PropertyArray extends PropertyBase {
+
+  PropertyArray::dtor() (Native)
+
+  PropertyArray::ctor(Type, Property, uint64_t) (Native)
 }
 
 class ArrayProperty extends Property {
@@ -1074,16 +1383,6 @@ class AssetModule extends Module {
   AssetModule::dtor() (Native)
 
   AssetModule::ctor() (Native)
-}
-
-class Type extends Object {
-
-  bool Type::IsInherited(Type) (Native)
-}
-
-class Type extends Object {
-
-  bool Type::IsInherited(Type) (Native)
 }
 
 class Native extends Attribute {

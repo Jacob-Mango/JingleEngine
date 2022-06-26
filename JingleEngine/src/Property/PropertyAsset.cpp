@@ -2,6 +2,10 @@
 
 using namespace JingleScript;
 
+BEGIN_CLASS_LINK(PropertyAsset)
+	LINK_CONSTRUCTOR(Type*, Property*, uint64_t);
+END_CLASS_LINK()
+
 PropertyAsset::PropertyAsset(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset)
 {
@@ -34,6 +38,7 @@ bool PropertyAsset::OnSerialize(Config* cfg)
 bool PropertyAsset::OnReadObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
 	Asset* asset = (Asset*)((char*)instance + m_Offset);
 	if (asset != nullptr)
@@ -47,8 +52,9 @@ bool PropertyAsset::OnReadObject(Object* instance)
 bool PropertyAsset::OnWriteObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
-	Asset* asset = AssetModule::Get<Asset>(m_ID, m_Type);
+	Asset* asset = AssetModule::Get<Asset>(m_ID, m_PropertyType);
 	*(void**)((char*)instance + m_Offset) = asset;
 	
 	return true;

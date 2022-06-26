@@ -11,11 +11,16 @@ class Property : public JingleScript::Attribute
 {
 	DEFINE_CLASS(Property, JingleScript::Attribute);
 
+	JingleScript::Type* m_TypeOverride;
+
 public:
-	Property() : JingleScript::Attribute() {}
+	Property();
+	Property(std::string type);
+
+	JingleScript::Type* GetPropertyType();
 
 	PropertyBase* CreateContainer(std::string cfgTypeName, uint64_t offset);
-
+	PropertyBase* CreateContainer(JingleScript::Type* type, uint64_t offset);
 };
 
 class ArrayProperty : public Property

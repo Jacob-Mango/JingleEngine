@@ -15,21 +15,28 @@ END_MODULE_LINK();
 
 void AssetModule::OnPreInitialize()
 {
+	JS_TRACE(Tracers::Asset);
+
 	s_Instance = this;
 }
 
 void AssetModule::OnInitialize()
 {
+	JS_TRACE(Tracers::Asset);
 	
 }
 
 void AssetModule::OnDestroy()
 {
+	JS_TRACE(Tracers::Asset);
+
 	m_Assets.erase(m_Assets.begin(), m_Assets.end());
 }
 
 Asset* AssetModule::Get(AssetID id, Type* type)
 {
+	JS_TRACE(Tracers::Asset);
+
 	Asset* asset = nullptr;
 
 	auto it = s_Instance->m_Assets.find(id.GetValue());
@@ -48,14 +55,14 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 			Ref<Lexer> lexer = Lexer::ParseFile(path);
 			if (!lexer->HasNext())
 			{
-				JS_ERROR("Failed to load asset '%s', empty file.", path.c_str());
+				JS_ERROR("Failed to load asset '{}', empty file.", path);
 				return nullptr;
 			}
 
 			ConfigSection* cfg = NewObject<ConfigSection>("ConfigSection");
 			if (!cfg->Deserialize(lexer, nullptr))
 			{
-				JS_ERROR("Failed to load asset '%s', deserialization failed.", path.c_str());
+				JS_ERROR("Failed to load asset '{}', deserialization failed.", path);
 				return nullptr;
 			}
 
@@ -64,13 +71,13 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 				Type* cfgType = TypeManager::Get(cfg->GetLinkedType());
 				if (!cfgType)
 				{
-					JS_ERROR("Failed to load asset '%s', invalid root type.", path.c_str());
+					JS_ERROR("Failed to load asset '{}', invalid root type.", path);
 					return nullptr;
 				}
 
 				if (!cfgType->IsInherited(type))
 				{
-					JS_ERROR("Failed to load asset '%s', root type '%s' not of same ancestor '%s'.", path.c_str(), cfgType->Name().c_str(), type->Name().c_str());
+					JS_ERROR("Failed to load asset '{}', root type '{}' not of same ancestor '{}'.", path, cfgType->Name(), type->Name());
 					return nullptr;
 				}
 
@@ -82,13 +89,13 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 
 			if (!cfgAsset->m_Properties->OnDeserialize(cfg))
 			{
-				JS_ERROR("Failed to load asset '%s', couldn't deserialize data.", path.c_str());
+				JS_ERROR("Failed to load asset '{}', couldn't deserialize data.", path);
 				return nullptr;
 			}
 
-			if (cfg->IsLinkedDirectly() && !cfgAsset->WriteToObject(cfg))
+			if (cfg->IsLinkedDirectly() && !cfgAsset->WriteToObject(cfgAsset))
 			{
-				JS_ERROR("Failed to load asset '%s', couldn't write data.", path.c_str());
+				JS_ERROR("Failed to load asset '{}', couldn't write data.", path);
 				return nullptr;
 			}
 
@@ -129,6 +136,8 @@ AssetIDv CRCByte(AssetIDv input, AssetIDv divisor)
 
 AssetIDv AssetModule::ConvertPath(std::string path)
 {
+	JS_TRACE(Tracers::Asset);
+
 	int i;
 	AssetIDv crc = 0xFFFFFFFFFFFFFFFF;
 
@@ -143,11 +152,17 @@ AssetIDv AssetModule::ConvertPath(std::string path)
 		crc = CRCByte((crc ^ c) & 0xff, 0xEDB88320EDB88320) ^ (crc >> 8);
 	}
 
-	return crc ^ 0xFFFFFFFFFFFFFFFF;
+	crc = crc ^ 0xFFFFFFFFFFFFFFFF;
+
+	JS_TINFO("\"{:x}:{}\"", crc, path);
+
+	return crc;
 }
 
 void AssetModule::Unload(AssetID id)
 {
+	JS_TRACE(Tracers::Asset);
+
 	auto it = s_Instance->m_Assets.find(id);
 	if (it == s_Instance->m_Assets.end())
 	{

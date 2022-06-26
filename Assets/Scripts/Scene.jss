@@ -1,7 +1,7 @@
 class Scene extends ConfigAsset
 {
-	@Property
-	ConfigArray Entities;
+	@Property("Entity")
+	PropertyArray Entities;
 
 	@Native
 	Camera GetCamera();

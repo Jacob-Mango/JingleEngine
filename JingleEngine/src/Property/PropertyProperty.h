@@ -2,19 +2,22 @@
 
 #include "Core/Core.h"
 
+#include "Config/Config.h"
+
 #include "Property/PropertyBase.h"
 
-class PropertyObject : public PropertyBase
-{
-	DEFINE_CLASS(PropertyObject, PropertyBase);
+class Property;
 
-	std::map<std::string, PropertyBase*> m_Properties;
+class PropertyProperty : public PropertyBase
+{
+	DEFINE_CLASS(PropertyProperty, PropertyBase);
+
+	PropertyBase* m_PropertyData;
 	uint64_t m_Offset;
 
 public:
-	PropertyObject();
-	PropertyObject(JingleScript::Type* type, Property* property, uint64_t offset);
-	virtual ~PropertyObject();
+	PropertyProperty(JingleScript::Type* type, Property* property, uint64_t offset);
+	virtual ~PropertyProperty();
 
 	virtual bool OnDeserialize(Config* cfg) override;
 	virtual bool OnSerialize(Config* cfg) override;

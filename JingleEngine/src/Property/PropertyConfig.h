@@ -10,6 +10,8 @@ class Property;
 
 class PropertyConfig : public PropertyBase
 {
+	DEFINE_CLASS(PropertyConfig, PropertyBase);
+
 	uint64_t m_Offset;
 	Config* m_Config;
 

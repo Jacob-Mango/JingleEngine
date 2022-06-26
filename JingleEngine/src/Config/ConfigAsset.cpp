@@ -8,16 +8,22 @@ END_CLASS_LINK()
 
 ConfigAsset::ConfigAsset()
 {
-	m_Properties = new PropertyObject();
+	JS_TRACE(Tracers::Asset);
+
+	m_Properties = NewObject<PropertyObject>("PropertyObject");
 }
 
 ConfigAsset::~ConfigAsset()
 {
-	delete m_Properties;
+	JS_TRACE(Tracers::Asset);
+
+	//delete m_Properties;
 }
 
 bool ConfigAsset::OnLoad()
 {
+	JS_TRACE(Tracers::Asset);
+
 	return true;
 }
 
@@ -30,6 +36,9 @@ void ConfigAsset::Output()
 
 bool ConfigAsset::WriteToObject(JingleScript::Object* instance)
 {
+	JS_TRACE(Tracers::Asset);
+	JS_TINFO("Instance: {}", PointerToString(instance));
+
 	if (!m_Properties->OnWriteObject(instance))
 	{
 		return false;
@@ -40,6 +49,8 @@ bool ConfigAsset::WriteToObject(JingleScript::Object* instance)
 
 bool ConfigAsset::ReadFromObject(JingleScript::Object* instance)
 {
+	JS_TRACE(Tracers::Asset);
+
 	if (!m_Properties->OnReadObject(instance))
 	{
 		return false;

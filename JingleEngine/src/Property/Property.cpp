@@ -7,56 +7,80 @@
 #include "Property/PropertyConfig.h"
 #include "Property/PropertyItem.h"
 #include "Property/PropertyObject.h"
+#include "Property/PropertyProperty.h"
 
 using namespace JingleScript;
 
 BEGIN_CLASS_LINK(Property);
 	LINK_CONSTRUCTOR();
+	LINK_CONSTRUCTOR(std::string);
 END_CLASS_LINK();
+
+Property::Property() : JingleScript::Attribute()
+{
+	m_TypeOverride = nullptr;
+}
+
+Property::Property(std::string type) : JingleScript::Attribute()
+{
+	m_TypeOverride = TypeManager::Get(type);
+}
+
+JingleScript::Type* Property::GetPropertyType()
+{
+	return m_TypeOverride == nullptr ? GetOwner() : m_TypeOverride;
+}
 
 PropertyBase* Property::CreateContainer(std::string cfgTypeName, uint64_t offset)
 {
 	JS_TRACE(Tracers::Property);
 
-	PropertyBase* container = nullptr;
-
-	Type* type = GetOwner();
+	Type* type = GetPropertyType();
 
 	if (type->IsInherited(ConfigArray::StaticType()))
 	{
-		return new PropertyConfig(type, this, offset);
+		return NewObject<PropertyConfig>("PropertyConfig", type, this, offset);
 	}
-
+	
 	if (!cfgTypeName.empty())
 	{
 		Type* overrideType = TypeManager::Get(cfgTypeName);
 		if (overrideType == nullptr)
 		{
-			return nullptr;
+			JS_TINFO("Override type doesn't exist.");
+			return false;
 		}
 
 		if (!overrideType->IsInherited(type))
 		{
-			return nullptr;
+			JS_TINFO("Override type '{}' doesn't inherit from property type '{}'.", overrideType->Name(), type->Name());
+			//return false;
 		}
 
 		type = overrideType;
 	}
 
+	return CreateContainer(type, offset);
+}
+
+PropertyBase* Property::CreateContainer(Type* type, uint64_t offset)
+{
+	JS_TRACE(Tracers::Property);
+
 	if (type->IsInherited(Array::StaticType()))
 	{
-		return new PropertyArray(type, this, offset);
+		return NewObject<PropertyArray>("PropertyArray", type, this, offset);
 	}
 	else if (type->IsInherited(Asset::StaticType()))
 	{
-		return new PropertyAsset(type, this, offset);
+		return NewObject<PropertyAsset>("PropertyAsset", type, this, offset);
 	}
 	else if (type->IsStructure())
 	{
-		return new PropertyItem(type, this, offset);
+		return NewObject<PropertyItem>("PropertyItem", type, this, offset);
 	}
 
-	return new PropertyObject(type, this, offset);
+	return NewObject<PropertyObject>("PropertyObject", type, this, offset);
 }
 
 BEGIN_CLASS_LINK(ArrayProperty);

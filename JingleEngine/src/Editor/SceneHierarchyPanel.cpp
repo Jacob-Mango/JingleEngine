@@ -2,6 +2,8 @@
 
 #include "Core/Application.h"
 
+#include "Property/PropertyArray.h"
+
 #include <imgui.h>
 
 BEGIN_CLASS_LINK(SceneHierarchyPanel);
@@ -32,7 +34,7 @@ void SceneHierarchyPanel::OnRender(double DeltaTime)
 		{
 			const auto& entity = scene->m_EntitiesData->Get(i);
 
-			std::string name = entity->GetName();
+			std::string name = entity->GetPropertyType()->Name();
 
 			ImGui::TableNextRow(ImGuiTableRowFlags_None);
 			ImGui::TableNextColumn();

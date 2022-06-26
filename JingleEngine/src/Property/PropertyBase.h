@@ -6,10 +6,12 @@
 
 #include "Property/Property.h"
 
-class PropertyBase
+class PropertyBase : public JingleScript::Object
 {
+	DEFINE_VIRTUAL_CLASS(PropertyBase, JingleScript::Object);
+
 protected:
-	JingleScript::Type* m_Type;
+	JingleScript::Type* m_PropertyType;
 	Property* m_Property;
 
 public:
@@ -30,5 +32,8 @@ public:
 
 	virtual JingleScript::Object* GetReadInstance(JingleScript::Object* instance) = 0;
 	virtual JingleScript::Object* GetWriteInstance(JingleScript::Object* instance) = 0;
+
+	JingleScript::Type* GetPropertyType() const;
+	Property* GetPropertyAttribute() const;
 
 };

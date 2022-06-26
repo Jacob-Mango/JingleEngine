@@ -5,6 +5,10 @@
 
 using namespace JingleScript;
 
+BEGIN_CLASS_LINK(PropertyArray)
+	LINK_CONSTRUCTOR(Type*, Property*, uint64_t);
+END_CLASS_LINK()
+
 PropertyArray::PropertyArray(Type* type, Property* property, uint64_t offset)
 	: PropertyBase(type, property), m_Offset(offset)
 {
@@ -24,14 +28,6 @@ bool PropertyArray::OnDeserialize(Config* cfg)
 
 	m_Properties.clear();
 
-	ArrayProperty* arrayProp = dynamic_cast<ArrayProperty*>(m_Property);
-	if (arrayProp == nullptr)
-	{
-		return false;
-	}
-
-	Type* baseType = arrayProp->m_TemplateType;
-
 	int count = cfg->Count();
 	for (int i = 0; i < count; i++)
 	{
@@ -40,10 +36,16 @@ bool PropertyArray::OnDeserialize(Config* cfg)
 		{
 			continue;
 		}
-		std::string typeStr = ""; //cfgVariable->GetLinkedType();
 
-		PropertyBase* propertyData = arrayProp->CreateContainer(typeStr, i);
-		if (!propertyData || !propertyData->OnDeserialize(cfgVariable))
+		std::string typeStr = cfgVariable->GetLinkedType();
+		PropertyBase* propertyData = m_Property->CreateContainer(typeStr, i);
+		if (!propertyData)
+		{
+			JS_TINFO("Couldn't create container for type '{}'.", typeStr);
+			return false;
+		}
+
+		if (!propertyData->OnDeserialize(cfgVariable))
 		{
 			return false;
 		}
@@ -64,6 +66,7 @@ bool PropertyArray::OnSerialize(Config* cfg)
 bool PropertyArray::OnReadObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
 	return true;
 }
@@ -71,10 +74,11 @@ bool PropertyArray::OnReadObject(Object* instance)
 bool PropertyArray::OnWriteObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
+	JS_TINFO("Instance: {}", PointerToString(instance));
 
 	FunctionSignature signature;
 	signature.Name = "Insert";
-	signature.Owner = m_Type;
+	signature.Owner = m_PropertyType;
 	signature.ReturnType = nullptr;
 	signature.Parameters.push_back({ Object::StaticType() });
 
@@ -82,11 +86,11 @@ bool PropertyArray::OnWriteObject(Object* instance)
 
 	if (!function)
 	{
-		std::cerr << "Could not find 'Insert' method in " << m_Type->Name() << std::endl;
+		std::cerr << "Could not find 'Insert' method in " << m_PropertyType->Name() << std::endl;
 		return false;
 	}
 
-	uint64_t size = m_Type->GetReferenceSize();
+	uint64_t size = m_PropertyType->GetReferenceSize();
 
 	Thread* thread = Thread::Current();
 	ValueStack* stack = &thread->Stack;
@@ -96,7 +100,7 @@ bool PropertyArray::OnWriteObject(Object* instance)
 	ValueData dst;
 	dst.Size = size;
 	dst.Offset = size;
-	dst.IsPointer = !m_Type->IsStructure();
+	dst.IsPointer = !m_PropertyType->IsStructure();
 
 	stack->Push(size);
 	stack->CopyFrom(dst, data);
@@ -137,4 +141,14 @@ Object* PropertyArray::GetWriteInstance(Object* instance)
 	JS_TRACE(Tracers::Property);
 
 	return instance;
+}
+
+size_t PropertyArray::Count() const
+{
+	return m_Properties.size();
+}
+
+PropertyBase* PropertyArray::Get(size_t index) const
+{
+	return m_Properties[index];
 }

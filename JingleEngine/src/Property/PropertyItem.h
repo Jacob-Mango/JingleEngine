@@ -10,6 +10,8 @@ class Property;
 
 class PropertyItem : public PropertyBase
 {
+	DEFINE_CLASS(PropertyItem, PropertyBase);
+
 	uint64_t m_Offset;
 	void* m_Data;
 
