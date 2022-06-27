@@ -7,6 +7,8 @@
 #include "Rendering/Material.h"
 #include "Rendering/MeshInstance.h"
 
+#include "Property/Serializable.h"
+
 class Config;
 class Entity;
 class Component;
@@ -35,7 +37,7 @@ public:
 
 };
 
-class Entity : public JingleScript::Object
+class Entity : public JingleScript::Object, public Serializable
 {
 	DEFINE_CLASS(Entity, JingleScript::Object);
 
@@ -45,10 +47,6 @@ class Entity : public JingleScript::Object
 	friend SceneHierarchyPanel;
 
 private:
-	unsigned int m_ID;
-
-	PropertyObject* m_Properties = nullptr;
-
 	Entity* m_Parent = nullptr;
 	EntityArray m_Children;
 

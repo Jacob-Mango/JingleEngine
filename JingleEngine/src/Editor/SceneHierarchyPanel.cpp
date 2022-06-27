@@ -42,6 +42,8 @@ void SceneHierarchyPanel::OnEndRender(double DeltaTime)
 
 void SceneHierarchyPanel::RenderEntity(Entity* entity)
 {
+	ImGui::PushID(PointerToString(entity).c_str());
+
 	std::string name = entity->GetType()->Name();
 	bool selected = GetEditor()->GetSelectedEntity() == entity;
 	bool wasSelected = selected;
@@ -57,6 +59,8 @@ void SceneHierarchyPanel::RenderEntity(Entity* entity)
 	{
 		GetEditor()->SelectEntity(entity);
 	}
+
+	ImGui::PopID();
 
 	for (auto& child : entity->m_Children)
 	{

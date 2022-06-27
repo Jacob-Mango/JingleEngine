@@ -8,6 +8,9 @@ class PropertyObject : public PropertyBase
 {
 	DEFINE_CLASS(PropertyObject, PropertyBase);
 
+	//! temp
+	friend class EntityPropertiesPanel;
+
 	std::map<std::string, PropertyBase*> m_Properties;
 	uint64_t m_Offset;
 

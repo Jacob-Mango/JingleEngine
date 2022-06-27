@@ -8,6 +8,9 @@ class PropertyArray : public PropertyBase
 {
 	DEFINE_CLASS(PropertyArray, PropertyBase);
 
+	//! temp
+	friend class EntityPropertiesPanel;
+
 	std::vector<PropertyBase*> m_Properties;
 	uint64_t m_Offset;
 

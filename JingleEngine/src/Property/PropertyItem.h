@@ -12,6 +12,9 @@ class PropertyItem : public PropertyBase
 {
 	DEFINE_CLASS(PropertyItem, PropertyBase);
 
+	//! temp
+	friend class EntityPropertiesPanel;
+
 	uint64_t m_Offset;
 	void* m_Data;
 

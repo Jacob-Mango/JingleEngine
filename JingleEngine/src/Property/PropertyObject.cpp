@@ -4,6 +4,7 @@
 #include "Property/PropertyArray.h"
 #include "Property/PropertyItem.h"
 #include "Property/PropertyProperty.h"
+#include "Property/Serializable.h"
 
 using namespace JingleScript;
 
@@ -184,6 +185,12 @@ bool PropertyObject::OnWriteObject(Object* instance)
 {
 	JS_TRACE(Tracers::Property);
 	JS_TINFO("Instance: {}", PointerToString(instance));
+
+	Serializable* serializable = dynamic_cast<Serializable*>(instance);
+	if (serializable)
+	{
+		serializable->m_Properties = this;
+	}
 
 	for (auto& [name, property] : m_Properties)
 	{

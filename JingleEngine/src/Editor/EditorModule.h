@@ -21,7 +21,7 @@ class EditorModule : public Module
 
 	std::map<JingleScript::Type*, EditorPanelData> m_Panels;
 
-	Entity* m_SelectedEntity;
+	Entity* m_SelectedEntity = nullptr;
 
 public:
 	virtual void OnInitialize() override;

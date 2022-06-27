@@ -12,6 +12,9 @@ class PropertyAsset : public PropertyBase
 {
 	DEFINE_CLASS(PropertyAsset, PropertyBase);
 
+	//! temp
+	friend class EntityPropertiesPanel;
+
 	uint64_t m_Offset;
 	AssetID m_ID;
 
