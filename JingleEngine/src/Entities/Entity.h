@@ -7,19 +7,31 @@
 #include "Rendering/Material.h"
 #include "Rendering/MeshInstance.h"
 
-class Scene;
 class Config;
 class Entity;
 class Component;
 class Application;
+
+class Renderer;
+
 class EntityPropertiesPanel;
+class SceneHierarchyPanel;
 
 class ComponentArray : public JingleScript::Array, public std::vector<Component*>
 {
 	DEFINE_BASE_STRUCTURE(ComponentArray, JingleScript::Array);
 
 public:
-	void Insert(JingleScript::Object* value);
+	void Insert(Component* value);
+
+};
+
+class EntityArray : public JingleScript::Array, public std::vector<Entity*>
+{
+	DEFINE_BASE_STRUCTURE(EntityArray, JingleScript::Array);
+
+public:
+	void Insert(Entity* value);
 
 };
 
@@ -27,17 +39,18 @@ class Entity : public JingleScript::Object
 {
 	DEFINE_CLASS(Entity, JingleScript::Object);
 
-	friend Scene;
+	friend Renderer;
+
 	friend EntityPropertiesPanel;
+	friend SceneHierarchyPanel;
 
 private:
 	unsigned int m_ID;
 
-	Scene* m_Scene;
-	PropertyObject* m_Properties;
+	PropertyObject* m_Properties = nullptr;
 
-	Entity* m_Parent;
-	std::vector<Entity*> m_Children;
+	Entity* m_Parent = nullptr;
+	EntityArray m_Children;
 
 	ComponentArray m_Components;
 
@@ -78,8 +91,6 @@ public:
 	glm::dvec3 GetUpDirection() const;
 	glm::dvec3 GetForwardDirection() const;
 
-	Scene* GetScene() const;
-
 	void SetVisible(bool visible);
 	bool IsVisible();
 	
@@ -88,4 +99,11 @@ public:
 	virtual void OnCreate();
 	virtual void OnDestroy();
 	virtual void OnTick(double DeltaTime);
+
+private:
+	void InitChild(Entity* child);
+
+public:
+	static Entity* Create(AssetID asset);
+
 };

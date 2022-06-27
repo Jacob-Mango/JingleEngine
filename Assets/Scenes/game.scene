@@ -1,8 +1,0 @@
-{Scene}: {
-	Entities: [
-		"Assets\Entities\Box\test.ent" {
-		},
-		"Assets\Entities\camera.ent" {
-		}
-	]
-}

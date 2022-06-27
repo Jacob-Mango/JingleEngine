@@ -1,4 +1,4 @@
-#include "Scene/Component.h"
+#include "Entities/Component.h"
 
 BEGIN_CLASS_LINK(Component)
 	LINK_CONSTRUCTOR();

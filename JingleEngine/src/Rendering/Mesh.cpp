@@ -33,7 +33,7 @@ bool Mesh::OnLoad()
 
 	Assimp::Importer* importer = new Assimp::Importer();
 	const aiScene* scene = importer->ReadFile(file, meshImportFlags);
-	JS_INFO("Scene '{}'", PointerToString(scene));
+	JS_INFO("aiScene '{}'", PointerToString(scene));
 	if (!scene || !scene->HasMeshes())
 	{
 		return false;

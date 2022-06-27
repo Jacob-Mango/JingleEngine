@@ -2,9 +2,9 @@
 
 #include "Rendering/Viewport.h"
 
-#include "Scene/Scene.h"
+#include "Entities/Entity.h"
 
-#include "Scene/Components/MeshComponent.h"
+#include "Entities/Components/MeshComponent.h"
 
 #include "Core/ModuleManager.h"
 #include "Core/Window.h"
@@ -12,46 +12,59 @@
 BEGIN_MODULE_LINK(Renderer);
 END_MODULE_LINK();
 
-void Renderer::SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform)
+void Renderer::SubmitEntity(Entity* entity, const glm::dmat4& parentTransform)
 {
-	if (!mesh) return;
+	if (!entity->IsVisible())
+	{
+		return;
+	}
 
-	Ref<Material> material = mesh->GetMaterial();
+	glm::dmat4 transform = parentTransform * entity->GetTransform();
+	
+	auto& components = entity->GetComponents();
+	for (auto& component : components)
+	{
+		MeshComponent* comp = dynamic_cast<MeshComponent*>(component);
+		if (comp && comp->GetMesh())
+		{
+			SubmitMesh(comp->GetMesh(), transform);
+		}
+	}
 
-	if (!material) return;
+	for (auto& child : entity->m_Children)
+	{
+		SubmitEntity(child, transform);
+	}
+}
 
-	Ref<Shader> shader = material->GetShader();
+void Renderer::SubmitMesh(Ref<MeshInstance> mesh, const glm::dmat4& transform)
+{
+	Material* material = mesh->GetMaterial();
+	Shader* shader = material->GetShader();
 
-	if (!shader) return;
+	m_Meshes[shader].push_back({ mesh, material, transform });
+}
 
-	m_StaticMeshes[shader].push_back({ shader, mesh, transform });
+void Renderer::SubmitLight()
+{
+
 }
 
 //! TODO: Refactor and abstract
 void Renderer::Process(double DeltaTime, Viewport* viewport)
 {
-	m_StaticMeshes.clear();
+	m_Meshes.clear();
 
-	Scene* scene = viewport->m_Scene;
-
-	for (auto& entity : scene->m_Entities)
+	Entity* entity = viewport->m_Scene;
+	while (entity)
 	{
-		if (!entity->IsVisible())
+		if (!entity->m_Parent)
 		{
-		//	continue;
+			SubmitEntity(entity, glm::dmat4(1.0));
+			break;
 		}
-		
-		glm::dmat4 transform = entity->GetWorldTransform();
 
-		auto& components = entity->GetComponents();
-		for (auto& component : components)
-		{
-			MeshComponent* comp = dynamic_cast<MeshComponent*>(component);
-			if (comp)
-			{
-				SubmitStaticMesh(comp->GetMesh(), transform);
-			}
-		}
+		entity = entity->m_Parent;
 	}
 
 	GL(glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS));
@@ -69,7 +82,7 @@ void Renderer::Process(double DeltaTime, Viewport* viewport)
 	GL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 	GL(glViewport(0, 0, viewport->m_Width, viewport->m_Height));
 
-	for (auto& [shader, commands] : m_StaticMeshes)
+	for (auto& [shader, commands] : m_Meshes)
 	{
 		shader->Bind();
 
@@ -77,32 +90,18 @@ void Renderer::Process(double DeltaTime, Viewport* viewport)
 		shader->Set("u_ViewMatrix", viewport->m_ViewMatrix);
 		shader->Set("u_CameraPosition", viewport->m_CameraPosition);
 
-		int numDirectionalLights = 0;
-		int numPointLights = 0;
-
-		if (scene)
-		{
-			int index = 0;
-			for (auto& light : scene->m_Lights)
-			{
-				light->Process(shader, numPointLights, numDirectionalLights);
-
-				index++;
-			}
-		}
-
-		shader->Set("u_NumPointLights", numPointLights);
-		shader->Set("u_NumDirectionalLights", numDirectionalLights);
+		//shader->Set("u_NumPointLights", numPointLights);
+		//shader->Set("u_NumDirectionalLights", numDirectionalLights);
 
 		for (auto& command : commands)
 		{
-			command.m_Mesh->GetMaterial()->Bind(shader);
+			command.m_Material->Bind(shader);
 
 			shader->Set("u_ModelMatrix", command.m_Transform);
 
 			command.m_Mesh->Render();
 
-			command.m_Mesh->GetMaterial()->Unbind(shader);
+			command.m_Material->Unbind(shader);
 		}
 
 		shader->Unbind();

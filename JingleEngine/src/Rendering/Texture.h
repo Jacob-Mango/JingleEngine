@@ -14,7 +14,6 @@ class Texture : public JingleScript::ManagedObject
 	DEFINE_CLASS(Texture, JingleScript::ManagedObject);
 
 	friend class Framebuffer;
-	friend class Scene;
 
 private:
 	unsigned int m_Width;

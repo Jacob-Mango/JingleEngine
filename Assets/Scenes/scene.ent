@@ -1,0 +1,6 @@
+{#Entity}: {
+	Children: [
+		"Assets\Entities\Box\test.ent" {
+		}
+	]
+}

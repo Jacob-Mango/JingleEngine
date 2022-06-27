@@ -10,8 +10,7 @@
 
 #include "Input/BindingModule.h"
 
-#include "Scene/Entity.h"
-#include "Scene/Scene.h"
+#include "Entities/Entity.h"
 
 #include "Rendering/Framebuffer.h"
 #include "Rendering/ImGui.h"

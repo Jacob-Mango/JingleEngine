@@ -33,7 +33,7 @@ class MaterialImageArray : public JingleScript::Array, public std::vector<Materi
 	DEFINE_BASE_STRUCTURE(MaterialImageArray, JingleScript::Array);
 
 public:
-	void Insert(JingleScript::Object* value);
+	void Insert(MaterialImage* value);
 
 };
 

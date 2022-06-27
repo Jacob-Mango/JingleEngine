@@ -27,7 +27,6 @@ class Image : public Asset
 	SETUP_ASSET(Image, Asset);
 
 	friend class Texture;
-	friend class Scene;
 
 private:
 	unsigned int m_Width;

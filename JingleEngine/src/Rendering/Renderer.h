@@ -15,15 +15,17 @@ class Renderer : public Module
 private:
 	struct MeshCommand
 	{
-		Ref<Shader> m_Shader;
 		MeshInstance* m_Mesh;
+		Material* m_Material;
 		glm::mat4 m_Transform;
 	};
 
-	std::map<Shader*, std::vector<MeshCommand>> m_StaticMeshes;
+	std::map<Shader*, std::vector<MeshCommand>> m_Meshes;
 
 public:
-	void SubmitStaticMesh(Ref<MeshInstance> mesh, glm::dmat4 transform);
+	void SubmitEntity(Entity* entity, const glm::dmat4& parentTransform);
+	void SubmitMesh(Ref<MeshInstance> mesh, const glm::dmat4& transform);
+	void SubmitLight(/*TODO*/);
 
 	void Process(double DeltaTime, class Viewport* viewport);
 

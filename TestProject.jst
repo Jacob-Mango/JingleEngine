@@ -173,7 +173,7 @@ Global {
        ForceExact: "0"
       }
      }
-     ReturnType: "Scene"
+     ReturnType: "Entity"
      Name: "GetScene"
      IsConstructor: "0"
      IsDestructor: "0"
@@ -357,6 +357,158 @@ Global {
      }
      Type: "ComponentArray"
      Name: "Components"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "ArrayProperty"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "Entity"
+           }
+          }
+         }
+        }
+        [1]: {
+         Constant {
+          Value: "InitChild"
+         }
+        }
+       }
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "EntityArray"
+     Name: "Children"
+    }
+   }
+   Methods: {
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "OnCreate"
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "OnDestroy"
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "OnTick"
+     Parameters: {
+      Parameter {
+       Type: "double"
+       Name: "DeltaTime"
+      }
+     }
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "AddChild"
+     Parameters: {
+      Parameter {
+       Type: "Entity"
+       Name: "child"
+      }
+     }
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "InitChild"
+     Parameters: {
+      Parameter {
+       Type: "Entity"
+       Name: "child"
+      }
+     }
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "void"
+     Name: "RemoveChild"
+     Parameters: {
+      Parameter {
+       Type: "Entity"
+       Name: "child"
+      }
+     }
+     IsConstructor: "0"
+     IsDestructor: "0"
+    }
+    Method {
+     Attributes: {
+      Attribute {
+       Value: "Native"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     ReturnType: "Entity"
+     Name: "GetParent"
+     IsConstructor: "0"
+     IsDestructor: "0"
     }
    }
   }
@@ -694,74 +846,6 @@ Global {
         }
        }
       }
-      Variable {
-       Type: "Scene"
-       Name: "scene"
-       Right: {
-        Value {
-         Value: "app"
-         Next: {
-          FunctionCall {
-           Value: "GetScene"
-           IsConstructor: "0"
-           IsSuper: "0"
-           ForceExact: "0"
-          }
-         }
-        }
-       }
-      }
-      Expression {
-       Right: {
-        FunctionCall {
-         Value: "ImGui_Text"
-         Arguments: {
-          [0]: {
-           Value {
-            Value: "scene"
-           }
-          }
-         }
-         IsConstructor: "0"
-         IsSuper: "0"
-         ForceExact: "0"
-        }
-       }
-      }
-      Variable {
-       Type: "Camera"
-       Name: "camera"
-       Right: {
-        Value {
-         Value: "scene"
-         Next: {
-          FunctionCall {
-           Value: "GetCamera"
-           IsConstructor: "0"
-           IsSuper: "0"
-           ForceExact: "0"
-          }
-         }
-        }
-       }
-      }
-      Expression {
-       Right: {
-        FunctionCall {
-         Value: "ImGui_Text"
-         Arguments: {
-          [0]: {
-           Value {
-            Value: "camera"
-           }
-          }
-         }
-         IsConstructor: "0"
-         IsSuper: "0"
-         ForceExact: "0"
-        }
-       }
-      }
      }
      ReturnType: "void"
      Name: "OnRender"
@@ -1038,51 +1122,6 @@ Global {
   Class {
    Name: "PropertyProperty"
    Base: "PropertyBase"
-  }
-  Class {
-   Name: "Scene"
-   Base: "ConfigAsset"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       Arguments: {
-        [0]: {
-         Expression {
-          Right: {
-           Constant {
-            Value: "Entity"
-           }
-          }
-         }
-        }
-       }
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "PropertyArray"
-     Name: "Entities"
-    }
-   }
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "Camera"
-     Name: "GetCamera"
-     IsConstructor: "0"
-     IsDestructor: "0"
-    }
-   }
   }
  }
  Structures: {

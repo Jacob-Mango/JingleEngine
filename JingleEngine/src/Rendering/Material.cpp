@@ -17,9 +17,9 @@ BEGIN_STRUCTURE_LINK(MaterialImageArray)
 	LINK_METHOD(Insert);
 END_STRUCTURE_LINK()
 
-void MaterialImageArray::Insert(JingleScript::Object* value)
+void MaterialImageArray::Insert(MaterialImage* value)
 {
-	push_back(static_cast<MaterialImage*>(value));
+	push_back(value);
 }
 
 BEGIN_CLASS_LINK(Material)

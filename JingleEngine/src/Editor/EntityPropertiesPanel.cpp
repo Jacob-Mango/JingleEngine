@@ -81,7 +81,7 @@ void EntityPropertiesPanel::OnRender(double DeltaTime)
 	ImGui::TableNextColumn();
 	ImGui::Text("Advanced");
 
-	ImGui_Vec3("Position", pos);
+	//ImGui_Vec3("Position", pos);
 
 	ImGui::TableNextRow(0, g_RowHeight);
 	ImGui::TableNextColumn();

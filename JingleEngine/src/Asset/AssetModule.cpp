@@ -2,7 +2,6 @@
 
 #include "Config/ConfigAsset.h"
 
-#include "Core/Logging.h"
 #include "Core/ModuleManager.h"
 
 #include <iostream>

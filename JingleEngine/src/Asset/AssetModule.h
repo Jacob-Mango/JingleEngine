@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <string>
 
-#include "Core/Logging.h"
 #include "Core/Module.h"
 
 #include "Asset/Asset.h"

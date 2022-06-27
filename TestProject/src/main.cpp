@@ -18,7 +18,7 @@ public:
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
 
-		Scene* scene = AssetModule::Get<Scene>("Assets/Scenes/game.scene");
+		Entity* scene = Entity::Create({"Assets/Scenes/scene.ent"});
 		Application::Get()->SetScene(scene);
 	}
 

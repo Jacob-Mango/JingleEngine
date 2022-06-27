@@ -1,6 +1,5 @@
 #pragma once
 
-class Scene;
 class Config;
 class Material;
 class Framebuffer;
@@ -13,12 +12,10 @@ enum class TextureFormat;
 #include <string>
 #include <vector>
 
-#include "Core/Logging.h"
-
 #include "Core/Event.h"
 #include "Core/Module.h"
 
-#include "Scene/Scene.h"
+#include "Entities/Entity.h"
 
 class Application : public JingleScript::Object
 {
@@ -35,7 +32,8 @@ private:
 	uint64_t m_FPS = 0;
 	double m_DeltaTime = 0;
 
-	Ref<Scene> m_Scene;
+	//! Temporary
+	Entity* m_Scene = nullptr;
 
 public:
 	EventHandler<KeyPressEventArgs> OnKeyPress;
@@ -60,8 +58,8 @@ public:
 
 	uint64_t GetFPS() const;
 
-	Scene* GetScene() const { return m_Scene; }
-	void SetScene(Scene* scene) { m_Scene = scene; }
+	Entity* GetScene() const { return m_Scene; }
+	void SetScene(Entity* scene) { m_Scene = scene; }
 
 public:
 	int Initialize();

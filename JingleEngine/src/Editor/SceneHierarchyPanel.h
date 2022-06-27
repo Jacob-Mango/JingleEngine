@@ -13,4 +13,7 @@ public:
 	virtual void OnRender(double DeltaTime) override;
 	virtual void OnEndRender(double DeltaTime) override;
 
+protected:
+	void RenderEntity(Entity* entity);
+
 };

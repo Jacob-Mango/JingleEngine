@@ -32,8 +32,12 @@ class ArrayProperty : public Property
 
 	friend PropertyArray;
 
+	std::string m_InsertFunction;
+	bool m_UseInstanceInsert;
+
 public:
 	ArrayProperty(std::string templateType);
+	ArrayProperty(std::string templateType, std::string insertFunction);
 
 	virtual PropertyBase* CreateContainer(std::string cfgTypeName, uint64_t offset) override;
 

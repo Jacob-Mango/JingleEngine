@@ -1,4 +1,4 @@
-#include "Scene/Components/MeshComponent.h"
+#include "Entities/Components/MeshComponent.h"
 
 #include "Rendering/Renderer.h"
 

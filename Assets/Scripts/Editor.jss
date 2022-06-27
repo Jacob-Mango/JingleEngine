@@ -57,10 +57,5 @@ class ScriptTestPanel extends EditorPanelBase
 
 		ImGui_Text("WantCaptureKeyboard: " + b1);
 		ImGui_Text("WantCaptureMouse: " + b2);
-
-		Scene scene = app.GetScene();
-		ImGui_Text(scene);
-		Camera camera = scene.GetCamera();
-		ImGui_Text(camera);
 	}
 }

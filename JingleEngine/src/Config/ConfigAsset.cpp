@@ -34,7 +34,14 @@ void ConfigAsset::Output()
 	std::cout << ss.str() << std::endl;
 }
 
-bool ConfigAsset::WriteToObject(JingleScript::Object* instance)
+Object* ConfigAsset::Create()
+{
+	Object* object = m_Properties->GetPropertyType()->New<Object>();
+	WriteToObject(object);
+	return object;
+}
+
+bool ConfigAsset::WriteToObject(Object* instance)
 {
 	JS_TRACE(Tracers::Asset);
 	JS_TINFO("Instance: {}", PointerToString(instance));
@@ -47,7 +54,7 @@ bool ConfigAsset::WriteToObject(JingleScript::Object* instance)
 	return true;
 }
 
-bool ConfigAsset::ReadFromObject(JingleScript::Object* instance)
+bool ConfigAsset::ReadFromObject(Object* instance)
 {
 	JS_TRACE(Tracers::Asset);
 

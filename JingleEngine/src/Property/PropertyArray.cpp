@@ -81,49 +81,76 @@ bool PropertyArray::OnWriteObject(Object* instance)
 	signature.Name = "Insert";
 	signature.Owner = m_Property->GetOwner();
 	signature.ReturnType = nullptr;
-	signature.Parameters.push_back({ Object::StaticType() });
+	signature.Parameters.push_back({ m_PropertyType });
+
+	bool useOwner = false;
+	
+	ArrayProperty* arrayProperty = dynamic_cast<ArrayProperty*>(m_Property);
+	if (arrayProperty)
+	{
+		signature.Name = arrayProperty->m_InsertFunction;
+
+		if (arrayProperty->m_UseInstanceInsert)
+		{
+			signature.Owner = instance->GetType();
+			useOwner = true;
+		}
+	}
 
 	auto function = signature.Find();
 
 	if (!function)
 	{
-		std::cerr << "Could not find 'Insert' method in " << m_PropertyType->Name() << std::endl;
+		JS_ERROR("Could not find '{}'.", signature.ToString());
 		return false;
 	}
-
-	uint64_t size = sizeof(std::vector<Object*>);
 
 	Thread* thread = Thread::Current();
 	ValueStack* stack = &thread->Stack;
 
-	void* data = (void*)((char*)instance + m_Offset);
+	uint64_t size = signature.Owner->GetReferenceSize();
 
 	ValueData dst;
 	dst.Size = size;
 	dst.Offset = size;
-	dst.IsPointer = !m_PropertyType->IsStructure();
 
 	stack->Push(size);
-	stack->CopyFrom(dst, data);
+	
+	void* data = nullptr;
+	if (useOwner)
+	{
+		data = (void*)instance;
+		dst.IsPointer = true;
+
+		stack->CopyFrom(dst, &data);
+	}
+	else
+	{
+		data = (void*)((char*)instance + m_Offset);
+		dst.IsPointer = false;
+
+		stack->CopyFrom(dst, data);
+	}
 
 	for (auto& property : m_Properties)
 	{
 		Object* write = property->GetWriteInstance(instance);
 		
-		if (!property->OnWriteObject(write))
+		if (property->OnWriteObject(write))
 		{
-			return false;
+			uint64_t offset = 0;
+			Function_Parameter(stack, write, offset);
+
+			function->Call(thread);
+
+			stack->Pop(offset);
 		}
-
-		uint64_t offset = 0;
-		Function_Parameter(stack, write, offset);
-
-		function->Call(thread);
-
-		stack->Pop(offset);
 	}
 
-	stack->CopyTo(data, dst);
+	if (!useOwner)
+	{
+		stack->CopyTo(data, dst);
+	}
 
 	stack->Pop(size);
 

@@ -2,9 +2,8 @@
 
 #include "Core/Core.h"
 
-#include "Scene/Entity.h"
+#include "Entities/Entity.h"
 
-class Scene;
 class Config;
 class Application;
 
@@ -13,7 +12,6 @@ class Component : public JingleScript::Object
 	DEFINE_CLASS(Component, JingleScript::Object);
 
 	friend Entity;
-	friend Scene;
 
 private:
 	Entity* m_Entity;

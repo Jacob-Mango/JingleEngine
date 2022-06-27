@@ -90,9 +90,15 @@ PropertyBase* Property::CreateContainer(Type* type, uint64_t offset)
 
 BEGIN_CLASS_LINK(ArrayProperty);
 	LINK_CONSTRUCTOR(std::string);
+	LINK_CONSTRUCTOR(std::string, std::string);
 END_CLASS_LINK();
 
-ArrayProperty::ArrayProperty(std::string templateType) : Property(templateType)
+ArrayProperty::ArrayProperty(std::string templateType) : Property(templateType), m_InsertFunction("Insert"), m_UseInstanceInsert(false)
+{
+	JS_TRACE(Tracers::Property);
+}
+
+ArrayProperty::ArrayProperty(std::string templateType, std::string insertFunction) : Property(templateType), m_InsertFunction(insertFunction), m_UseInstanceInsert(true)
 {
 	JS_TRACE(Tracers::Property);
 }

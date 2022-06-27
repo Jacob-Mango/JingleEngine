@@ -26,6 +26,8 @@ public:
 
 	void Output();
 
+	JingleScript::Object* Create();
+
 	bool WriteToObject(JingleScript::Object* instance);
 	bool ReadFromObject(JingleScript::Object* instance);
 

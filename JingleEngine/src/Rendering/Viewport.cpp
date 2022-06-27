@@ -1,15 +1,20 @@
 #include "Rendering/Viewport.h"
 
-#include "Rendering/Camera.h"
 #include "Rendering/Renderer.h"
 
 BEGIN_CLASS_LINK(Viewport)
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-Viewport* Viewport::Create(Scene* scene, unsigned int width, unsigned int height)
+Viewport* Viewport::Create(std::string type, Entity* scene, unsigned int width, unsigned int height)
 {
-	Viewport* viewport = JingleScript::NewObject<Viewport>("Viewport");
+	Viewport* viewport = JingleScript::NewObject<Viewport>(type);
+	if (!viewport)
+	{
+		JS_ERROR("Failed to create viewport of type {}", type);
+		return nullptr;
+	}
+	
 	viewport->m_Scene = scene;
 	viewport->m_Width = width;
 	viewport->m_Height = height;
@@ -30,21 +35,13 @@ void Viewport::Resize(unsigned int width, unsigned int height)
 void Viewport::Process(double DeltaTime)
 {
 	Renderer* renderer = ModuleManager::Get<Renderer>();
-	Camera* camera = m_Scene->GetCamera();
-	if (!camera || m_Width == 0 || m_Height == 0)
+	if (m_Width == 0 || m_Height == 0)
 	{
 		return;
 	}
 
 	float aspect = (float)m_Width / (float)m_Height;
-
 	m_ProjectionMatrix = glm::perspective(glm::radians(90.0f), aspect, 0.001f, 1000.0f);
-
-	m_CameraPosition = glm::vec3(camera->GetPosition());
-	glm::vec3 cameraUp = camera->GetUpDirection();
-	glm::vec3 cameraForward = camera->GetForwardDirection();
-
-	m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraPosition + cameraForward, cameraUp);
 
 	m_Framebuffer->Bind();
 

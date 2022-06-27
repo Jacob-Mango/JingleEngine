@@ -1,11 +1,9 @@
 #pragma once
 
 #include "Core/Core.h"
-
-#include "Core/Logging.h"
 #include "Core/Module.h"
 
-#include "Scene/Entity.h"
+#include "Entities/Entity.h"
 
 class EditorPanelBase;
 class EditorAttribute;

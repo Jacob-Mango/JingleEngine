@@ -7,7 +7,7 @@ class Application
 	}
 
 	@Native
-	Scene GetScene();
+	Entity GetScene();
 }
 
 @Native

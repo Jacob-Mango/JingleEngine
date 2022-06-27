@@ -4,7 +4,7 @@
 
 #include "Core/Core.h"
 
-#include "Scene/Component.h"
+#include "Entities/Component.h"
 
 class MeshInstance;
 class Renderer;

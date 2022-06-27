@@ -2,8 +2,7 @@
 
 #include <glm/gtx/euler_angles.hpp>
 
-#include "Scene/Scene.h"
-#include "Scene/Component.h"
+#include "Entities/Component.h"
 
 #include "Core/Application.h"
 
@@ -17,9 +16,19 @@ BEGIN_STRUCTURE_LINK(ComponentArray)
 	LINK_METHOD(Insert);
 END_STRUCTURE_LINK()
 
-void ComponentArray::Insert(JingleScript::Object* value)
+void ComponentArray::Insert(Component* value)
 {
-	push_back(static_cast<Component*>(value));
+	push_back(value);
+}
+
+BEGIN_STRUCTURE_LINK(EntityArray)
+	LINK_CONSTRUCTOR();
+	LINK_METHOD(Insert);
+END_STRUCTURE_LINK()
+
+void EntityArray::Insert(Entity* value)
+{
+	push_back(value);
 }
 
 BEGIN_CLASS_LINK(Entity)
@@ -28,6 +37,10 @@ BEGIN_CLASS_LINK(Entity)
 	LINK_METHOD(OnCreate);
 	LINK_METHOD(OnDestroy);
 	LINK_METHOD(OnTick);
+	LINK_METHOD(InitChild);
+	LINK_METHOD(AddChild);
+	LINK_METHOD(RemoveChild);
+	LINK_METHOD(GetParent);
 END_CLASS_LINK()
 
 Entity::Entity()
@@ -57,6 +70,36 @@ ComponentArray& Entity::GetComponents()
 	return m_Components;
 }
 
+void Entity::Delete()
+{
+	if (m_IsDeleting) return;
+	m_IsDeleting = true;
+
+	OnDestroy();
+
+	for (int i = m_Children.size() - 1; i >= 0; i--)
+	{
+		//RemoveChild(m_Children[i]);
+	}
+}
+
+bool Entity::IsDeleting()
+{
+	return m_IsDeleting;
+}
+
+void Entity::InitChild(Entity* child)
+{
+	AddChild(child);
+
+	for (auto& component : child->m_Components)
+	{
+		component->OnCreate();
+	}
+
+	child->OnCreate();
+}
+
 void Entity::AddChild(Entity* child)
 {
 	if (child->m_Parent != nullptr)
@@ -69,26 +112,6 @@ void Entity::AddChild(Entity* child)
 
 	child->m_Parent = this;
 	m_Children.push_back(child);
-}
-
-void Entity::Delete()
-{
-	if (m_IsDeleting) return;
-	m_IsDeleting = true;
-
-	OnDestroy();
-
-	for (int i = m_Children.size() - 1; i >= 0; i--)
-	{
-		//RemoveChild(m_Children[i]);
-	}
-
-	m_Scene->RemoveEntity(this);
-}
-
-bool Entity::IsDeleting()
-{
-	return m_IsDeleting;
 }
 
 void Entity::RemoveChild(Entity* child)
@@ -174,11 +197,6 @@ glm::vec3 Entity::GetOrientation() const
 	return glm::degrees(orientation);
 }
 
-Scene* Entity::GetScene() const
-{
-	return m_Scene;
-}
-
 std::string Entity::ToString() const
 {
 	std::stringstream ss;
@@ -186,10 +204,10 @@ std::string Entity::ToString() const
 	ss << Super::ToString();
 
 	ss << ", ";
-	ss << "Position=" << GetPosition();
+	//ss << "Position=" << GetPosition();
 
 	ss << ", ";
-	ss << "Orientation=" << GetOrientation();
+	//ss << "Orientation=" << GetOrientation();
 
 	return ss.str();
 }
@@ -214,4 +232,10 @@ void Entity::OnDestroy()
 
 void Entity::OnTick(double DeltaTime)
 {
+}
+
+Entity* Entity::Create(AssetID asset)
+{
+	ConfigAsset* cfg = AssetModule::Get<ConfigAsset>(asset);
+	return dynamic_cast<Entity*>(cfg->Create());
 }
