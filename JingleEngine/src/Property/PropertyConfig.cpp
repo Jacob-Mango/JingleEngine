@@ -7,7 +7,7 @@ BEGIN_CLASS_LINK(PropertyConfig)
 END_CLASS_LINK()
 
 PropertyConfig::PropertyConfig(Type* type, Property* property, uint64_t offset)
-	: PropertyBase(type, property), m_Offset(offset), m_Config(nullptr)
+	: PropertyBase(type, property), m_Offset(offset)
 {
 	JS_TRACE(Tracers::Property);
 
@@ -22,9 +22,7 @@ PropertyConfig::~PropertyConfig()
 bool PropertyConfig::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
-	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
-
-	m_Config = cfg;
+	JS_TINFO("Deserializing {}", cfg ? cfg->GetTypeAndName() : "null");
 
 	return true;
 }

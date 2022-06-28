@@ -2,6 +2,8 @@
 
 #include "Core/Application.h"
 
+#include "Entities/Components/MeshComponent.h"
+
 #include "Property/PropertyArray.h"
 #include "Property/PropertyAsset.h"
 #include "Property/PropertyItem.h"
@@ -19,8 +21,27 @@ void EntityPropertiesPanel::OnBeginRender(double DeltaTime)
 }
 
 const float g_RowHeight = 30.0f;
+const float g_DepthIndent = 4.0f;
 int g_Depth = 0;
-int g_LastX = 0;
+
+template<typename T>
+class ScopedIncrement
+{
+	T* m_Value;
+
+public:
+	ScopedIncrement(T& value)
+	{
+		m_Value = &value;
+
+		++(*m_Value);
+	}
+
+	~ScopedIncrement()
+	{
+		--(*m_Value);
+	}
+};
 
 void ImGui_Vec3(std::string name, glm::vec3& vec)
 {
@@ -76,13 +97,12 @@ void EntityPropertiesPanel::OnRender(double DeltaTime)
 	}
 
 	g_Depth = 0;
+	m_ArrayIndex = 0;
 
 	if (!ImGui::BeginTable("EntityPropertiesPanel", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings))
 	{
 		return;
 	}
-
-	g_LastX = ImGui::GetCursorPosX();
 
 	for (auto& [name, property] : entity->GetPropertyContainer()->m_Properties)
 	{
@@ -91,7 +111,10 @@ void EntityPropertiesPanel::OnRender(double DeltaTime)
 			continue;
 		}
 
-		RenderPropertyBase(name, property);
+		RenderContext ctx;
+		ctx.m_Name = name;
+
+		RenderPropertyBase(ctx, property);
 	}
 
 	ImGui::EndTable();
@@ -102,41 +125,109 @@ void EntityPropertiesPanel::OnEndRender(double DeltaTime)
 	ImGui::PopStyleVar();
 }
 
-void EntityPropertiesPanel::RenderPropertyArray(const std::string& name, PropertyArray* root)
+void EntityPropertiesPanel::RenderPropertyHeader(const RenderContext& ctx, bool isHeader)
 {
-	ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+	if (!ctx.m_ShowHeader)
+	{
+		return;
+	}
+
+	ImGui::TableNextRow(isHeader ? ImGuiTableRowFlags_Headers : 0);
 
 	ImGui::TableNextColumn();
-	ImGui::SetCursorPosX(g_Depth);
-	ImGui::Text(name.c_str());
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (g_DepthIndent * g_Depth));
+	ImGui::TextUnformatted(ctx.m_Name.c_str());
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() - (g_DepthIndent * g_Depth));
+}
 
-	int index = 0;
+void EntityPropertiesPanel::RenderPropertyArray(const RenderContext& ctx, PropertyArray* root)
+{
+	if (m_ArrayIndex >= MaxArrayDepth)
+	{
+		return;
+	}
+
+	ArrayContext& arrCtx = m_Arrays[m_ArrayIndex++];
+
+	RenderPropertyHeader(ctx, true);
+
+	ImGui::TableNextColumn();
+
+	float width = ImGui::GetColumnWidth() * 0.5f;
+	float height = ImGui::GetFrameHeight();
+
+	bool addPressed = ImGui::Button("Add", { width, height });
+	ImGui::SameLine();
+	bool removePressed = ImGui::Button("Remove", { width, height });
+	size_t count = root->m_Properties.size();
+	size_t removeIndex = count;
+
+	size_t index = 0;
 	for (auto& property : root->m_Properties)
 	{
-		std::string name = property->GetPropertyType()->Name() + " - " + std::to_string(index++);
-		RenderPropertyBase(name, property);
+		std::string name = "[" + std::to_string(index) + "] " + property->GetPropertyType()->Name();
+
+		ImGui::TableNextRow();
+		ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0, ImGui::GetColorU32(ImGuiCol_TableHeaderBg));
+
+		ImGui::TableNextColumn();
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (g_DepthIndent * g_Depth));
+		bool selected = arrCtx.m_Selected == property;
+		if (ImGui::Selectable(name.c_str(), &selected, ImGuiSelectableFlags_SpanAllColumns))
+		{
+			arrCtx.m_Selected = property;
+		}
+
+		if (selected)
+		{
+			removeIndex = index;
+		}
+
+		ImGui::SetCursorPosX(ImGui::GetCursorPosX() - (g_DepthIndent * g_Depth));
+
+		{
+			ScopedIncrement increment(g_Depth);
+
+			RenderContext ctx;
+			ctx.m_Name = name;
+			ctx.m_ShowHeader = false;
+			RenderPropertyBase(ctx, property);
+		}
+
+		index++;
+	}
+
+	//! TODO: Immediate reflection to the entity. Use 'GetWriteInstance' and pass 'instance' through the context
+
+	if (addPressed)
+	{
+		JS_INFO("Add");
+
+		PropertyObject* obj = JingleScript::NewObject<PropertyObject>("PropertyObject", MeshComponent::StaticType(), root->GetPropertyAttribute(), index);
+		obj->Deserialize(nullptr, root);
+		root->m_Properties.push_back(obj);
+	}
+	else if (removePressed && removeIndex != count)
+	{
+		JS_INFO("Remove");
+
+		root->m_Properties.erase(root->m_Properties.begin() + removeIndex);
 	}
 }
 
-void EntityPropertiesPanel::RenderPropertyAsset(const std::string& name, PropertyAsset* root)
+void EntityPropertiesPanel::RenderPropertyAsset(const RenderContext& ctx, PropertyAsset* root)
 {
-	ImGui::TableNextRow(0, g_RowHeight);
+	RenderPropertyHeader(ctx, false);
 
 	ImGui::TableNextColumn();
-	ImGui::SetCursorPosX(g_Depth);
-	ImGui::Text(name.c_str());
-
-	ImGui::TableNextColumn();
-	ImGui::SetCursorPosX(g_LastX);
-	ImGui::Text("asset");
+	ImGui::TextUnformatted("asset");
 }
 
-void EntityPropertiesPanel::RenderPropertyBase(const std::string& name, PropertyBase* root)
+void EntityPropertiesPanel::RenderPropertyBase(const RenderContext& ctx, PropertyBase* root)
 {
-	g_LastX = ImGui::GetCursorPosX();
+	ScopedIncrement increment(g_Depth);
 
-	g_Depth+=4;
-	ImGui::PushID(name.c_str());
+	ImGui::PushID(ctx.m_Name.c_str());
 
 	auto array = dynamic_cast<PropertyArray*>(root);
 	auto asset = dynamic_cast<PropertyAsset*>(root);
@@ -145,48 +236,43 @@ void EntityPropertiesPanel::RenderPropertyBase(const std::string& name, Property
 
 	if (array)
 	{
-		RenderPropertyArray(name, array);
+		RenderPropertyArray(ctx, array);
 	}
+
 	if (asset)
 	{
-		RenderPropertyAsset(name, asset);
+		RenderPropertyAsset(ctx, asset);
 	}
+
 	if (item)
 	{
-		RenderPropertyItem(name, item);
+		RenderPropertyItem(ctx, item);
 	}
+
 	if (object)
 	{
-		RenderPropertyObject(name, object);
+		RenderPropertyObject(ctx, object);
 	}
 
 	ImGui::PopID();
-	g_Depth-=4;
 }
 
-void EntityPropertiesPanel::RenderPropertyItem(const std::string& name, PropertyItem* root)
+void EntityPropertiesPanel::RenderPropertyItem(const RenderContext& ctx, PropertyItem* root)
 {
-	ImGui::TableNextRow(0, g_RowHeight);
+	RenderPropertyHeader(ctx, false);
 
 	ImGui::TableNextColumn();
-	ImGui::SetCursorPosX(g_Depth);
-	ImGui::Text(name.c_str());
-
-	ImGui::TableNextColumn();
-	ImGui::SetCursorPosX(g_LastX);
-	ImGui::Text("item");
+	ImGui::TextUnformatted("item");
 }
 
-void EntityPropertiesPanel::RenderPropertyObject(const std::string& name, PropertyObject* root)
+void EntityPropertiesPanel::RenderPropertyObject(const RenderContext& ctx, PropertyObject* root)
 {
-	ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
-
-	ImGui::TableNextColumn();
-	ImGui::SetCursorPosX(g_Depth);
-	ImGui::Text(name.c_str());
+	RenderPropertyHeader(ctx, true);
 
 	for (auto& [name, property] : root->m_Properties)
 	{
-		RenderPropertyBase(name, property);
+		RenderContext ctx;
+		ctx.m_Name = name;
+		RenderPropertyBase(ctx, property);
 	}
 }

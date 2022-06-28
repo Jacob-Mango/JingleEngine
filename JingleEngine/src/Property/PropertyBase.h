@@ -11,12 +11,21 @@ class PropertyBase : public JingleScript::Object
 	DEFINE_VIRTUAL_CLASS(PropertyBase, JingleScript::Object);
 
 protected:
-	JingleScript::Type* m_PropertyType;
-	Property* m_Property;
+	JingleScript::Type* m_PropertyType = nullptr;
+	Property* m_Property = nullptr;
+
+	PropertyBase* m_Parent = nullptr;
+	Config* m_Config = nullptr;
 
 public:
 	PropertyBase(JingleScript::Type* type, Property* property);
 	virtual ~PropertyBase();
+
+	//! Returns false if deserialization fails
+	bool Deserialize(Config* cfg, PropertyBase* parent);
+
+	//! Returns false if this property can avoid serialization
+	bool Serialize(Config* cfg);
 
 	//! Returns false if deserialization fails
 	virtual bool OnDeserialize(Config* cfg) = 0;

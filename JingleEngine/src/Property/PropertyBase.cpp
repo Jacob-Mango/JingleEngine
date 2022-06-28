@@ -18,6 +18,19 @@ PropertyBase::~PropertyBase()
 
 }
 
+bool PropertyBase::Deserialize(Config* cfg, PropertyBase* parent)
+{
+	m_Config = cfg;
+	m_Parent = parent;
+
+	return OnDeserialize(m_Config);
+}
+
+bool PropertyBase::Serialize(Config* cfg)
+{
+	return OnSerialize(cfg);
+}
+
 Type* PropertyBase::GetPropertyType() const
 {
 	return m_PropertyType;

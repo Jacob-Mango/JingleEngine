@@ -13,7 +13,6 @@ class PropertyConfig : public PropertyBase
 	DEFINE_CLASS(PropertyConfig, PropertyBase);
 
 	uint64_t m_Offset;
-	Config* m_Config;
 
 public:
 	PropertyConfig(JingleScript::Type* type, Property* property, uint64_t offset);

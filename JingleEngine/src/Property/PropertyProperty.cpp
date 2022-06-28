@@ -24,21 +24,21 @@ PropertyProperty::~PropertyProperty()
 bool PropertyProperty::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
-	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
+	JS_TINFO("Deserializing {}", cfg ? cfg->GetTypeAndName() : "null");
 
 	//! TODO: Figure out why the constructor isn't being called
 	//m_PropertyData = m_PropertyType->New<PropertyBase>(m_PropertyType, m_Property, m_Offset);
 
 	m_PropertyData = dynamic_cast<PropertyBase*>(NewObject<PropertyArray>("PropertyArray", m_PropertyType, m_Property, m_Offset));
 
-	return m_PropertyData->OnDeserialize(cfg);
+	return m_PropertyData->Deserialize(cfg, this);
 }
 
 bool PropertyProperty::OnSerialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
 
-	return m_PropertyData->OnSerialize(cfg);
+	return m_PropertyData->Serialize(cfg);
 }
 
 bool PropertyProperty::OnReadObject(Object* instance)

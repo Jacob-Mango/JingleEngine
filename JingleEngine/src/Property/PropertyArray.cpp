@@ -25,9 +25,14 @@ PropertyArray::~PropertyArray()
 bool PropertyArray::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
-	JS_TINFO("Deserializing {}", cfg->GetTypeAndName());
+	JS_TINFO("Deserializing {}", cfg ? cfg->GetTypeAndName() : "null");
 
 	m_Properties.clear();
+
+	if (!cfg)
+	{
+		return true;
+	}
 
 	int count = cfg->Count();
 	for (int i = 0; i < count; i++)
@@ -46,7 +51,7 @@ bool PropertyArray::OnDeserialize(Config* cfg)
 			return false;
 		}
 
-		if (!propertyData->OnDeserialize(cfgVariable))
+		if (!propertyData->Deserialize(cfgVariable, this))
 		{
 			return false;
 		}
@@ -134,7 +139,9 @@ bool PropertyArray::OnWriteObject(Object* instance)
 
 	for (auto& property : m_Properties)
 	{
-		Object* write = property->GetWriteInstance(instance);
+		//! TODO: check to see if an instance exists at the index
+
+		Object* write = property->GetPropertyType()->New<Object>();
 		
 		if (property->OnWriteObject(write))
 		{

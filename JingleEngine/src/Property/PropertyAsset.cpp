@@ -23,7 +23,11 @@ bool PropertyAsset::OnDeserialize(Config* cfg)
 {
 	JS_TRACE(Tracers::Property);
 
-	m_ID = *cfg->GetValuePtr();
+	if (cfg)
+	{
+		m_ID = *cfg->GetValuePtr();
+	}
+
 	return true;
 }
 
