@@ -136,7 +136,7 @@ AssetIDv CRCByte(AssetIDv input, AssetIDv divisor)
 
 AssetIDv AssetModule::ConvertPath(std::string path)
 {
-	JS_TRACE(Tracers::Asset);
+	//JS_TRACE(Tracers::Asset);
 
 	int i;
 	AssetIDv crc = 0xFFFFFFFFFFFFFFFF;
@@ -154,7 +154,7 @@ AssetIDv AssetModule::ConvertPath(std::string path)
 
 	crc = crc ^ 0xFFFFFFFFFFFFFFFF;
 
-	JS_TINFO("\"{:x}:{}\"", crc, path);
+	//JS_TINFO("\"{:x}:{}\"", crc, path);
 
 	return crc;
 }

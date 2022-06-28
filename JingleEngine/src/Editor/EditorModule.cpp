@@ -39,6 +39,7 @@ void EditorModule::OnInitialize()
 	Open("EditorViewportPanel");
 	Open("EntityPropertiesPanel");
 	Open("SceneHierarchyPanel");
+	Open("ContentBrowserPanel");
 }
 
 STATIC_FUNCTION(EditorPanelBase, OnBeginRender, void, double);

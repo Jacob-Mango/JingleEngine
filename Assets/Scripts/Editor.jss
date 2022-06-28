@@ -41,6 +41,12 @@ class EntityPropertiesPanel extends EditorPanelBase
 
 }
 
+@EditorAttribute("Content Browser")
+class ContentBrowserPanel extends EditorPanelBase
+{
+
+}
+
 @EditorAttribute("Script Test")
 class ScriptTestPanel extends EditorPanelBase
 {
