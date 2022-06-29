@@ -220,7 +220,25 @@ void EntityPropertiesPanel::RenderPropertyAsset(const RenderContext& ctx, Proper
 	RenderPropertyHeader(ctx, false);
 
 	ImGui::TableNextColumn();
-	ImGui::TextUnformatted("asset");
+
+	if (root->m_ID.GetPath().empty())
+	{
+		ImGui::TextUnformatted("None...");
+	}
+	else
+	{
+		ImGui::TextUnformatted(root->m_ID.GetPath().c_str());
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		auto data = ImGui::AcceptDragDropPayload("content_browser");
+		if (data)
+		{
+			root->m_ID = *((AssetID*)data->Data);
+		}
+		ImGui::EndDragDropTarget();
+	}
 }
 
 void EntityPropertiesPanel::RenderPropertyBase(const RenderContext& ctx, PropertyBase* root)

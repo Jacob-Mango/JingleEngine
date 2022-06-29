@@ -183,6 +183,14 @@ void ContentBrowserPanel::OnRender(double DeltaTime)
 						ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ((columnHeight - ImGui::GetFontSize()) * 0.5f) - columnHeight);
 						ImGui::TextWrapped(fileNameCstr);
 
+						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+						{
+							static std::unique_ptr<AssetID> _id = std::make_unique<AssetID>();
+							*_id = id;
+							ImGui::SetDragDropPayload("content_browser", _id.get(), sizeof(AssetID) );
+							ImGui::EndDragDropSource();
+						}
+
 						if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 						{
 							onDoubleClick(path);
