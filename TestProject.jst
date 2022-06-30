@@ -316,6 +316,22 @@ Global {
      Attributes: {
       Attribute {
        Value: "Property"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "OnSerializeComponents"
+           }
+          }
+         }
+        }
+        [1]: {
+         Constant {
+          Value: "OnDeserializeComponents"
+         }
+        }
+       }
        IsConstructor: "1"
        IsSuper: "0"
        ForceExact: "0"
@@ -328,6 +344,22 @@ Global {
      Attributes: {
       Attribute {
        Value: "Property"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "OnSerializeChildren"
+           }
+          }
+         }
+        }
+        [1]: {
+         Constant {
+          Value: "OnDeserializeChildren"
+         }
+        }
+       }
        IsConstructor: "1"
        IsSuper: "0"
        ForceExact: "0"
@@ -397,26 +429,6 @@ Global {
      }
      ReturnType: "void"
      Name: "AddChild"
-     Parameters: {
-      Parameter {
-       Type: "Entity"
-       Name: "child"
-      }
-     }
-     IsConstructor: "0"
-     IsDestructor: "0"
-    }
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "void"
-     Name: "InitChild"
      Parameters: {
       Parameter {
        Type: "Entity"

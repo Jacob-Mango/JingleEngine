@@ -31,4 +31,6 @@ public:
 	bool Serialize(JingleScript::Object* object);
 	bool Deserialize(JingleScript::Object* object);
 
+	ConfigSection* Get() const;
+
 };

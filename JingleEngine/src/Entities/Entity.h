@@ -82,7 +82,11 @@ public:
 	virtual void OnTick(double DeltaTime);
 
 private:
-	void InitChild(Entity* child);
+	void OnSerializeComponents(Config* cfg);
+	void OnDeserializeComponents(Config* cfg);
+
+	void OnSerializeChildren(Config* cfg);
+	void OnDeserializeChildren(Config* cfg);
 
 public:
 	static Entity* Create(AssetID asset);

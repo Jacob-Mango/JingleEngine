@@ -7,7 +7,7 @@
 class Config;
 class Application;
 
-class Component : public JingleScript::Object
+class Component : public JingleScript::Object, public ObjectProperty
 {
 	DEFINE_CLASS(Component, JingleScript::Object);
 

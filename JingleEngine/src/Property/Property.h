@@ -12,6 +12,9 @@ class Property : public JingleScript::Attribute
 	DEFINE_CLASS(Property, JingleScript::Attribute);
 
 public:
+	std::string m_OnSerialize;
+	std::string m_OnDeserialize;
+
 	JingleScript::Function<void, Config*> OnSerialize;
 	JingleScript::Function<void, Config*> OnDeserialize;
 
@@ -24,9 +27,9 @@ public:
 	Property(std::string onSerialize, std::string onDeserialize)
 	{
 		JS_TRACE(Tracers::Property);
-		
-		OnSerialize = { onSerialize, GetType() };
-		OnDeserialize = { onDeserialize, GetType() };
+
+		m_OnSerialize = onSerialize;
+		m_OnDeserialize = onDeserialize;
 	}
 
 };

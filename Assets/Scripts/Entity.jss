@@ -1,9 +1,9 @@
 class Entity
 {
-	@Property
+	@Property("OnSerializeComponents", "OnDeserializeComponents")
 	ComponentArray Components;
 
-	@Property
+	@Property("OnSerializeChildren", "OnDeserializeChildren")
 	EntityArray Children;
 
 	@Native
@@ -17,9 +17,6 @@ class Entity
 
 	@Native
 	void AddChild(Entity child);
-
-	@Native
-	/*private*/ void InitChild(Entity child);
 
 	@Native
 	void RemoveChild(Entity child);

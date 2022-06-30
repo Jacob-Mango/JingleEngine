@@ -139,25 +139,25 @@ class #global extends Object {
     [00000026]   copy_address 0                                                                        
     [00000027]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [00000028]   copy_address 0                                                                        
-    [00000029]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000002A]   copy_address 0                                                                        
-    [0000002B]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000002C]   copy_address 0                                                                        
-    [0000002D]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000002E]   copy_address 0                                                                        
-    [0000002F]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000029]   push 40                                                                               JingleScript::ValueItem::Push
+    [0000002A]    copy_data string [OnSerializeComponents] 40                                          JingleScript::Compiler::CompileConstant
+    [0000002B]    push 40                                                                              JingleScript::ValueItem::Push
+    [0000002C]     copy_data string [OnDeserializeComponents] 40                                       JingleScript::Compiler::CompileConstant
+    [0000002D]     call_method [Property::ctor(string, string)] 6                                      JingleScript::Compiler::CompileFunctionCall
+    [0000002E]    pop 40                                                                               JingleScript::ValueItem::Pop
+    [0000002F]   pop 40                                                                                JingleScript::ValueItem::Pop
     [00000030]   copy_address 0                                                                        
-    [00000031]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000032]   copy_address 0                                                                        
-    [00000033]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000034]   copy_address 0                                                                        
-    [00000035]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000036]   copy_address 0                                                                        
-    [00000037]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000031]   push 40                                                                               JingleScript::ValueItem::Push
+    [00000032]    copy_data string [OnSerializeChildren] 40                                            JingleScript::Compiler::CompileConstant
+    [00000033]    push 40                                                                              JingleScript::ValueItem::Push
+    [00000034]     copy_data string [OnDeserializeChildren] 40                                         JingleScript::Compiler::CompileConstant
+    [00000035]     call_method [Property::ctor(string, string)] 6                                      JingleScript::Compiler::CompileFunctionCall
+    [00000036]    pop 40                                                                               JingleScript::ValueItem::Pop
+    [00000037]   pop 40                                                                                JingleScript::ValueItem::Pop
     [00000038]   copy_address 0                                                                        
-    [00000039]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000039]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [0000003A]   copy_address 0                                                                        
-    [0000003B]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000003B]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [0000003C]   copy_address 0                                                                        
     [0000003D]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [0000003E]   copy_address 0                                                                        
@@ -198,7 +198,17 @@ class #global extends Object {
     [00000061]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [00000062]   copy_address 0                                                                        
     [00000063]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000064]  pop 8                                                                                  JingleScript::ValueItem::Pop
+    [00000064]   copy_address 0                                                                        
+    [00000065]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000066]   copy_address 0                                                                        
+    [00000067]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000068]   copy_address 0                                                                        
+    [00000069]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000006A]   copy_address 0                                                                        
+    [0000006B]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000006C]   copy_address 0                                                                        
+    [0000006D]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [0000006E]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
@@ -1204,11 +1214,24 @@ class Entity extends Object {
 
   void Entity::OnDestroy() (Native)
 
-  void Entity::InitChild(Entity) (Native)
-
   void Entity::OnTick(double) (Native)
 
   Entity Entity::GetParent() (Native)
+
+  void Entity::OnSerializeComponents(Config) (Native)
+
+  void Entity::OnDeserializeComponents(Config) (Native)
+
+  void Entity::OnSerializeChildren(Config) (Native)
+
+  void Entity::OnDeserializeChildren(Config) (Native)
+}
+
+class Config extends Object {
+
+  Config::dtor() (Native)
+
+  Config::ctor() (Native)
 }
 
 class MeshComponent extends Component {
@@ -1345,13 +1368,6 @@ class ConfigValue extends Config {
   ConfigValue::dtor() (Native)
 
   ConfigValue::ctor() (Native)
-}
-
-class Config extends Object {
-
-  Config::dtor() (Native)
-
-  Config::ctor() (Native)
 }
 
 class ConfigSection extends Config {

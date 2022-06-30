@@ -71,3 +71,8 @@ bool ConfigAsset::Deserialize(JingleScript::Object* object)
 
 	return property->Deserialize(m_Config);
 }
+
+ConfigSection* ConfigAsset::Get() const
+{
+	return m_Config;
+}

@@ -12,7 +12,7 @@ class TestModule : public Module
 public:
 	virtual void OnInitialize() override
 	{
-		TestMaterialConfig();
+		//TestMaterialConfig();
 
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");

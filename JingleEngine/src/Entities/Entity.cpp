@@ -18,14 +18,18 @@ END_CLASS_LINK()
 
 BEGIN_CLASS_LINK(Entity)
 	LINK_NAMED_VARIABLE(Components, m_Components);
+	LINK_NAMED_VARIABLE(Children, m_Children);
 	LINK_CONSTRUCTOR();
 	LINK_METHOD(OnCreate);
 	LINK_METHOD(OnDestroy);
 	LINK_METHOD(OnTick);
-	LINK_METHOD(InitChild);
 	LINK_METHOD(AddChild);
 	LINK_METHOD(RemoveChild);
 	LINK_METHOD(GetParent);
+	LINK_METHOD(OnSerializeComponents);
+	LINK_METHOD(OnDeserializeComponents);
+	LINK_METHOD(OnSerializeChildren);
+	LINK_METHOD(OnDeserializeChildren);
 END_CLASS_LINK()
 
 Entity::Entity()
@@ -73,16 +77,54 @@ bool Entity::IsDeleting()
 	return m_IsDeleting;
 }
 
-void Entity::InitChild(Entity* child)
+void Entity::OnSerializeComponents(Config* cfg)
 {
-	AddChild(child);
 
-	for (auto& component : *child->m_Components)
+}
+
+void Entity::OnDeserializeComponents(Config* cfg)
+{
+	if (!cfg)
 	{
-		//component->OnCreate();
+		return;
 	}
 
-	child->OnCreate();
+	for (int i = 0; i < cfg->Count(); i++)
+	{
+		Config* cfgComponent = cfg->Get(i);
+
+		Component* component = JingleScript::NewObject<Component>(cfgComponent->GetLinkedType());
+		component->m_Entity = this;
+
+		component->Deserialize(cfgComponent);
+
+		component->OnCreate();
+
+		AddComponent(component);
+	}
+}
+
+void Entity::OnSerializeChildren(Config* cfg)
+{
+}
+
+void Entity::OnDeserializeChildren(Config* cfg)
+{
+	if (!cfg)
+	{
+		return;
+	}
+
+	for (int i = 0; i < cfg->Count(); i++)
+	{
+		Config* cfgChild = cfg->Get(i);
+
+		Entity* entity = JingleScript::NewObject<Entity>(cfgChild->GetLinkedType());
+
+		entity->Deserialize(cfgChild);
+
+		AddChild(entity);
+	}
 }
 
 void Entity::AddChild(Entity* child)
@@ -221,7 +263,15 @@ void Entity::OnTick(double DeltaTime)
 
 Entity* Entity::Create(AssetID asset)
 {
-	//ConfigAsset* cfg = AssetModule::Get<ConfigAsset>(asset);
-	//return dynamic_cast<Entity*>(cfg->Create());
-	return nullptr;
+	ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(asset);
+	ConfigSection* cfg = cfgAsset->Get();
+
+	Entity* entity = JingleScript::NewObject<Entity>(cfg->GetLinkedType());
+	if (!entity)
+	{
+		return nullptr;
+	}
+
+	cfgAsset->Deserialize(entity);
+	return entity;
 }

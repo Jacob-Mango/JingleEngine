@@ -101,6 +101,16 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 			continue;
 		}
 
+		if (!varProperty->m_OnSerialize.empty())
+		{
+			varProperty->OnSerialize = { varProperty->m_OnSerialize, type };
+		}
+
+		if (!varProperty->m_OnDeserialize.empty())
+		{
+			varProperty->OnDeserialize = { varProperty->m_OnDeserialize, type };
+		}
+
 		Config* cfgVariable = cfg ? cfg->Get(varName) : nullptr;
 
 		BaseProperty* property = nullptr;
@@ -118,18 +128,23 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 
 		if (!property)
 		{
+			bool isArray = false;
+
 			if (varType->IsInherited(ArrayBase::StaticType()))
 			{
 				JS_TINFO("Array");
+
 				property = new ArrayProperty(this, varType, varProperty);
+				isArray = true;
 			}
 			else
 			{
 				JS_TINFO("Object");
+
 				property = new ObjectProperty(this, varType, varProperty);
 			}
 
-			if (cfgVariable)
+			if (cfgVariable || isArray)
 			{
 				Type* type = varType;
 				std::string cfgVarType = cfgVariable->GetLinkedType();
