@@ -28,8 +28,10 @@ BEGIN_CLASS_LINK(Entity)
 	LINK_METHOD(GetParent);
 	LINK_METHOD(OnSerializeComponents);
 	LINK_METHOD(OnDeserializeComponents);
+	LINK_METHOD(OnRenderComponents);
 	LINK_METHOD(OnSerializeChildren);
 	LINK_METHOD(OnDeserializeChildren);
+	LINK_METHOD(OnRenderChildren);
 END_CLASS_LINK()
 
 Entity::Entity()
@@ -104,6 +106,22 @@ void Entity::OnDeserializeComponents(Config* cfg)
 	}
 }
 
+void Entity::OnRenderComponents()
+{
+	Editor::Render_CellHeader("Components", true);
+
+	size_t index = 0;
+	for (auto& component : GetComponents())
+	{
+		Editor::Render_CellHeader(fmt::format("[{}]", index).c_str(), true, true);
+
+		ImGui::TableNextColumn();
+		ImGui::TextUnformatted(component->GetType()->Name().c_str());
+
+		component->Render();
+	}
+}
+
 void Entity::OnSerializeChildren(Config* cfg)
 {
 }
@@ -125,6 +143,10 @@ void Entity::OnDeserializeChildren(Config* cfg)
 
 		AddChild(entity);
 	}
+}
+
+void Entity::OnRenderChildren()
+{
 }
 
 void Entity::AddChild(Entity* child)

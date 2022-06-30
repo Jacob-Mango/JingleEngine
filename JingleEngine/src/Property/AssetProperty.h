@@ -13,4 +13,6 @@ public:
 	virtual bool OnSerialize(Config* cfg, void*& data) override;
 	virtual bool OnDeserialize(Config* cfg, void*& data) override;
 
+	virtual void OnRender(void*& data) override;
+
 };

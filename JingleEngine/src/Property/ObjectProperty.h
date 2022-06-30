@@ -5,7 +5,7 @@
 class ObjectProperty : public BaseProperty
 {
 private:
-	std::map<std::string, std::pair<BaseProperty*, bool>> m_Properties;
+	std::map<std::string, BaseProperty*> m_Properties;
 
 public:
 	ObjectProperty() : BaseProperty()
@@ -22,7 +22,9 @@ public:
 	virtual bool OnSerialize(Config* cfg, void*& data) override;
 	virtual bool OnDeserialize(Config* cfg, void*& data) override;
 
+	virtual void OnRender(void*& data) override;
+
 	bool Serialize(Config* cfg);
 	bool Deserialize(Config* cfg);
-
+	void Render();
 };

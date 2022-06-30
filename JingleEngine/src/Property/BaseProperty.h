@@ -2,7 +2,11 @@
 
 #include "Core/Core.h"
 
+#include "Editor/Editor.h"
+
 #include "Property/Property.h"
+
+#include <imgui.h>
 
 class ObjectProperty;
 
@@ -25,6 +29,8 @@ public:
 
 	virtual bool OnSerialize(Config* cfg, void*& data) = 0;
 	virtual bool OnDeserialize(Config* cfg, void*& data) = 0;
+
+	virtual void OnRender(void*& data) = 0;
 
 public:
 	BaseProperty* GetPropertyOwner() const;

@@ -84,9 +84,11 @@ public:
 private:
 	void OnSerializeComponents(Config* cfg);
 	void OnDeserializeComponents(Config* cfg);
+	void OnRenderComponents();
 
 	void OnSerializeChildren(Config* cfg);
 	void OnDeserializeChildren(Config* cfg);
+	void OnRenderChildren();
 
 public:
 	static Entity* Create(AssetID asset);

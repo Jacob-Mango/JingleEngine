@@ -6,6 +6,22 @@ bool StructureProperty::OnSerialize(Config* cfg, void*& data)
 {
 	JS_TRACE(Tracers::Property);
 
+	std::string value = ToString(data);
+	cfg->SetValue(value);
+
+	return true;
+}
+
+bool StructureProperty::OnDeserialize(Config* cfg, void*& data)
+{
+	JS_TRACE(Tracers::Property);
+
+	std::string& value = *cfg->GetValuePtr();
+	return FromString(value, data);
+}
+
+std::string StructureProperty::ToString(void*& data)
+{
 	uint64_t size = GetPropertyType()->GetReferenceSize();
 
 	FunctionSignature signature;
@@ -37,21 +53,18 @@ bool StructureProperty::OnSerialize(Config* cfg, void*& data)
 
 	function->Call(thread);
 
-	std::string* value = (std::string*)thread->Stack.Get(offset);
-	cfg->SetValue(*value);
+	std::string& value = *(std::string*)thread->Stack.Get(offset);
+
+	//! TODO: call string destructor to free the memory
 
 	stack->Pop(offset);
 
-	return true;
+	return value;
 }
 
-bool StructureProperty::OnDeserialize(Config* cfg, void*& data)
+bool StructureProperty::FromString(std::string& value, void*& data)
 {
-	JS_TRACE(Tracers::Property);
-
 	uint64_t size = GetPropertyType()->GetReferenceSize();
-
-	std::string& value = *cfg->GetValuePtr();
 
 	if (GetPropertyType() == String::StaticType())
 	{
@@ -84,6 +97,23 @@ bool StructureProperty::OnDeserialize(Config* cfg, void*& data)
 
 	memcpy(data, stack->Get(offset), size);
 	stack->Pop(offset);
-
 	return true;
+}
+
+void StructureProperty::OnRender(void*& data)
+{
+	std::string id = PointerToString(data);
+
+	ImGui::PushID(id.c_str());
+
+	Editor::Render_CellHeader(GetPropertyAttribute()->GetName());
+
+	std::string value = ToString(data);;
+	std::string previous = value;
+	if (Editor::Render_CellInputText(value))
+	{
+		JS_INFO("Value changed from {} to {}", previous, value);
+	}
+
+	ImGui::PopID();
 }

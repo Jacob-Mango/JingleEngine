@@ -37,9 +37,8 @@ bool ObjectProperty::OnSerialize(Config* cfg, void*& data)
 
 	cfg->SetLinkedType(type->Name());
 
-	for (auto& [varName, propertyPair] : m_Properties)
+	for (auto& [varName, property] : m_Properties)
 	{
-		auto& [property, pointer] = propertyPair;
 		auto varType = property->GetPropertyType();
 		auto varOffset = property->GetPropertyOffset();
 		auto varProperty = property->GetPropertyAttribute();
@@ -52,13 +51,13 @@ bool ObjectProperty::OnSerialize(Config* cfg, void*& data)
 			continue;
 		}
 
-		void* data = (void*)((char*)object + property->m_Offset);
-		if (pointer)
+		void*& data = *(void**)((char*)object + property->m_Offset);
+		if (varType->IsStructure())
 		{
-			data = *(void**)((char*)object + property->m_Offset);
+			data = (void*)((char*)object + property->m_Offset);
 		}
-		
-		if (varProperty->OnSerialize.IsValid())
+
+		if (varProperty->IsUsingOwnSerialization())
 		{
 			varProperty->OnSerialize[this](cfgVariable);
 		}
@@ -101,14 +100,17 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 			continue;
 		}
 
-		if (!varProperty->m_OnSerialize.empty())
+		if (varProperty->IsUsingOwnSerialization())
 		{
-			varProperty->OnSerialize = { varProperty->m_OnSerialize, type };
+			varProperty->OnSerialize = { "OnSerialize" + varName, type };
+			varProperty->OnDeserialize = { "OnDeserialize" + varName, type };
+			varProperty->OnRender = { "OnRender" + varName, type };
 		}
 
-		if (!varProperty->m_OnDeserialize.empty())
+		if (!varProperty->IsValid())
 		{
-			varProperty->OnDeserialize = { varProperty->m_OnDeserialize, type };
+			JS_TINFO("Skipping, property not valid.");
+			continue;
 		}
 
 		Config* cfgVariable = cfg ? cfg->Get(varName) : nullptr;
@@ -163,16 +165,14 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 
 		property->m_Offset = varOffset;
 
-		bool isPropertyPointer = !varType->IsStructure();
-
-		if (varProperty->OnDeserialize.IsValid())
+		if (varProperty->IsUsingOwnSerialization())
 		{
 			varProperty->OnDeserialize[this](cfgVariable);
 		}
 		else
 		{
 			void*& data = *(void**)((char*)object + varOffset);
-			if (!isPropertyPointer)
+			if (varType->IsStructure())
 			{
 				data = (void*)((char*)object + varOffset);
 			}
@@ -180,10 +180,64 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 			property->OnDeserialize(cfgVariable, data);
 		}
 
-		m_Properties.insert({ varName, { property, isPropertyPointer } });
+		m_Properties.insert({ varName, property });
 	}
 
 	return true;
+}
+
+void ObjectProperty::OnRender(void*& data)
+{
+	Object* object = static_cast<Object*>(data);
+	if (object == nullptr)
+	{
+		return;
+	}
+
+	Type* type = object->GetType();
+
+	std::string id = PointerToString(data);
+
+	ImGui::PushID(id.c_str());
+
+	if (GetPropertyAttribute())
+	{
+		Editor::Render_CellHeader(GetPropertyAttribute()->GetName());
+
+		ImGui::TableNextColumn();
+		ImGui::TextUnformatted(type->Name().c_str());
+	}
+
+	for (auto& [varName, property] : m_Properties)
+	{
+		ScopedIncrement increment(Editor::Context.Depth);
+
+		auto varType = property->GetPropertyType();
+		auto varOffset = property->GetPropertyOffset();
+		auto varProperty = property->GetPropertyAttribute();
+
+		void*& data = *(void**)((char*)object + varOffset);
+		if (varType->IsStructure())
+		{
+			data = (void*)((char*)object + varOffset);
+		}
+
+		if (!varProperty->IsValid())
+		{
+			continue;
+		}
+
+		if (varProperty->IsUsingOwnSerialization())
+		{
+			varProperty->OnRender[object]();
+		}
+		else
+		{
+			property->OnRender(data);
+		}
+	}
+
+	ImGui::PopID();
 }
 
 bool ObjectProperty::Serialize(Config* cfg)
@@ -196,4 +250,10 @@ bool ObjectProperty::Deserialize(Config* cfg)
 {
 	void* object = (void*)dynamic_cast<Object*>(this);
 	return OnDeserialize(cfg, object);
+}
+
+void ObjectProperty::Render()
+{
+	void* object = (void*)dynamic_cast<Object*>(this);
+	OnRender(object);
 }

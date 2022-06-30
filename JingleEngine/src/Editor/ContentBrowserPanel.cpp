@@ -169,7 +169,7 @@ void ContentBrowserPanel::OnRender(double DeltaTime)
 
 						ImGui::TableNextColumn();
 
-						AssetID id = std::filesystem::relative(path, m_RootPath).string();
+						AssetID id = ("Assets" / std::filesystem::relative(path, m_RootPath)).string();
 						std::string fileName = path.filename().string();
 
 						const char* fileNameCstr = fileName.c_str();

@@ -161,3 +161,65 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 	stack->Pop(typeSize);
 	return true;
 }
+
+void ArrayProperty::OnRender(void*& data)
+{
+	Object* object = static_cast<Object*>(data);
+	if (object == nullptr)
+	{
+		JS_ERROR("Data is null");
+		return;
+	}
+
+	Type* type = object->GetType();
+	uint64_t typeSize = type->GetReferenceSize();
+
+	Function<std::string> Script_GetDataType = { "GetDataType", type };
+	Function<int> Script_Count = { "Count", type };
+
+	if (!Script_Count.IsValid() || !Script_GetDataType.IsValid())
+	{
+		JS_ERROR("Array functions do not exist!");
+		return;
+	}
+
+	Type* varType = TypeManager::Get(Script_GetDataType[object]());
+	uint64_t varSize = varType->GetReferenceSize();
+
+	AbstractFunction* Script_Get = nullptr;
+	{
+		FunctionSignature getFunctionSignature;
+		getFunctionSignature.Name = "Get";
+		getFunctionSignature.Owner = type;
+		getFunctionSignature.ReturnType = varType;
+		getFunctionSignature[0] = { Integer::StaticType() };
+		Script_Get = getFunctionSignature.Find();
+	}
+
+	if (!Script_Get)
+	{
+		JS_ERROR("Array functions do not exist!");
+		return;
+	}
+
+	Thread* thread = Thread::Current();
+	ValueStack* stack = &thread->Stack;
+
+	stack->Push(typeSize);
+	stack->CopyFrom(typeSize, &data, typeSize);
+
+	int count = Script_Count[object]();
+	for (int i = 0; i < count; i++)
+	{
+		ScopedIncrement increment(Editor::Context.Depth);
+
+		stack->Push(sizeof(int));
+		stack->CopyFrom(sizeof(int), &i, sizeof(int));
+		Script_Get->Call(thread);
+		stack->Pop(sizeof(int));
+
+		void* data = stack->Get(varSize > typeSize ? varSize : typeSize);
+
+		m_PropertyData->OnRender(data);
+	}
+}

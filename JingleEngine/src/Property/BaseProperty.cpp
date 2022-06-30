@@ -26,28 +26,28 @@ BaseProperty::~BaseProperty()
 
 BaseProperty* BaseProperty::GetPropertyOwner() const
 {
-	JS_TRACE(Tracers::Property);
+	JS_TRACE(Tracers::PropertyExtended);
 
 	return m_Owner;
 }
 
 JingleScript::Type* BaseProperty::GetPropertyType() const
 {
-	JS_TRACE(Tracers::Property);
+	JS_TRACE(Tracers::PropertyExtended);
 	
 	return m_propType;
 }
 
 Property* BaseProperty::GetPropertyAttribute() const
 {
-	JS_TRACE(Tracers::Property);
+	JS_TRACE(Tracers::PropertyExtended);
 	
 	return m_VariableProperty;
 }
 
 int64_t BaseProperty::GetPropertyOffset() const
 {
-	JS_TRACE(Tracers::Property);
+	JS_TRACE(Tracers::PropertyExtended);
 	
 	return m_Offset;
 }

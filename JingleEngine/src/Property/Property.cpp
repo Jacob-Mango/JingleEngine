@@ -4,5 +4,5 @@ using namespace JingleScript;
 
 BEGIN_CLASS_LINK(Property);
 	LINK_CONSTRUCTOR();
-	LINK_CONSTRUCTOR(std::string, std::string);
+	LINK_CONSTRUCTOR(bool);
 END_CLASS_LINK();

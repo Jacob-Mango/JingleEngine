@@ -13,4 +13,9 @@ public:
 	virtual bool OnSerialize(Config* cfg, void*& data) override;
 	virtual bool OnDeserialize(Config* cfg, void*& data) override;
 
+	std::string ToString(void*& data);
+	bool FromString(std::string& value, void*& data);
+
+	virtual void OnRender(void*& data) override;
+
 };
