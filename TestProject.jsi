@@ -1196,8 +1196,6 @@ class Entity extends Object {
    ComponentArray Components
    EntityArray Children
 
-  void Entity::OnRenderComponents() (Native)
-
   void Entity::OnCreate() (Native)
 
   Entity::dtor() (Native)
@@ -1218,11 +1216,15 @@ class Entity extends Object {
 
   void Entity::OnDeserializeComponents(Config) (Native)
 
+  void Entity::Editor_OnRenderComponents() (Native)
+
   void Entity::OnSerializeChildren(Config) (Native)
 
-  void Entity::OnRenderChildren() (Native)
-
   void Entity::OnDeserializeChildren(Config) (Native)
+
+  void Entity::Editor_OnRenderChildren() (Native)
+
+  void Entity::Editor_OnPropertyChanged(string) (Native)
 }
 
 class Config extends Object {
@@ -1256,6 +1258,8 @@ class Component extends Object {
   void Component::OnDestroy() (Native)
 
   void Component::OnTick(double) (Native)
+
+  void Component::Editor_OnPropertyChanged(string) (Native)
 }
 
 class ComponentArray extends Array {

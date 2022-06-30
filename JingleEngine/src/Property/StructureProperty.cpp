@@ -100,19 +100,23 @@ bool StructureProperty::FromString(std::string& value, void*& data)
 	return true;
 }
 
-void StructureProperty::OnRender(void*& data)
+void StructureProperty::Editor_OnRender(void*& data)
 {
 	std::string id = PointerToString(data);
-
 	ImGui::PushID(id.c_str());
 
-	Editor::Render_CellHeader(GetPropertyAttribute()->GetName());
+	std::string name = GetPropertyAttribute()->GetName();
+	Editor::Render_CellHeader(name);
 
 	std::string value = ToString(data);;
 	std::string previous = value;
 	if (Editor::Render_CellInputText(value))
 	{
 		JS_INFO("Value changed from {} to {}", previous, value);
+
+		//JingleScript::Function<void, std::string> Script_Editor_OnPropertyChanged = { "Editor_OnPropertyChanged", GetPropertyOwner()->GetPropertyType() };
+		//Script_Editor_OnPropertyChanged[GetPropertyOwner()](name);
+		GetPropertyOwner()->Editor_OnPropertyChanged(name);
 	}
 
 	ImGui::PopID();

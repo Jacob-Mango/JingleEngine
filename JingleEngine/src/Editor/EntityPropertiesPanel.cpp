@@ -35,7 +35,7 @@ void EntityPropertiesPanel::OnRender(double DeltaTime)
 		return;
 	}
 
-	entity->Render();
+	entity->Editor_Render();
 
 	ImGui::EndTable();
 }

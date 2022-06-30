@@ -2,6 +2,7 @@
 
 #include "Property/BaseProperty.h"
 
+//! TODO: If/when interfaces are implemented in JingleScript, this will be one to expose 'Editor_OnRender` and `Editor_OnPropertyChanged`
 class ObjectProperty : public BaseProperty
 {
 private:
@@ -9,12 +10,12 @@ private:
 
 public:
 	ObjectProperty() : BaseProperty()
-	{ 
+	{
 		JS_TRACE(Tracers::Property);
 	}
 	
 	ObjectProperty(BaseProperty* parent, JingleScript::Type* type, Property* varProperty) : BaseProperty(parent, type, varProperty)
-	{ 
+	{
 		JS_TRACE(Tracers::Property);
 	}
 
@@ -22,9 +23,9 @@ public:
 	virtual bool OnSerialize(Config* cfg, void*& data) override;
 	virtual bool OnDeserialize(Config* cfg, void*& data) override;
 
-	virtual void OnRender(void*& data) override;
+	virtual void Editor_OnRender(void*& data) override;
 
 	bool Serialize(Config* cfg);
 	bool Deserialize(Config* cfg);
-	void Render();
+	void Editor_Render();
 };

@@ -1,0 +1,25 @@
+{Material}: {
+	Shader: "Assets/Shaders/pbr",
+	Images: [
+		{
+			File: "Assets/Entities/Box/normal.png",
+			Name: "ambientMap"
+		},
+		{
+			File: "Assets/Entities/Box/normal.png",
+			Name: "diffuseMap"
+		},
+		{
+			File: "Assets/Entities/Box/metallic.png",
+			Name: "metallicMap"
+		},
+		{
+			File: "Assets/Entities/Box/normal.png",
+			Name: "normalMap"
+		},
+		{
+			File: "Assets/Entities/Box/roughness.png",
+			Name: "roughnessMap"
+		}
+	]
+}

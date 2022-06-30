@@ -26,6 +26,8 @@ public:
 
 	virtual void OnCreate() override;
 
+	virtual void Editor_OnPropertyChanged(std::string name) override;
+
 public:
 	MeshInstance* GetMesh() const { return m_Mesh; }
 

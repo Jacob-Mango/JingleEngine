@@ -27,6 +27,8 @@ public:
 	virtual void OnDestroy();
 	virtual void OnTick(double DeltaTime);
 
+	virtual void Editor_OnPropertyChanged(std::string name) override;
+
 };
 
 class ComponentArray : public JingleScript::Array<Component*>

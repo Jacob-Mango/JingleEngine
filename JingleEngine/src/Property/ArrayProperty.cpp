@@ -162,7 +162,7 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 	return true;
 }
 
-void ArrayProperty::OnRender(void*& data)
+void ArrayProperty::Editor_OnRender(void*& data)
 {
 	Object* object = static_cast<Object*>(data);
 	if (object == nullptr)
@@ -220,6 +220,6 @@ void ArrayProperty::OnRender(void*& data)
 
 		void* data = stack->Get(varSize > typeSize ? varSize : typeSize);
 
-		m_PropertyData->OnRender(data);
+		m_PropertyData->Editor_OnRender(data);
 	}
 }

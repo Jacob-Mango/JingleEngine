@@ -18,3 +18,27 @@ void MeshComponent::OnCreate()
 		m_Mesh->SetMaterial(MaterialOverride);
 	}
 }
+
+void MeshComponent::Editor_OnPropertyChanged(std::string name)
+{
+	if (name.compare("Model") == 0)
+	{
+		delete m_Mesh;
+
+		OnCreate();
+
+		return;
+	}
+
+	if (name.compare("MaterialOverride") == 0)
+	{
+		if (m_Mesh)
+		{
+			m_Mesh->SetMaterial(MaterialOverride);
+		}
+
+		return;
+	}
+
+	Super::Editor_OnPropertyChanged(name);
+}

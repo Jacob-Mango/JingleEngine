@@ -16,6 +16,6 @@ public:
 	std::string ToString(void*& data);
 	bool FromString(std::string& value, void*& data);
 
-	virtual void OnRender(void*& data) override;
+	virtual void Editor_OnRender(void*& data) override;
 
 };

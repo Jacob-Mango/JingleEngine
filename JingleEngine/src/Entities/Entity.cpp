@@ -28,10 +28,11 @@ BEGIN_CLASS_LINK(Entity)
 	LINK_METHOD(GetParent);
 	LINK_METHOD(OnSerializeComponents);
 	LINK_METHOD(OnDeserializeComponents);
-	LINK_METHOD(OnRenderComponents);
+	LINK_METHOD(Editor_OnRenderComponents);
 	LINK_METHOD(OnSerializeChildren);
 	LINK_METHOD(OnDeserializeChildren);
-	LINK_METHOD(OnRenderChildren);
+	LINK_METHOD(Editor_OnRenderChildren);
+	LINK_METHOD(Editor_OnPropertyChanged);
 END_CLASS_LINK()
 
 Entity::Entity()
@@ -79,6 +80,11 @@ bool Entity::IsDeleting()
 	return m_IsDeleting;
 }
 
+void Entity::Editor_OnPropertyChanged(std::string name)
+{
+	ObjectProperty::Editor_OnPropertyChanged(name);
+}
+
 void Entity::OnSerializeComponents(Config* cfg)
 {
 
@@ -106,7 +112,7 @@ void Entity::OnDeserializeComponents(Config* cfg)
 	}
 }
 
-void Entity::OnRenderComponents()
+void Entity::Editor_OnRenderComponents()
 {
 	Editor::Render_CellHeader("Components", true);
 
@@ -118,7 +124,7 @@ void Entity::OnRenderComponents()
 		ImGui::TableNextColumn();
 		ImGui::TextUnformatted(component->GetType()->Name().c_str());
 
-		component->Render();
+		component->Editor_Render();
 	}
 }
 
@@ -145,7 +151,7 @@ void Entity::OnDeserializeChildren(Config* cfg)
 	}
 }
 
-void Entity::OnRenderChildren()
+void Entity::Editor_OnRenderChildren()
 {
 }
 

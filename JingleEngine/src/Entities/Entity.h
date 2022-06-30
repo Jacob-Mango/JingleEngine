@@ -81,14 +81,16 @@ public:
 	virtual void OnDestroy();
 	virtual void OnTick(double DeltaTime);
 
+	virtual void Editor_OnPropertyChanged(std::string name) override;
+
 private:
 	void OnSerializeComponents(Config* cfg);
 	void OnDeserializeComponents(Config* cfg);
-	void OnRenderComponents();
+	void Editor_OnRenderComponents();
 
 	void OnSerializeChildren(Config* cfg);
 	void OnDeserializeChildren(Config* cfg);
-	void OnRenderChildren();
+	void Editor_OnRenderChildren();
 
 public:
 	static Entity* Create(AssetID asset);

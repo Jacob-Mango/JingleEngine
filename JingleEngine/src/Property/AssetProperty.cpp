@@ -40,7 +40,7 @@ bool AssetProperty::OnDeserialize(Config* cfg, void*& data)
 	return true;
 }
 
-void AssetProperty::OnRender(void*& data)
+void AssetProperty::Editor_OnRender(void*& data)
 {
 	std::string path;
 
@@ -51,10 +51,10 @@ void AssetProperty::OnRender(void*& data)
 	}
 
 	std::string id = PointerToString(data);
-
 	ImGui::PushID(id.c_str());
 
-	Editor::Render_CellHeader(GetPropertyAttribute()->GetName());
+	std::string name = GetPropertyAttribute()->GetName();
+	Editor::Render_CellHeader(name);
 
 	ImGui::TableNextColumn();
 
@@ -76,6 +76,10 @@ void AssetProperty::OnRender(void*& data)
 			Asset* asset = AssetModule::Get<Asset>(id, GetPropertyType());
 
 			data = (void*)asset;
+
+			//JingleScript::Function<void, std::string> Script_Editor_OnPropertyChanged = { "Editor_OnPropertyChanged", GetPropertyOwner()->GetPropertyType() };
+			//Script_Editor_OnPropertyChanged[GetPropertyOwner()](name);
+			GetPropertyOwner()->Editor_OnPropertyChanged(name);
 		}
 
 		ImGui::EndDragDropTarget();

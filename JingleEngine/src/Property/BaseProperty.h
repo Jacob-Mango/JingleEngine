@@ -30,7 +30,8 @@ public:
 	virtual bool OnSerialize(Config* cfg, void*& data) = 0;
 	virtual bool OnDeserialize(Config* cfg, void*& data) = 0;
 
-	virtual void OnRender(void*& data) = 0;
+	virtual void Editor_OnRender(void*& data) = 0;
+	virtual void Editor_OnPropertyChanged(std::string name) {}
 
 public:
 	BaseProperty* GetPropertyOwner() const;

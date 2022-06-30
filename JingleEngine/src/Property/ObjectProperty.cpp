@@ -104,7 +104,7 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 		{
 			varProperty->OnSerialize = { "OnSerialize" + varName, type };
 			varProperty->OnDeserialize = { "OnDeserialize" + varName, type };
-			varProperty->OnRender = { "OnRender" + varName, type };
+			varProperty->OnRender = { "Editor_OnRender" + varName, type };
 		}
 
 		if (!varProperty->IsValid())
@@ -186,7 +186,7 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 	return true;
 }
 
-void ObjectProperty::OnRender(void*& data)
+void ObjectProperty::Editor_OnRender(void*& data)
 {
 	Object* object = static_cast<Object*>(data);
 	if (object == nullptr)
@@ -233,7 +233,7 @@ void ObjectProperty::OnRender(void*& data)
 		}
 		else
 		{
-			property->OnRender(data);
+			property->Editor_OnRender(data);
 		}
 	}
 
@@ -252,8 +252,8 @@ bool ObjectProperty::Deserialize(Config* cfg)
 	return OnDeserialize(cfg, object);
 }
 
-void ObjectProperty::Render()
+void ObjectProperty::Editor_Render()
 {
 	void* object = (void*)dynamic_cast<Object*>(this);
-	OnRender(object);
+	Editor_OnRender(object);
 }
