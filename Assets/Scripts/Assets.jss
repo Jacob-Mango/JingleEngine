@@ -32,7 +32,7 @@ class Material extends ConfigAsset
 	@Property
 	Shader Shader;
 
-	@ArrayProperty("MaterialImage")
+	@Property
 	MaterialImageArray Images;
 }
 

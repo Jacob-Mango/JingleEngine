@@ -1,9 +1,9 @@
 class Entity
 {
-	@ArrayProperty("Component")
+	@Property
 	ComponentArray Components;
 
-	@ArrayProperty("Entity", "InitChild")
+	@Property
 	EntityArray Children;
 
 	@Native
@@ -32,8 +32,6 @@ class Component
 {
 
 }
-
-struct ComponentArray extends Array { }
 
 class MeshComponent extends Component
 {

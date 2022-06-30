@@ -131,33 +131,33 @@ class #global extends Object {
     [0000001E]   copy_address 0                                                                        
     [0000001F]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [00000020]   copy_address 0                                                                        
-    [00000021]   push 40                                                                               JingleScript::ValueItem::Push
-    [00000022]    copy_data string [MaterialImage] 40                                                  JingleScript::Compiler::CompileConstant
-    [00000023]    call_method [ArrayProperty::ctor(string)] 6                                          JingleScript::Compiler::CompileFunctionCall
-    [00000024]   pop 40                                                                                JingleScript::ValueItem::Pop
-    [00000025]   copy_address 0                                                                        
-    [00000026]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000027]   copy_address 0                                                                        
-    [00000028]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [00000029]   copy_address 0                                                                        
-    [0000002A]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
-    [0000002B]   copy_address 0                                                                        
-    [0000002C]   push 40                                                                               JingleScript::ValueItem::Push
-    [0000002D]    copy_data string [Component] 40                                                      JingleScript::Compiler::CompileConstant
-    [0000002E]    call_method [ArrayProperty::ctor(string)] 6                                          JingleScript::Compiler::CompileFunctionCall
-    [0000002F]   pop 40                                                                                JingleScript::ValueItem::Pop
+    [00000021]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000022]   copy_address 0                                                                        
+    [00000023]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000024]   copy_address 0                                                                        
+    [00000025]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000026]   copy_address 0                                                                        
+    [00000027]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000028]   copy_address 0                                                                        
+    [00000029]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000002A]   copy_address 0                                                                        
+    [0000002B]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000002C]   copy_address 0                                                                        
+    [0000002D]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000002E]   copy_address 0                                                                        
+    [0000002F]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
     [00000030]   copy_address 0                                                                        
-    [00000031]   push 40                                                                               JingleScript::ValueItem::Push
-    [00000032]    copy_data string [Entity] 40                                                         JingleScript::Compiler::CompileConstant
-    [00000033]    push 40                                                                              JingleScript::ValueItem::Push
-    [00000034]     copy_data string [InitChild] 40                                                     JingleScript::Compiler::CompileConstant
-    [00000035]     call_method [ArrayProperty::ctor(string, string)] 7                                 JingleScript::Compiler::CompileFunctionCall
-    [00000036]    pop 40                                                                               JingleScript::ValueItem::Pop
-    [00000037]   pop 40                                                                                JingleScript::ValueItem::Pop
+    [00000031]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000032]   copy_address 0                                                                        
+    [00000033]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000034]   copy_address 0                                                                        
+    [00000035]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
+    [00000036]   copy_address 0                                                                        
+    [00000037]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [00000038]   copy_address 0                                                                        
-    [00000039]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [00000039]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [0000003A]   copy_address 0                                                                        
-    [0000003B]   call_method [Property::ctor()] 1                                                      JingleScript::Compiler::CompileFunctionCall
+    [0000003B]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [0000003C]   copy_address 0                                                                        
     [0000003D]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [0000003E]   copy_address 0                                                                        
@@ -198,23 +198,7 @@ class #global extends Object {
     [00000061]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [00000062]   copy_address 0                                                                        
     [00000063]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000064]   copy_address 0                                                                        
-    [00000065]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000066]   copy_address 0                                                                        
-    [00000067]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000068]   copy_address 0                                                                        
-    [00000069]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000006A]   copy_address 0                                                                        
-    [0000006B]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000006C]   copy_address 0                                                                        
-    [0000006D]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000006E]   copy_address 0                                                                        
-    [0000006F]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000070]   copy_address 0                                                                        
-    [00000071]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000072]   copy_address 0                                                                        
-    [00000073]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [00000074]  pop 8                                                                                  JingleScript::ValueItem::Pop
+    [00000064]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 }
 
@@ -1037,11 +1021,11 @@ class Attribute extends Object {
   Attribute::ctor() (Native)
 }
 
-struct Array extends Object {
-
-  void Array::Insert(Object) (Native)
+class Array extends Object {
 
   Array::dtor() (Native)
+
+  Array::ctor() (Native)
 }
 
 class Viewport extends Managed {
@@ -1100,13 +1084,27 @@ class MaterialImage extends Object {
   MaterialImage::ctor() (Native)
 }
 
-struct MaterialImageArray extends Array {
+class MaterialImageArray extends Array {
+
+  int MaterialImageArray::Count() (Native)
 
   MaterialImageArray::dtor() (Native)
+
+  void MaterialImageArray::Resize(int) (Native)
+
+  string MaterialImageArray::GetDataType() (Native)
 
   MaterialImageArray::ctor() (Native)
 
   void MaterialImageArray::Insert(MaterialImage) (Native)
+
+  void MaterialImageArray::Remove(int) (Native)
+
+  MaterialImage MaterialImageArray::Get(int) (Native)
+
+  void MaterialImageArray::Clear() (Native)
+
+  void MaterialImageArray::Reserve(int) (Native)
 }
 
 class Material extends ConfigAsset {
@@ -1139,76 +1137,13 @@ class Framebuffer extends Managed {
   Framebuffer::ctor() (Native)
 }
 
-class PropertyProperty extends PropertyBase {
-
-  PropertyProperty::dtor() (Native)
-
-  PropertyProperty::ctor(Type, Property, uint64_t) (Native)
-}
-
-class PropertyBase extends Object {
-
-  PropertyBase::dtor() (Native)
-}
-
-class Type extends Object {
-
-  bool Type::IsInherited(Type) (Native)
-}
-
 class Property extends Attribute {
 
   Property::dtor() (Native)
 
+  Property::ctor(string, string) (Native)
+
   Property::ctor() (Native)
-
-  Property::ctor(string) (Native)
-}
-
-class PropertyObject extends PropertyBase {
-
-  PropertyObject::ctor(Type, Property, uint64_t) (Native)
-
-  PropertyObject::dtor() (Native)
-
-  PropertyObject::ctor() (Native)
-}
-
-class PropertyItem extends PropertyBase {
-
-  PropertyItem::ctor(Type, Property, uint64_t) (Native)
-
-  PropertyItem::dtor() (Native)
-}
-
-class PropertyConfig extends PropertyBase {
-
-  PropertyConfig::dtor() (Native)
-
-  PropertyConfig::ctor(Type, Property, uint64_t) (Native)
-}
-
-class PropertyAsset extends PropertyBase {
-
-  PropertyAsset::dtor() (Native)
-
-  PropertyAsset::ctor(Type, Property, uint64_t) (Native)
-}
-
-class PropertyArray extends PropertyBase {
-
-  PropertyArray::dtor() (Native)
-
-  PropertyArray::ctor(Type, Property, uint64_t) (Native)
-}
-
-class ArrayProperty extends Property {
-
-  ArrayProperty::dtor() (Native)
-
-  ArrayProperty::ctor(string) (Native)
-
-  ArrayProperty::ctor(string, string) (Native)
 }
 
 class WndWindow extends Window {
@@ -1230,28 +1165,27 @@ class BindingModule extends Module {
   BindingModule::ctor() (Native)
 }
 
-struct ComponentArray extends Array {
+class EntityArray extends Array {
 
-  void ComponentArray::Insert(Component) (Native)
+  EntityArray::dtor() (Native)
 
-  ComponentArray::dtor() (Native)
+  void EntityArray::Reserve(int) (Native)
 
-  ComponentArray::ctor() (Native)
-}
+  EntityArray::ctor() (Native)
 
-class Component extends Object {
+  void EntityArray::Resize(int) (Native)
 
-  void Component::OnCreate() (Native)
+  string EntityArray::GetDataType() (Native)
 
-  Component::dtor() (Native)
+  int EntityArray::Count() (Native)
 
-  Component::ctor() (Native)
+  void EntityArray::Insert(Entity) (Native)
 
-  Component::ctor(Entity) (Native)
+  void EntityArray::Remove(int) (Native)
 
-  void Component::OnDestroy() (Native)
+  Entity EntityArray::Get(int) (Native)
 
-  void Component::OnTick(double) (Native)
+  void EntityArray::Clear() (Native)
 }
 
 class Entity extends Object {
@@ -1277,15 +1211,6 @@ class Entity extends Object {
   Entity Entity::GetParent() (Native)
 }
 
-struct EntityArray extends Array {
-
-  EntityArray::dtor() (Native)
-
-  EntityArray::ctor() (Native)
-
-  void EntityArray::Insert(Entity) (Native)
-}
-
 class MeshComponent extends Component {
    Mesh Model
    Material MaterialOverride
@@ -1295,6 +1220,44 @@ class MeshComponent extends Component {
   MeshComponent::ctor(Entity) (Native)
 
   MeshComponent::ctor() (Native)
+}
+
+class Component extends Object {
+
+  void Component::OnCreate() (Native)
+
+  Component::dtor() (Native)
+
+  Component::ctor() (Native)
+
+  Component::ctor(Entity) (Native)
+
+  void Component::OnDestroy() (Native)
+
+  void Component::OnTick(double) (Native)
+}
+
+class ComponentArray extends Array {
+
+  void ComponentArray::Insert(Component) (Native)
+
+  ComponentArray::dtor() (Native)
+
+  ComponentArray::ctor() (Native)
+
+  void ComponentArray::Resize(int) (Native)
+
+  string ComponentArray::GetDataType() (Native)
+
+  Component ComponentArray::Get(int) (Native)
+
+  void ComponentArray::Remove(int) (Native)
+
+  int ComponentArray::Count() (Native)
+
+  void ComponentArray::Clear() (Native)
+
+  void ComponentArray::Reserve(int) (Native)
 }
 
 class SceneHierarchyPanel extends EditorPanelBase {
@@ -1410,6 +1373,11 @@ class AssetModule extends Module {
   AssetModule::dtor() (Native)
 
   AssetModule::ctor() (Native)
+}
+
+class Type extends Object {
+
+  bool Type::IsInherited(Type) (Native)
 }
 
 class Camera extends Entity {

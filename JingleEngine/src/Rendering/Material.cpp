@@ -12,15 +12,10 @@ BEGIN_CLASS_LINK(MaterialImage)
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-BEGIN_STRUCTURE_LINK(MaterialImageArray)
+BEGIN_CLASS_LINK(MaterialImageArray)
 	LINK_CONSTRUCTOR();
-	LINK_METHOD(Insert);
-END_STRUCTURE_LINK()
-
-void MaterialImageArray::Insert(MaterialImage* value)
-{
-	push_back(value);
-}
+	Array<MaterialImage*>::ScriptRegister(type);
+END_CLASS_LINK()
 
 BEGIN_CLASS_LINK(Material)
 	LINK_NAMED_VARIABLE(Shader, m_Shader);
@@ -49,7 +44,7 @@ bool Material::OnLoad()
 void Material::Bind(Ref<Shader> shader)
 {
 	int index = 0;
-	for (auto& image : m_Images)
+	for (auto& image : *m_Images)
 	{
 		auto& file = image->m_File;
 		auto& name = image->m_Name;
@@ -65,7 +60,7 @@ void Material::Bind(Ref<Shader> shader)
 
 void Material::Unbind(Ref<Shader> shader)
 {
-	for (auto& image : m_Images)
+	for (auto& image : *m_Images)
 	{
 		auto& file = image->m_File;
 

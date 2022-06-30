@@ -12,7 +12,7 @@ class TestModule : public Module
 public:
 	virtual void OnInitialize() override
 	{
-		//TestMaterialConfig();
+		TestMaterialConfig();
 
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
@@ -60,23 +60,16 @@ public:
 
 		std::string path = "Assets/Entities/Box/test.material";
 
-		Ref<Lexer> lexer = Lexer::ParseFile(path);
-		ConfigSection* cfg = NewObject<ConfigSection>("ConfigSection");
-		cfg->Deserialize(lexer, nullptr);
-
-		PropertyObject* properties = NewObject<PropertyObject>("PropertyObject");
-
-		properties->OnDeserialize(cfg);
-
-		Type* type = TypeManager::Get("Material");
-
-		Material* cls = type->New<Material>();
-
-		//Material* cls = JingleScript::NewObject<Material>("Material");
-
-		properties->OnWriteObject(cls);
+		Material* material = AssetModule::Get<Material>(path);
 
 		//cfg->Output();
+
+		JS_INFO("Shader: {}", *material->m_Shader);
+
+		for (auto& image : *material->m_Images)
+		{
+			JS_INFO("Image: {}", *image);
+		}
 
 		exit(0);
 	}

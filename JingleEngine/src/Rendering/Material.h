@@ -19,21 +19,40 @@ class MaterialImage : public JingleScript::Object
 	friend Material;
 
 private:
-	Image* m_File;
+	Image* m_File = nullptr;
 	std::string m_Name;
 
 public:
-	MaterialImage() {}
-	~MaterialImage() {}
+	MaterialImage() {
+		JS_TRACE(true);
+	}
+	~MaterialImage() {
+		JS_TRACE(true);
+	}
+
+	virtual std::string ToString() const override
+	{
+		return fmt::format("{}: {}", m_Name, m_File ? m_File->GetPath() : "no file");
+	}
 
 };
 
-class MaterialImageArray : public JingleScript::Array, public std::vector<MaterialImage*>
+class MaterialImageArray : public JingleScript::Array<MaterialImage*>
 {
-	DEFINE_BASE_STRUCTURE(MaterialImageArray, JingleScript::Array);
+	DEFINE_CLASS(MaterialImageArray, JingleScript::Array<MaterialImage*>);
 
 public:
-	void Insert(MaterialImage* value);
+	MaterialImageArray()
+	{
+		JS_TRACE(true);
+
+	}
+
+	~MaterialImageArray()
+	{
+		JS_TRACE(true);
+
+	}
 
 };
 
@@ -41,8 +60,9 @@ class Material : public ConfigAsset
 {
 	SETUP_ASSET(Material, ConfigAsset)
 
+public: //! temp vis
 	Shader* m_Shader = nullptr;
-	MaterialImageArray m_Images;
+	MaterialImageArray* m_Images;
 
 public:
 	Material();

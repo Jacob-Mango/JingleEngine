@@ -17,6 +17,7 @@ public:
 	{
 		std::string m_Name;
 		bool m_ShowHeader = true;
+		Object* m_Instance;
 	};
 
 	struct ArrayContext

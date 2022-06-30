@@ -1,5 +1,10 @@
 #include "Entities/Component.h"
 
+BEGIN_CLASS_LINK(ComponentArray)
+	LINK_CONSTRUCTOR();
+	Array<Component*>::ScriptRegister(type);
+END_CLASS_LINK()
+
 BEGIN_CLASS_LINK(Component)
 	LINK_CONSTRUCTOR();
 	LINK_CONSTRUCTOR(Entity*);

@@ -22,8 +22,10 @@ public:
 
 public:
 	virtual void Add(Config* other) override;
+	virtual void Remove(Config* other) override;
 
-	virtual size_t Count() const override { return m_Entries.size(); }
+	virtual size_t Count() const override;
+	
 	virtual Config* Get(int index) const override;
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;

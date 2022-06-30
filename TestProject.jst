@@ -181,6 +181,10 @@ Global {
    }
   }
   Class {
+   Name: "Array"
+   Base: "Object"
+  }
+  Class {
    Name: "AssetModule"
    Base: "Module"
   }
@@ -215,18 +219,7 @@ Global {
     Variable {
      Attributes: {
       Attribute {
-       Value: "ArrayProperty"
-       Arguments: {
-        [0]: {
-         Expression {
-          Right: {
-           Constant {
-            Value: "MaterialImage"
-           }
-          }
-         }
-        }
-       }
+       Value: "Property"
        IsConstructor: "1"
        IsSuper: "0"
        ForceExact: "0"
@@ -240,22 +233,6 @@ Global {
   Class {
    Name: "Property"
    Base: "Attribute"
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "Property"
-     Name: "Property"
-     IsConstructor: "1"
-     IsDestructor: "0"
-    }
-   }
   }
   Class {
    Name: "Shader"
@@ -338,18 +315,7 @@ Global {
     Variable {
      Attributes: {
       Attribute {
-       Value: "ArrayProperty"
-       Arguments: {
-        [0]: {
-         Expression {
-          Right: {
-           Constant {
-            Value: "Component"
-           }
-          }
-         }
-        }
-       }
+       Value: "Property"
        IsConstructor: "1"
        IsSuper: "0"
        ForceExact: "0"
@@ -361,23 +327,7 @@ Global {
     Variable {
      Attributes: {
       Attribute {
-       Value: "ArrayProperty"
-       Arguments: {
-        [0]: {
-         Expression {
-          Right: {
-           Constant {
-            Value: "Entity"
-           }
-          }
-         }
-        }
-        [1]: {
-         Constant {
-          Value: "InitChild"
-         }
-        }
-       }
+       Value: "Property"
        IsConstructor: "1"
        IsSuper: "0"
        ForceExact: "0"
@@ -584,10 +534,6 @@ Global {
      IsDestructor: "0"
     }
    }
-  }
-  Class {
-   Name: "PropertyBase"
-   Base: "Object"
   }
   Class {
    Name: "Type"
@@ -1062,10 +1008,6 @@ Global {
    Base: "EditorPanelBase"
   }
   Class {
-   Name: "PropertyObject"
-   Base: "PropertyBase"
-  }
-  Class {
    Attributes: {
     Attribute {
      Value: "EditorAttribute"
@@ -1100,90 +1042,8 @@ Global {
    Name: "BindingModule"
    Base: "Module"
   }
-  Class {
-   Name: "ArrayProperty"
-   Base: "Property"
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "ArrayProperty"
-     Name: "ArrayProperty"
-     Parameters: {
-      Parameter {
-       Type: "string"
-       Name: "type"
-      }
-     }
-     IsConstructor: "1"
-     IsDestructor: "0"
-    }
-   }
-  }
-  Class {
-   Name: "PropertyArray"
-   Base: "PropertyBase"
-  }
-  Class {
-   Name: "PropertyAsset"
-   Base: "PropertyBase"
-  }
-  Class {
-   Name: "PropertyConfig"
-   Base: "PropertyBase"
-  }
-  Class {
-   Name: "PropertyItem"
-   Base: "PropertyBase"
-  }
-  Class {
-   Name: "PropertyProperty"
-   Base: "PropertyBase"
-  }
  }
  Structures: {
-  Struct {
-   Name: "int"
-   Base: "Object"
-   Variables: {
-    Variable {
-     Type: "int"
-     Name: "value"
-    }
-   }
-  }
-  Struct {
-   Name: "Array"
-   Base: "Object"
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "void"
-     Name: "Insert"
-     Parameters: {
-      Parameter {
-       Type: "Object"
-       Name: "instance"
-      }
-     }
-     IsConstructor: "0"
-     IsDestructor: "0"
-    }
-   }
-  }
   Struct {
    Name: "null"
    Base: "Object"
@@ -1194,6 +1054,16 @@ Global {
    Variables: {
     Variable {
      Type: "byte"
+     Name: "value"
+    }
+   }
+  }
+  Struct {
+   Name: "int"
+   Base: "Object"
+   Variables: {
+    Variable {
+     Type: "int"
      Name: "value"
     }
    }
@@ -1231,10 +1101,6 @@ Global {
      Name: "value"
     }
    }
-  }
-  Struct {
-   Name: "ComponentArray"
-   Base: "Array"
   }
  }
 }

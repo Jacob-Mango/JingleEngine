@@ -17,7 +17,11 @@
 #include "Input/BindingModule.h"
 
 #include "Property/Property.h"
-#include "Property/PropertyObject.h"
+#include "Property/AssetProperty.h"
+#include "Property/ArrayProperty.h"
+#include "Property/BaseProperty.h"
+#include "Property/StructureProperty.h"
+#include "Property/ObjectProperty.h"
 
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"

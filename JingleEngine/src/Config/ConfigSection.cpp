@@ -24,7 +24,24 @@ ConfigSection::~ConfigSection()
 
 void ConfigSection::Add(Config* other)
 {
+	other->m_Parent = this;
 	m_Entries[other->GetName()] = other;
+}
+
+void ConfigSection::Remove(Config* other)
+{
+	auto it = m_Entries.find(other->GetName());
+	if (it != m_Entries.end())
+	{
+		other->m_Parent = nullptr;
+
+		m_Entries.erase(it);
+	}
+}
+
+size_t ConfigSection::Count() const
+{
+	return m_Entries.size();
 }
 
 Config* ConfigSection::Get(std::string name) const

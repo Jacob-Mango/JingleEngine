@@ -2,8 +2,6 @@
 
 #include "Core/Application.h"
 
-#include "Property/PropertyArray.h"
-
 #include <imgui.h>
 
 BEGIN_CLASS_LINK(SceneHierarchyPanel);
@@ -62,7 +60,7 @@ void SceneHierarchyPanel::RenderEntity(Entity* entity)
 
 	ImGui::PopID();
 
-	for (auto& child : entity->m_Children)
+	for (auto& child : *entity->m_Children)
 	{
 		RenderEntity(child);
 	}

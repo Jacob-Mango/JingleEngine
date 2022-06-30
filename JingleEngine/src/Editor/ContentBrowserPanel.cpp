@@ -2,8 +2,6 @@
 
 #include "Core/Application.h"
 
-#include "Property/PropertyArray.h"
-
 #include <imgui.h>
 #include <imgui_internal.h>
 

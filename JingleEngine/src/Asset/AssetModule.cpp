@@ -89,13 +89,7 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 			ConfigAsset* cfgAsset = type->New<ConfigAsset>();
 			cfgAsset->m_Config = cfg;
 
-			if (!cfgAsset->m_Properties->OnDeserialize(cfg))
-			{
-				JS_ERROR("Failed to load asset '{}', couldn't deserialize data.", path);
-				return nullptr;
-			}
-
-			if (cfg->IsLinkedDirectly() && !cfgAsset->WriteToObject(cfgAsset))
+			if (cfg->IsLinkedDirectly() && !cfgAsset->Deserialize())
 			{
 				JS_ERROR("Failed to load asset '{}', couldn't write data.", path);
 				return nullptr;

@@ -7,8 +7,6 @@
 #include "Rendering/Material.h"
 #include "Rendering/MeshInstance.h"
 
-#include "Property/Serializable.h"
-
 class Config;
 class Entity;
 class Component;
@@ -19,25 +17,10 @@ class Renderer;
 class EntityPropertiesPanel;
 class SceneHierarchyPanel;
 
-class ComponentArray : public JingleScript::Array, public std::vector<Component*>
-{
-	DEFINE_BASE_STRUCTURE(ComponentArray, JingleScript::Array);
+class EntityArray;
+class ComponentArray;
 
-public:
-	void Insert(Component* value);
-
-};
-
-class EntityArray : public JingleScript::Array, public std::vector<Entity*>
-{
-	DEFINE_BASE_STRUCTURE(EntityArray, JingleScript::Array);
-
-public:
-	void Insert(Entity* value);
-
-};
-
-class Entity : public JingleScript::Object, public Serializable
+class Entity : public JingleScript::Object, public ObjectProperty
 {
 	DEFINE_CLASS(Entity, JingleScript::Object);
 
@@ -48,9 +31,9 @@ class Entity : public JingleScript::Object, public Serializable
 
 private:
 	Entity* m_Parent = nullptr;
-	EntityArray m_Children;
+	EntityArray* m_Children;
 
-	ComponentArray m_Components;
+	ComponentArray* m_Components;
 
 	bool m_IsDeleting = false;
 
@@ -103,5 +86,15 @@ private:
 
 public:
 	static Entity* Create(AssetID asset);
+
+};
+
+class EntityArray : public JingleScript::Array<Entity*>
+{
+	DEFINE_CLASS(EntityArray, JingleScript::Array<Entity*>);
+
+public:
+	EntityArray() {}
+	~EntityArray() {}
 
 };

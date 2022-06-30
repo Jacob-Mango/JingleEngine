@@ -11,25 +11,10 @@
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
 
-BEGIN_STRUCTURE_LINK(ComponentArray)
+BEGIN_CLASS_LINK(EntityArray)
 	LINK_CONSTRUCTOR();
-	LINK_METHOD(Insert);
-END_STRUCTURE_LINK()
-
-void ComponentArray::Insert(Component* value)
-{
-	push_back(value);
-}
-
-BEGIN_STRUCTURE_LINK(EntityArray)
-	LINK_CONSTRUCTOR();
-	LINK_METHOD(Insert);
-END_STRUCTURE_LINK()
-
-void EntityArray::Insert(Entity* value)
-{
-	push_back(value);
-}
+	Array<Entity*>::ScriptRegister(type);
+END_CLASS_LINK()
 
 BEGIN_CLASS_LINK(Entity)
 	LINK_NAMED_VARIABLE(Components, m_Components);
@@ -62,12 +47,12 @@ void Entity::AddComponent(Component* component)
 	using namespace JingleScript;
 
 	component->m_Entity = this;
-	m_Components.push_back(component);
+	m_Components->Insert(component);
 }
 
 ComponentArray& Entity::GetComponents()
 {
-	return m_Components;
+	return *m_Components;
 }
 
 void Entity::Delete()
@@ -77,7 +62,7 @@ void Entity::Delete()
 
 	OnDestroy();
 
-	for (int i = m_Children.size() - 1; i >= 0; i--)
+	for (int i = m_Children->Count() - 1; i >= 0; i--)
 	{
 		//RemoveChild(m_Children[i]);
 	}
@@ -92,9 +77,9 @@ void Entity::InitChild(Entity* child)
 {
 	AddChild(child);
 
-	for (auto& component : child->m_Components)
+	for (auto& component : *child->m_Components)
 	{
-		component->OnCreate();
+		//component->OnCreate();
 	}
 
 	child->OnCreate();
@@ -111,18 +96,18 @@ void Entity::AddChild(Entity* child)
 	}
 
 	child->m_Parent = this;
-	m_Children.push_back(child);
+	m_Children->Insert(child);
 }
 
 void Entity::RemoveChild(Entity* child)
 {
-	for (size_t i = 0; i < m_Children.size(); i++)
+	for (size_t i = 0; i < m_Children->Count(); i++)
 	{
-		if (m_Children[i] != child)
+		if (m_Children->Get(i) != child)
 			continue;
 
 		child->m_Parent = nullptr;
-		m_Children.erase(m_Children.begin() + i);
+		m_Children->Remove(i);
 	}
 }
 
@@ -236,6 +221,7 @@ void Entity::OnTick(double DeltaTime)
 
 Entity* Entity::Create(AssetID asset)
 {
-	ConfigAsset* cfg = AssetModule::Get<ConfigAsset>(asset);
-	return dynamic_cast<Entity*>(cfg->Create());
+	//ConfigAsset* cfg = AssetModule::Get<ConfigAsset>(asset);
+	//return dynamic_cast<Entity*>(cfg->Create());
+	return nullptr;
 }

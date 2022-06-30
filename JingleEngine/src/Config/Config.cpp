@@ -31,6 +31,22 @@ std::string Config::GetName() const
 	return m_TypeInfo.m_Name;
 }
 
+void Config::SetName(std::string name)
+{
+	ConfigSection* parent = dynamic_cast<ConfigSection*>(m_Parent);
+	if (parent)
+	{
+		parent->Remove(this);
+	}
+
+	m_TypeInfo.m_Name = name;
+
+	if (parent)
+	{
+		parent->Add(this);
+	}
+}
+
 std::string Config::GetLinkedType() const
 {
 	JS_TRACE(Tracers::Property);
@@ -45,6 +61,11 @@ std::string Config::GetLinkedType() const
 	}
 
 	return type;
+}
+
+void Config::SetLinkedType(std::string type)
+{
+	m_TypeInfo.m_Type = type;
 }
 
 std::string Config::GetTypeAndName() const

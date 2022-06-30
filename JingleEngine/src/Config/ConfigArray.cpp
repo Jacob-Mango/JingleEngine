@@ -23,7 +23,25 @@ ConfigArray::~ConfigArray()
 
 void ConfigArray::Add(Config* other)
 {
+	other->m_Parent = this;
+
 	m_Entries.push_back(other);
+}
+
+void ConfigArray::Remove(Config* other)
+{
+	auto& it = std::find(m_Entries.begin(), m_Entries.end(), other);
+	if (it != m_Entries.end())
+	{
+		other->m_Parent = nullptr;
+
+		m_Entries.erase(it);
+	}
+}
+
+size_t ConfigArray::Count() const
+{
+	return m_Entries.size();
 }
 
 Config* ConfigArray::Get(int index) const

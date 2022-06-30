@@ -28,3 +28,13 @@ public:
 	virtual void OnTick(double DeltaTime);
 
 };
+
+class ComponentArray : public JingleScript::Array<Component*>
+{
+	DEFINE_CLASS(ComponentArray, JingleScript::Array<Component*>);
+
+public:
+	ComponentArray() {}
+	~ComponentArray() {}
+
+};

@@ -31,7 +31,7 @@ void Renderer::SubmitEntity(Entity* entity, const glm::dmat4& parentTransform)
 		}
 	}
 
-	for (auto& child : entity->m_Children)
+	for (auto& child : *entity->m_Children)
 	{
 		SubmitEntity(child, transform);
 	}

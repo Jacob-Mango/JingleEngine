@@ -5,9 +5,9 @@
 #include "Config/ConfigSection.h"
 #include "Config/ConfigArray.h"
 
-#include "Property/PropertyObject.h"
+#include "Property/ObjectProperty.h"
 
-class ConfigAsset : public Asset
+class ConfigAsset : public Asset, public ObjectProperty
 {
 	SETUP_ASSET(ConfigAsset, Asset)
 
@@ -16,7 +16,6 @@ class ConfigAsset : public Asset
 
 private:
 	ConfigSection* m_Config;
-	PropertyObject* m_Properties;
 
 public:
 	ConfigAsset();
@@ -26,9 +25,10 @@ public:
 
 	void Output();
 
-	JingleScript::Object* Create();
+	bool Serialize();
+	bool Deserialize();
 
-	bool WriteToObject(JingleScript::Object* instance);
-	bool ReadFromObject(JingleScript::Object* instance);
+	bool Serialize(JingleScript::Object* object);
+	bool Deserialize(JingleScript::Object* object);
 
 };

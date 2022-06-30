@@ -1,5 +1,3 @@
-struct Array
+class Array
 {
-	@Native
-	void Insert(Object instance);
 }

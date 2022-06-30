@@ -46,6 +46,7 @@ public:
 
 public:
 	virtual void Add(Config* other) {}
+	virtual void Remove(Config* other) {}
 
 	virtual size_t Count() const { return 0; }
 
@@ -59,7 +60,11 @@ public:
 	virtual Config* Get(int index) const { return nullptr; }
 
 	std::string GetName() const;
+	void SetName(std::string name);
+
 	std::string GetLinkedType() const;
+	void SetLinkedType(std::string type);
+
 	std::string GetTypeAndName() const;
 	bool IsLinkedDirectly() const;
 

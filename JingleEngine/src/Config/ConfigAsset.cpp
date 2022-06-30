@@ -9,15 +9,11 @@ END_CLASS_LINK()
 ConfigAsset::ConfigAsset()
 {
 	JS_TRACE(Tracers::Asset);
-
-	m_Properties = NewObject<PropertyObject>("PropertyObject");
 }
 
 ConfigAsset::~ConfigAsset()
 {
 	JS_TRACE(Tracers::Asset);
-
-	//delete m_Properties;
 }
 
 bool ConfigAsset::OnLoad()
@@ -34,39 +30,44 @@ void ConfigAsset::Output()
 	std::cout << ss.str() << std::endl;
 }
 
-Object* ConfigAsset::Create()
+bool ConfigAsset::Serialize()
 {
-	Object* object = m_Properties->GetPropertyType()->New<Object>();
-	WriteToObject(object);
-	return object;
+	if (!m_Config->IsLinkedDirectly())
+	{
+		return false;
+	}
+
+	return ObjectProperty::Serialize(m_Config);
 }
 
-bool ConfigAsset::WriteToObject(Object* instance)
+bool ConfigAsset::Deserialize()
 {
-	JS_TRACE(Tracers::Asset);
-	JS_TINFO("Instance: {}", PointerToString(instance));
-
-	if (!m_Properties->OnWriteObject(instance))
+	if (!m_Config->IsLinkedDirectly())
 	{
 		return false;
 	}
 
-	return true;
+	return ObjectProperty::Deserialize(m_Config);
 }
 
-bool ConfigAsset::ReadFromObject(Object* instance)
+bool ConfigAsset::Serialize(JingleScript::Object* object)
 {
-	JS_TRACE(Tracers::Asset);
-
-	if (!m_Properties->OnReadObject(instance))
+	ObjectProperty* property = dynamic_cast<ObjectProperty*>(object);
+	if (!property)
 	{
 		return false;
 	}
 
-	if (!m_Properties->OnSerialize(m_Config))
+	return property->Serialize(m_Config);
+}
+
+bool ConfigAsset::Deserialize(JingleScript::Object* object)
+{
+	ObjectProperty* property = dynamic_cast<ObjectProperty*>(object);
+	if (!property)
 	{
 		return false;
 	}
 
-	return true;
+	return property->Deserialize(m_Config);
 }
