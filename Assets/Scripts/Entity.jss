@@ -1,6 +1,9 @@
 class Entity
 {
 	@Property(true)
+	Transform Transform;
+
+	@Property(true)
 	ComponentArray Components;
 
 	@Property(true)

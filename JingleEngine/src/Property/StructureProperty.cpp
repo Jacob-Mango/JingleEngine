@@ -102,9 +102,6 @@ bool StructureProperty::FromString(std::string& value, void*& data)
 
 void StructureProperty::Editor_OnRender(void*& data)
 {
-	std::string id = PointerToString(data);
-	ImGui::PushID(id.c_str());
-
 	std::string name = GetPropertyAttribute()->GetName();
 	Editor::Render_CellHeader(name);
 
@@ -118,6 +115,4 @@ void StructureProperty::Editor_OnRender(void*& data)
 		//Script_Editor_OnPropertyChanged[GetPropertyOwner()](name);
 		GetPropertyOwner()->Editor_OnPropertyChanged(name);
 	}
-
-	ImGui::PopID();
 }

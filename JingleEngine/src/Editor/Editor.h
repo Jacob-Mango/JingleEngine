@@ -2,6 +2,8 @@
 
 #include "Core/Core.h"
 
+#include "Math/Vector3.h"
+
 #include <imgui.h>
 
 template<typename T>
@@ -40,5 +42,5 @@ namespace Editor
 
 	bool Render_CellInputText(std::string& value);
 
-	bool Render_Vec3(glm::vec3& value);
+	bool Render_Vector3(Vector3& value);
 };

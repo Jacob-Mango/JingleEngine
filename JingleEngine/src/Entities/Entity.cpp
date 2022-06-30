@@ -17,6 +17,7 @@ BEGIN_CLASS_LINK(EntityArray)
 END_CLASS_LINK()
 
 BEGIN_CLASS_LINK(Entity)
+	LINK_NAMED_VARIABLE(Transform, m_Transform);
 	LINK_NAMED_VARIABLE(Components, m_Components);
 	LINK_NAMED_VARIABLE(Children, m_Children);
 	LINK_CONSTRUCTOR();
@@ -26,6 +27,9 @@ BEGIN_CLASS_LINK(Entity)
 	LINK_METHOD(AddChild);
 	LINK_METHOD(RemoveChild);
 	LINK_METHOD(GetParent);
+	LINK_METHOD(OnSerializeTransform);
+	LINK_METHOD(OnDeserializeTransform);
+	LINK_METHOD(Editor_OnRenderTransform);
 	LINK_METHOD(OnSerializeComponents);
 	LINK_METHOD(OnDeserializeComponents);
 	LINK_METHOD(Editor_OnRenderComponents);
@@ -83,6 +87,39 @@ bool Entity::IsDeleting()
 void Entity::Editor_OnPropertyChanged(std::string name)
 {
 	ObjectProperty::Editor_OnPropertyChanged(name);
+}
+
+void Entity::OnSerializeTransform(Config* cfg)
+{
+
+}
+
+void Entity::OnDeserializeTransform(Config* cfg)
+{
+	if (!cfg)
+	{
+		return;
+	}
+
+	m_Transform.SetPosition(Vector3::FromString(cfg->GetValue("Position")));
+	m_Transform.SetOrientation(Vector3::FromString(cfg->GetValue("Orientation")));
+}
+
+void Entity::Editor_OnRenderTransform()
+{
+	Editor::Render_CellHeader("Position");
+	Vector3 position = m_Transform.GetPosition();
+	if (Editor::Render_Vector3(position))
+	{
+		m_Transform.SetPosition(position);
+	}
+
+	Editor::Render_CellHeader("Orientation");
+	Vector3 orientation = m_Transform.GetOrientation();
+	if (Editor::Render_Vector3(orientation))
+	{
+		m_Transform.SetOrientation(orientation);
+	}
 }
 
 void Entity::OnSerializeComponents(Config* cfg)

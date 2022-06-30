@@ -46,10 +46,10 @@ bool Render_CellInputText(std::string& value)
 	return false;
 }
 
-bool Render_Vec3(glm::vec3& value)
+bool Render_Vector3(Vector3& value)
 {
-	static const int BuffSize = 128;
-	static char Buff[BuffSize];
+	const size_t BufferMaxSize = 256;
+	char Buffer[BufferMaxSize] = "\0";
 	
 	ImGui::TableNextColumn();
 	if (!ImGui::BeginTable("##vec3", 3, ImGuiTableFlags_None | ImGuiTableFlags_NoSavedSettings))
@@ -61,16 +61,26 @@ bool Render_Vec3(glm::vec3& value)
 	ImGui::AlignTextToFramePadding();
 	auto render = [&](int index)
 	{
+		double& dValue = ((glm::dvec3)value)[index];
+
 		ImGui::TableNextColumn();
 		ImGui::PushItemWidth(contentRegionAvailable.x / 3.0f);
-		std::string str = std::to_string(value[index]);
-		strcpy_s(Buff, str.length() + 1, str.c_str());
-		if (ImGui::InputText(("##" + std::to_string(index)).c_str(), Buff, BuffSize))
-		{
-			std::stringstream ss;
-			ss << Buff;
-			ss >> value[index];
+		std::string sValue = std::to_string(dValue);
 
+		size_t size = std::min(sValue.size() + 1, BufferMaxSize);
+		memset(Buffer, 0, BufferMaxSize);
+		memcpy(Buffer, sValue.c_str(), size);
+
+		std::string id = PointerToString(&value) + std::to_string(index);
+
+		if (ImGui::InputText(("##" + id).c_str(), Buffer, size))
+		{
+			std::string buf = Buffer;
+			std::istringstream ss(buf);
+			ss >> dValue;
+
+			value[index] = dValue;
+			
 			return true;
 		}
 

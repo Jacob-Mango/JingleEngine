@@ -50,9 +50,6 @@ void AssetProperty::Editor_OnRender(void*& data)
 		path = asset->GetAssetID().GetPath();
 	}
 
-	std::string id = PointerToString(data);
-	ImGui::PushID(id.c_str());
-
 	std::string name = GetPropertyAttribute()->GetName();
 	Editor::Render_CellHeader(name);
 
@@ -84,6 +81,4 @@ void AssetProperty::Editor_OnRender(void*& data)
 
 		ImGui::EndDragDropTarget();
 	}
-
-	ImGui::PopID();
 }

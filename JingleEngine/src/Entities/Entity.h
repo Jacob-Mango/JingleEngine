@@ -4,6 +4,9 @@
 
 #include "Config/ConfigAsset.h"
 
+#include "Math/Transform.h"
+#include "Math/Vector3.h"
+
 #include "Rendering/Material.h"
 #include "Rendering/MeshInstance.h"
 
@@ -33,15 +36,13 @@ private:
 	Entity* m_Parent = nullptr;
 	EntityArray* m_Children;
 
+	Transform m_Transform = glm::dmat4(1.0);
+	glm::vec3 m_BoundingBox[2];
+
 	ComponentArray* m_Components;
 
 	bool m_IsDeleting = false;
-
-protected:
 	bool m_IsVisible = true;
-
-	glm::dmat4 m_Transform = glm::dmat4(1.0);
-	glm::vec3 m_BoundingBox[2];
 
 public:
 	Entity();
@@ -84,6 +85,10 @@ public:
 	virtual void Editor_OnPropertyChanged(std::string name) override;
 
 private:
+	void OnSerializeTransform(Config* cfg);
+	void OnDeserializeTransform(Config* cfg);
+	void Editor_OnRenderTransform();
+
 	void OnSerializeComponents(Config* cfg);
 	void OnDeserializeComponents(Config* cfg);
 	void Editor_OnRenderComponents();

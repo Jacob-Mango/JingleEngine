@@ -196,10 +196,6 @@ void ObjectProperty::Editor_OnRender(void*& data)
 
 	Type* type = object->GetType();
 
-	std::string id = PointerToString(data);
-
-	ImGui::PushID(id.c_str());
-
 	if (GetPropertyAttribute())
 	{
 		Editor::Render_CellHeader(GetPropertyAttribute()->GetName());
@@ -217,6 +213,8 @@ void ObjectProperty::Editor_OnRender(void*& data)
 		auto varProperty = property->GetPropertyAttribute();
 
 		void*& data = *(void**)((char*)object + varOffset);
+		std::string id = PointerToString(data);
+
 		if (varType->IsStructure())
 		{
 			data = (void*)((char*)object + varOffset);
@@ -227,6 +225,8 @@ void ObjectProperty::Editor_OnRender(void*& data)
 			continue;
 		}
 
+		ImGui::PushID(id.c_str());
+
 		if (varProperty->IsUsingOwnSerialization())
 		{
 			varProperty->OnRender[object]();
@@ -235,9 +235,9 @@ void ObjectProperty::Editor_OnRender(void*& data)
 		{
 			property->Editor_OnRender(data);
 		}
-	}
 
-	ImGui::PopID();
+		ImGui::PopID();
+	}
 }
 
 bool ObjectProperty::Serialize(Config* cfg)
