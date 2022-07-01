@@ -2,27 +2,27 @@
 
 Vector3 Vector3::FromString(std::string value)
 {
-	Vector3 result;
 	if (value.empty())
 	{
-		return result;
+		return Vector3(0);
 	}
 
+	Vector3 result;
 	std::istringstream ss(value);
 	
 	if (!(ss >> result[0]))
 	{
-		return result;
+		return Vector3(0);
 	}
 
 	if (!(ss >> result[1]))
 	{
-		return result;
+		return Vector3(0);
 	}
 
 	if (!(ss >> result[2]))
 	{
-		return result;
+		return Vector3(0);
 	}
 
 	return result;

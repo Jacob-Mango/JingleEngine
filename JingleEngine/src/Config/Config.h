@@ -11,6 +11,7 @@
 #include <vector>
 
 class ConfigArray;
+class ConfigAsset;
 class ConfigSection;
 class ConfigValue;
 
@@ -50,11 +51,15 @@ public:
 
 	virtual size_t Count() const { return 0; }
 
+	virtual void SetValue(const std::string& value) { }
+	void SetValue(const std::string& name, const std::string& value) { Config* cfg = Get(name); if (cfg) { cfg->SetValue(value); } }
+	void SetValue(int index, const std::string& value) { Config* cfg = Get(index); if (cfg) { cfg->SetValue(value); } }
+
 	virtual std::string GetValue() const { return ""; }
-	virtual void SetValue(std::string) { }
+	std::string GetValue(const std::string& name) const { Config* cfg = Get(name); return cfg ? cfg->GetValue() : ""; }
+	std::string GetValue(int index) const { Config* cfg = Get(index); return cfg ? cfg->GetValue() : ""; }
+
 	virtual std::string* GetValuePtr() { return nullptr; }
-	virtual std::string GetValue(std::string name) const { return Get(name)->GetValue(); }
-	virtual std::string GetValue(int index) const { return Get(index)->GetValue(); }
 
 	virtual Config* Get(std::string name) const { return nullptr; }
 	virtual Config* Get(int index) const { return nullptr; }
@@ -68,7 +73,7 @@ public:
 	std::string GetTypeAndName() const;
 	bool IsLinkedDirectly() const;
 
-	virtual Config* GetBase() const { return nullptr; }
+	virtual ConfigAsset* GetBase() const { return nullptr; }
 	virtual Config* GetParent() const { return m_Parent; }
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent);

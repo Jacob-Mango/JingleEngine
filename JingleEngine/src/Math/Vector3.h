@@ -19,6 +19,10 @@ public:
 	Vector3(const glm::vec4& other) : glm::dvec3(other) {}
 	Vector3(const glm::vec4&& other) : glm::dvec3(other) {}
 
+	Vector3(int other) : glm::dvec3(other) {}
+	Vector3(float other) : glm::dvec3(other) {}
+	Vector3(double other) : glm::dvec3(other) {}
+
 	static Vector3 FromString(std::string value);
 	std::string ToString() const;
 };

@@ -99,7 +99,7 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 
 			if (!baseLinkPath.empty())
 			{
-				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath)->m_Config;
+				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath);
 			}
 
 			if (!cfgSection->Deserialize(lexer, this))
@@ -138,7 +138,7 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 
 bool ConfigArray::Serialize(std::stringstream& output, std::string prefix) const
 {
-	bool canOutput = false;
+	bool canOutput = true;
 	std::stringstream tempOut;
 
 	tempOut << prefix << SerializeTypeAndName() << "[" << std::endl;

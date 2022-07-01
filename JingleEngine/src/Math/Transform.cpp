@@ -50,9 +50,19 @@ Vector3 Transform::GetOrientation() const
 
 void Transform::SetOrientation(const Vector3& orientation)
 {
+	Vector3 position = GetPosition();
+
 	glm::dmat4 trans = glm::eulerAngleYXZ(glm::radians(orientation.x), glm::radians(orientation.y), glm::radians(orientation.z));
-	trans[3] = (*this)[3];
-	*(glm::dmat4*)this = trans;
+	
+	for (int x = 0; x < 3; x++)
+	{
+		for (int y = 0; y < 3; y++)
+		{
+			(*this)[x][y] = trans[x][y];
+		}
+	}
+
+	SetPosition(position);
 }
 
 BEGIN_STRUCTURE_LINK(Transform);

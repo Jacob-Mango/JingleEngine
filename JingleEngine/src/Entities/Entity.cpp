@@ -91,16 +91,12 @@ void Entity::Editor_OnPropertyChanged(std::string name)
 
 void Entity::OnSerializeTransform(Config* cfg)
 {
-
+	cfg->SetValue("Position", m_Transform.GetPosition().ToString());
+	cfg->SetValue("Orientation", m_Transform.GetOrientation().ToString());
 }
 
 void Entity::OnDeserializeTransform(Config* cfg)
 {
-	if (!cfg)
-	{
-		return;
-	}
-
 	m_Transform.SetPosition(Vector3::FromString(cfg->GetValue("Position")));
 	m_Transform.SetOrientation(Vector3::FromString(cfg->GetValue("Orientation")));
 }
@@ -127,8 +123,9 @@ void Entity::OnSerializeComponents(Config* cfg)
 
 }
 
-void Entity::OnDeserializeComponents(Config* cfg)
+void Entity::OnDeserializeComponents(Config* cfgRoot)
 {
+	auto cfg = cfgRoot->Get("Components");
 	if (!cfg)
 	{
 		return;
@@ -169,8 +166,9 @@ void Entity::OnSerializeChildren(Config* cfg)
 {
 }
 
-void Entity::OnDeserializeChildren(Config* cfg)
+void Entity::OnDeserializeChildren(Config* cfgRoot)
 {
+	auto cfg = cfgRoot->Get("Children");
 	if (!cfg)
 	{
 		return;

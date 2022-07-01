@@ -56,7 +56,7 @@ Config* ConfigSection::Get(std::string name) const
 
 	if (!entry && m_Base)
 	{
-		entry = m_Base->Get(name);
+		entry = m_Base->Get()->Get(name);
 	}
 
 	return entry;
@@ -72,7 +72,7 @@ Config* ConfigSection::Get(int index) const
 	return nullptr;
 }
 
-Config* ConfigSection::GetBase() const
+ConfigAsset* ConfigSection::GetBase() const
 {
 	return m_Base;
 }
@@ -141,7 +141,7 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 
 			if (!baseLinkPath.empty())
 			{
-				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath)->m_Config;
+				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath);
 			}
 
 			if (!cfgSection->Deserialize(lexer, this))
@@ -196,15 +196,14 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 
 bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) const
 {
-	bool canOutput = m_Parent == nullptr;
-	std::stringstream tempOut;
-
 	std::string typeAndName = SerializeTypeAndName();
 	bool indent = false;
+
 	if (m_Parent || !typeAndName.empty())
 	{
 		indent = true;
-		tempOut << prefix << typeAndName << (m_Base ? m_Base->GetName() + " " : "") << "{" << std::endl;
+		output << prefix << typeAndName << (m_Base ? m_Base->GetPath() + " " : "") << "{" << std::endl;
+		std::cout << std::endl;
 	}
 
 	int index = 0;
@@ -217,23 +216,21 @@ bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 			continue;
 		}
 
-		canOutput |= v->Serialize(tempOut, indent ? prefix + " " : prefix);
+		if (!v->Serialize(output, indent ? prefix + " " : prefix))
+		{
+			continue;
+		}
 
 		if (index < m_Entries.size())
 		{
-			tempOut << ", " << std::endl;
+			output << ", " << std::endl;
 		}
 	}
 
 	if (indent)
 	{
-		tempOut << std::endl << prefix << "}";
+		output << std::endl << prefix << "}";
 	}
 
-	if (canOutput)
-	{
-		output << tempOut.str();
-	}
-
-	return canOutput;
+	return true;
 }

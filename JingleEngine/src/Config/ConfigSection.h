@@ -21,8 +21,7 @@ class ConfigSection : public Config
 protected:
 	std::map<std::string, Config*> m_Entries;
 
-	//Ref<ConfigAsset> m_Base; //! TODO: use ConfigAsset
-	Config* m_Base = nullptr;
+	ConfigAsset* m_Base = nullptr; //! TODO: use ConfigAsset
 
 public:
 	ConfigSection();
@@ -37,7 +36,7 @@ public:
 	virtual Config* Get(std::string name) const override;
 	virtual Config* Get(int index) const override;
 
-	virtual Config* GetBase() const override;
+	virtual ConfigAsset* GetBase() const override;
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;
 	virtual bool Serialize(std::stringstream& output, std::string prefix = "") const override;

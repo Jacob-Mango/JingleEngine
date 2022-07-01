@@ -43,14 +43,6 @@ bool ObjectProperty::OnSerialize(Config* cfg, void*& data)
 		auto varOffset = property->GetPropertyOffset();
 		auto varProperty = property->GetPropertyAttribute();
 
-		Config* cfgVariable = cfg->Get(varName);
-		if (!cfgVariable)
-		{
-			//! TODO: create the config entry and compare to see if it should exist and be added or be removed.
-
-			continue;
-		}
-
 		void*& data = *(void**)((char*)object + property->m_Offset);
 		if (varType->IsStructure())
 		{
@@ -59,10 +51,18 @@ bool ObjectProperty::OnSerialize(Config* cfg, void*& data)
 
 		if (varProperty->IsUsingOwnSerialization())
 		{
-			varProperty->OnSerialize[this](cfgVariable);
+			varProperty->OnSerialize[this](cfg);
 		}
 		else
 		{
+			Config* cfgVariable = cfg->Get(varName);
+			if (!cfgVariable)
+			{
+				//! TODO: create the config entry and compare to see if it should exist and be added or be removed.
+
+				continue;
+			}
+
 			property->OnSerialize(cfgVariable, data);
 		}
 	}
@@ -167,7 +167,7 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 
 		if (varProperty->IsUsingOwnSerialization())
 		{
-			varProperty->OnDeserialize[this](cfgVariable);
+			varProperty->OnDeserialize[this](cfg);
 		}
 		else
 		{
