@@ -49,7 +49,7 @@ Entity::~Entity()
 {
 	if (!m_IsDeleting)
 	{
-		std::cerr << "Entity being deleted without being called by Entity::Delete!" << std::endl;
+		JS_ERROR("Entity being deleted without being called by Entity::Delete!");
 	}
 }
 
@@ -330,6 +330,9 @@ Entity* Entity::Create(AssetID asset)
 {
 	ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(asset);
 	ConfigSection* cfg = cfgAsset->Get();
+
+	JS_INFO("Entity Create");
+	cfgAsset->Output();
 
 	Entity* entity = JingleScript::NewObject<Entity>(cfg->GetLinkedType());
 	if (!entity)

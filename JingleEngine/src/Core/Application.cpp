@@ -64,7 +64,7 @@ int Application::Initialize()
 	};
 
 	OnWindowResize += [this](BaseClass* sender, WindowResizeEventArgs args) {
-		std::cout << "Resized width=" << args.Width << " height=" << args.Height << std::endl;
+		JS_INFO("Window resized {}x{}", args.Width, args.Height);
 	};
 
 	return 0;
@@ -72,6 +72,8 @@ int Application::Initialize()
 
 void Application::Run()
 {
+	JS_TRACE(Tracers::Core);
+
 	int error = 0;
 
 	auto window = ModuleManager::Get<Window>();
@@ -93,15 +95,8 @@ void Application::Run()
 
 	ModuleManager::On([](Module* module)
 		{
-			std::cout << "Loaded Module ";
+			JS_INFO("Loaded module [{}]", module->GetType()->Name());
 
-			std::cout << "[" << module->GetType()->Name() << "] ";
-
-			std::cout << std::endl;
-		});
-
-	ModuleManager::On([](Module* module)
-		{
 			module->OnPreInitialize();
 		});
 
@@ -131,7 +126,7 @@ void Application::Run()
 			frameTime = 0;
 			frames = 0;
 
-			std::cout << "FPS: " << m_FPS << std::endl;
+			JS_TINFO("FPS {}", m_FPS);
 		}
 
 		if (window)

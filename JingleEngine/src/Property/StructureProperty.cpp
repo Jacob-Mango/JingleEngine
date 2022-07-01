@@ -32,7 +32,7 @@ std::string StructureProperty::ToString(void*& data)
 	auto function = signature.Find();
 	if (!function)
 	{
-		std::cerr << "Failed to find 'ToString'" << std::endl;
+		JS_ERROR("Failed to find '{}'", signature.ToString());
 		return false;
 	}
 
@@ -81,7 +81,7 @@ bool StructureProperty::FromString(std::string& value, void*& data)
 	auto function = signature.Find();
 	if (!function)
 	{
-		std::cerr << "Failed to find 'FromString'" << std::endl;
+		JS_ERROR("Failed to find '{}'", signature.ToString());
 		return false;
 	}
 

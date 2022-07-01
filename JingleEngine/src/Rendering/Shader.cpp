@@ -35,6 +35,8 @@ END_CLASS_LINK()
 
 bool Shader::OnLoad()
 {
+	JS_TRACE(Tracers::Rendering);
+
 	if (GetPath() == "")
 		return false;
 
@@ -48,7 +50,6 @@ bool Shader::OnLoad()
 
 	if (vertex == 0 || fragment == 0 || geometry == 0)
 	{
-		std::cerr << "shader compile failed " << std::endl;
 		return false;
 	}
 	else
@@ -71,7 +72,7 @@ bool Shader::OnLoad()
 	{
 		GLchar infoLog[1024];
 		GL(glGetProgramInfoLog(m_ID, 1024, NULL, infoLog));
-		std::cerr << "shader linking failed: " << infoLog << std::endl;
+		JS_ERROR("Failed to link shaders ({}): {}", path, infoLog);
 		return false;
 	}
 
@@ -82,6 +83,8 @@ bool Shader::OnLoad()
 
 int Shader::LoadShader(std::string path, GLuint type, GLuint& id)
 {
+	JS_TRACE(Tracers::Rendering);
+
 	if (strcmp(path.c_str(), "") == 0)
 		return 2;
 
@@ -92,7 +95,7 @@ int Shader::LoadShader(std::string path, GLuint type, GLuint& id)
 	if (file.eof())
 		return 2;
 
-	std::cout << "Loading shader: " << path << std::endl;
+	JS_TINFO("Loading {} shader: {}", type, path);
 
 	std::string source;
 
@@ -112,11 +115,11 @@ int Shader::LoadShader(std::string path, GLuint type, GLuint& id)
 	{
 		GLchar infoLog[1024];
 		GL(glGetShaderInfoLog(id, 1024, NULL, infoLog));
-		std::cerr << "shader compile failed: " << infoLog << std::endl;
+		JS_ERROR("Failed to compile shader ({}): {}", path, infoLog);
 		return 0;
 	}
 
-	std::cout << "Loaded shader: " << path << " (type: " << type << ")" << std::endl;
+	JS_TINFO("Loaded.");
 	return 1;
 }
 

@@ -86,13 +86,13 @@ void Framebuffer::Resize(unsigned int width, unsigned int height)
 		switch (status)
 		{
 		case GL_FRAMEBUFFER_UNSUPPORTED:
-			std::cerr << "Framebuffer unsupported" << std::endl;
+			JS_ERROR("OpenGL Error ({}): Framebuffer unsupported", status);
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-			std::cerr << "Framebuffer incomplete attachment" << std::endl;
+			JS_ERROR("OpenGL Error ({}): Framebuffer has incomplete attachment", status);
 			break;
 		default:
-			std::cerr << "Framebuffer error: " << status << std::endl;
+			JS_ERROR("OpenGL Error ({}): Framebuffer error", status);
 			break;
 		}
 	}

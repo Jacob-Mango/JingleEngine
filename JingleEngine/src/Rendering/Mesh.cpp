@@ -24,16 +24,18 @@ END_CLASS_LINK()
 
 bool Mesh::OnLoad()
 {
+	JS_TRACE(Tracers::Rendering);
+
 	std::string file = GetPath();
 
-	JS_INFO("File '{}'", file);
+	JS_TINFO("File '{}'", file);
 
 	uint32_t meshImportFlags = 0;
 	meshImportFlags |= aiProcessPreset_TargetRealtime_MaxQuality;
 
 	Assimp::Importer* importer = new Assimp::Importer();
 	const aiScene* scene = importer->ReadFile(file, meshImportFlags);
-	JS_INFO("aiScene '{}'", PointerToString(scene));
+	JS_TINFO("aiScene '{}'", PointerToString(scene));
 	if (!scene || !scene->HasMeshes())
 	{
 		return false;
@@ -73,7 +75,7 @@ bool Mesh::OnLoad()
 		indexOffset += mesh->mNumFaces * 3;
 	}
 
-	JS_INFO("Mesh '{}'", ToString());
+	JS_TINFO("Mesh '{}'", ToString());
 
 	return true;
 }

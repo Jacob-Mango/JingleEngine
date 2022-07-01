@@ -23,12 +23,8 @@ private:
 	std::string m_Name;
 
 public:
-	MaterialImage() {
-		JS_TRACE(true);
-	}
-	~MaterialImage() {
-		JS_TRACE(true);
-	}
+	MaterialImage() {}
+	~MaterialImage() {}
 
 	virtual std::string ToString() const override
 	{
@@ -42,17 +38,8 @@ class MaterialImageArray : public JingleScript::Array<MaterialImage*>
 	DEFINE_CLASS(MaterialImageArray, JingleScript::Array<MaterialImage*>);
 
 public:
-	MaterialImageArray()
-	{
-		JS_TRACE(true);
-
-	}
-
-	~MaterialImageArray()
-	{
-		JS_TRACE(true);
-
-	}
+	MaterialImageArray() {}
+	~MaterialImageArray() {}
 
 };
 

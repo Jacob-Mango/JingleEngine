@@ -1,5 +1,7 @@
 #include "Editor/EditorModule.h"
 
+#include "Core/Application.h"
+
 #include "Editor/EditorAttribute.h"
 #include "Editor/EditorPanelBase.h"
 
@@ -113,6 +115,28 @@ void EditorModule::RenderMenuBar()
 			{
 				Open(type->Name());
 			}
+		}
+
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("Scene"))
+	{
+		if (ImGui::MenuItem("Save", NULL))
+		{
+			Entity* entity = Application::Get()->GetScene();
+
+			AssetID id = { "Assets/Scenes/scene.ent" };
+			ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(id);
+			ConfigSection* cfg = cfgAsset->Get();
+
+			JS_INFO("Before Save");
+			cfgAsset->Output();
+
+			cfgAsset->Serialize(entity);
+
+			JS_INFO("After Save");
+			cfgAsset->Output();
 		}
 
 		ImGui::EndMenu();

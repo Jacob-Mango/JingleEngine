@@ -36,11 +36,7 @@ void glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsiz
 		return;
 	}
 
-	std::cout << "ERROR" << std::endl;
-	std::cout << "Source: " << source << std::endl;
-	std::cout << "Type: " << type << std::endl;
-	std::cout << "Severity: " << severity << std::endl;
-	std::cout << "Message: " << std::string(message, length) << std::endl;
+	JS_ERROR("OpenGL Error: Source={} Type={} Severity={} Message={}", source, type, severity, std::string(message, length));
 }
 
 long WndWindow::s_MouseDeltaX;
@@ -53,6 +49,8 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 int WndWindow::Create(const WindowDesc& desc)
 {
+	JS_TRACE(Tracers::Platform);
+
 	m_GLContext = NULL;
 	m_Window = NULL;
 	m_Instance = NULL;
@@ -138,8 +136,7 @@ int WndWindow::Create(const WindowDesc& desc)
 	glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
 	glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]);
 
-	std::cout << "OpenGL Version: " << glVersion[0] << "." << glVersion[1] << std::endl;
-	//JS_INFO("OpenGL Version %d.%d", glVersion[0], glVersion[1]);
+	JS_TINFO("OpenGL Version {}.{}", glVersion[0], glVersion[1]);
 
 	GLint flags;
 	GL(glGetIntegerv(GL_CONTEXT_FLAGS, &flags));

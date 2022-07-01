@@ -57,25 +57,15 @@ GLM_LOGGING(mat4);
 GLM_LOGGING(dmat4);
 
 #ifdef DEBUG
-#define GL(x)																						\
-	x;																								\
-	{																								\
-		GLenum error = glGetError();																\
-		if (error != GL_NO_ERROR)																	\
-			std::cerr << "[OpenGL Error] (" << std::to_string(error) << "): " << #x << std::endl	\
-					  << "\t" << __FILE__ << ":" << __LINE__ << std::endl;							\
-	}
-
-#define OUT_LINE(x)																					\
-	{																								\
-		std::cout << "[OUTPUT] " << #x << std::endl													\
-					  << "\t" << __FILE__ << ":" << __LINE__ << std::endl;							\
-	}
-
+	#define GL(x)																								\
+		x;																										\
+		{																										\
+			GLenum error = glGetError();																		\
+			if (error != GL_NO_ERROR)																			\
+				JS_ERROR("OpenGL Error ({}): {}		{}:{}", std::to_string(error), #x, __FILE__, __LINE__);		\
+		}
 #else
-#define GL(x) x
-
-#define OUT_LINE(x)
+	#define GL(x) x
 #endif
 
 #include "Core/Tracers.h"
