@@ -1,23 +1,23 @@
 
 class #global extends Object {
 
-  float FromString(string) (Native)
-
-  bool FromString(string) (Native)
-
-  double FromString(string) (Native)
-
-  string FromString(string) (Native)
-
-  byte FromString(string) (Native)
-
-  int FromString(string) (Native)
-
-  uint64_t FromString(string) (Native)
+  Transform FromString(string) (Native)
 
   Vector3 FromString(string) (Native)
 
-  Transform FromString(string) (Native)
+  bool FromString(string) (Native)
+
+  byte FromString(string) (Native)
+
+  double FromString(string) (Native)
+
+  float FromString(string) (Native)
+
+  int FromString(string) (Native)
+
+  string FromString(string) (Native)
+
+  ulong FromString(string) (Native)
 
   Application GetApplication() (Native)
 
@@ -25,9 +25,9 @@ class #global extends Object {
 
   void ImGui_End() (Native)
 
-  void ImGui_Text(string) (Native)
-
   void ImGui_Text(Object) (Native)
+
+  void ImGui_Text(string) (Native)
 
   bool ImGui_WantCaptureKeyboard() (Native)
 
@@ -484,9 +484,9 @@ class MeshComponent extends Component {
    Material MaterialOverride
    Mesh Model
 
-  MeshComponent::ctor(Entity) (Native)
-
   MeshComponent::ctor() (Native)
+
+  MeshComponent::ctor(Entity) (Native)
 
   MeshComponent::dtor() (Native)
 }
@@ -699,41 +699,41 @@ struct bool extends Object {
 
   bool bool::operator!=(bool) (Native)
 
-  bool bool::operator!=(int) (Native)
+  bool bool::operator!=(byte) (Native)
 
   bool bool::operator!=(double) (Native)
 
-  bool bool::operator!=(byte) (Native)
-
   bool bool::operator!=(float) (Native)
 
-  bool bool::operator!=(uint64_t) (Native)
+  bool bool::operator!=(int) (Native)
+
+  bool bool::operator!=(ulong) (Native)
 
   string bool::operator+(string) (Native)
+
+  bool bool::operator<(bool) (Native)
+
+  bool bool::operator<(byte) (Native)
 
   bool bool::operator<(double) (Native)
 
   bool bool::operator<(float) (Native)
 
-  bool bool::operator<(bool) (Native)
-
-  bool bool::operator<(uint64_t) (Native)
-
-  bool bool::operator<(byte) (Native)
-
   bool bool::operator<(int) (Native)
 
-  bool bool::operator<=(uint64_t) (Native)
+  bool bool::operator<(ulong) (Native)
 
   bool bool::operator<=(bool) (Native)
 
+  bool bool::operator<=(byte) (Native)
+
   bool bool::operator<=(double) (Native)
 
-  bool bool::operator<=(byte) (Native)
+  bool bool::operator<=(float) (Native)
 
   bool bool::operator<=(int) (Native)
 
-  bool bool::operator<=(float) (Native)
+  bool bool::operator<=(ulong) (Native)
 
   void bool::operator=(bool) (Native)
 
@@ -745,7 +745,11 @@ struct bool extends Object {
 
   void bool::operator=(int) (Native)
 
-  void bool::operator=(uint64_t) (Native)
+  void bool::operator=(ulong) (Native)
+
+  bool bool::operator==(bool) (Native)
+
+  bool bool::operator==(byte) (Native)
 
   bool bool::operator==(double) (Native)
 
@@ -753,35 +757,31 @@ struct bool extends Object {
 
   bool bool::operator==(int) (Native)
 
-  bool bool::operator==(bool) (Native)
-
-  bool bool::operator==(byte) (Native)
-
-  bool bool::operator==(uint64_t) (Native)
-
-  bool bool::operator>(double) (Native)
-
-  bool bool::operator>(byte) (Native)
-
-  bool bool::operator>(int) (Native)
-
-  bool bool::operator>(uint64_t) (Native)
+  bool bool::operator==(ulong) (Native)
 
   bool bool::operator>(bool) (Native)
 
+  bool bool::operator>(byte) (Native)
+
+  bool bool::operator>(double) (Native)
+
   bool bool::operator>(float) (Native)
 
-  bool bool::operator>=(int) (Native)
+  bool bool::operator>(int) (Native)
+
+  bool bool::operator>(ulong) (Native)
+
+  bool bool::operator>=(bool) (Native)
 
   bool bool::operator>=(byte) (Native)
 
   bool bool::operator>=(double) (Native)
 
-  bool bool::operator>=(bool) (Native)
-
-  bool bool::operator>=(uint64_t) (Native)
-
   bool bool::operator>=(float) (Native)
+
+  bool bool::operator>=(int) (Native)
+
+  bool bool::operator>=(ulong) (Native)
 }
 
 struct byte extends Object {
@@ -793,67 +793,65 @@ struct byte extends Object {
 
   byte::dtor() (Native)
 
+  bool byte::operator!=(bool) (Native)
+
+  bool byte::operator!=(byte) (Native)
+
+  bool byte::operator!=(double) (Native)
+
   bool byte::operator!=(float) (Native)
 
   bool byte::operator!=(int) (Native)
 
-  bool byte::operator!=(double) (Native)
-
-  bool byte::operator!=(byte) (Native)
-
-  bool byte::operator!=(bool) (Native)
-
-  bool byte::operator!=(uint64_t) (Native)
+  bool byte::operator!=(ulong) (Native)
 
   byte byte::operator%(byte) (Native)
 
   byte byte::operator%(int) (Native)
 
-  byte byte::operator%(uint64_t) (Native)
+  byte byte::operator%(ulong) (Native)
+
+  byte byte::operator*(byte) (Native)
+
+  byte byte::operator*(double) (Native)
 
   byte byte::operator*(float) (Native)
 
   byte byte::operator*(int) (Native)
 
-  byte byte::operator*(double) (Native)
-
-  byte byte::operator*(byte) (Native)
-
-  byte byte::operator*(uint64_t) (Native)
-
-  byte byte::operator+(int) (Native)
+  byte byte::operator*(ulong) (Native)
 
   byte byte::operator+(byte) (Native)
 
-  string byte::operator+(string) (Native)
+  byte byte::operator+(double) (Native)
 
   byte byte::operator+(float) (Native)
 
-  byte byte::operator+(uint64_t) (Native)
+  byte byte::operator+(int) (Native)
 
-  byte byte::operator+(double) (Native)
+  byte byte::operator+(ulong) (Native)
 
-  byte byte::operator-(float) (Native)
-
-  byte byte::operator-(double) (Native)
-
-  byte byte::operator-(int) (Native)
-
-  byte byte::operator-(uint64_t) (Native)
+  string byte::operator+(string) (Native)
 
   byte byte::operator-(byte) (Native)
 
-  byte byte::operator/(float) (Native)
+  byte byte::operator-(double) (Native)
 
-  byte byte::operator/(double) (Native)
+  byte byte::operator-(float) (Native)
 
-  byte byte::operator/(int) (Native)
+  byte byte::operator-(int) (Native)
 
-  byte byte::operator/(uint64_t) (Native)
+  byte byte::operator-(ulong) (Native)
 
   byte byte::operator/(byte) (Native)
 
-  bool byte::operator<(uint64_t) (Native)
+  byte byte::operator/(double) (Native)
+
+  byte byte::operator/(float) (Native)
+
+  byte byte::operator/(int) (Native)
+
+  byte byte::operator/(ulong) (Native)
 
   bool byte::operator<(bool) (Native)
 
@@ -865,53 +863,59 @@ struct byte extends Object {
 
   bool byte::operator<(int) (Native)
 
-  bool byte::operator<=(float) (Native)
-
-  bool byte::operator<=(double) (Native)
+  bool byte::operator<(ulong) (Native)
 
   bool byte::operator<=(bool) (Native)
 
-  bool byte::operator<=(uint64_t) (Native)
-
   bool byte::operator<=(byte) (Native)
+
+  bool byte::operator<=(double) (Native)
+
+  bool byte::operator<=(float) (Native)
 
   bool byte::operator<=(int) (Native)
 
+  bool byte::operator<=(ulong) (Native)
+
   void byte::operator=(bool) (Native)
-
-  void byte::operator=(int) (Native)
-
-  void byte::operator=(double) (Native)
-
-  void byte::operator=(uint64_t) (Native)
 
   void byte::operator=(byte) (Native)
 
+  void byte::operator=(double) (Native)
+
   void byte::operator=(float) (Native)
+
+  void byte::operator=(int) (Native)
+
+  void byte::operator=(ulong) (Native)
 
   bool byte::operator==(bool) (Native)
 
   bool byte::operator==(byte) (Native)
 
-  bool byte::operator==(float) (Native)
-
   bool byte::operator==(double) (Native)
 
-  bool byte::operator==(uint64_t) (Native)
+  bool byte::operator==(float) (Native)
 
   bool byte::operator==(int) (Native)
 
+  bool byte::operator==(ulong) (Native)
+
   bool byte::operator>(bool) (Native)
-
-  bool byte::operator>(double) (Native)
-
-  bool byte::operator>(int) (Native)
-
-  bool byte::operator>(uint64_t) (Native)
 
   bool byte::operator>(byte) (Native)
 
+  bool byte::operator>(double) (Native)
+
   bool byte::operator>(float) (Native)
+
+  bool byte::operator>(int) (Native)
+
+  bool byte::operator>(ulong) (Native)
+
+  bool byte::operator>=(bool) (Native)
+
+  bool byte::operator>=(byte) (Native)
 
   bool byte::operator>=(double) (Native)
 
@@ -919,11 +923,7 @@ struct byte extends Object {
 
   bool byte::operator>=(int) (Native)
 
-  bool byte::operator>=(bool) (Native)
-
-  bool byte::operator>=(uint64_t) (Native)
-
-  bool byte::operator>=(byte) (Native)
+  bool byte::operator>=(ulong) (Native)
 }
 
 struct double extends Object {
@@ -935,131 +935,131 @@ struct double extends Object {
 
   double::dtor() (Native)
 
-  bool double::operator!=(double) (Native)
-
   bool double::operator!=(bool) (Native)
 
   bool double::operator!=(byte) (Native)
 
-  bool double::operator!=(float) (Native)
+  bool double::operator!=(double) (Native)
 
-  bool double::operator!=(uint64_t) (Native)
+  bool double::operator!=(float) (Native)
 
   bool double::operator!=(int) (Native)
 
+  bool double::operator!=(ulong) (Native)
+
   double double::operator*(byte) (Native)
 
-  double double::operator*(int) (Native)
-
-  double double::operator*(uint64_t) (Native)
+  double double::operator*(double) (Native)
 
   double double::operator*(float) (Native)
 
-  double double::operator*(double) (Native)
+  double double::operator*(int) (Native)
+
+  double double::operator*(ulong) (Native)
+
+  double double::operator+(byte) (Native)
+
+  double double::operator+(double) (Native)
 
   double double::operator+(float) (Native)
 
   double double::operator+(int) (Native)
 
+  double double::operator+(ulong) (Native)
+
   string double::operator+(string) (Native)
-
-  double double::operator+(double) (Native)
-
-  double double::operator+(byte) (Native)
-
-  double double::operator+(uint64_t) (Native)
 
   double double::operator-(byte) (Native)
 
-  double double::operator-(int) (Native)
+  double double::operator-(double) (Native)
 
   double double::operator-(float) (Native)
 
-  double double::operator-(uint64_t) (Native)
+  double double::operator-(int) (Native)
 
-  double double::operator-(double) (Native)
+  double double::operator-(ulong) (Native)
+
+  double double::operator/(byte) (Native)
+
+  double double::operator/(double) (Native)
 
   double double::operator/(float) (Native)
 
   double double::operator/(int) (Native)
 
-  double double::operator/(double) (Native)
-
-  double double::operator/(byte) (Native)
-
-  double double::operator/(uint64_t) (Native)
-
-  bool double::operator<(int) (Native)
+  double double::operator/(ulong) (Native)
 
   bool double::operator<(bool) (Native)
 
-  bool double::operator<(uint64_t) (Native)
-
   bool double::operator<(byte) (Native)
-
-  bool double::operator<(float) (Native)
 
   bool double::operator<(double) (Native)
 
+  bool double::operator<(float) (Native)
+
+  bool double::operator<(int) (Native)
+
+  bool double::operator<(ulong) (Native)
+
   bool double::operator<=(bool) (Native)
-
-  bool double::operator<=(float) (Native)
-
-  bool double::operator<=(double) (Native)
 
   bool double::operator<=(byte) (Native)
 
+  bool double::operator<=(double) (Native)
+
+  bool double::operator<=(float) (Native)
+
   bool double::operator<=(int) (Native)
 
-  bool double::operator<=(uint64_t) (Native)
-
-  void double::operator=(byte) (Native)
-
-  void double::operator=(int) (Native)
-
-  void double::operator=(float) (Native)
-
-  void double::operator=(uint64_t) (Native)
+  bool double::operator<=(ulong) (Native)
 
   void double::operator=(bool) (Native)
 
+  void double::operator=(byte) (Native)
+
   void double::operator=(double) (Native)
+
+  void double::operator=(float) (Native)
+
+  void double::operator=(int) (Native)
+
+  void double::operator=(ulong) (Native)
+
+  bool double::operator==(bool) (Native)
+
+  bool double::operator==(byte) (Native)
 
   bool double::operator==(double) (Native)
 
   bool double::operator==(float) (Native)
 
-  bool double::operator==(bool) (Native)
-
   bool double::operator==(int) (Native)
 
-  bool double::operator==(byte) (Native)
+  bool double::operator==(ulong) (Native)
 
-  bool double::operator==(uint64_t) (Native)
-
-  bool double::operator>(float) (Native)
+  bool double::operator>(bool) (Native)
 
   bool double::operator>(byte) (Native)
 
   bool double::operator>(double) (Native)
 
+  bool double::operator>(float) (Native)
+
   bool double::operator>(int) (Native)
 
-  bool double::operator>(bool) (Native)
+  bool double::operator>(ulong) (Native)
 
-  bool double::operator>(uint64_t) (Native)
+  bool double::operator>=(bool) (Native)
+
+  bool double::operator>=(byte) (Native)
 
   bool double::operator>=(double) (Native)
 
   bool double::operator>=(float) (Native)
 
-  bool double::operator>=(bool) (Native)
-
-  bool double::operator>=(uint64_t) (Native)
-
-  bool double::operator>=(byte) (Native)
-
   bool double::operator>=(int) (Native)
+
+  bool double::operator>=(ulong) (Native)
 }
 
 struct float extends Object {
@@ -1071,131 +1071,131 @@ struct float extends Object {
 
   float::dtor() (Native)
 
-  bool float::operator!=(float) (Native)
-
-  bool float::operator!=(double) (Native)
-
-  bool float::operator!=(int) (Native)
-
   bool float::operator!=(bool) (Native)
 
   bool float::operator!=(byte) (Native)
 
-  bool float::operator!=(uint64_t) (Native)
+  bool float::operator!=(double) (Native)
 
-  float float::operator*(float) (Native)
+  bool float::operator!=(float) (Native)
 
-  float float::operator*(double) (Native)
+  bool float::operator!=(int) (Native)
+
+  bool float::operator!=(ulong) (Native)
 
   float float::operator*(byte) (Native)
 
-  float float::operator*(uint64_t) (Native)
+  float float::operator*(double) (Native)
+
+  float float::operator*(float) (Native)
 
   float float::operator*(int) (Native)
 
-  string float::operator+(string) (Native)
+  float float::operator*(ulong) (Native)
 
   float float::operator+(byte) (Native)
 
-  float float::operator+(float) (Native)
-
   float float::operator+(double) (Native)
+
+  float float::operator+(float) (Native)
 
   float float::operator+(int) (Native)
 
-  float float::operator+(uint64_t) (Native)
+  float float::operator+(ulong) (Native)
 
-  float float::operator-(float) (Native)
+  string float::operator+(string) (Native)
 
   float float::operator-(byte) (Native)
 
   float float::operator-(double) (Native)
 
+  float float::operator-(float) (Native)
+
   float float::operator-(int) (Native)
 
-  float float::operator-(uint64_t) (Native)
+  float float::operator-(ulong) (Native)
 
   float float::operator/(byte) (Native)
 
   float float::operator/(double) (Native)
 
-  float float::operator/(int) (Native)
-
-  float float::operator/(uint64_t) (Native)
-
   float float::operator/(float) (Native)
 
-  bool float::operator<(float) (Native)
+  float float::operator/(int) (Native)
 
-  bool float::operator<(double) (Native)
-
-  bool float::operator<(int) (Native)
+  float float::operator/(ulong) (Native)
 
   bool float::operator<(bool) (Native)
 
-  bool float::operator<(uint64_t) (Native)
-
   bool float::operator<(byte) (Native)
+
+  bool float::operator<(double) (Native)
+
+  bool float::operator<(float) (Native)
+
+  bool float::operator<(int) (Native)
+
+  bool float::operator<(ulong) (Native)
 
   bool float::operator<=(bool) (Native)
 
-  bool float::operator<=(int) (Native)
+  bool float::operator<=(byte) (Native)
 
   bool float::operator<=(double) (Native)
 
-  bool float::operator<=(byte) (Native)
-
   bool float::operator<=(float) (Native)
 
-  bool float::operator<=(uint64_t) (Native)
+  bool float::operator<=(int) (Native)
 
-  void float::operator=(byte) (Native)
-
-  void float::operator=(float) (Native)
+  bool float::operator<=(ulong) (Native)
 
   void float::operator=(bool) (Native)
 
+  void float::operator=(byte) (Native)
+
   void float::operator=(double) (Native)
+
+  void float::operator=(float) (Native)
 
   void float::operator=(int) (Native)
 
-  void float::operator=(uint64_t) (Native)
-
-  bool float::operator==(float) (Native)
+  void float::operator=(ulong) (Native)
 
   bool float::operator==(bool) (Native)
 
   bool float::operator==(byte) (Native)
 
-  bool float::operator==(int) (Native)
-
-  bool float::operator==(uint64_t) (Native)
-
   bool float::operator==(double) (Native)
 
-  bool float::operator>(byte) (Native)
+  bool float::operator==(float) (Native)
+
+  bool float::operator==(int) (Native)
+
+  bool float::operator==(ulong) (Native)
 
   bool float::operator>(bool) (Native)
 
+  bool float::operator>(byte) (Native)
+
   bool float::operator>(double) (Native)
-
-  bool float::operator>(int) (Native)
-
-  bool float::operator>(uint64_t) (Native)
 
   bool float::operator>(float) (Native)
 
-  bool float::operator>=(byte) (Native)
+  bool float::operator>(int) (Native)
+
+  bool float::operator>(ulong) (Native)
 
   bool float::operator>=(bool) (Native)
 
-  bool float::operator>=(uint64_t) (Native)
-
-  bool float::operator>=(int) (Native)
+  bool float::operator>=(byte) (Native)
 
   bool float::operator>=(double) (Native)
 
   bool float::operator>=(float) (Native)
+
+  bool float::operator>=(int) (Native)
+
+  bool float::operator>=(ulong) (Native)
 }
 
 struct int extends Object {
@@ -1207,7 +1207,9 @@ struct int extends Object {
 
   int::dtor() (Native)
 
-  bool int::operator!=(uint64_t) (Native)
+  bool int::operator!=(bool) (Native)
+
+  bool int::operator!=(byte) (Native)
 
   bool int::operator!=(double) (Native)
 
@@ -1215,41 +1217,35 @@ struct int extends Object {
 
   bool int::operator!=(int) (Native)
 
-  bool int::operator!=(bool) (Native)
-
-  bool int::operator!=(byte) (Native)
+  bool int::operator!=(ulong) (Native)
 
   int int::operator%(byte) (Native)
 
   int int::operator%(int) (Native)
 
-  int int::operator%(uint64_t) (Native)
+  int int::operator%(ulong) (Native)
+
+  int int::operator*(byte) (Native)
+
+  int int::operator*(double) (Native)
 
   int int::operator*(float) (Native)
 
   int int::operator*(int) (Native)
 
-  int int::operator*(double) (Native)
-
-  int int::operator*(uint64_t) (Native)
-
-  int int::operator*(byte) (Native)
-
-  int int::operator+(float) (Native)
-
-  int int::operator+(uint64_t) (Native)
-
-  int int::operator+(int) (Native)
+  int int::operator*(ulong) (Native)
 
   int int::operator+(byte) (Native)
 
   int int::operator+(double) (Native)
 
+  int int::operator+(float) (Native)
+
+  int int::operator+(int) (Native)
+
+  int int::operator+(ulong) (Native)
+
   string int::operator+(string) (Native)
-
-  int int::operator-(int) (Native)
-
-  int int::operator-(uint64_t) (Native)
 
   int int::operator-(byte) (Native)
 
@@ -1257,87 +1253,91 @@ struct int extends Object {
 
   int int::operator-(float) (Native)
 
-  int int::operator/(double) (Native)
+  int int::operator-(int) (Native)
 
-  int int::operator/(int) (Native)
+  int int::operator-(ulong) (Native)
 
   int int::operator/(byte) (Native)
 
-  int int::operator/(uint64_t) (Native)
+  int int::operator/(double) (Native)
 
   int int::operator/(float) (Native)
 
-  bool int::operator<(float) (Native)
+  int int::operator/(int) (Native)
+
+  int int::operator/(ulong) (Native)
+
+  bool int::operator<(bool) (Native)
 
   bool int::operator<(byte) (Native)
 
   bool int::operator<(double) (Native)
 
-  bool int::operator<(uint64_t) (Native)
+  bool int::operator<(float) (Native)
 
   bool int::operator<(int) (Native)
 
-  bool int::operator<(bool) (Native)
+  bool int::operator<(ulong) (Native)
 
-  bool int::operator<=(int) (Native)
+  bool int::operator<=(bool) (Native)
+
+  bool int::operator<=(byte) (Native)
 
   bool int::operator<=(double) (Native)
 
   bool int::operator<=(float) (Native)
 
-  bool int::operator<=(bool) (Native)
+  bool int::operator<=(int) (Native)
 
-  bool int::operator<=(uint64_t) (Native)
-
-  bool int::operator<=(byte) (Native)
-
-  void int::operator=(double) (Native)
-
-  void int::operator=(int) (Native)
-
-  void int::operator=(uint64_t) (Native)
-
-  void int::operator=(byte) (Native)
+  bool int::operator<=(ulong) (Native)
 
   void int::operator=(bool) (Native)
 
+  void int::operator=(byte) (Native)
+
+  void int::operator=(double) (Native)
+
   void int::operator=(float) (Native)
+
+  void int::operator=(int) (Native)
+
+  void int::operator=(ulong) (Native)
+
+  bool int::operator==(bool) (Native)
+
+  bool int::operator==(byte) (Native)
 
   bool int::operator==(double) (Native)
 
   bool int::operator==(float) (Native)
 
-  bool int::operator==(byte) (Native)
-
   bool int::operator==(int) (Native)
 
-  bool int::operator==(bool) (Native)
+  bool int::operator==(ulong) (Native)
 
-  bool int::operator==(uint64_t) (Native)
+  bool int::operator>(bool) (Native)
+
+  bool int::operator>(byte) (Native)
 
   bool int::operator>(double) (Native)
 
   bool int::operator>(float) (Native)
 
-  bool int::operator>(byte) (Native)
-
-  bool int::operator>(bool) (Native)
-
   bool int::operator>(int) (Native)
 
-  bool int::operator>(uint64_t) (Native)
-
-  bool int::operator>=(int) (Native)
-
-  bool int::operator>=(byte) (Native)
+  bool int::operator>(ulong) (Native)
 
   bool int::operator>=(bool) (Native)
 
+  bool int::operator>=(byte) (Native)
+
   bool int::operator>=(double) (Native)
 
-  bool int::operator>=(uint64_t) (Native)
-
   bool int::operator>=(float) (Native)
+
+  bool int::operator>=(int) (Native)
+
+  bool int::operator>=(ulong) (Native)
 }
 
 struct null extends Object {
@@ -1361,15 +1361,15 @@ struct string extends Object {
 
   bool string::operator!=(string) (Native)
 
-  string string::operator+(int) (Native)
-
-  string string::operator+(float) (Native)
-
   string string::operator+(bool) (Native)
 
   string string::operator+(byte) (Native)
 
   string string::operator+(double) (Native)
+
+  string string::operator+(float) (Native)
+
+  string string::operator+(int) (Native)
 
   string string::operator+(string) (Native)
 
@@ -1386,144 +1386,144 @@ struct string extends Object {
   bool string::operator>=(string) (Native)
 }
 
-struct uint64_t {
-   uint64_t value
+struct ulong {
+   ulong value
 
-  string uint64_t::ToString() (Native)
+  string ulong::ToString() (Native)
 
-  uint64_t::ctor() (Native)
+  ulong::ctor() (Native)
 
-  uint64_t::dtor() (Native)
+  ulong::dtor() (Native)
 
-  bool uint64_t::operator!=(double) (Native)
+  bool ulong::operator!=(bool) (Native)
 
-  bool uint64_t::operator!=(float) (Native)
+  bool ulong::operator!=(byte) (Native)
 
-  bool uint64_t::operator!=(byte) (Native)
+  bool ulong::operator!=(double) (Native)
 
-  bool uint64_t::operator!=(int) (Native)
+  bool ulong::operator!=(float) (Native)
 
-  bool uint64_t::operator!=(bool) (Native)
+  bool ulong::operator!=(int) (Native)
 
-  bool uint64_t::operator!=(uint64_t) (Native)
+  bool ulong::operator!=(ulong) (Native)
 
-  uint64_t uint64_t::operator%(uint64_t) (Native)
+  ulong ulong::operator%(byte) (Native)
 
-  uint64_t uint64_t::operator%(int) (Native)
+  ulong ulong::operator%(int) (Native)
 
-  uint64_t uint64_t::operator%(byte) (Native)
+  ulong ulong::operator%(ulong) (Native)
 
-  uint64_t uint64_t::operator*(byte) (Native)
+  ulong ulong::operator*(byte) (Native)
 
-  uint64_t uint64_t::operator*(int) (Native)
+  ulong ulong::operator*(double) (Native)
 
-  uint64_t uint64_t::operator*(double) (Native)
+  ulong ulong::operator*(float) (Native)
 
-  uint64_t uint64_t::operator*(float) (Native)
+  ulong ulong::operator*(int) (Native)
 
-  uint64_t uint64_t::operator*(uint64_t) (Native)
+  ulong ulong::operator*(ulong) (Native)
 
-  uint64_t uint64_t::operator+(float) (Native)
+  string ulong::operator+(string) (Native)
 
-  uint64_t uint64_t::operator+(byte) (Native)
+  ulong ulong::operator+(byte) (Native)
 
-  string uint64_t::operator+(string) (Native)
+  ulong ulong::operator+(double) (Native)
 
-  uint64_t uint64_t::operator+(uint64_t) (Native)
+  ulong ulong::operator+(float) (Native)
 
-  uint64_t uint64_t::operator+(int) (Native)
+  ulong ulong::operator+(int) (Native)
 
-  uint64_t uint64_t::operator+(double) (Native)
+  ulong ulong::operator+(ulong) (Native)
 
-  uint64_t uint64_t::operator-(double) (Native)
+  ulong ulong::operator-(byte) (Native)
 
-  uint64_t uint64_t::operator-(float) (Native)
+  ulong ulong::operator-(double) (Native)
 
-  uint64_t uint64_t::operator-(int) (Native)
+  ulong ulong::operator-(float) (Native)
 
-  uint64_t uint64_t::operator-(byte) (Native)
+  ulong ulong::operator-(int) (Native)
 
-  uint64_t uint64_t::operator-(uint64_t) (Native)
+  ulong ulong::operator-(ulong) (Native)
 
-  uint64_t uint64_t::operator/(int) (Native)
+  ulong ulong::operator/(byte) (Native)
 
-  uint64_t uint64_t::operator/(double) (Native)
+  ulong ulong::operator/(double) (Native)
 
-  uint64_t uint64_t::operator/(uint64_t) (Native)
+  ulong ulong::operator/(float) (Native)
 
-  uint64_t uint64_t::operator/(byte) (Native)
+  ulong ulong::operator/(int) (Native)
 
-  uint64_t uint64_t::operator/(float) (Native)
+  ulong ulong::operator/(ulong) (Native)
 
-  bool uint64_t::operator<(double) (Native)
+  bool ulong::operator<(bool) (Native)
 
-  bool uint64_t::operator<(bool) (Native)
+  bool ulong::operator<(byte) (Native)
 
-  bool uint64_t::operator<(byte) (Native)
+  bool ulong::operator<(double) (Native)
 
-  bool uint64_t::operator<(float) (Native)
+  bool ulong::operator<(float) (Native)
 
-  bool uint64_t::operator<(uint64_t) (Native)
+  bool ulong::operator<(int) (Native)
 
-  bool uint64_t::operator<(int) (Native)
+  bool ulong::operator<(ulong) (Native)
 
-  bool uint64_t::operator<=(double) (Native)
+  bool ulong::operator<=(bool) (Native)
 
-  bool uint64_t::operator<=(float) (Native)
+  bool ulong::operator<=(byte) (Native)
 
-  bool uint64_t::operator<=(bool) (Native)
+  bool ulong::operator<=(double) (Native)
 
-  bool uint64_t::operator<=(uint64_t) (Native)
+  bool ulong::operator<=(float) (Native)
 
-  bool uint64_t::operator<=(byte) (Native)
+  bool ulong::operator<=(int) (Native)
 
-  bool uint64_t::operator<=(int) (Native)
+  bool ulong::operator<=(ulong) (Native)
 
-  void uint64_t::operator=(int) (Native)
+  void ulong::operator=(bool) (Native)
 
-  void uint64_t::operator=(bool) (Native)
+  void ulong::operator=(byte) (Native)
 
-  void uint64_t::operator=(float) (Native)
+  void ulong::operator=(double) (Native)
 
-  void uint64_t::operator=(double) (Native)
+  void ulong::operator=(float) (Native)
 
-  void uint64_t::operator=(byte) (Native)
+  void ulong::operator=(int) (Native)
 
-  void uint64_t::operator=(uint64_t) (Native)
+  void ulong::operator=(ulong) (Native)
 
-  bool uint64_t::operator==(int) (Native)
+  bool ulong::operator==(bool) (Native)
 
-  bool uint64_t::operator==(byte) (Native)
+  bool ulong::operator==(byte) (Native)
 
-  bool uint64_t::operator==(bool) (Native)
+  bool ulong::operator==(double) (Native)
 
-  bool uint64_t::operator==(float) (Native)
+  bool ulong::operator==(float) (Native)
 
-  bool uint64_t::operator==(uint64_t) (Native)
+  bool ulong::operator==(int) (Native)
 
-  bool uint64_t::operator==(double) (Native)
+  bool ulong::operator==(ulong) (Native)
 
-  bool uint64_t::operator>(uint64_t) (Native)
+  bool ulong::operator>(bool) (Native)
 
-  bool uint64_t::operator>(double) (Native)
+  bool ulong::operator>(byte) (Native)
 
-  bool uint64_t::operator>(int) (Native)
+  bool ulong::operator>(double) (Native)
 
-  bool uint64_t::operator>(bool) (Native)
+  bool ulong::operator>(float) (Native)
 
-  bool uint64_t::operator>(byte) (Native)
+  bool ulong::operator>(int) (Native)
 
-  bool uint64_t::operator>(float) (Native)
+  bool ulong::operator>(ulong) (Native)
 
-  bool uint64_t::operator>=(bool) (Native)
+  bool ulong::operator>=(bool) (Native)
 
-  bool uint64_t::operator>=(uint64_t) (Native)
+  bool ulong::operator>=(byte) (Native)
 
-  bool uint64_t::operator>=(float) (Native)
+  bool ulong::operator>=(double) (Native)
 
-  bool uint64_t::operator>=(int) (Native)
+  bool ulong::operator>=(float) (Native)
 
-  bool uint64_t::operator>=(byte) (Native)
+  bool ulong::operator>=(int) (Native)
 
-  bool uint64_t::operator>=(double) (Native)
+  bool ulong::operator>=(ulong) (Native)
 }
