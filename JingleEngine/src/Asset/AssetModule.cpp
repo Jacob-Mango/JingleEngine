@@ -85,15 +85,14 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 
 				type = cfgType;
 			}
+			else if (type != ConfigAsset::StaticType())
+			{
+				JS_ERROR("Failed to load asset '{}', trying to load unlinked config asset as {} and not directly into a {}.", path, type->Name(), ConfigAsset::StaticName());
+				return nullptr;
+			}
 
 			ConfigAsset* cfgAsset = type->New<ConfigAsset>();
 			cfgAsset->m_Config = cfg;
-
-			if (cfg->IsLinkedDirectly() && !cfgAsset->Deserialize())
-			{
-				JS_ERROR("Failed to load asset '{}', couldn't write data.", path);
-				return nullptr;
-			}
 
 			asset = cfgAsset;
 		}

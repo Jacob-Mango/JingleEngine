@@ -22,11 +22,11 @@ public:
 	virtual ~ConfigAsset();
 
 	virtual bool OnLoad() override;
+	virtual bool OnSave() override;
 
 	void Output();
 
-	bool Serialize();
-	bool Deserialize();
+	bool OnConfigUpdate(Config* cfg);
 
 	bool Serialize(JingleScript::Object* object);
 	bool Deserialize(JingleScript::Object* object);

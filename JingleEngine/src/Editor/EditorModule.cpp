@@ -133,10 +133,15 @@ void EditorModule::RenderMenuBar()
 			JS_INFO("Before Save");
 			cfgAsset->Output();
 
-			cfgAsset->Serialize(entity);
-
-			JS_INFO("After Save");
-			cfgAsset->Output();
+			if (cfgAsset->Serialize(entity))
+			{
+				JS_INFO("After Save");
+				cfgAsset->Output();
+			}
+			else
+			{
+				JS_INFO("Failed to Save");
+			}
 		}
 
 		ImGui::EndMenu();

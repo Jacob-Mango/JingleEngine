@@ -1,5 +1,11 @@
 #include "Property/ObjectProperty.h"
 
+#include "Config/Config.h"
+#include "Config/ConfigArray.h"
+#include "Config/ConfigAsset.h"
+#include "Config/ConfigSection.h"
+#include "Config/ConfigValue.h"
+
 #include "Property/AssetProperty.h"
 #include "Property/ArrayProperty.h"
 #include "Property/BaseProperty.h"
@@ -22,20 +28,32 @@ Property* FindProperty(Type::VariableDefinition* variable)
 	return nullptr;
 }
 
-bool ObjectProperty::OnSerialize(Config* cfg, void*& data)
+bool ObjectProperty::OnSerialize(Config* cfgRoot, void*& data)
 {
 	JS_TRACE(Tracers::Property);
 	
 	Object* object = static_cast<Object*>(data);
 	if (object == nullptr)
 	{
-		//! TODO: Remove entry
 		return true;
 	}
 
 	Type* type = object->GetType();
 
+	Config* cfg = cfgRoot;
+
+	if (GetPropertyAttribute())
+	{
+		cfg = NewObject<ConfigSection>("ConfigSection")->As<Config>();
+	}
+
 	cfg->SetLinkedType(type->Name());
+
+	if (GetPropertyAttribute())
+	{
+		cfg->SetName(GetPropertyAttribute()->GetName());
+		cfgRoot->Add(cfg);
+	}
 
 	for (auto& [varName, property] : m_Properties)
 	{
@@ -55,15 +73,7 @@ bool ObjectProperty::OnSerialize(Config* cfg, void*& data)
 		}
 		else
 		{
-			Config* cfgVariable = cfg->Get(varName);
-			if (!cfgVariable)
-			{
-				//! TODO: create the config entry and compare to see if it should exist and be added or be removed.
-
-				continue;
-			}
-
-			property->OnSerialize(cfgVariable, data);
+			property->OnSerialize(cfg, data);
 		}
 	}
 
@@ -240,10 +250,16 @@ void ObjectProperty::Editor_OnRender(void*& data)
 	}
 }
 
-bool ObjectProperty::Serialize(Config* cfg)
+Config* ObjectProperty::Serialize()
 {
+	Config* cfg = NewObject<ConfigSection>("ConfigSection")->As<Config>();
 	void* object = (void*)dynamic_cast<Object*>(this);
-	return OnSerialize(cfg, object);
+	if (!OnSerialize(cfg, object))
+	{
+		return nullptr;
+	}
+
+	return cfg;
 }
 
 bool ObjectProperty::Deserialize(Config* cfg)

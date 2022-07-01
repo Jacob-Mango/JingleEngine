@@ -25,7 +25,8 @@ public:
 
 	virtual void Editor_OnRender(void*& data) override;
 
-	bool Serialize(Config* cfg);
+	Config* Serialize();
 	bool Deserialize(Config* cfg);
 	void Editor_Render();
+	
 };

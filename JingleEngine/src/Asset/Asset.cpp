@@ -38,6 +38,11 @@ bool Asset::OnLoad()
 	return false;
 }
 
+bool Asset::OnSave()
+{
+	return false;
+}
+
 std::string Asset::ToString() const
 {
 	std::stringstream ss;

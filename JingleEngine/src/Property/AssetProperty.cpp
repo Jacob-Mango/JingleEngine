@@ -2,9 +2,15 @@
 
 #include "Asset/Asset.h"
 
+#include "Config/Config.h"
+#include "Config/ConfigArray.h"
+#include "Config/ConfigAsset.h"
+#include "Config/ConfigSection.h"
+#include "Config/ConfigValue.h"
+
 using namespace JingleScript;
 
-bool AssetProperty::OnSerialize(Config* cfg, void*& data)
+bool AssetProperty::OnSerialize(Config* cfgRoot, void*& data)
 {
 	JS_TRACE(Tracers::Property);
 
@@ -15,9 +21,16 @@ bool AssetProperty::OnSerialize(Config* cfg, void*& data)
 		return true;
 	}
 
-	std::string path = asset->GetAssetID().GetPath();
+	std::string value = asset->GetAssetID().GetPath();
 
-	cfg->SetValue(path);
+	//! TODO: compare with default and return 'false' if it is default
+
+	Config* cfg = NewObject<ConfigValue>("ConfigValue")->As<Config>();
+	cfg->SetLinkedType(GetPropertyType()->Name());
+	cfg->SetName(GetPropertyAttribute()->GetName());
+	cfgRoot->Add(cfg);
+
+	cfg->SetValue(value);
 
 	return true;
 }

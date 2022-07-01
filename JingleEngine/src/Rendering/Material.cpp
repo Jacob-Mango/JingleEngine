@@ -31,16 +31,6 @@ Material::~Material()
 {
 }
 
-bool Material::OnLoad()
-{
-	if (!Super::OnLoad())
-	{
-		return false;
-	}
-
-	return true;
-}
-
 void Material::Bind(Ref<Shader> shader)
 {
 	int index = 0;

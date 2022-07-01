@@ -2,6 +2,7 @@
 
 #include "Config/ConfigAsset.h"
 #include "Config/ConfigSection.h"
+#include "Config/ConfigValue.h"
 
 #include <cctype>
 #include <fstream>
@@ -22,6 +23,14 @@ Config::Config()
 Config::~Config()
 {
 
+}
+
+void Config::CreateValue(const std::string& name, const std::string& value)
+{
+	Config* cfg = NewObject<ConfigValue>("ConfigValue")->As<Config>();
+	cfg->SetName(name);
+	cfg->SetValue(value);
+	Add(cfg);
 }
 
 std::string Config::GetName() const

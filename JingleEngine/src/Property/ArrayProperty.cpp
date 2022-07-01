@@ -1,5 +1,11 @@
 #include "Property/ArrayProperty.h"
 
+#include "Config/Config.h"
+#include "Config/ConfigArray.h"
+#include "Config/ConfigAsset.h"
+#include "Config/ConfigSection.h"
+#include "Config/ConfigValue.h"
+
 #include "Property/AssetProperty.h"
 #include "Property/BaseProperty.h"
 #include "Property/StructureProperty.h"
@@ -7,7 +13,7 @@
 
 using namespace JingleScript;
 
-bool ArrayProperty::OnSerialize(Config* cfg, void*& data)
+bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 {
 	JS_TRACE(Tracers::Property);
 
@@ -20,6 +26,11 @@ bool ArrayProperty::OnSerialize(Config* cfg, void*& data)
 
 	Type* type = object->GetType();
 	uint64_t typeSize = type->GetReferenceSize();
+
+	Config* cfg = NewObject<ConfigArray>("ConfigArray")->As<Config>();
+	cfg->SetLinkedType(type->Name());
+	cfg->SetName(GetPropertyAttribute()->GetName());
+	cfgRoot->Add(cfg);
 
 	Function<std::string> Script_GetDataType = { "GetDataType", type };
 	Function<int> Script_Count = { "Count", type };
@@ -58,16 +69,9 @@ bool ArrayProperty::OnSerialize(Config* cfg, void*& data)
 	stack->CopyFrom(typeSize, &data, typeSize);
 
 	int count = Script_Count[object]();
+	int added = 0;
 	for (int i = 0; i < count; i++)
 	{
-		Config* cfgVariable = cfg->Get(i);
-		if (!cfgVariable)
-		{
-			//! TODO: create the config entry and compare to see if it should exist and be added or be removed.
-
-			continue;
-		}
-
 		stack->Push(sizeof(int));
 		stack->CopyFrom(sizeof(int), &i, sizeof(int));
 		Script_Get->Call(thread);
@@ -75,7 +79,10 @@ bool ArrayProperty::OnSerialize(Config* cfg, void*& data)
 
 		void* data = stack->Get(varSize > typeSize ? varSize : typeSize);
 		
-		m_PropertyData->OnSerialize(cfgVariable, data);
+		if (m_PropertyData->OnSerialize(cfg, data))
+		{
+			cfg->Get(added++)->SetName("");
+		}
 	}
 
 	stack->Pop(typeSize);

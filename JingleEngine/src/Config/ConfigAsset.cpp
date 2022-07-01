@@ -20,6 +20,26 @@ bool ConfigAsset::OnLoad()
 {
 	JS_TRACE(Tracers::Asset);
 
+	if (m_Config->IsLinkedDirectly())
+	{
+		ObjectProperty::Deserialize(m_Config);
+	}
+
+	return true;
+}
+
+bool ConfigAsset::OnSave()
+{
+	JS_TRACE(Tracers::Asset);
+
+	if (m_Config->IsLinkedDirectly())
+	{
+		if (!OnConfigUpdate(ObjectProperty::Serialize()))
+		{
+			return false;
+		}
+	}
+
 	return true;
 }
 
@@ -30,24 +50,19 @@ void ConfigAsset::Output()
 	std::cout << ss.str() << std::endl;
 }
 
-bool ConfigAsset::Serialize()
+bool ConfigAsset::OnConfigUpdate(Config* cfgNew)
 {
-	if (!m_Config->IsLinkedDirectly())
+	ConfigSection* cfgRoot = dynamic_cast<ConfigSection*>(cfgNew);
+	if (!cfgRoot)
 	{
 		return false;
 	}
 
-	return ObjectProperty::Serialize(m_Config);
-}
+	//! TODO: comparison with base values happens here
 
-bool ConfigAsset::Deserialize()
-{
-	if (!m_Config->IsLinkedDirectly())
-	{
-		return false;
-	}
+	m_Config = cfgRoot;
 
-	return ObjectProperty::Deserialize(m_Config);
+	return true;
 }
 
 bool ConfigAsset::Serialize(JingleScript::Object* object)
@@ -58,7 +73,12 @@ bool ConfigAsset::Serialize(JingleScript::Object* object)
 		return false;
 	}
 
-	return property->Serialize(m_Config);
+	if (!OnConfigUpdate(property->Serialize()))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool ConfigAsset::Deserialize(JingleScript::Object* object)

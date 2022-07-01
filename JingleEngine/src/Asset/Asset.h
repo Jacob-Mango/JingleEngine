@@ -26,6 +26,7 @@ public:
 	AssetID GetAssetID() const;
 
 	virtual bool OnLoad();
+	virtual bool OnSave();
 
 	virtual std::string ToString() const override;
 };

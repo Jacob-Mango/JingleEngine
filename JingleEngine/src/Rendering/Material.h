@@ -55,8 +55,6 @@ public:
 	Material();
 	virtual ~Material();
 
-	virtual bool OnLoad() override;
-
 	void Bind(Ref<Shader> shader);
 	void Unbind(Ref<Shader> shader);
 

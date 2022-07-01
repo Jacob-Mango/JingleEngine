@@ -91,8 +91,8 @@ void Entity::Editor_OnPropertyChanged(std::string name)
 
 void Entity::OnSerializeTransform(Config* cfg)
 {
-	cfg->SetValue("Position", m_Transform.GetPosition().ToString());
-	cfg->SetValue("Orientation", m_Transform.GetOrientation().ToString());
+	cfg->CreateValue("Position", m_Transform.GetPosition().ToString());
+	cfg->CreateValue("Orientation", m_Transform.GetOrientation().ToString());
 }
 
 void Entity::OnDeserializeTransform(Config* cfg)

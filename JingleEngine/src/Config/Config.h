@@ -55,6 +55,8 @@ public:
 	void SetValue(const std::string& name, const std::string& value) { Config* cfg = Get(name); if (cfg) { cfg->SetValue(value); } }
 	void SetValue(int index, const std::string& value) { Config* cfg = Get(index); if (cfg) { cfg->SetValue(value); } }
 
+	void CreateValue(const std::string& name, const std::string& value);
+
 	virtual std::string GetValue() const { return ""; }
 	std::string GetValue(const std::string& name) const { Config* cfg = Get(name); return cfg ? cfg->GetValue() : ""; }
 	std::string GetValue(int index) const { Config* cfg = Get(index); return cfg ? cfg->GetValue() : ""; }
