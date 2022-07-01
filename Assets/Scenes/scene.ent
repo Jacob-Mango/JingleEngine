@@ -1,18 +1,6 @@
-/*
 {#Entity}: {
 	Children: [
 		"Assets\Entities\Box\test.ent" {
-		}
-	]
-}
-*/
-
-{#Entity}: {
-	Position: "0 5 0",
-	Components: [
-		{MeshComponent}: {
-			Model: "Assets/Entities/Box/test.obj",
-			MaterialOverride: "Assets/Entities/Box/test.material"
 		}
 	]
 }

@@ -28,7 +28,7 @@ bool ConfigValue::Deserialize(JingleScript::Lexer* lexer, Config* parent)
 
 	if (m_Parent)
 	{
-		m_Parent->Add(this);
+		m_Parent->Insert(this);
 	}
 
 	return true;
@@ -36,6 +36,6 @@ bool ConfigValue::Deserialize(JingleScript::Lexer* lexer, Config* parent)
 
 bool ConfigValue::Serialize(std::stringstream& output, std::string prefix) const
 {
-	output << prefix << SerializeTypeAndName() << m_Value;
+	output << prefix << SerializeTypeAndName() << "\"" << m_Value << "\"";
 	return true;
 }

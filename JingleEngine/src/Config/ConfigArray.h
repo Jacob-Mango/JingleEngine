@@ -14,15 +14,15 @@ class ConfigArray : public Config
 	friend ConfigValue;
 
 protected:
-	std::vector<Config*> m_Entries;
+	std::vector<Ref<Config>> m_Entries;
 
 public:
 	ConfigArray();
 	~ConfigArray();
 
 public:
-	virtual void Add(Config* other) override;
-	virtual void Remove(Config* other) override;
+	virtual Config* Insert(Config* other) override;
+	virtual Config* Remove(Config* other) override;
 
 	virtual size_t Count() const override;
 	

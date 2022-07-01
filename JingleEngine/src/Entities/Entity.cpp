@@ -118,9 +118,14 @@ void Entity::Editor_OnRenderTransform()
 	}
 }
 
-void Entity::OnSerializeComponents(Config* cfg)
+void Entity::OnSerializeComponents(Config* cfgRoot)
 {
+	auto cfg = cfgRoot->CreateArray("Components");
 
+	for (auto& component : *m_Components)
+	{
+		cfg->Insert(component->Serialize());
+	}
 }
 
 void Entity::OnDeserializeComponents(Config* cfgRoot)
@@ -162,8 +167,14 @@ void Entity::Editor_OnRenderComponents()
 	}
 }
 
-void Entity::OnSerializeChildren(Config* cfg)
+void Entity::OnSerializeChildren(Config* cfgRoot)
 {
+	auto cfg = cfgRoot->CreateArray("Children");
+
+	for (auto& child : *m_Children)
+	{
+		cfg->Insert(child->Serialize());
+	}
 }
 
 void Entity::OnDeserializeChildren(Config* cfgRoot)

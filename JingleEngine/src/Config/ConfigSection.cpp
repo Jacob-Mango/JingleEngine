@@ -16,19 +16,16 @@ ConfigSection::ConfigSection()
 
 ConfigSection::~ConfigSection()
 {
-	for (auto& [name, entry] : m_Entries)
-	{
-		//delete entry;
-	}
 }
 
-void ConfigSection::Add(Config* other)
+Config* ConfigSection::Insert(Config* other)
 {
 	other->m_Parent = this;
 	m_Entries[other->GetName()] = other;
+	return other;
 }
 
-void ConfigSection::Remove(Config* other)
+Config* ConfigSection::Remove(Config* other)
 {
 	auto it = m_Entries.find(other->GetName());
 	if (it != m_Entries.end())
@@ -36,7 +33,10 @@ void ConfigSection::Remove(Config* other)
 		other->m_Parent = nullptr;
 
 		m_Entries.erase(it);
+		return other;
 	}
+
+	return nullptr;
 }
 
 size_t ConfigSection::Count() const
@@ -188,7 +188,7 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 
 	if (m_Parent)
 	{
-		m_Parent->Add(this);
+		m_Parent->Insert(this);
 	}
 
 	return true;

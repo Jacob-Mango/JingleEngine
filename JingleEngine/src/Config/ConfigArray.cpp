@@ -15,20 +15,18 @@ ConfigArray::ConfigArray()
 
 ConfigArray::~ConfigArray()
 {
-	for (auto& entry : m_Entries)
-	{
-		//delete entry;
-	}
 }
 
-void ConfigArray::Add(Config* other)
+Config* ConfigArray::Insert(Config* other)
 {
 	other->m_Parent = this;
 
 	m_Entries.push_back(other);
+
+	return other;
 }
 
-void ConfigArray::Remove(Config* other)
+Config* ConfigArray::Remove(Config* other)
 {
 	auto& it = std::find(m_Entries.begin(), m_Entries.end(), other);
 	if (it != m_Entries.end())
@@ -36,7 +34,9 @@ void ConfigArray::Remove(Config* other)
 		other->m_Parent = nullptr;
 
 		m_Entries.erase(it);
+		return other;
 	}
+	return nullptr;
 }
 
 size_t ConfigArray::Count() const
@@ -130,7 +130,7 @@ bool ConfigArray::Deserialize(Lexer* lexer, Config* parent)
 
 	if (m_Parent)
 	{
-		m_Parent->Add(this);
+		m_Parent->Insert(this);
 	}
 
 	return true;

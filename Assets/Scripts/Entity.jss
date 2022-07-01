@@ -1,3 +1,4 @@
+@ClassProperty
 class Entity
 {
 	@Property(true)

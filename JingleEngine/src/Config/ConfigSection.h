@@ -19,7 +19,7 @@ class ConfigSection : public Config
 	friend AssetModule;
 
 protected:
-	std::map<std::string, Config*> m_Entries;
+	std::map<std::string, Ref<Config>> m_Entries;
 
 	ConfigAsset* m_Base = nullptr; //! TODO: use ConfigAsset
 
@@ -28,8 +28,8 @@ public:
 	~ConfigSection();
 
 public:
-	virtual void Add(Config* other) override;
-	virtual void Remove(Config* other) override;
+	virtual Config* Insert(Config* other) override;
+	virtual Config* Remove(Config* other) override;
 
 	virtual size_t Count() const override;
 

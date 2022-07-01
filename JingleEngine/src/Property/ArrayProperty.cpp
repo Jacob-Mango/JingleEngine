@@ -27,10 +27,7 @@ bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 	Type* type = object->GetType();
 	uint64_t typeSize = type->GetReferenceSize();
 
-	Config* cfg = NewObject<ConfigArray>("ConfigArray")->As<Config>();
-	cfg->SetLinkedType(type->Name());
-	cfg->SetName(GetPropertyAttribute()->GetName());
-	cfgRoot->Add(cfg);
+	Config* cfg = cfgRoot->CreateArray(GetPropertyAttribute()->GetName(), type != GetPropertyType() ? type : nullptr);
 
 	Function<std::string> Script_GetDataType = { "GetDataType", type };
 	Function<int> Script_Count = { "Count", type };

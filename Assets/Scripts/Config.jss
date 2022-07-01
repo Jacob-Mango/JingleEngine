@@ -1,10 +1,21 @@
 class ConfigAsset extends Asset
 {
-
+	@Native
+	Config Get();
 }
 
-class ConfigArray
+class Config extends Managed
 {
-	@Native
-	ConfigArray();
+}
+
+class ConfigArray extends Config
+{
+}
+
+class ConfigSection extends Config
+{
+}
+
+class ConfigValue extends Config
+{
 }

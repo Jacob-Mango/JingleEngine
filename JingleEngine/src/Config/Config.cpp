@@ -25,14 +25,6 @@ Config::~Config()
 
 }
 
-void Config::CreateValue(const std::string& name, const std::string& value)
-{
-	Config* cfg = NewObject<ConfigValue>("ConfigValue")->As<Config>();
-	cfg->SetName(name);
-	cfg->SetValue(value);
-	Add(cfg);
-}
-
 std::string Config::GetName() const
 {
 	JS_TRACE(Tracers::Property);
@@ -52,7 +44,7 @@ void Config::SetName(std::string name)
 
 	if (parent)
 	{
-		parent->Add(this);
+		parent->Insert(this);
 	}
 }
 
@@ -77,6 +69,12 @@ void Config::SetLinkedType(std::string type)
 	m_TypeInfo.m_Type = type;
 }
 
+void Config::SetLinkedType(std::string type, bool directly)
+{
+	m_TypeInfo.m_Type = type;
+	m_TypeInfo.m_DirectlyLinked = directly;
+}
+
 std::string Config::GetTypeAndName() const
 {
 	JS_TRACE(Tracers::Property);
@@ -89,6 +87,43 @@ bool Config::IsLinkedDirectly() const
 	JS_TRACE(Tracers::Property);
 
 	return m_TypeInfo.m_DirectlyLinked;
+}
+
+Config* Config::CreateValue(const std::string& name, const std::string& value, JingleScript::Type* type)
+{
+	Config* cfg = NewObject<ConfigValue>("ConfigValue")->As<Config>();
+	cfg->SetName(name);
+	if (type)
+	{
+		cfg->SetLinkedType(type->Name());
+	}
+
+	cfg->SetValue(value);
+	return Insert(cfg);
+}
+
+Config* Config::CreateSection(const std::string& name, JingleScript::Type* type)
+{
+	Config* cfg = NewObject<ConfigSection>("ConfigSection")->As<Config>();
+	cfg->SetName(name);
+	if (type)
+	{
+		cfg->SetLinkedType(type->Name());
+	}
+
+	return Insert(cfg);
+}
+
+Config* Config::CreateArray(const std::string& name, JingleScript::Type* type)
+{
+	Config* cfg = NewObject<ConfigArray>("ConfigArray")->As<Config>();
+	cfg->SetName(name);
+	if (type)
+	{
+		cfg->SetLinkedType(type->Name());
+	}
+
+	return Insert(cfg);
 }
 
 bool Config::Deserialize(Lexer* lexer, Config* parent)
@@ -175,7 +210,7 @@ std::string Config::SerializeTypeAndName() const
 {
 	const std::string& name = m_TypeInfo.m_Name;
 	const std::string& type = m_TypeInfo.m_Type;
-	const std::string directlyLinked = m_TypeInfo.m_DirectlyLinked ? "#" : "";
+	const std::string directlyLinked = m_TypeInfo.m_DirectlyLinked ? "" : "#";
 
 	if (name.empty() && type.empty()) return "";
 

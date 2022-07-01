@@ -25,12 +25,7 @@ bool AssetProperty::OnSerialize(Config* cfgRoot, void*& data)
 
 	//! TODO: compare with default and return 'false' if it is default
 
-	Config* cfg = NewObject<ConfigValue>("ConfigValue")->As<Config>();
-	cfg->SetLinkedType(GetPropertyType()->Name());
-	cfg->SetName(GetPropertyAttribute()->GetName());
-	cfgRoot->Add(cfg);
-
-	cfg->SetValue(value);
+	cfgRoot->CreateValue(GetPropertyAttribute()->GetName(), value);
 
 	return true;
 }

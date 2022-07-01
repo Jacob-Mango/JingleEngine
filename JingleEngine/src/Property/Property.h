@@ -45,3 +45,14 @@ public:
 	}
 
 };
+
+class ClassProperty : public JingleScript::Attribute
+{
+	DEFINE_CLASS(ClassProperty, JingleScript::Attribute);
+
+public:	
+	ClassProperty()
+	{ 
+		JS_TRACE(Tracers::Property);
+	}
+};

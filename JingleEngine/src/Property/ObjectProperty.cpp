@@ -13,15 +13,32 @@
 
 using namespace JingleScript;
 
-Property* FindProperty(Type::VariableDefinition* variable)
+template<typename T>
+T* GetAttribute(Type::VariableDefinition* variable)
 {
 	JS_TRACE(Tracers::Property);
 
 	for (auto& attributeBase : variable->Attributes)
 	{
-		if (attributeBase->GetType()->IsInherited(Property::StaticType()))
+		if (attributeBase->GetType()->IsInherited(T::StaticType()))
 		{
-			return static_cast<Property*>(attributeBase);
+			return static_cast<T*>(attributeBase);
+		}
+	}
+
+	return nullptr;
+}
+
+template<typename T>
+T* GetAttribute(Type* type)
+{
+	JS_TRACE(Tracers::Property);
+
+	for (auto& attributeBase : type->Attributes)
+	{
+		if (attributeBase->GetType()->IsInherited(T::StaticType()))
+		{
+			return static_cast<T*>(attributeBase);
 		}
 	}
 
@@ -41,19 +58,14 @@ bool ObjectProperty::OnSerialize(Config* cfgRoot, void*& data)
 	Type* type = object->GetType();
 
 	Config* cfg = cfgRoot;
-
 	if (GetPropertyAttribute())
 	{
-		cfg = NewObject<ConfigSection>("ConfigSection")->As<Config>();
+		cfg = cfgRoot->CreateSection(GetPropertyAttribute()->GetName());
 	}
 
-	cfg->SetLinkedType(type->Name());
-
-	if (GetPropertyAttribute())
-	{
-		cfg->SetName(GetPropertyAttribute()->GetName());
-		cfgRoot->Add(cfg);
-	}
+	std::string typeName = type != GetPropertyType() ? type->Name() : "";
+	bool directlyLinked = GetAttribute<ClassProperty>(type) == nullptr;
+	cfg->SetLinkedType(typeName, directlyLinked);
 
 	for (auto& [varName, property] : m_Properties)
 	{
@@ -100,7 +112,7 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 		auto varName = variable->Name;
 		auto varType = variable->Type;
 		auto varOffset = variable->Offset;
-		auto varProperty = FindProperty(variable);
+		auto varProperty = GetAttribute<Property>(variable);
 
 		JS_TINFO("Variable {}:{}", varType->Name(), varName);
 
