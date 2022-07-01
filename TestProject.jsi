@@ -1,83 +1,13 @@
 
-class TestModule extends Module {
-
-  TestModule::dtor() (Native)
-
-  TestModule::ctor() (Native)
-}
-
-class Module extends Object {
-
-  Module::dtor() (Native)
-
-  Module::ctor() (Native)
-}
-
-class Object {
-
-  Object::dtor() (Native)
-
-  Object::ctor() (Native)
-
-  string Object::ToString() (Native)
-
-  Type Object::GetType() (Native)
-
-  bool Object::operator==(Object) (Native)
-
-  bool Object::operator!=(Object) (Native)
-}
-
-struct string extends Object {
-
-  string string::operator+(int) (Native)
-
-  string::dtor() (Native)
-
-  bool string::operator<=(string) (Native)
-
-  string::ctor() (Native)
-
-  string string::ToString() (Native)
-
-  string string::operator+(float) (Native)
-
-  string string::operator+(bool) (Native)
-
-  string string::operator+(byte) (Native)
-
-  string string::operator+(double) (Native)
-
-  string string::operator+(string) (Native)
-
-  void string::operator=(string) (Native)
-
-  bool string::operator>(string) (Native)
-
-  bool string::operator>=(string) (Native)
-
-  bool string::operator<(string) (Native)
-
-  bool string::operator==(string) (Native)
-
-  bool string::operator!=(string) (Native)
-}
-
 class #global extends Object {
 
   float FromString(string) (Native)
 
   bool FromString(string) (Native)
 
-  #global::dtor() (Native)
-
-  Application GetApplication() (Native)
-
   double FromString(string) (Native)
 
   string FromString(string) (Native)
-
-  #global::ctor() (Native)
 
   byte FromString(string) (Native)
 
@@ -89,17 +19,19 @@ class #global extends Object {
 
   Transform FromString(string) (Native)
 
+  Application GetApplication() (Native)
+
   bool ImGui_Begin(string) (Native)
 
   void ImGui_End() (Native)
 
-  bool ImGui_WantCaptureKeyboard() (Native)
-
-  bool ImGui_WantCaptureMouse() (Native)
-
   void ImGui_Text(string) (Native)
 
   void ImGui_Text(Object) (Native)
+
+  bool ImGui_WantCaptureKeyboard() (Native)
+
+  bool ImGui_WantCaptureMouse() (Native)
 
   void #global::Initialize() {
     [00000000]  push 8                                                                                 JingleScript::ValueItem::Push
@@ -213,1229 +145,357 @@ class #global extends Object {
     [0000006C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [0000006D]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
+
+  #global::ctor() (Native)
+
+  #global::dtor() (Native)
 }
 
-struct bool extends Object {
-   bool value
+class Application extends Object {
+   int FPS
 
-  bool bool::operator>=(bool) (Native)
+  Entity Application::GetScene() (Native)
 
-  bool::dtor() (Native)
+  void Application::OnUpdate(double) {
+  }
 
-  bool bool::operator==(bool) (Native)
+  Application::ctor() (Native)
 
-  void bool::operator=(bool) (Native)
-
-  bool::ctor() (Native)
-
-  bool bool::operator>=(uint64_t) (Native)
-
-  bool bool::operator>(bool) (Native)
-
-  bool bool::operator<(bool) (Native)
-
-  bool bool::operator!=(int) (Native)
-
-  bool bool::operator<=(bool) (Native)
-
-  bool bool::operator!=(bool) (Native)
-
-  void bool::operator=(byte) (Native)
-
-  bool bool::operator>(byte) (Native)
-
-  bool bool::operator>=(byte) (Native)
-
-  bool bool::operator>(float) (Native)
-
-  bool bool::operator<(byte) (Native)
-
-  bool bool::operator<=(byte) (Native)
-
-  bool bool::operator==(byte) (Native)
-
-  bool bool::operator<=(int) (Native)
-
-  bool bool::operator!=(byte) (Native)
-
-  bool bool::operator==(uint64_t) (Native)
-
-  void bool::operator=(double) (Native)
-
-  bool bool::operator>(double) (Native)
-
-  bool bool::operator>=(double) (Native)
-
-  bool bool::operator<(double) (Native)
-
-  string bool::ToString() (Native)
-
-  bool bool::operator==(float) (Native)
-
-  bool bool::operator<=(double) (Native)
-
-  bool bool::operator==(double) (Native)
-
-  bool bool::operator<(uint64_t) (Native)
-
-  bool bool::operator!=(double) (Native)
-
-  bool bool::operator<=(uint64_t) (Native)
-
-  void bool::operator=(float) (Native)
-
-  bool bool::operator>=(float) (Native)
-
-  bool bool::operator>=(int) (Native)
-
-  bool bool::operator<(float) (Native)
-
-  bool bool::operator<=(float) (Native)
-
-  bool bool::operator!=(float) (Native)
-
-  void bool::operator=(int) (Native)
-
-  bool bool::operator>(int) (Native)
-
-  bool bool::operator<(int) (Native)
-
-  bool bool::operator>(uint64_t) (Native)
-
-  bool bool::operator==(int) (Native)
-
-  void bool::operator=(uint64_t) (Native)
-
-  bool bool::operator!=(uint64_t) (Native)
-
-  string bool::operator+(string) (Native)
-}
-
-struct byte extends Object {
-   byte value
-
-  bool byte::operator>=(bool) (Native)
-
-  byte::dtor() (Native)
-
-  byte byte::operator-(double) (Native)
-
-  bool byte::operator==(bool) (Native)
-
-  byte::ctor() (Native)
-
-  bool byte::operator<(bool) (Native)
-
-  void byte::operator=(bool) (Native)
-
-  bool byte::operator>=(uint64_t) (Native)
-
-  byte byte::operator+(double) (Native)
-
-  bool byte::operator>(bool) (Native)
-
-  bool byte::operator!=(int) (Native)
-
-  byte byte::operator-(float) (Native)
-
-  bool byte::operator<=(bool) (Native)
-
-  bool byte::operator!=(bool) (Native)
-
-  byte byte::operator*(byte) (Native)
-
-  byte byte::operator/(byte) (Native)
-
-  bool byte::operator<=(float) (Native)
-
-  byte byte::operator+(byte) (Native)
-
-  byte byte::operator/(float) (Native)
-
-  byte byte::operator-(byte) (Native)
-
-  bool byte::operator<=(byte) (Native)
-
-  byte byte::operator%(byte) (Native)
-
-  bool byte::operator>=(double) (Native)
-
-  void byte::operator=(byte) (Native)
-
-  bool byte::operator>(byte) (Native)
-
-  bool byte::operator>=(byte) (Native)
-
-  bool byte::operator>(float) (Native)
-
-  bool byte::operator<(byte) (Native)
-
-  bool byte::operator==(byte) (Native)
-
-  bool byte::operator<=(int) (Native)
-
-  byte byte::operator%(int) (Native)
-
-  bool byte::operator!=(byte) (Native)
-
-  byte byte::operator*(double) (Native)
-
-  byte byte::operator/(double) (Native)
-
-  void byte::operator=(double) (Native)
-
-  bool byte::operator>(double) (Native)
-
-  bool byte::operator<(double) (Native)
-
-  bool byte::operator==(float) (Native)
-
-  bool byte::operator<=(double) (Native)
-
-  bool byte::operator==(double) (Native)
-
-  bool byte::operator<(uint64_t) (Native)
-
-  bool byte::operator!=(double) (Native)
-
-  byte byte::operator*(float) (Native)
-
-  byte byte::operator+(float) (Native)
-
-  void byte::operator=(float) (Native)
-
-  byte byte::operator*(uint64_t) (Native)
-
-  bool byte::operator>=(float) (Native)
-
-  bool byte::operator>=(int) (Native)
-
-  bool byte::operator<(float) (Native)
-
-  byte byte::operator+(int) (Native)
-
-  bool byte::operator!=(float) (Native)
-
-  byte byte::operator*(int) (Native)
-
-  byte byte::operator%(uint64_t) (Native)
-
-  byte byte::operator/(int) (Native)
-
-  byte byte::operator+(uint64_t) (Native)
-
-  byte byte::operator-(int) (Native)
-
-  void byte::operator=(int) (Native)
-
-  bool byte::operator>(int) (Native)
-
-  bool byte::operator<(int) (Native)
-
-  bool byte::operator>(uint64_t) (Native)
-
-  bool byte::operator==(int) (Native)
-
-  byte byte::operator/(uint64_t) (Native)
-
-  byte byte::operator-(uint64_t) (Native)
-
-  void byte::operator=(uint64_t) (Native)
-
-  bool byte::operator<=(uint64_t) (Native)
-
-  bool byte::operator==(uint64_t) (Native)
-
-  bool byte::operator!=(uint64_t) (Native)
-
-  string byte::operator+(string) (Native)
-
-  string byte::ToString() (Native)
-}
-
-struct double extends Object {
-   double value
-
-  double double::operator+(int) (Native)
-
-  bool double::operator>=(bool) (Native)
-
-  double::dtor() (Native)
-
-  bool double::operator==(bool) (Native)
-
-  double::ctor() (Native)
-
-  void double::operator=(bool) (Native)
-
-  double double::operator-(byte) (Native)
-
-  bool double::operator>=(uint64_t) (Native)
-
-  double double::operator/(float) (Native)
-
-  bool double::operator>(bool) (Native)
-
-  double double::operator-(float) (Native)
-
-  bool double::operator<(bool) (Native)
-
-  bool double::operator!=(int) (Native)
-
-  void double::operator=(double) (Native)
-
-  bool double::operator<=(bool) (Native)
-
-  bool double::operator!=(bool) (Native)
-
-  double double::operator*(byte) (Native)
-
-  bool double::operator==(float) (Native)
-
-  bool double::operator<=(double) (Native)
-
-  double double::operator/(byte) (Native)
-
-  bool double::operator>=(int) (Native)
-
-  bool double::operator<(float) (Native)
-
-  double double::operator+(byte) (Native)
-
-  void double::operator=(byte) (Native)
-
-  bool double::operator>(byte) (Native)
-
-  bool double::operator>=(byte) (Native)
-
-  bool double::operator>(float) (Native)
-
-  bool double::operator<(byte) (Native)
-
-  double double::operator-(uint64_t) (Native)
-
-  bool double::operator<=(byte) (Native)
-
-  double double::operator+(float) (Native)
-
-  bool double::operator==(byte) (Native)
-
-  bool double::operator<=(int) (Native)
-
-  bool double::operator!=(byte) (Native)
-
-  double double::operator*(double) (Native)
-
-  double double::operator/(double) (Native)
-
-  void double::operator=(uint64_t) (Native)
-
-  string double::operator+(string) (Native)
-
-  double double::operator+(double) (Native)
-
-  double double::operator-(double) (Native)
-
-  bool double::operator>(double) (Native)
-
-  bool double::operator>=(double) (Native)
-
-  bool double::operator<(double) (Native)
-
-  bool double::operator==(double) (Native)
-
-  bool double::operator<(uint64_t) (Native)
-
-  double double::operator/(int) (Native)
-
-  bool double::operator!=(double) (Native)
-
-  bool double::operator!=(uint64_t) (Native)
-
-  double double::operator*(float) (Native)
-
-  double double::operator*(uint64_t) (Native)
-
-  void double::operator=(float) (Native)
-
-  bool double::operator>=(float) (Native)
-
-  bool double::operator<=(float) (Native)
-
-  bool double::operator!=(float) (Native)
-
-  double double::operator*(int) (Native)
-
-  double double::operator+(uint64_t) (Native)
-
-  double double::operator-(int) (Native)
-
-  void double::operator=(int) (Native)
-
-  bool double::operator>(int) (Native)
-
-  bool double::operator<(int) (Native)
-
-  bool double::operator>(uint64_t) (Native)
-
-  bool double::operator==(int) (Native)
-
-  double double::operator/(uint64_t) (Native)
-
-  bool double::operator<=(uint64_t) (Native)
-
-  bool double::operator==(uint64_t) (Native)
-
-  string double::ToString() (Native)
-}
-
-struct float extends Object {
-   float value
-
-  bool float::operator>=(bool) (Native)
-
-  float::dtor() (Native)
-
-  void float::operator=(double) (Native)
-
-  bool float::operator==(bool) (Native)
-
-  void float::operator=(bool) (Native)
-
-  float::ctor() (Native)
-
-  bool float::operator>=(uint64_t) (Native)
-
-  bool float::operator>(bool) (Native)
-
-  float float::operator/(double) (Native)
-
-  bool float::operator<(bool) (Native)
-
-  bool float::operator!=(int) (Native)
-
-  bool float::operator<=(bool) (Native)
-
-  float float::operator/(uint64_t) (Native)
-
-  bool float::operator!=(bool) (Native)
-
-  float float::operator*(byte) (Native)
-
-  float float::operator/(byte) (Native)
-
-  bool float::operator<=(byte) (Native)
-
-  float float::operator+(byte) (Native)
-
-  float float::operator/(float) (Native)
-
-  float float::operator-(byte) (Native)
-
-  void float::operator=(byte) (Native)
-
-  bool float::operator>(byte) (Native)
-
-  float float::operator*(uint64_t) (Native)
-
-  bool float::operator>=(byte) (Native)
-
-  bool float::operator>(float) (Native)
-
-  bool float::operator<(byte) (Native)
-
-  bool float::operator==(byte) (Native)
-
-  bool float::operator<=(int) (Native)
-
-  float float::operator+(int) (Native)
-
-  bool float::operator!=(byte) (Native)
-
-  float float::operator*(double) (Native)
-
-  bool float::operator==(float) (Native)
-
-  bool float::operator<=(double) (Native)
-
-  float float::operator+(double) (Native)
-
-  float float::operator-(double) (Native)
-
-  void float::operator=(int) (Native)
-
-  bool float::operator>(double) (Native)
-
-  bool float::operator>=(double) (Native)
-
-  bool float::operator<(double) (Native)
-
-  void float::operator=(uint64_t) (Native)
-
-  float float::operator*(int) (Native)
-
-  bool float::operator==(double) (Native)
-
-  bool float::operator<(uint64_t) (Native)
-
-  bool float::operator!=(double) (Native)
-
-  float float::operator*(float) (Native)
-
-  bool float::operator<=(float) (Native)
-
-  float float::operator+(float) (Native)
-
-  float float::operator-(float) (Native)
-
-  void float::operator=(float) (Native)
-
-  bool float::operator>=(float) (Native)
-
-  bool float::operator>=(int) (Native)
-
-  bool float::operator<(float) (Native)
-
-  bool float::operator!=(float) (Native)
-
-  float float::operator/(int) (Native)
-
-  bool float::operator<=(uint64_t) (Native)
-
-  float float::operator+(uint64_t) (Native)
-
-  float float::operator-(int) (Native)
-
-  bool float::operator>(int) (Native)
-
-  bool float::operator<(int) (Native)
-
-  bool float::operator>(uint64_t) (Native)
-
-  bool float::operator==(int) (Native)
-
-  float float::operator-(uint64_t) (Native)
-
-  bool float::operator==(uint64_t) (Native)
-
-  bool float::operator!=(uint64_t) (Native)
-
-  string float::operator+(string) (Native)
-
-  string float::ToString() (Native)
-}
-
-struct int extends Object {
-   int value
-
-  bool int::operator>=(bool) (Native)
-
-  int::dtor() (Native)
-
-  bool int::operator==(bool) (Native)
-
-  int::ctor() (Native)
-
-  bool int::operator>=(uint64_t) (Native)
-
-  void int::operator=(float) (Native)
-
-  bool int::operator>(bool) (Native)
-
-  void int::operator=(bool) (Native)
-
-  bool int::operator<(bool) (Native)
-
-  bool int::operator!=(int) (Native)
-
-  bool int::operator<=(bool) (Native)
-
-  bool int::operator!=(bool) (Native)
-
-  int int::operator*(byte) (Native)
-
-  int int::operator/(byte) (Native)
-
-  string int::ToString() (Native)
-
-  bool int::operator>=(double) (Native)
-
-  int int::operator+(byte) (Native)
-
-  int int::operator/(float) (Native)
-
-  int int::operator-(byte) (Native)
-
-  int int::operator%(byte) (Native)
-
-  bool int::operator==(float) (Native)
-
-  bool int::operator<=(double) (Native)
-
-  void int::operator=(byte) (Native)
-
-  bool int::operator>(byte) (Native)
-
-  bool int::operator>=(byte) (Native)
-
-  bool int::operator>(float) (Native)
-
-  bool int::operator<(byte) (Native)
-
-  bool int::operator<=(byte) (Native)
-
-  bool int::operator==(byte) (Native)
-
-  bool int::operator<=(int) (Native)
-
-  bool int::operator!=(byte) (Native)
-
-  bool int::operator>=(int) (Native)
-
-  bool int::operator<(float) (Native)
-
-  int int::operator*(double) (Native)
-
-  int int::operator/(double) (Native)
-
-  int int::operator+(double) (Native)
-
-  int int::operator-(double) (Native)
-
-  int int::operator%(uint64_t) (Native)
-
-  int int::operator/(int) (Native)
-
-  void int::operator=(double) (Native)
-
-  bool int::operator>(double) (Native)
-
-  int int::operator%(int) (Native)
-
-  bool int::operator<(double) (Native)
-
-  bool int::operator==(double) (Native)
-
-  bool int::operator<(uint64_t) (Native)
-
-  bool int::operator!=(double) (Native)
-
-  void int::operator=(int) (Native)
-
-  void int::operator=(uint64_t) (Native)
-
-  int int::operator*(float) (Native)
-
-  int int::operator+(float) (Native)
-
-  int int::operator-(float) (Native)
-
-  int int::operator/(uint64_t) (Native)
-
-  bool int::operator>=(float) (Native)
-
-  bool int::operator<=(float) (Native)
-
-  bool int::operator!=(float) (Native)
-
-  int int::operator*(uint64_t) (Native)
-
-  int int::operator*(int) (Native)
-
-  int int::operator+(int) (Native)
-
-  int int::operator+(uint64_t) (Native)
-
-  int int::operator-(int) (Native)
-
-  bool int::operator>(int) (Native)
-
-  bool int::operator<(int) (Native)
-
-  bool int::operator>(uint64_t) (Native)
-
-  bool int::operator==(int) (Native)
-
-  int int::operator-(uint64_t) (Native)
-
-  bool int::operator<=(uint64_t) (Native)
-
-  bool int::operator==(uint64_t) (Native)
-
-  bool int::operator!=(uint64_t) (Native)
-
-  string int::operator+(string) (Native)
-}
-
-struct uint64_t {
-   uint64_t value
-
-  bool uint64_t::operator>=(bool) (Native)
-
-  uint64_t::dtor() (Native)
-
-  uint64_t uint64_t::operator*(int) (Native)
-
-  bool uint64_t::operator==(bool) (Native)
-
-  uint64_t::ctor() (Native)
-
-  bool uint64_t::operator==(byte) (Native)
-
-  void uint64_t::operator=(bool) (Native)
-
-  bool uint64_t::operator>=(uint64_t) (Native)
-
-  bool uint64_t::operator>(bool) (Native)
-
-  bool uint64_t::operator<(bool) (Native)
-
-  uint64_t uint64_t::operator+(double) (Native)
-
-  bool uint64_t::operator!=(int) (Native)
-
-  bool uint64_t::operator<=(bool) (Native)
-
-  bool uint64_t::operator!=(bool) (Native)
-
-  bool uint64_t::operator>(uint64_t) (Native)
-
-  bool uint64_t::operator==(int) (Native)
-
-  uint64_t uint64_t::operator*(byte) (Native)
-
-  uint64_t uint64_t::operator/(byte) (Native)
-
-  uint64_t uint64_t::operator+(byte) (Native)
-
-  uint64_t uint64_t::operator/(float) (Native)
-
-  bool uint64_t::operator>=(double) (Native)
-
-  uint64_t uint64_t::operator-(byte) (Native)
-
-  uint64_t uint64_t::operator%(byte) (Native)
-
-  void uint64_t::operator=(byte) (Native)
-
-  bool uint64_t::operator>(byte) (Native)
-
-  bool uint64_t::operator>=(byte) (Native)
-
-  bool uint64_t::operator>(float) (Native)
-
-  bool uint64_t::operator<(byte) (Native)
-
-  bool uint64_t::operator<=(byte) (Native)
-
-  bool uint64_t::operator<=(int) (Native)
-
-  bool uint64_t::operator!=(byte) (Native)
-
-  void uint64_t::operator=(float) (Native)
-
-  uint64_t uint64_t::operator*(double) (Native)
-
-  uint64_t uint64_t::operator/(double) (Native)
-
-  uint64_t uint64_t::operator-(double) (Native)
-
-  uint64_t uint64_t::operator%(int) (Native)
-
-  void uint64_t::operator=(double) (Native)
-
-  bool uint64_t::operator>(double) (Native)
-
-  uint64_t uint64_t::operator%(uint64_t) (Native)
-
-  uint64_t uint64_t::operator/(int) (Native)
-
-  bool uint64_t::operator<(double) (Native)
-
-  bool uint64_t::operator==(float) (Native)
-
-  bool uint64_t::operator<=(double) (Native)
-
-  bool uint64_t::operator==(double) (Native)
-
-  bool uint64_t::operator<(uint64_t) (Native)
-
-  uint64_t uint64_t::operator*(float) (Native)
-
-  bool uint64_t::operator!=(double) (Native)
-
-  uint64_t uint64_t::operator+(float) (Native)
-
-  uint64_t uint64_t::operator-(float) (Native)
-
-  void uint64_t::operator=(int) (Native)
-
-  bool uint64_t::operator>=(float) (Native)
-
-  bool uint64_t::operator>=(int) (Native)
-
-  bool uint64_t::operator<(float) (Native)
-
-  bool uint64_t::operator<=(float) (Native)
-
-  bool uint64_t::operator!=(float) (Native)
-
-  uint64_t uint64_t::operator+(int) (Native)
-
-  uint64_t uint64_t::operator+(uint64_t) (Native)
-
-  uint64_t uint64_t::operator-(int) (Native)
-
-  bool uint64_t::operator>(int) (Native)
-
-  bool uint64_t::operator<(int) (Native)
-
-  void uint64_t::operator=(uint64_t) (Native)
-
-  uint64_t uint64_t::operator*(uint64_t) (Native)
-
-  uint64_t uint64_t::operator/(uint64_t) (Native)
-
-  uint64_t uint64_t::operator-(uint64_t) (Native)
-
-  bool uint64_t::operator<=(uint64_t) (Native)
-
-  bool uint64_t::operator==(uint64_t) (Native)
-
-  bool uint64_t::operator!=(uint64_t) (Native)
-
-  string uint64_t::operator+(string) (Native)
-
-  string uint64_t::ToString() (Native)
-}
-
-struct null extends Object {
-
-  null::dtor() (Native)
-
-  null::ctor() (Native)
-
-  bool null::operator==(Object) (Native)
-
-  bool null::operator!=(Object) (Native)
-}
-
-class Managed extends Object {
-
-  Managed::dtor() (Native)
-
-  Managed::ctor() (Native)
-}
-
-class Attribute extends Object {
-
-  Attribute::dtor() (Native)
-
-  Attribute::ctor() (Native)
+  Application::dtor() (Native)
 }
 
 class Array extends Object {
 
-  Array::dtor() (Native)
-
   Array::ctor() (Native)
-}
 
-class Viewport extends Managed {
-
-  Viewport::dtor() (Native)
-
-  Viewport::ctor() (Native)
-}
-
-struct Vertex {
-
-  Vertex::dtor() (Native)
-}
-
-class Texture extends Managed {
-
-  Texture::dtor() (Native)
-
-  Texture::ctor() (Native)
-}
-
-class Shader extends Asset {
-
-  Shader::dtor() (Native)
-
-  Shader::ctor() (Native)
+  Array::dtor() (Native)
 }
 
 class Asset extends Object {
 
-  Asset::dtor() (Native)
-
   Asset::ctor() (Native)
+
+  Asset::dtor() (Native)
 }
 
-class Renderer extends Module {
+class AssetModule extends Module {
 
-  Renderer::dtor() (Native)
+  AssetModule::ctor() (Native)
 
-  Renderer::ctor() (Native)
+  AssetModule::dtor() (Native)
 }
 
-class Mesh extends Asset {
+class Attribute extends Object {
 
-  Mesh::dtor() (Native)
+  Attribute::ctor() (Native)
 
-  Mesh::ctor() (Native)
+  Attribute::dtor() (Native)
+}
+
+class BindingModule extends Module {
+
+  BindingModule::ctor() (Native)
+
+  BindingModule::dtor() (Native)
+}
+
+class Camera extends Entity {
+   double MouseSpeed
+   double MovementBoostModifier
+   double MovementSpeed
+}
+
+class Component extends Object {
+
+  void Component::Editor_OnPropertyChanged(string) (Native)
+
+  void Component::OnCreate() (Native)
+
+  void Component::OnDestroy() (Native)
+
+  void Component::OnTick(double) (Native)
+
+  Component::ctor() (Native)
+
+  Component::ctor(Entity) (Native)
+
+  Component::dtor() (Native)
+}
+
+class ComponentArray extends Array {
+
+  void ComponentArray::Clear() (Native)
+
+  int ComponentArray::Count() (Native)
+
+  Component ComponentArray::Get(int) (Native)
+
+  string ComponentArray::GetDataType() (Native)
+
+  void ComponentArray::Insert(Component) (Native)
+
+  void ComponentArray::Remove(int) (Native)
+
+  void ComponentArray::Reserve(int) (Native)
+
+  void ComponentArray::Resize(int) (Native)
+
+  ComponentArray::ctor() (Native)
+
+  ComponentArray::dtor() (Native)
+}
+
+class Config extends Object {
+
+  Config::ctor() (Native)
+
+  Config::dtor() (Native)
+}
+
+class ConfigArray extends Object {
+
+  ConfigArray::ctor() (Native)
+
+  ConfigArray::dtor() (Native)
+}
+
+class ConfigAsset extends Asset {
+
+  ConfigAsset::ctor() (Native)
+
+  ConfigAsset::dtor() (Native)
+}
+
+class ConfigSection extends Config {
+
+  ConfigSection::ctor() (Native)
+
+  ConfigSection::dtor() (Native)
+}
+
+class ConfigValue extends Config {
+
+  ConfigValue::ctor() (Native)
+
+  ConfigValue::dtor() (Native)
+}
+
+class ContentBrowserPanel extends EditorPanelBase {
+
+  ContentBrowserPanel::ctor() (Native)
+
+  ContentBrowserPanel::dtor() (Native)
+}
+
+class Debug extends Object {
+}
+
+class DebugType extends Object {
+}
+
+class EditorAttribute extends Attribute {
+   string m_Title
+
+  EditorAttribute::ctor(string) (Native)
+
+  EditorAttribute::dtor() (Native)
+}
+
+class EditorModule extends Module {
+
+  EditorModule::ctor() (Native)
+
+  EditorModule::dtor() (Native)
+}
+
+class EditorPanelBase extends Object {
+
+  void EditorPanelBase::Close() (Native)
+
+  EditorModule EditorPanelBase::GetEditor() (Native)
+
+  void EditorPanelBase::OnBeginRender(double) (Native)
+
+  void EditorPanelBase::OnEndRender(double) (Native)
+
+  void EditorPanelBase::OnRender(double) (Native)
+
+  EditorPanelBase::ctor() (Native)
+
+  EditorPanelBase::dtor() (Native)
+}
+
+class EditorViewport extends Viewport {
+
+  EditorViewport::ctor() (Native)
+
+  EditorViewport::dtor() (Native)
+}
+
+class EditorViewportPanel extends EditorPanelBase {
+
+  EditorViewportPanel::ctor() (Native)
+
+  EditorViewportPanel::dtor() (Native)
+}
+
+class Entity extends Object {
+   EntityArray Children
+   ComponentArray Components
+   Transform Transform
+
+  void Entity::AddChild(Entity) (Native)
+
+  void Entity::Editor_OnPropertyChanged(string) (Native)
+
+  void Entity::Editor_OnRenderChildren() (Native)
+
+  void Entity::Editor_OnRenderComponents() (Native)
+
+  void Entity::Editor_OnRenderTransform() (Native)
+
+  Entity Entity::GetParent() (Native)
+
+  void Entity::OnCreate() (Native)
+
+  void Entity::OnDeserializeChildren(Config) (Native)
+
+  void Entity::OnDeserializeComponents(Config) (Native)
+
+  void Entity::OnDeserializeTransform(Config) (Native)
+
+  void Entity::OnDestroy() (Native)
+
+  void Entity::OnSerializeChildren(Config) (Native)
+
+  void Entity::OnSerializeComponents(Config) (Native)
+
+  void Entity::OnSerializeTransform(Config) (Native)
+
+  void Entity::OnTick(double) (Native)
+
+  void Entity::RemoveChild(Entity) (Native)
+
+  Entity::ctor() (Native)
+
+  Entity::dtor() (Native)
+}
+
+class EntityArray extends Array {
+
+  void EntityArray::Clear() (Native)
+
+  int EntityArray::Count() (Native)
+
+  Entity EntityArray::Get(int) (Native)
+
+  string EntityArray::GetDataType() (Native)
+
+  void EntityArray::Insert(Entity) (Native)
+
+  void EntityArray::Remove(int) (Native)
+
+  void EntityArray::Reserve(int) (Native)
+
+  void EntityArray::Resize(int) (Native)
+
+  EntityArray::ctor() (Native)
+
+  EntityArray::dtor() (Native)
+}
+
+class EntityPropertiesPanel extends EditorPanelBase {
+
+  EntityPropertiesPanel::ctor() (Native)
+
+  EntityPropertiesPanel::dtor() (Native)
+}
+
+class Framebuffer extends Managed {
+
+  Framebuffer::ctor() (Native)
+
+  Framebuffer::dtor() (Native)
+}
+
+class Image extends Asset {
+
+  Image::ctor() (Native)
+
+  Image::dtor() (Native)
+}
+
+class Managed extends Object {
+
+  Managed::ctor() (Native)
+
+  Managed::dtor() (Native)
+}
+
+class Material extends ConfigAsset {
+   MaterialImageArray Images
+   Shader Shader
+
+  Material::ctor() (Native)
+
+  Material::dtor() (Native)
 }
 
 class MaterialImage extends Object {
    Image File
    string Name
 
-  MaterialImage::dtor() (Native)
-
   MaterialImage::ctor() (Native)
+
+  MaterialImage::dtor() (Native)
 }
 
 class MaterialImageArray extends Array {
 
+  void MaterialImageArray::Clear() (Native)
+
   int MaterialImageArray::Count() (Native)
 
-  MaterialImageArray::dtor() (Native)
-
-  void MaterialImageArray::Resize(int) (Native)
+  MaterialImage MaterialImageArray::Get(int) (Native)
 
   string MaterialImageArray::GetDataType() (Native)
-
-  MaterialImageArray::ctor() (Native)
 
   void MaterialImageArray::Insert(MaterialImage) (Native)
 
   void MaterialImageArray::Remove(int) (Native)
 
-  MaterialImage MaterialImageArray::Get(int) (Native)
-
-  void MaterialImageArray::Clear() (Native)
-
   void MaterialImageArray::Reserve(int) (Native)
+
+  void MaterialImageArray::Resize(int) (Native)
+
+  MaterialImageArray::ctor() (Native)
+
+  MaterialImageArray::dtor() (Native)
 }
 
-class Material extends ConfigAsset {
-   Shader Shader
-   MaterialImageArray Images
+class Mesh extends Asset {
 
-  Material::dtor() (Native)
+  Mesh::ctor() (Native)
 
-  Material::ctor() (Native)
-}
-
-class ConfigAsset extends Asset {
-
-  ConfigAsset::dtor() (Native)
-
-  ConfigAsset::ctor() (Native)
-}
-
-class Image extends Asset {
-
-  Image::dtor() (Native)
-
-  Image::ctor() (Native)
-}
-
-class Framebuffer extends Managed {
-
-  Framebuffer::dtor() (Native)
-
-  Framebuffer::ctor() (Native)
-}
-
-class Property extends Attribute {
-
-  Property::dtor() (Native)
-
-  Property::ctor() (Native)
-
-  Property::ctor(bool) (Native)
-}
-
-class WndWindow extends Window {
-
-  WndWindow::dtor() (Native)
-
-  WndWindow::ctor() (Native)
-}
-
-class Window extends Module {
-
-  Window::dtor() (Native)
-}
-
-struct Vector3 {
-
-  Vector3::dtor() (Native)
-
-  Vector3::ctor() (Native)
-
-  string Vector3::ToString() (Native)
-}
-
-struct Transform {
-
-  Transform::dtor() (Native)
-
-  Transform::ctor() (Native)
-
-  string Transform::ToString() (Native)
-}
-
-class BindingModule extends Module {
-
-  BindingModule::dtor() (Native)
-
-  BindingModule::ctor() (Native)
-}
-
-class EntityArray extends Array {
-
-  EntityArray::dtor() (Native)
-
-  void EntityArray::Reserve(int) (Native)
-
-  EntityArray::ctor() (Native)
-
-  void EntityArray::Resize(int) (Native)
-
-  string EntityArray::GetDataType() (Native)
-
-  int EntityArray::Count() (Native)
-
-  void EntityArray::Insert(Entity) (Native)
-
-  void EntityArray::Remove(int) (Native)
-
-  Entity EntityArray::Get(int) (Native)
-
-  void EntityArray::Clear() (Native)
-}
-
-class Entity extends Object {
-   Transform Transform
-   ComponentArray Components
-   EntityArray Children
-
-  void Entity::OnCreate() (Native)
-
-  Entity::dtor() (Native)
-
-  void Entity::RemoveChild(Entity) (Native)
-
-  Entity::ctor() (Native)
-
-  void Entity::AddChild(Entity) (Native)
-
-  void Entity::OnDestroy() (Native)
-
-  void Entity::OnTick(double) (Native)
-
-  Entity Entity::GetParent() (Native)
-
-  void Entity::OnSerializeTransform(Config) (Native)
-
-  void Entity::OnDeserializeTransform(Config) (Native)
-
-  void Entity::Editor_OnRenderTransform() (Native)
-
-  void Entity::OnSerializeComponents(Config) (Native)
-
-  void Entity::OnDeserializeComponents(Config) (Native)
-
-  void Entity::Editor_OnRenderComponents() (Native)
-
-  void Entity::OnSerializeChildren(Config) (Native)
-
-  void Entity::OnDeserializeChildren(Config) (Native)
-
-  void Entity::Editor_OnRenderChildren() (Native)
-
-  void Entity::Editor_OnPropertyChanged(string) (Native)
-}
-
-class Config extends Object {
-
-  Config::dtor() (Native)
-
-  Config::ctor() (Native)
+  Mesh::dtor() (Native)
 }
 
 class MeshComponent extends Component {
-   Mesh Model
    Material MaterialOverride
-
-  MeshComponent::dtor() (Native)
+   Mesh Model
 
   MeshComponent::ctor(Entity) (Native)
 
   MeshComponent::ctor() (Native)
+
+  MeshComponent::dtor() (Native)
 }
 
-class Component extends Object {
+class Module extends Object {
 
-  void Component::OnCreate() (Native)
+  Module::ctor() (Native)
 
-  Component::dtor() (Native)
-
-  Component::ctor() (Native)
-
-  Component::ctor(Entity) (Native)
-
-  void Component::OnDestroy() (Native)
-
-  void Component::OnTick(double) (Native)
-
-  void Component::Editor_OnPropertyChanged(string) (Native)
-}
-
-class ComponentArray extends Array {
-
-  void ComponentArray::Insert(Component) (Native)
-
-  ComponentArray::dtor() (Native)
-
-  ComponentArray::ctor() (Native)
-
-  void ComponentArray::Resize(int) (Native)
-
-  string ComponentArray::GetDataType() (Native)
-
-  Component ComponentArray::Get(int) (Native)
-
-  void ComponentArray::Remove(int) (Native)
-
-  int ComponentArray::Count() (Native)
-
-  void ComponentArray::Clear() (Native)
-
-  void ComponentArray::Reserve(int) (Native)
-}
-
-class SceneHierarchyPanel extends EditorPanelBase {
-
-  SceneHierarchyPanel::dtor() (Native)
-
-  SceneHierarchyPanel::ctor() (Native)
-}
-
-class EditorPanelBase extends Object {
-
-  EditorPanelBase::dtor() (Native)
-
-  EditorPanelBase::ctor() (Native)
-
-  void EditorPanelBase::Close() (Native)
-
-  void EditorPanelBase::OnEndRender(double) (Native)
-
-  void EditorPanelBase::OnBeginRender(double) (Native)
-
-  void EditorPanelBase::OnRender(double) (Native)
-
-  EditorModule EditorPanelBase::GetEditor() (Native)
-}
-
-class EditorModule extends Module {
-
-  EditorModule::dtor() (Native)
-
-  EditorModule::ctor() (Native)
-}
-
-class EntityPropertiesPanel extends EditorPanelBase {
-
-  EntityPropertiesPanel::dtor() (Native)
-
-  EntityPropertiesPanel::ctor() (Native)
-}
-
-class EditorViewport extends Viewport {
-
-  EditorViewport::dtor() (Native)
-
-  EditorViewport::ctor() (Native)
-}
-
-class EditorViewportPanel extends EditorPanelBase {
-
-  EditorViewportPanel::dtor() (Native)
-
-  EditorViewportPanel::ctor() (Native)
-}
-
-class EditorAttribute extends Attribute {
-   string m_Title
-
-  EditorAttribute::dtor() (Native)
-
-  EditorAttribute::ctor(string) (Native)
-}
-
-class ContentBrowserPanel extends EditorPanelBase {
-
-  ContentBrowserPanel::dtor() (Native)
-
-  ContentBrowserPanel::ctor() (Native)
-}
-
-class Application extends Object {
-   int FPS
-
-  Application::dtor() (Native)
-
-  Application::ctor() (Native)
-
-  Entity Application::GetScene() (Native)
-
-  void Application::OnUpdate(double) {
-  }
-}
-
-class ConfigValue extends Config {
-
-  ConfigValue::dtor() (Native)
-
-  ConfigValue::ctor() (Native)
-}
-
-class ConfigSection extends Config {
-
-  ConfigSection::dtor() (Native)
-
-  ConfigSection::ctor() (Native)
-}
-
-class ConfigArray extends Object {
-
-  ConfigArray::dtor() (Native)
-
-  ConfigArray::ctor() (Native)
-}
-
-class AssetModule extends Module {
-
-  AssetModule::dtor() (Native)
-
-  AssetModule::ctor() (Native)
-}
-
-class Type extends Object {
-
-  bool Type::IsInherited(Type) (Native)
-}
-
-class Camera extends Entity {
-   double MovementSpeed
-   double MovementBoostModifier
-   double MouseSpeed
+  Module::dtor() (Native)
 }
 
 class Native extends Attribute {
@@ -1448,7 +508,42 @@ class Native extends Attribute {
   }
 }
 
-class DebugType extends Object {
+class Object {
+
+  Type Object::GetType() (Native)
+
+  string Object::ToString() (Native)
+
+  Object::ctor() (Native)
+
+  Object::dtor() (Native)
+
+  bool Object::operator!=(Object) (Native)
+
+  bool Object::operator==(Object) (Native)
+}
+
+class Property extends Attribute {
+
+  Property::ctor() (Native)
+
+  Property::ctor(bool) (Native)
+
+  Property::dtor() (Native)
+}
+
+class Renderer extends Module {
+
+  Renderer::ctor() (Native)
+
+  Renderer::dtor() (Native)
+}
+
+class SceneHierarchyPanel extends EditorPanelBase {
+
+  SceneHierarchyPanel::ctor() (Native)
+
+  SceneHierarchyPanel::dtor() (Native)
 }
 
 class ScriptTestPanel extends EditorPanelBase {
@@ -1525,5 +620,910 @@ class ScriptTestPanel extends EditorPanelBase {
   }
 }
 
-class Debug extends Object {
+class Shader extends Asset {
+
+  Shader::ctor() (Native)
+
+  Shader::dtor() (Native)
+}
+
+class TestModule extends Module {
+
+  TestModule::ctor() (Native)
+
+  TestModule::dtor() (Native)
+}
+
+class Texture extends Managed {
+
+  Texture::ctor() (Native)
+
+  Texture::dtor() (Native)
+}
+
+struct Transform {
+
+  string Transform::ToString() (Native)
+
+  Transform::ctor() (Native)
+
+  Transform::dtor() (Native)
+}
+
+class Type extends Object {
+
+  bool Type::IsInherited(Type) (Native)
+}
+
+struct Vector3 {
+
+  string Vector3::ToString() (Native)
+
+  Vector3::ctor() (Native)
+
+  Vector3::dtor() (Native)
+}
+
+struct Vertex {
+
+  Vertex::dtor() (Native)
+}
+
+class Viewport extends Managed {
+
+  Viewport::ctor() (Native)
+
+  Viewport::dtor() (Native)
+}
+
+class Window extends Module {
+
+  Window::dtor() (Native)
+}
+
+class WndWindow extends Window {
+
+  WndWindow::ctor() (Native)
+
+  WndWindow::dtor() (Native)
+}
+
+struct bool extends Object {
+   bool value
+
+  string bool::ToString() (Native)
+
+  bool::ctor() (Native)
+
+  bool::dtor() (Native)
+
+  bool bool::operator!=(bool) (Native)
+
+  bool bool::operator!=(int) (Native)
+
+  bool bool::operator!=(double) (Native)
+
+  bool bool::operator!=(byte) (Native)
+
+  bool bool::operator!=(float) (Native)
+
+  bool bool::operator!=(uint64_t) (Native)
+
+  string bool::operator+(string) (Native)
+
+  bool bool::operator<(double) (Native)
+
+  bool bool::operator<(float) (Native)
+
+  bool bool::operator<(bool) (Native)
+
+  bool bool::operator<(uint64_t) (Native)
+
+  bool bool::operator<(byte) (Native)
+
+  bool bool::operator<(int) (Native)
+
+  bool bool::operator<=(uint64_t) (Native)
+
+  bool bool::operator<=(bool) (Native)
+
+  bool bool::operator<=(double) (Native)
+
+  bool bool::operator<=(byte) (Native)
+
+  bool bool::operator<=(int) (Native)
+
+  bool bool::operator<=(float) (Native)
+
+  void bool::operator=(bool) (Native)
+
+  void bool::operator=(byte) (Native)
+
+  void bool::operator=(double) (Native)
+
+  void bool::operator=(float) (Native)
+
+  void bool::operator=(int) (Native)
+
+  void bool::operator=(uint64_t) (Native)
+
+  bool bool::operator==(double) (Native)
+
+  bool bool::operator==(float) (Native)
+
+  bool bool::operator==(int) (Native)
+
+  bool bool::operator==(bool) (Native)
+
+  bool bool::operator==(byte) (Native)
+
+  bool bool::operator==(uint64_t) (Native)
+
+  bool bool::operator>(double) (Native)
+
+  bool bool::operator>(byte) (Native)
+
+  bool bool::operator>(int) (Native)
+
+  bool bool::operator>(uint64_t) (Native)
+
+  bool bool::operator>(bool) (Native)
+
+  bool bool::operator>(float) (Native)
+
+  bool bool::operator>=(int) (Native)
+
+  bool bool::operator>=(byte) (Native)
+
+  bool bool::operator>=(double) (Native)
+
+  bool bool::operator>=(bool) (Native)
+
+  bool bool::operator>=(uint64_t) (Native)
+
+  bool bool::operator>=(float) (Native)
+}
+
+struct byte extends Object {
+   byte value
+
+  string byte::ToString() (Native)
+
+  byte::ctor() (Native)
+
+  byte::dtor() (Native)
+
+  bool byte::operator!=(float) (Native)
+
+  bool byte::operator!=(int) (Native)
+
+  bool byte::operator!=(double) (Native)
+
+  bool byte::operator!=(byte) (Native)
+
+  bool byte::operator!=(bool) (Native)
+
+  bool byte::operator!=(uint64_t) (Native)
+
+  byte byte::operator%(byte) (Native)
+
+  byte byte::operator%(int) (Native)
+
+  byte byte::operator%(uint64_t) (Native)
+
+  byte byte::operator*(float) (Native)
+
+  byte byte::operator*(int) (Native)
+
+  byte byte::operator*(double) (Native)
+
+  byte byte::operator*(byte) (Native)
+
+  byte byte::operator*(uint64_t) (Native)
+
+  byte byte::operator+(int) (Native)
+
+  byte byte::operator+(byte) (Native)
+
+  string byte::operator+(string) (Native)
+
+  byte byte::operator+(float) (Native)
+
+  byte byte::operator+(uint64_t) (Native)
+
+  byte byte::operator+(double) (Native)
+
+  byte byte::operator-(float) (Native)
+
+  byte byte::operator-(double) (Native)
+
+  byte byte::operator-(int) (Native)
+
+  byte byte::operator-(uint64_t) (Native)
+
+  byte byte::operator-(byte) (Native)
+
+  byte byte::operator/(float) (Native)
+
+  byte byte::operator/(double) (Native)
+
+  byte byte::operator/(int) (Native)
+
+  byte byte::operator/(uint64_t) (Native)
+
+  byte byte::operator/(byte) (Native)
+
+  bool byte::operator<(uint64_t) (Native)
+
+  bool byte::operator<(bool) (Native)
+
+  bool byte::operator<(byte) (Native)
+
+  bool byte::operator<(double) (Native)
+
+  bool byte::operator<(float) (Native)
+
+  bool byte::operator<(int) (Native)
+
+  bool byte::operator<=(float) (Native)
+
+  bool byte::operator<=(double) (Native)
+
+  bool byte::operator<=(bool) (Native)
+
+  bool byte::operator<=(uint64_t) (Native)
+
+  bool byte::operator<=(byte) (Native)
+
+  bool byte::operator<=(int) (Native)
+
+  void byte::operator=(bool) (Native)
+
+  void byte::operator=(int) (Native)
+
+  void byte::operator=(double) (Native)
+
+  void byte::operator=(uint64_t) (Native)
+
+  void byte::operator=(byte) (Native)
+
+  void byte::operator=(float) (Native)
+
+  bool byte::operator==(bool) (Native)
+
+  bool byte::operator==(byte) (Native)
+
+  bool byte::operator==(float) (Native)
+
+  bool byte::operator==(double) (Native)
+
+  bool byte::operator==(uint64_t) (Native)
+
+  bool byte::operator==(int) (Native)
+
+  bool byte::operator>(bool) (Native)
+
+  bool byte::operator>(double) (Native)
+
+  bool byte::operator>(int) (Native)
+
+  bool byte::operator>(uint64_t) (Native)
+
+  bool byte::operator>(byte) (Native)
+
+  bool byte::operator>(float) (Native)
+
+  bool byte::operator>=(double) (Native)
+
+  bool byte::operator>=(float) (Native)
+
+  bool byte::operator>=(int) (Native)
+
+  bool byte::operator>=(bool) (Native)
+
+  bool byte::operator>=(uint64_t) (Native)
+
+  bool byte::operator>=(byte) (Native)
+}
+
+struct double extends Object {
+   double value
+
+  string double::ToString() (Native)
+
+  double::ctor() (Native)
+
+  double::dtor() (Native)
+
+  bool double::operator!=(double) (Native)
+
+  bool double::operator!=(bool) (Native)
+
+  bool double::operator!=(byte) (Native)
+
+  bool double::operator!=(float) (Native)
+
+  bool double::operator!=(uint64_t) (Native)
+
+  bool double::operator!=(int) (Native)
+
+  double double::operator*(byte) (Native)
+
+  double double::operator*(int) (Native)
+
+  double double::operator*(uint64_t) (Native)
+
+  double double::operator*(float) (Native)
+
+  double double::operator*(double) (Native)
+
+  double double::operator+(float) (Native)
+
+  double double::operator+(int) (Native)
+
+  string double::operator+(string) (Native)
+
+  double double::operator+(double) (Native)
+
+  double double::operator+(byte) (Native)
+
+  double double::operator+(uint64_t) (Native)
+
+  double double::operator-(byte) (Native)
+
+  double double::operator-(int) (Native)
+
+  double double::operator-(float) (Native)
+
+  double double::operator-(uint64_t) (Native)
+
+  double double::operator-(double) (Native)
+
+  double double::operator/(float) (Native)
+
+  double double::operator/(int) (Native)
+
+  double double::operator/(double) (Native)
+
+  double double::operator/(byte) (Native)
+
+  double double::operator/(uint64_t) (Native)
+
+  bool double::operator<(int) (Native)
+
+  bool double::operator<(bool) (Native)
+
+  bool double::operator<(uint64_t) (Native)
+
+  bool double::operator<(byte) (Native)
+
+  bool double::operator<(float) (Native)
+
+  bool double::operator<(double) (Native)
+
+  bool double::operator<=(bool) (Native)
+
+  bool double::operator<=(float) (Native)
+
+  bool double::operator<=(double) (Native)
+
+  bool double::operator<=(byte) (Native)
+
+  bool double::operator<=(int) (Native)
+
+  bool double::operator<=(uint64_t) (Native)
+
+  void double::operator=(byte) (Native)
+
+  void double::operator=(int) (Native)
+
+  void double::operator=(float) (Native)
+
+  void double::operator=(uint64_t) (Native)
+
+  void double::operator=(bool) (Native)
+
+  void double::operator=(double) (Native)
+
+  bool double::operator==(double) (Native)
+
+  bool double::operator==(float) (Native)
+
+  bool double::operator==(bool) (Native)
+
+  bool double::operator==(int) (Native)
+
+  bool double::operator==(byte) (Native)
+
+  bool double::operator==(uint64_t) (Native)
+
+  bool double::operator>(float) (Native)
+
+  bool double::operator>(byte) (Native)
+
+  bool double::operator>(double) (Native)
+
+  bool double::operator>(int) (Native)
+
+  bool double::operator>(bool) (Native)
+
+  bool double::operator>(uint64_t) (Native)
+
+  bool double::operator>=(double) (Native)
+
+  bool double::operator>=(float) (Native)
+
+  bool double::operator>=(bool) (Native)
+
+  bool double::operator>=(uint64_t) (Native)
+
+  bool double::operator>=(byte) (Native)
+
+  bool double::operator>=(int) (Native)
+}
+
+struct float extends Object {
+   float value
+
+  string float::ToString() (Native)
+
+  float::ctor() (Native)
+
+  float::dtor() (Native)
+
+  bool float::operator!=(float) (Native)
+
+  bool float::operator!=(double) (Native)
+
+  bool float::operator!=(int) (Native)
+
+  bool float::operator!=(bool) (Native)
+
+  bool float::operator!=(byte) (Native)
+
+  bool float::operator!=(uint64_t) (Native)
+
+  float float::operator*(float) (Native)
+
+  float float::operator*(double) (Native)
+
+  float float::operator*(byte) (Native)
+
+  float float::operator*(uint64_t) (Native)
+
+  float float::operator*(int) (Native)
+
+  string float::operator+(string) (Native)
+
+  float float::operator+(byte) (Native)
+
+  float float::operator+(float) (Native)
+
+  float float::operator+(double) (Native)
+
+  float float::operator+(int) (Native)
+
+  float float::operator+(uint64_t) (Native)
+
+  float float::operator-(float) (Native)
+
+  float float::operator-(byte) (Native)
+
+  float float::operator-(double) (Native)
+
+  float float::operator-(int) (Native)
+
+  float float::operator-(uint64_t) (Native)
+
+  float float::operator/(byte) (Native)
+
+  float float::operator/(double) (Native)
+
+  float float::operator/(int) (Native)
+
+  float float::operator/(uint64_t) (Native)
+
+  float float::operator/(float) (Native)
+
+  bool float::operator<(float) (Native)
+
+  bool float::operator<(double) (Native)
+
+  bool float::operator<(int) (Native)
+
+  bool float::operator<(bool) (Native)
+
+  bool float::operator<(uint64_t) (Native)
+
+  bool float::operator<(byte) (Native)
+
+  bool float::operator<=(bool) (Native)
+
+  bool float::operator<=(int) (Native)
+
+  bool float::operator<=(double) (Native)
+
+  bool float::operator<=(byte) (Native)
+
+  bool float::operator<=(float) (Native)
+
+  bool float::operator<=(uint64_t) (Native)
+
+  void float::operator=(byte) (Native)
+
+  void float::operator=(float) (Native)
+
+  void float::operator=(bool) (Native)
+
+  void float::operator=(double) (Native)
+
+  void float::operator=(int) (Native)
+
+  void float::operator=(uint64_t) (Native)
+
+  bool float::operator==(float) (Native)
+
+  bool float::operator==(bool) (Native)
+
+  bool float::operator==(byte) (Native)
+
+  bool float::operator==(int) (Native)
+
+  bool float::operator==(uint64_t) (Native)
+
+  bool float::operator==(double) (Native)
+
+  bool float::operator>(byte) (Native)
+
+  bool float::operator>(bool) (Native)
+
+  bool float::operator>(double) (Native)
+
+  bool float::operator>(int) (Native)
+
+  bool float::operator>(uint64_t) (Native)
+
+  bool float::operator>(float) (Native)
+
+  bool float::operator>=(byte) (Native)
+
+  bool float::operator>=(bool) (Native)
+
+  bool float::operator>=(uint64_t) (Native)
+
+  bool float::operator>=(int) (Native)
+
+  bool float::operator>=(double) (Native)
+
+  bool float::operator>=(float) (Native)
+}
+
+struct int extends Object {
+   int value
+
+  string int::ToString() (Native)
+
+  int::ctor() (Native)
+
+  int::dtor() (Native)
+
+  bool int::operator!=(uint64_t) (Native)
+
+  bool int::operator!=(double) (Native)
+
+  bool int::operator!=(float) (Native)
+
+  bool int::operator!=(int) (Native)
+
+  bool int::operator!=(bool) (Native)
+
+  bool int::operator!=(byte) (Native)
+
+  int int::operator%(byte) (Native)
+
+  int int::operator%(int) (Native)
+
+  int int::operator%(uint64_t) (Native)
+
+  int int::operator*(float) (Native)
+
+  int int::operator*(int) (Native)
+
+  int int::operator*(double) (Native)
+
+  int int::operator*(uint64_t) (Native)
+
+  int int::operator*(byte) (Native)
+
+  int int::operator+(float) (Native)
+
+  int int::operator+(uint64_t) (Native)
+
+  int int::operator+(int) (Native)
+
+  int int::operator+(byte) (Native)
+
+  int int::operator+(double) (Native)
+
+  string int::operator+(string) (Native)
+
+  int int::operator-(int) (Native)
+
+  int int::operator-(uint64_t) (Native)
+
+  int int::operator-(byte) (Native)
+
+  int int::operator-(double) (Native)
+
+  int int::operator-(float) (Native)
+
+  int int::operator/(double) (Native)
+
+  int int::operator/(int) (Native)
+
+  int int::operator/(byte) (Native)
+
+  int int::operator/(uint64_t) (Native)
+
+  int int::operator/(float) (Native)
+
+  bool int::operator<(float) (Native)
+
+  bool int::operator<(byte) (Native)
+
+  bool int::operator<(double) (Native)
+
+  bool int::operator<(uint64_t) (Native)
+
+  bool int::operator<(int) (Native)
+
+  bool int::operator<(bool) (Native)
+
+  bool int::operator<=(int) (Native)
+
+  bool int::operator<=(double) (Native)
+
+  bool int::operator<=(float) (Native)
+
+  bool int::operator<=(bool) (Native)
+
+  bool int::operator<=(uint64_t) (Native)
+
+  bool int::operator<=(byte) (Native)
+
+  void int::operator=(double) (Native)
+
+  void int::operator=(int) (Native)
+
+  void int::operator=(uint64_t) (Native)
+
+  void int::operator=(byte) (Native)
+
+  void int::operator=(bool) (Native)
+
+  void int::operator=(float) (Native)
+
+  bool int::operator==(double) (Native)
+
+  bool int::operator==(float) (Native)
+
+  bool int::operator==(byte) (Native)
+
+  bool int::operator==(int) (Native)
+
+  bool int::operator==(bool) (Native)
+
+  bool int::operator==(uint64_t) (Native)
+
+  bool int::operator>(double) (Native)
+
+  bool int::operator>(float) (Native)
+
+  bool int::operator>(byte) (Native)
+
+  bool int::operator>(bool) (Native)
+
+  bool int::operator>(int) (Native)
+
+  bool int::operator>(uint64_t) (Native)
+
+  bool int::operator>=(int) (Native)
+
+  bool int::operator>=(byte) (Native)
+
+  bool int::operator>=(bool) (Native)
+
+  bool int::operator>=(double) (Native)
+
+  bool int::operator>=(uint64_t) (Native)
+
+  bool int::operator>=(float) (Native)
+}
+
+struct null extends Object {
+
+  null::ctor() (Native)
+
+  null::dtor() (Native)
+
+  bool null::operator!=(Object) (Native)
+
+  bool null::operator==(Object) (Native)
+}
+
+struct string extends Object {
+
+  string string::ToString() (Native)
+
+  string::ctor() (Native)
+
+  string::dtor() (Native)
+
+  bool string::operator!=(string) (Native)
+
+  string string::operator+(int) (Native)
+
+  string string::operator+(float) (Native)
+
+  string string::operator+(bool) (Native)
+
+  string string::operator+(byte) (Native)
+
+  string string::operator+(double) (Native)
+
+  string string::operator+(string) (Native)
+
+  bool string::operator<(string) (Native)
+
+  bool string::operator<=(string) (Native)
+
+  void string::operator=(string) (Native)
+
+  bool string::operator==(string) (Native)
+
+  bool string::operator>(string) (Native)
+
+  bool string::operator>=(string) (Native)
+}
+
+struct uint64_t {
+   uint64_t value
+
+  string uint64_t::ToString() (Native)
+
+  uint64_t::ctor() (Native)
+
+  uint64_t::dtor() (Native)
+
+  bool uint64_t::operator!=(double) (Native)
+
+  bool uint64_t::operator!=(float) (Native)
+
+  bool uint64_t::operator!=(byte) (Native)
+
+  bool uint64_t::operator!=(int) (Native)
+
+  bool uint64_t::operator!=(bool) (Native)
+
+  bool uint64_t::operator!=(uint64_t) (Native)
+
+  uint64_t uint64_t::operator%(uint64_t) (Native)
+
+  uint64_t uint64_t::operator%(int) (Native)
+
+  uint64_t uint64_t::operator%(byte) (Native)
+
+  uint64_t uint64_t::operator*(byte) (Native)
+
+  uint64_t uint64_t::operator*(int) (Native)
+
+  uint64_t uint64_t::operator*(double) (Native)
+
+  uint64_t uint64_t::operator*(float) (Native)
+
+  uint64_t uint64_t::operator*(uint64_t) (Native)
+
+  uint64_t uint64_t::operator+(float) (Native)
+
+  uint64_t uint64_t::operator+(byte) (Native)
+
+  string uint64_t::operator+(string) (Native)
+
+  uint64_t uint64_t::operator+(uint64_t) (Native)
+
+  uint64_t uint64_t::operator+(int) (Native)
+
+  uint64_t uint64_t::operator+(double) (Native)
+
+  uint64_t uint64_t::operator-(double) (Native)
+
+  uint64_t uint64_t::operator-(float) (Native)
+
+  uint64_t uint64_t::operator-(int) (Native)
+
+  uint64_t uint64_t::operator-(byte) (Native)
+
+  uint64_t uint64_t::operator-(uint64_t) (Native)
+
+  uint64_t uint64_t::operator/(int) (Native)
+
+  uint64_t uint64_t::operator/(double) (Native)
+
+  uint64_t uint64_t::operator/(uint64_t) (Native)
+
+  uint64_t uint64_t::operator/(byte) (Native)
+
+  uint64_t uint64_t::operator/(float) (Native)
+
+  bool uint64_t::operator<(double) (Native)
+
+  bool uint64_t::operator<(bool) (Native)
+
+  bool uint64_t::operator<(byte) (Native)
+
+  bool uint64_t::operator<(float) (Native)
+
+  bool uint64_t::operator<(uint64_t) (Native)
+
+  bool uint64_t::operator<(int) (Native)
+
+  bool uint64_t::operator<=(double) (Native)
+
+  bool uint64_t::operator<=(float) (Native)
+
+  bool uint64_t::operator<=(bool) (Native)
+
+  bool uint64_t::operator<=(uint64_t) (Native)
+
+  bool uint64_t::operator<=(byte) (Native)
+
+  bool uint64_t::operator<=(int) (Native)
+
+  void uint64_t::operator=(int) (Native)
+
+  void uint64_t::operator=(bool) (Native)
+
+  void uint64_t::operator=(float) (Native)
+
+  void uint64_t::operator=(double) (Native)
+
+  void uint64_t::operator=(byte) (Native)
+
+  void uint64_t::operator=(uint64_t) (Native)
+
+  bool uint64_t::operator==(int) (Native)
+
+  bool uint64_t::operator==(byte) (Native)
+
+  bool uint64_t::operator==(bool) (Native)
+
+  bool uint64_t::operator==(float) (Native)
+
+  bool uint64_t::operator==(uint64_t) (Native)
+
+  bool uint64_t::operator==(double) (Native)
+
+  bool uint64_t::operator>(uint64_t) (Native)
+
+  bool uint64_t::operator>(double) (Native)
+
+  bool uint64_t::operator>(int) (Native)
+
+  bool uint64_t::operator>(bool) (Native)
+
+  bool uint64_t::operator>(byte) (Native)
+
+  bool uint64_t::operator>(float) (Native)
+
+  bool uint64_t::operator>=(bool) (Native)
+
+  bool uint64_t::operator>=(uint64_t) (Native)
+
+  bool uint64_t::operator>=(float) (Native)
+
+  bool uint64_t::operator>=(int) (Native)
+
+  bool uint64_t::operator>=(byte) (Native)
+
+  bool uint64_t::operator>=(double) (Native)
 }
