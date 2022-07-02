@@ -1,0 +1,3 @@
+[submodule "libs/uuid_v4"]
+	path = libs/uuid_v4
+	url = http://github.com/crashoz/uuid_v4

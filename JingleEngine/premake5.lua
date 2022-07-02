@@ -26,7 +26,8 @@ includedirs
 	"%{IncludeDir.stb}",
 	"%{IncludeDir.Assimp}",
 	"%{IncludeDir.glm}",
-	"%{IncludeDir.glew}"
+	"%{IncludeDir.glew}",
+	"%{IncludeDir.uuid_v4}"
 }
 
 defines

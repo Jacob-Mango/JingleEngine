@@ -29,6 +29,7 @@ includedirs
 	"%{IncludeDir.Assimp}",
 	"%{IncludeDir.glm}",
 	"%{IncludeDir.glew}",
+	"%{IncludeDir.uuid_v4}",
 	"%{IncludeDir.JingleEngine}"
 }
 
