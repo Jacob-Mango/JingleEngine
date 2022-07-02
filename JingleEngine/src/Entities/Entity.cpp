@@ -124,7 +124,7 @@ void Entity::OnSerializeComponents(Config* cfgRoot)
 
 	for (auto& component : *m_Components)
 	{
-		cfg->Insert(component->Serialize());
+		cfg->Set(component->Serialize());
 	}
 }
 
@@ -171,7 +171,7 @@ void Entity::OnSerializeChildren(Config* cfgRoot)
 
 	for (auto& child : *m_Children)
 	{
-		cfg->Insert(child->Serialize());
+		cfg->Set(child->Serialize());
 	}
 }
 

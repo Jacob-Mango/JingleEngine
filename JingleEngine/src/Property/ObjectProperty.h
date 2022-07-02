@@ -8,7 +8,7 @@ class ObjectProperty : public BaseProperty
 private:
 	std::map<std::string, BaseProperty*> m_Properties;
 
-	//! TODO: Add a name variable here for arrays of objects.
+	std::string m_Name;
 
 public:
 	ObjectProperty() : BaseProperty()
@@ -26,6 +26,9 @@ public:
 	virtual bool OnDeserialize(Config* cfg, void*& data) override;
 
 	virtual void Editor_OnRender(void*& data) override;
+
+	const std::string& GetName() const;
+	void SetName(const std::string& name);
 
 	Config* Serialize();
 	bool Deserialize(Config* cfg);

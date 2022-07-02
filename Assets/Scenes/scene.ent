@@ -1,6 +1,7 @@
 {#Entity}: {
 	Children: [
-		"Assets\Entities\Box\test.ent" {
+		anEntityNameOrUUIDHere: "Assets\Entities\Box\test.ent" {
+			Position: "0 0 5"
 		}
 	]
 }

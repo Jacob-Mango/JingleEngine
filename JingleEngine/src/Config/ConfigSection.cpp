@@ -17,10 +17,37 @@ ConfigSection::~ConfigSection()
 {
 }
 
-Config* ConfigSection::Insert(Config* other)
+ConfigSection* ConfigSection::GetBase() const
 {
+	return m_Base;
+}
+
+ConfigAsset* ConfigSection::GetBaseAsset() const
+{
+	return m_BaseAsset;
+}
+
+Config* ConfigSection::Set(Config* other)
+{
+	auto it = m_Entries.find(other->GetName());
+	if (it != m_Entries.end())
+	{
+		if (it->second == other)
+		{
+			return other;
+		}
+		
+		other->m_Parent = nullptr;
+		m_Entries.erase(it);
+
+		other->UpdateBase();
+	}
+
 	other->m_Parent = this;
 	m_Entries[other->GetName()] = other;
+
+	other->UpdateBase();
+
 	return other;
 }
 
@@ -30,8 +57,9 @@ Config* ConfigSection::Remove(Config* other)
 	if (it != m_Entries.end())
 	{
 		other->m_Parent = nullptr;
-
 		m_Entries.erase(it);
+
+		other->UpdateBase();
 		return other;
 	}
 
@@ -56,14 +84,22 @@ Config* ConfigSection::Get(std::string name) const
 	return entry;
 }
 
-ConfigSection* ConfigSection::GetBase() const
+void ConfigSection::UpdateBase()
 {
-	return m_Base;
-}
+	if (m_BaseAsset)
+	{
+		m_Base = m_BaseAsset->Get();
+		return;
+	}
 
-ConfigAsset* ConfigSection::GetBaseAsset() const
-{
-	return m_BaseAsset;
+	m_Base = static_cast<ConfigSection*>(m_Parent);
+	m_Base = m_Base ? m_Base->m_Base : nullptr;
+	m_Base = m_Base ? dynamic_cast<ConfigSection*>(m_Base->Get(GetName())) : nullptr;
+
+	for (auto& [name, cfg] : m_Entries)
+	{
+		cfg->UpdateBase();
+	}
 }
 
 bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
@@ -80,10 +116,27 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 			lexer->Error("Root sections can't be named.");
 			return false;
 		}
+
+		// Possibly linking to external config as base for section
+		if (lexer->GetTokenType() == TokenType::QUOTE)
+		{
+			std::string baseLinkPath = lexer->GetTokenValue();
+			lexer->NextToken();
+
+			if (lexer->GetToken() == Tokens::LeftCurlyBracket)
+			{
+				m_BaseAsset = AssetModule::Get<ConfigAsset>(baseLinkPath);
+				UpdateBase();
+			}
+			else
+			{
+				lexer->PreviousToken();
+			}
+		}
 	}
-	
-	bool isArray = lexer->GetToken() == Tokens::LeftSquareBracket;
-	if (lexer->GetToken() != Tokens::LeftCurlyBracket && !isArray)
+
+	m_IsArray = lexer->GetToken() == Tokens::LeftSquareBracket;
+	if (lexer->GetToken() != Tokens::LeftCurlyBracket && !m_IsArray)
 	{
 		lexer->Error("Expected '{', got '{}'", lexer->GetTokenValue());
 		return false;
@@ -127,14 +180,11 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 			if (!baseLinkPath.empty())
 			{
 				cfgSection->m_BaseAsset = AssetModule::Get<ConfigAsset>(baseLinkPath);
-				cfgSection->m_Base = cfgSection->m_BaseAsset->Get();
-			}
-			else
-			{
-				//! TODO:
 			}
 
-			Insert(cfgSection);
+			cfgSection->UpdateBase();
+
+			Set(cfgSection);
 
 			if (!cfgSection->Deserialize(lexer, this))
 			{
@@ -146,7 +196,7 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 			ConfigValue* cfgValue = NewObject<ConfigValue>("ConfigValue");
 			cfgValue->m_TypeInfo = typeInfo;
 
-			Insert(cfgValue);
+			Set(cfgValue);
 			
 			if (!cfgValue->Deserialize(lexer, this))
 			{
@@ -162,12 +212,12 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 		lexer->NextToken();
 	}
 
-	if (isArray && lexer->GetToken() != Tokens::RightSquareBracket)
+	if (m_IsArray && lexer->GetToken() != Tokens::RightSquareBracket)
 	{
 		lexer->Error("Expected ']', got '{}'", lexer->GetTokenValue());
 		return false;
 	}
-	else if (!isArray && lexer->GetToken() != Tokens::RightCurlyBracket)
+	else if (!m_IsArray && lexer->GetToken() != Tokens::RightCurlyBracket)
 	{
 		lexer->Error("Expected '}', got '{}'", lexer->GetTokenValue());
 		return false;
@@ -186,8 +236,7 @@ bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 	if (m_Parent || !typeAndName.empty())
 	{
 		indent = true;
-		output << prefix << typeAndName << (m_BaseAsset ? m_BaseAsset->GetPath() + " " : "") << "{" << std::endl;
-		std::cout << std::endl;
+		output << prefix << typeAndName << (m_BaseAsset ? m_BaseAsset->GetPath() + " " : "") << (IsArray() ? "[" : "{") << std::endl;
 	}
 
 	int index = 0;
@@ -213,7 +262,7 @@ bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 
 	if (indent)
 	{
-		output << std::endl << prefix << "}";
+		output << std::endl << prefix << (IsArray() ? "]" : "}");
 	}
 
 	return true;

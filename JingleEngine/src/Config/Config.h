@@ -72,12 +72,14 @@ public:
 	virtual void SetArray(bool isArray) {}
 	virtual bool IsArray() const { return false; }
 
+	virtual void UpdateBase() {}
+
 	virtual ConfigSection* GetBase() const { return nullptr; }
 	virtual ConfigAsset* GetBaseAsset() const { return nullptr; }
 	
 	virtual Config* GetParent() const { return m_Parent; }
 
-	virtual Config* Insert(Config* other) { return nullptr; }
+	virtual Config* Set(Config* other) { return nullptr; }
 	virtual Config* Remove(Config* other) { return nullptr; }
 
 	virtual Config* Get(std::string name) const { return nullptr; }

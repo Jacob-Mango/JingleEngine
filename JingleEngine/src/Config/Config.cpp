@@ -44,7 +44,7 @@ void Config::SetName(std::string name)
 
 	if (parent)
 	{
-		parent->Insert(this);
+		parent->Set(this);
 	}
 }
 
@@ -99,7 +99,7 @@ Config* Config::CreateValue(const std::string& name, const std::string& value, J
 	}
 
 	cfg->SetValue(value);
-	return Insert(cfg);
+	return Set(cfg);
 }
 
 Config* Config::CreateSection(const std::string& name, JingleScript::Type* type)
@@ -111,7 +111,7 @@ Config* Config::CreateSection(const std::string& name, JingleScript::Type* type)
 		cfg->SetLinkedType(type->Name());
 	}
 
-	return Insert(cfg);
+	return Set(cfg);
 }
 
 Config* Config::CreateArray(const std::string& name, JingleScript::Type* type)
@@ -124,7 +124,7 @@ Config* Config::CreateArray(const std::string& name, JingleScript::Type* type)
 		cfg->SetLinkedType(type->Name());
 	}
 
-	return Insert(cfg);
+	return Set(cfg);
 }
 
 bool Config::Deserialize(Lexer* lexer, Config* parent)

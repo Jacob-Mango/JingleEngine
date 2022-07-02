@@ -59,7 +59,11 @@ bool ObjectProperty::OnSerialize(Config* cfgRoot, void*& data)
 	Config* cfg = cfgRoot;
 	if (GetPropertyAttribute())
 	{
-		cfg = cfgRoot->CreateSection(GetPropertyAttribute()->GetName());
+		cfg = cfgRoot->CreateSection(GetName());
+	}
+	else
+	{
+		cfg->SetName(GetName());
 	}
 
 	std::string typeName = type != GetPropertyType() ? type->Name() : "";
@@ -105,6 +109,15 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 	}
 
 	Type* type = object->GetType();
+
+	if (cfg)
+	{
+		SetName(cfg->GetName());
+	}
+	else
+	{
+		SetName(GetPropertyAttribute()->GetName());
+	}
 
 	for (auto& variable : type->GetVariables())
 	{
@@ -269,6 +282,16 @@ void ObjectProperty::Editor_OnRender(void*& data)
 
 		ImGui::PopID();
 	}
+}
+
+const std::string& ObjectProperty::GetName() const
+{
+	return m_Name;
+}
+
+void ObjectProperty::SetName(const std::string& name)
+{
+	m_Name = name;
 }
 
 Config* ObjectProperty::Serialize()

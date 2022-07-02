@@ -26,6 +26,8 @@ protected:
 	ConfigSection* m_Base = nullptr;
 	ConfigAsset* m_BaseAsset = nullptr;
 
+	bool m_IsArray = false;
+
 public:
 	ConfigSection();
 	~ConfigSection();
@@ -35,13 +37,18 @@ public:
 	virtual ConfigIterator end() { return ConfigIterator(this, nullptr); }
 
 public:
-	virtual Config* Insert(Config* other) override;
-	virtual Config* Remove(Config* other) override;
+	virtual void SetArray(bool isArray) { m_IsArray = isArray; }
+	virtual bool IsArray() const { return m_IsArray; }
 
-	virtual Config* Get(std::string name) const override;
+	virtual void UpdateBase() override;
 
 	virtual ConfigSection* GetBase() const override;
 	virtual ConfigAsset* GetBaseAsset() const override;
+
+	virtual Config* Set(Config* other) override;
+	virtual Config* Remove(Config* other) override;
+
+	virtual Config* Get(std::string name) const override;
 
 public:
 	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;
