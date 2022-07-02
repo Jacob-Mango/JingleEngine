@@ -1,7 +1,10 @@
 {#Entity}: {
-	Children: [
-		anEntityNameOrUUIDHere: "Assets\Entities\Box\test.ent" {
-			Position: "0 0 5"
-		}
-	]
+ Position: "0 0 0", 
+ Children: [
+  {#Entity, anEntityNameOrUUIDHere}: "Assets\Entities\Box\test.ent" {
+   Position: "0 0 5", 
+   Orientation: "0 0 0"
+  }
+ ], 
+ Orientation: "0 0 0"
 }

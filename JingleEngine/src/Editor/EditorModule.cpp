@@ -130,18 +130,9 @@ void EditorModule::RenderMenuBar()
 			ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(id);
 			ConfigSection* cfg = cfgAsset->Get();
 
-			JS_INFO("Before Save");
-			cfgAsset->Output();
+			cfgAsset->Serialize(entity);
 
-			if (cfgAsset->Serialize(entity))
-			{
-				JS_INFO("After Save");
-				cfgAsset->Output();
-			}
-			else
-			{
-				JS_INFO("Failed to Save");
-			}
+			cfgAsset->OnSave();
 		}
 
 		ImGui::EndMenu();

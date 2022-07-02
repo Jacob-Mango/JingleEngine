@@ -36,9 +36,21 @@ bool ConfigAsset::OnSave()
 	{
 		if (!OnConfigUpdate(ObjectProperty::Serialize()))
 		{
+			JS_ERROR("Failed to update config");
 			return false;
 		}
 	}
+
+	std::string path = GetPath();
+	JS_INFO("Writing to {}", path);
+
+	std::ofstream file(path, std::ios::trunc);
+
+	std::stringstream ss;
+	m_Config->Serialize(ss);
+
+	file << ss.rdbuf();
+	file.close();
 
 	return true;
 }

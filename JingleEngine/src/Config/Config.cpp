@@ -171,12 +171,14 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& 
 		}
 		else if (lexer->GetToken() == Tokens::Comma)
 		{
+			lexer->NextToken();
+
 			result.m_Name = lexer->GetTokenValue();
 			lexer->NextToken();
 
 			if (lexer->GetToken() != Tokens::RightCurlyBracket)
 			{
-				lexer->Error("Expected '}', got '{}'", lexer->GetTokenValue());
+				lexer->Error("Expected '}}', got '{}'", lexer->GetTokenValue());
 				return false;
 			}
 
@@ -188,7 +190,7 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& 
 		}
 		else
 		{
-			lexer->Error("Expected ',' or '}', got '{}'", lexer->GetTokenValue());
+			lexer->Error("Expected ',' or '}}', got '{}'", lexer->GetTokenValue());
 			return false;
 		}
 	}
