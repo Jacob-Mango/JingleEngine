@@ -1,7 +1,6 @@
 #include "Property/ObjectProperty.h"
 
 #include "Config/Config.h"
-#include "Config/ConfigArray.h"
 #include "Config/ConfigAsset.h"
 #include "Config/ConfigSection.h"
 #include "Config/ConfigValue.h"
@@ -226,8 +225,18 @@ void ObjectProperty::Editor_OnRender(void*& data)
 		ImGui::TextUnformatted(type->Name().c_str());
 	}
 
-	for (auto& [varName, property] : m_Properties)
+	for (auto& variable : type->GetVariables())
 	{
+		auto varName = variable->Name;
+
+		auto it = m_Properties.find(varName);
+		if (it == m_Properties.end())
+		{
+			continue;
+		}
+
+		auto property = it->second;
+
 		ScopedIncrement increment(Editor::Context.Depth);
 
 		auto varType = property->GetPropertyType();

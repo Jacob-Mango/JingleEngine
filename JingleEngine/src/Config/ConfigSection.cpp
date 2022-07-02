@@ -1,7 +1,6 @@
 #include "Config/ConfigSection.h"
 
 #include "Config/ConfigAsset.h"
-#include "Config/ConfigArray.h"
 #include "Config/ConfigValue.h"
 
 using namespace JingleScript;
@@ -39,11 +38,6 @@ Config* ConfigSection::Remove(Config* other)
 	return nullptr;
 }
 
-size_t ConfigSection::Count() const
-{
-	return m_Entries.size();
-}
-
 Config* ConfigSection::Get(std::string name) const
 {
 	Config* entry = nullptr;
@@ -62,16 +56,6 @@ Config* ConfigSection::Get(std::string name) const
 	return entry;
 }
 
-Config* ConfigSection::Get(int index) const
-{
-	auto it = m_Entries.begin();
-	std::advance(it, index);
-	if (it != m_Entries.end())
-		return it->second;
-
-	return nullptr;
-}
-
 ConfigAsset* ConfigSection::GetBase() const
 {
 	return m_Base;
@@ -79,11 +63,6 @@ ConfigAsset* ConfigSection::GetBase() const
 
 bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 {
-	if (!Super::Deserialize(lexer, parent))
-	{
-		return false;
-	}
-
 	if (!m_Parent)
 	{
 		if (!DeserializeTypeAndName(lexer, m_TypeInfo))
@@ -97,8 +76,9 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 			return false;
 		}
 	}
-
-	if (lexer->GetToken() != Tokens::LeftCurlyBracket)
+	
+	bool isArray = lexer->GetToken() == Tokens::LeftSquareBracket;
+	if (lexer->GetToken() != Tokens::LeftCurlyBracket && !isArray)
 	{
 		lexer->Error("Expected '{', got '{}'", lexer->GetTokenValue());
 		return false;
@@ -134,7 +114,7 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 			}
 		}
 
-		if (lexer->GetToken() == Tokens::LeftCurlyBracket)
+		if (lexer->GetToken() == Tokens::LeftCurlyBracket || lexer->GetToken() == Tokens::LeftSquareBracket)
 		{
 			ConfigSection* cfgSection = NewObject<ConfigSection>("ConfigSection");
 			cfgSection->m_TypeInfo = typeInfo;
@@ -144,17 +124,9 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath);
 			}
 
-			if (!cfgSection->Deserialize(lexer, this))
-			{
-				return false;
-			}
-		}
-		else if (lexer->GetToken() == Tokens::LeftSquareBracket)
-		{
-			ConfigArray* cfgArray = NewObject<ConfigArray>("ConfigArray");
-			cfgArray->m_TypeInfo = typeInfo;
+			Insert(cfgSection);
 
-			if (!cfgArray->Deserialize(lexer, this))
+			if (!cfgSection->Deserialize(lexer, this))
 			{
 				return false;
 			}
@@ -163,6 +135,8 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 		{
 			ConfigValue* cfgValue = NewObject<ConfigValue>("ConfigValue");
 			cfgValue->m_TypeInfo = typeInfo;
+
+			Insert(cfgValue);
 			
 			if (!cfgValue->Deserialize(lexer, this))
 			{
@@ -178,18 +152,18 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 		lexer->NextToken();
 	}
 
-	if (lexer->GetToken() != Tokens::RightCurlyBracket)
+	if (isArray && lexer->GetToken() != Tokens::RightSquareBracket)
+	{
+		lexer->Error("Expected ']', got '{}'", lexer->GetTokenValue());
+		return false;
+	}
+	else if (!isArray && lexer->GetToken() != Tokens::RightCurlyBracket)
 	{
 		lexer->Error("Expected '}', got '{}'", lexer->GetTokenValue());
 		return false;
 	}
 	
 	lexer->NextToken();
-
-	if (m_Parent)
-	{
-		m_Parent->Insert(this);
-	}
 
 	return true;
 }

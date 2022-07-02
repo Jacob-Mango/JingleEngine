@@ -12,7 +12,6 @@ class ConfigSection : public Config
 	DEFINE_CLASS(ConfigSection, Config);
 
 	friend Config;
-	friend ConfigArray;
 	friend ConfigSection;
 	friend ConfigValue;
 
@@ -20,6 +19,7 @@ class ConfigSection : public Config
 
 protected:
 	std::map<std::string, Ref<Config>> m_Entries;
+	std::vector<ConfigSection*> m_Hierachy;
 
 	ConfigAsset* m_Base = nullptr; //! TODO: use ConfigAsset
 
@@ -31,10 +31,7 @@ public:
 	virtual Config* Insert(Config* other) override;
 	virtual Config* Remove(Config* other) override;
 
-	virtual size_t Count() const override;
-
 	virtual Config* Get(std::string name) const override;
-	virtual Config* Get(int index) const override;
 
 	virtual ConfigAsset* GetBase() const override;
 

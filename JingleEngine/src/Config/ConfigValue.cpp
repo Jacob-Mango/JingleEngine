@@ -18,18 +18,8 @@ ConfigValue::~ConfigValue()
 
 bool ConfigValue::Deserialize(JingleScript::Lexer* lexer, Config* parent)
 {
-	if (!Super::Deserialize(lexer, parent))
-	{
-		return false;
-	}
-
 	m_Value = lexer->GetTokenValue();
 	lexer->NextToken();
-
-	if (m_Parent)
-	{
-		m_Parent->Insert(this);
-	}
 
 	return true;
 }

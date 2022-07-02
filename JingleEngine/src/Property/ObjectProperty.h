@@ -8,6 +8,8 @@ class ObjectProperty : public BaseProperty
 private:
 	std::map<std::string, BaseProperty*> m_Properties;
 
+	//! TODO: Add a name variable here for arrays of objects.
+
 public:
 	ObjectProperty() : BaseProperty()
 	{

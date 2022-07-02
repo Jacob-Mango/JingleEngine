@@ -3,7 +3,7 @@
 #include "Core/Core.h"
 
 #include "Config/ConfigSection.h"
-#include "Config/ConfigArray.h"
+#include "Config/ConfigValue.h"
 
 #include "Property/ObjectProperty.h"
 
@@ -11,8 +11,8 @@ class ConfigAsset : public Asset, public ObjectProperty
 {
 	SETUP_ASSET(ConfigAsset, Asset)
 
-	friend ConfigArray;
 	friend ConfigSection;
+	friend ConfigValue;
 
 private:
 	ConfigSection* m_Config;

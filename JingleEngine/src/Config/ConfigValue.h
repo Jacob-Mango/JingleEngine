@@ -11,7 +11,6 @@ class ConfigValue : public Config
 	DEFINE_CLASS(ConfigValue, Config);
 
 	friend Config;
-	friend ConfigArray;
 	friend ConfigSection;
 	friend ConfigValue;
 

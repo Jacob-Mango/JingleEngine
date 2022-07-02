@@ -143,9 +143,7 @@ class #global extends Object {
     [0000006A]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
     [0000006B]   copy_address 0                                                                        
     [0000006C]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000006D]   copy_address 0                                                                        
-    [0000006E]   call_method [Native::ctor()] 1                                                        JingleScript::Compiler::CompileFunctionCall
-    [0000006F]  pop 8                                                                                  JingleScript::ValueItem::Pop
+    [0000006D]  pop 8                                                                                  JingleScript::ValueItem::Pop
   }
 
   #global::ctor() (Native)
@@ -259,13 +257,6 @@ class Config extends Managed {
   Config::ctor() (Native)
 
   Config::dtor() (Native)
-}
-
-class ConfigArray extends Object {
-
-  ConfigArray::ctor() (Native)
-
-  ConfigArray::dtor() (Native)
 }
 
 class ConfigAsset extends Asset {

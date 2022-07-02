@@ -1,7 +1,6 @@
 #include "Property/ArrayProperty.h"
 
 #include "Config/Config.h"
-#include "Config/ConfigArray.h"
 #include "Config/ConfigAsset.h"
 #include "Config/ConfigSection.h"
 #include "Config/ConfigValue.h"
@@ -66,7 +65,6 @@ bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 	stack->CopyFrom(typeSize, &data, typeSize);
 
 	int count = Script_Count[object]();
-	int added = 0;
 	for (int i = 0; i < count; i++)
 	{
 		stack->Push(sizeof(int));
@@ -78,7 +76,7 @@ bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 		
 		if (m_PropertyData->OnSerialize(cfg, data))
 		{
-			cfg->Get(added++)->SetName("");
+			//cfg->Get(added++)->SetName("");
 		}
 	}
 
@@ -140,17 +138,9 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 	stack->Push(typeSize);
 	stack->CopyFrom(typeSize, &data, typeSize);
 
-	size_t count = cfg->Count();
-	for (int i = 0; i < count; i++)
+	/*
+	for (auto& cfgVariable : *cfg)
 	{
-		JS_TINFO("Inserting {}", i);
-
-		Config* cfgVariable = cfg->Get(i);
-		if (!cfgVariable)
-		{
-			continue;
-		}
-
 		//! TODO: structure and asset support
 		void* data = (void*) dynamic_cast<Object*>(varType->New<Object>());
 
@@ -161,6 +151,7 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 		Script_Insert->Call(thread);
 		stack->Pop(varSize);
 	}
+	*/
 
 	stack->Pop(typeSize);
 	return true;

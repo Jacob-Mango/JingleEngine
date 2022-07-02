@@ -289,24 +289,16 @@ Global {
    Base: "Asset"
   }
   Class {
-   Name: "ConfigArray"
-   Base: "Object"
-   Methods: {
-    Method {
-     Attributes: {
-      Attribute {
-       Value: "Native"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     ReturnType: "ConfigArray"
-     Name: "ConfigArray"
-     IsConstructor: "1"
-     IsDestructor: "0"
-    }
-   }
+   Name: "Config"
+   Base: "Managed"
+  }
+  Class {
+   Name: "ConfigSection"
+   Base: "Config"
+  }
+  Class {
+   Name: "ConfigValue"
+   Base: "Config"
   }
   Class {
    Attributes: {

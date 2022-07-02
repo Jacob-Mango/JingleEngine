@@ -116,8 +116,9 @@ Config* Config::CreateSection(const std::string& name, JingleScript::Type* type)
 
 Config* Config::CreateArray(const std::string& name, JingleScript::Type* type)
 {
-	Config* cfg = NewObject<ConfigArray>("ConfigArray")->As<Config>();
+	Config* cfg = NewObject<ConfigSection>("ConfigSection")->As<Config>();
 	cfg->SetName(name);
+	cfg->SetArray(true);
 	if (type)
 	{
 		cfg->SetLinkedType(type->Name());
