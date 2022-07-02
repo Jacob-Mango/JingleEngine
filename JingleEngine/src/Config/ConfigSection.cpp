@@ -17,6 +17,46 @@ ConfigSection::~ConfigSection()
 {
 }
 
+void ConfigSection::Debug()
+{
+	JS_TRACE(Tracers::Config);
+
+	JS_TINFO("This: {} {}", GetTypeAndName(), PointerToString(this));
+
+	Config* base = GetBase();
+	while (base)
+	{
+		JS_TINFO(" Base: {} {}", base->GetTypeAndName(), PointerToString(base));
+
+		base = base->GetBase();
+	}
+
+	for (auto& cfg : *this)
+	{
+		JS_TINFO("Parent: {}", PointerToString(this));
+
+		cfg.Debug();
+	}
+}
+
+void ConfigSection::UpdateBase()
+{
+	if (m_BaseAsset)
+	{
+		m_Base = m_BaseAsset->Get();
+		return;
+	}
+
+	m_Base = static_cast<ConfigSection*>(m_Parent);
+	m_Base = m_Base ? m_Base->m_Base : nullptr;
+	m_Base = m_Base ? dynamic_cast<ConfigSection*>(m_Base->Get(GetName())) : nullptr;
+
+	for (auto& [name, cfg] : m_Entries)
+	{
+		cfg->UpdateBase();
+	}
+}
+
 ConfigSection* ConfigSection::GetBase() const
 {
 	return m_Base;
@@ -27,6 +67,7 @@ ConfigAsset* ConfigSection::GetBaseAsset() const
 	return m_BaseAsset;
 }
 
+//! Should not be used during gameplay
 Config* ConfigSection::Set(Config* other)
 {
 	auto it = m_Entries.find(other->GetName());
@@ -36,26 +77,33 @@ Config* ConfigSection::Set(Config* other)
 		{
 			return other;
 		}
+
+		//! TODO: find parent that has ConfigAsset and then call 'UpdateBase'
 		
-		other->m_Parent = nullptr;
+		it->second->m_Parent = nullptr;
 		m_Entries.erase(it);
 
-		other->UpdateBase();
+		it->second->UpdateBase();
 	}
 
 	other->m_Parent = this;
 	m_Entries[other->GetName()] = other;
+
+	//! TODO: find parent that has ConfigAsset and then call 'UpdateBase'
 
 	other->UpdateBase();
 
 	return other;
 }
 
+//! Should not be used during gameplay
 Config* ConfigSection::Remove(Config* other)
 {
 	auto it = m_Entries.find(other->GetName());
 	if (it != m_Entries.end())
 	{
+		//! TODO: find parent that has ConfigAsset and then call 'UpdateBase'
+
 		other->m_Parent = nullptr;
 		m_Entries.erase(it);
 
@@ -84,22 +132,98 @@ Config* ConfigSection::Get(std::string name) const
 	return entry;
 }
 
-void ConfigSection::UpdateBase()
+bool ConfigSection::Optimize(Config* source, bool isBaseCheck)
 {
-	if (m_BaseAsset)
+	JS_TRACE(Tracers::Config);
+
+	JS_TINFO("Source {}", source ? source->ToString() : "null");
+	JS_TINFO("Destination {}", ToString());
+	JS_TINFO("IsBaseCheck {}", isBaseCheck);
+
+	ConfigSection* base = nullptr;
+	if (source && !isBaseCheck)
 	{
-		m_Base = m_BaseAsset->Get();
-		return;
+		base = dynamic_cast<ConfigSection*>(source->GetBase());
+
+		m_BaseAsset = source->GetBaseAsset();
+		UpdateBase();
 	}
 
-	m_Base = static_cast<ConfigSection*>(m_Parent);
-	m_Base = m_Base ? m_Base->m_Base : nullptr;
-	m_Base = m_Base ? dynamic_cast<ConfigSection*>(m_Base->Get(GetName())) : nullptr;
+	JS_TINFO("BaseAsset {}", m_BaseAsset ? m_BaseAsset->GetPath() : "none");
+	JS_TINFO("Base {}", base ? base->ToString() : "null");
 
-	for (auto& [name, cfg] : m_Entries)
+		
+	auto it = m_Entries.begin();
+	while (it != m_Entries.end())
 	{
-		cfg->UpdateBase();
+		auto& [name, cfg] = *it;
+
+		JS_NAMED_TRACE(Tracers::Config, name);
+
+		bool isInBase = isBaseCheck;
+
+		ConfigSection* baseBase = dynamic_cast<ConfigSection*>(source);
+		Config* baseEntry = nullptr;
+		while (baseBase && !baseEntry)
+		{
+			baseEntry = baseBase->m_Entries[name];
+
+			if (!baseEntry)
+			{
+				isInBase = true;
+				baseBase = baseBase->GetBase();
+			}
+
+			JS_TINFO("BaseBase {}", baseBase ? baseBase->ToString() : "null");
+			JS_TINFO("BaseEntry {}", baseEntry ? baseEntry->ToString() : "null");
+		}
+
+		if (cfg->Optimize(baseEntry, isInBase))
+		{
+			it++;
+			continue;
+		}
+
+		it = m_Entries.erase(it);
 	}
+
+	if (base)
+	{
+		if (m_BaseAsset)
+		{
+			JS_TINFO("BaseAsset");
+			return true;
+		}
+
+		if (m_TypeInfo.m_Type != base->GetLinkedType())
+		{
+			JS_TINFO("Type");
+			return true;
+		}
+	}
+	else if (isBaseCheck)
+	{
+	}
+	else
+	{
+		// If we are checking the head section with no base and we weren't checking a base to begin with
+		// If it isn't an array and the type is set
+		if (!IsArray() && !m_TypeInfo.m_Type.empty())
+		{
+			JS_TINFO("Type");
+			return true;
+		}
+	}
+
+	// If there are still entries then we can't remove this section
+	if (m_Entries.size() > 0)
+	{
+		JS_TINFO("EntryCount");
+		return true;
+	}
+
+	JS_TINFO("Removing");
+	return false;
 }
 
 bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
@@ -126,6 +250,8 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 			if (lexer->GetToken() == Tokens::LeftCurlyBracket)
 			{
 				m_BaseAsset = AssetModule::Get<ConfigAsset>(baseLinkPath);
+				m_BaseAsset->m_Referenced.push_back(this);
+
 				UpdateBase();
 			}
 			else
@@ -180,6 +306,7 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 			if (!baseLinkPath.empty())
 			{
 				cfgSection->m_BaseAsset = AssetModule::Get<ConfigAsset>(baseLinkPath);
+				cfgSection->m_BaseAsset->m_Referenced.push_back(this);
 			}
 
 			cfgSection->UpdateBase();
@@ -236,7 +363,7 @@ bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 	if (m_Parent || !typeAndName.empty())
 	{
 		indent = true;
-		output << prefix << typeAndName << (m_BaseAsset ? m_BaseAsset->GetPath() + " " : "") << (IsArray() ? "[" : "{") << std::endl;
+		output << prefix << typeAndName << (m_BaseAsset ? "\"" + m_BaseAsset->GetPath() + "\" " : "") << (IsArray() ? "[" : "{") << std::endl;
 	}
 
 	int index = 0;

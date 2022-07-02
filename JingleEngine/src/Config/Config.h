@@ -65,6 +65,9 @@ public:
 	void SetLinkedType(std::string type);
 	void SetLinkedType(std::string type, bool directly);
 
+	virtual std::string ToString() const override;
+	virtual void Debug() {}
+
 	std::string GetTypeAndName() const;
 	bool IsLinkedDirectly() const;
 
@@ -83,6 +86,8 @@ public:
 	virtual Config* Remove(Config* other) { return nullptr; }
 
 	virtual Config* Get(std::string name) const { return nullptr; }
+
+	virtual bool Optimize(Config* source, bool isBaseCheck) { return true; }
 
 public:
 	virtual void SetValue(const std::string& value) { }

@@ -17,6 +17,8 @@ class ConfigAsset : public Asset, public ObjectProperty
 private:
 	ConfigSection* m_Config;
 
+	std::vector<ConfigSection*> m_Referenced;
+
 public:
 	ConfigAsset();
 	virtual ~ConfigAsset();

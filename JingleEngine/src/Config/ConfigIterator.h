@@ -1,5 +1,6 @@
 #pragma once
 
+#include <unordered_set>
 #include <queue>
 
 #include "Core/Core.h"
@@ -7,13 +8,11 @@
 class Config;
 class ConfigSection;
 
-typedef std::unordered_map<std::string, Ref<Config>> ConfigMap;
-
 struct ConfigIterator 
 {
 private:
-	std::queue<ConfigSection*> m_Sections;
-	ConfigMap::iterator m_IT;
+	std::queue<std::string> m_Names;
+    Config* m_Config;
 
 public:
     using iterator_category = std::forward_iterator_tag;
@@ -24,16 +23,12 @@ public:
 
     ConfigIterator();
     ConfigIterator(Config* cfg);
-    ConfigIterator(Config* cfg, std::nullptr_t);
 
     reference operator*() const;
     pointer operator->();
 
-    // Prefix increment
     ConfigIterator& operator++();
-
-    // Postfix increment
-    ConfigIterator operator++(int) { ConfigIterator tmp = *this; ++(*this); return tmp; }
+    ConfigIterator operator++(int);
 
     friend bool operator== (const ConfigIterator& a, const ConfigIterator& b);
     friend bool operator!= (const ConfigIterator& a, const ConfigIterator& b);

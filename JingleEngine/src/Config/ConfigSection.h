@@ -8,6 +8,8 @@ class ConfigAsset;
 
 class AssetModule;
 
+typedef std::unordered_map<std::string, Ref<Config>> ConfigMap;
+
 class ConfigSection : public Config
 {
 	DEFINE_CLASS(ConfigSection, Config);
@@ -16,6 +18,7 @@ class ConfigSection : public Config
 	friend ConfigSection;
 	friend ConfigValue;
 
+	friend ConfigAsset;
 	friend ConfigIterator;
 
 	friend AssetModule;
@@ -34,7 +37,10 @@ public:
 
 public:
 	virtual ConfigIterator begin() { return ConfigIterator(this); }
-	virtual ConfigIterator end() { return ConfigIterator(this, nullptr); }
+	virtual ConfigIterator end() { return ConfigIterator(); }
+
+public:
+	virtual void Debug() override;
 
 public:
 	virtual void SetArray(bool isArray) { m_IsArray = isArray; }
@@ -49,6 +55,8 @@ public:
 	virtual Config* Remove(Config* other) override;
 
 	virtual Config* Get(std::string name) const override;
+
+	virtual bool Optimize(Config* source, bool isBaseCheck) override;
 
 public:
 	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;

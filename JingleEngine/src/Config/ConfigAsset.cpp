@@ -58,9 +58,10 @@ bool ConfigAsset::OnConfigUpdate(Config* cfgNew)
 		return false;
 	}
 
-	//! TODO: comparison with base values happens here
-
+	cfgRoot->Optimize(m_Config, false);
 	m_Config = cfgRoot;
+
+	//! TODO: all classes that use this asset that aren't directly linked will need to be deserialized
 
 	return true;
 }

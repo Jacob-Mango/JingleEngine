@@ -75,17 +75,18 @@ void Config::SetLinkedType(std::string type, bool directly)
 	m_TypeInfo.m_DirectlyLinked = directly;
 }
 
+std::string Config::ToString() const
+{
+	return GetTypeAndName();
+}
+
 std::string Config::GetTypeAndName() const
 {
-	JS_TRACE(Tracers::Property);
-
 	return SerializeTypeAndName();
 }
 
 bool Config::IsLinkedDirectly() const
 {
-	JS_TRACE(Tracers::Property);
-
 	return m_TypeInfo.m_DirectlyLinked;
 }
 

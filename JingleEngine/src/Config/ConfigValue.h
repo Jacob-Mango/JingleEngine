@@ -22,10 +22,14 @@ public:
 	~ConfigValue();
 
 public:
-	virtual void SetValue(const std::string& value) override { m_Value = value; }
-	
-	virtual std::string GetValue() const override { return m_Value; }
+	virtual void Debug() override;
 
+public:
+	virtual bool Optimize(Config* source, bool isBaseCheck) override;
+
+public:
+	virtual void SetValue(const std::string& value) override { m_Value = value; }
+	virtual std::string GetValue() const override { return m_Value; }
 	virtual std::string* GetValuePtr() override { return &m_Value; }
 
 	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;

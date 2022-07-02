@@ -6,61 +6,82 @@
 
 ConfigIterator::ConfigIterator()
 {
+	m_Config = nullptr;
 }
 
 ConfigIterator::ConfigIterator(Config* cfg)
 {
-	ConfigSection* section = static_cast<ConfigSection*>(cfg);
-	ConfigSection* base = nullptr;
+	m_Config = cfg;
+
+	std::unordered_set<std::string> names;
+
+	ConfigSection* section = dynamic_cast<ConfigSection*>(m_Config);
 	while (section != nullptr)
 	{
-		base = section->GetBase();
-		if (!base)
+		for (auto& [name, cfg] : section->m_Entries)
 		{
-			m_IT = section->m_Entries.begin();
+			names.insert(name);
 		}
 
-		m_Sections.push(section);
-		section = base;
+		section = section->GetBase();
 	}
-}
 
-ConfigIterator::ConfigIterator(Config* cfg, std::nullptr_t)
-{
-	m_IT = static_cast<ConfigSection*>(cfg)->m_Entries.end();
+	for (auto& name : names)
+	{
+		m_Names.push(name);
+	}
 }
 
 ConfigIterator::reference ConfigIterator::operator*() const
 {
-	return *(m_IT.operator*().second);
+	Config* cfg = nullptr;
+	if (!m_Names.empty())
+	{
+		cfg = m_Config->Get(m_Names.front());;
+	}
+
+	return *cfg;
 }
 
 ConfigIterator::pointer ConfigIterator::operator->()
 {
-	return (m_IT.operator*().second);
+	Config* cfg = nullptr;
+	if (!m_Names.empty())
+	{
+		cfg = m_Config->Get(m_Names.front());;
+	}
+
+	return cfg;
 }
 
 ConfigIterator& ConfigIterator::operator++()
 {
-	if (!m_Sections.empty())
+	if (!m_Names.empty())
 	{
-		if (++m_IT == m_Sections.front()->m_Entries.end())
-		{
-			m_Sections.pop();
-
-			return ++(*this);
-		}
+		m_Names.pop();
 	}
-	
+
+	if (m_Names.empty())
+	{
+		m_Config = nullptr;
+	}
+
 	return *this;
+}
+
+ConfigIterator ConfigIterator::operator++(int)
+{
+	ConfigIterator it = *this;
+	++it;
+	return it;
 }
 
 bool operator==(const ConfigIterator& a, const ConfigIterator& b)
 {
-	return a.m_IT == b.m_IT && a.m_Sections == b.m_Sections;
+	return a.m_Config == b.m_Config;
 }
 
 bool operator!=(const ConfigIterator& a, const ConfigIterator& b)
 {
-	return a.m_Sections != b.m_Sections || a.m_IT != b.m_IT;
+	return a.m_Config != b.m_Config;
 }
