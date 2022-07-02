@@ -58,7 +58,7 @@ std::string Config::GetLinkedType() const
 	while (cfg)
 	{
 		type = cfg->m_TypeInfo.m_Type;
-		cfg = cfg->GetBase() ? cfg->GetBase()->Get() : nullptr;
+		cfg = cfg->GetBase();
 	}
 
 	return type;

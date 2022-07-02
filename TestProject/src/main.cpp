@@ -62,8 +62,6 @@ public:
 
 		Material* material = AssetModule::Get<Material>(path);
 
-		//cfg->Output();
-
 		JS_INFO("Shader: {}", *material->m_Shader);
 
 		for (auto& image : *material->m_Images)

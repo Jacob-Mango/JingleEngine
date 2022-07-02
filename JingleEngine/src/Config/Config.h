@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+#include "Config/ConfigIterator.h"
+
 class ConfigAsset;
 class ConfigSection;
 class ConfigValue;
@@ -34,6 +36,8 @@ class Config : public JingleScript::ManagedObject
 	friend ConfigSection;
 	friend ConfigValue;
 
+	friend ConfigIterator;
+
 protected:
 	ConfigTypeInfo m_TypeInfo;
 
@@ -47,6 +51,10 @@ public:
 	Config* CreateValue(const std::string& name, const std::string& value, JingleScript::Type* type = nullptr);
 	Config* CreateSection(const std::string& name, JingleScript::Type* type = nullptr);
 	Config* CreateArray(const std::string& name, JingleScript::Type* type = nullptr);
+
+public:
+	virtual ConfigIterator begin() { return end(); }
+	virtual ConfigIterator end() { return ConfigIterator(); }
 
 public:
 	void SetName(std::string name);
@@ -64,7 +72,9 @@ public:
 	virtual void SetArray(bool isArray) {}
 	virtual bool IsArray() const { return false; }
 
-	virtual ConfigAsset* GetBase() const { return nullptr; }
+	virtual ConfigSection* GetBase() const { return nullptr; }
+	virtual ConfigAsset* GetBaseAsset() const { return nullptr; }
+	
 	virtual Config* GetParent() const { return m_Parent; }
 
 	virtual Config* Insert(Config* other) { return nullptr; }

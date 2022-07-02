@@ -136,20 +136,17 @@ void Entity::OnDeserializeComponents(Config* cfgRoot)
 		return;
 	}
 
-	/*
 	for (auto& cfgComponent : *cfg)
 	{
-
-		Component* component = JingleScript::NewObject<Component>(cfgComponent->GetLinkedType());
+		Component* component = JingleScript::NewObject<Component>(cfgComponent.GetLinkedType());
 		component->m_Entity = this;
 
-		component->Deserialize(cfgComponent);
+		component->Deserialize(&cfgComponent);
 
 		component->OnCreate();
 
 		AddComponent(component);
 	}
-	*/
 }
 
 void Entity::Editor_OnRenderComponents()
@@ -186,16 +183,14 @@ void Entity::OnDeserializeChildren(Config* cfgRoot)
 		return;
 	}
 
-	/*
 	for (auto& cfgChild : *cfg)
 	{
-		Entity* entity = JingleScript::NewObject<Entity>(cfgChild->GetLinkedType());
+		Entity* entity = JingleScript::NewObject<Entity>(cfgChild.GetLinkedType());
 
-		entity->Deserialize(cfgChild);
+		entity->Deserialize(&cfgChild);
 
 		AddChild(entity);
 	}
-	*/
 }
 
 void Entity::Editor_OnRenderChildren()

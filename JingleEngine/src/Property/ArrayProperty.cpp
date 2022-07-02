@@ -138,20 +138,18 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 	stack->Push(typeSize);
 	stack->CopyFrom(typeSize, &data, typeSize);
 
-	/*
 	for (auto& cfgVariable : *cfg)
 	{
 		//! TODO: structure and asset support
 		void* data = (void*) dynamic_cast<Object*>(varType->New<Object>());
 
-		m_PropertyData->OnDeserialize(cfgVariable, data);
+		m_PropertyData->OnDeserialize(&cfgVariable, data);
 
 		stack->Push(varSize);
 		stack->CopyFrom(varSize, &data, varSize);
 		Script_Insert->Call(thread);
 		stack->Pop(varSize);
 	}
-	*/
 
 	stack->Pop(typeSize);
 	return true;

@@ -50,15 +50,20 @@ Config* ConfigSection::Get(std::string name) const
 
 	if (!entry && m_Base)
 	{
-		entry = m_Base->Get()->Get(name);
+		entry = m_Base->Get(name);
 	}
 
 	return entry;
 }
 
-ConfigAsset* ConfigSection::GetBase() const
+ConfigSection* ConfigSection::GetBase() const
 {
 	return m_Base;
+}
+
+ConfigAsset* ConfigSection::GetBaseAsset() const
+{
+	return m_BaseAsset;
 }
 
 bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
@@ -121,7 +126,12 @@ bool ConfigSection::Deserialize(Lexer* lexer, Config* parent)
 
 			if (!baseLinkPath.empty())
 			{
-				cfgSection->m_Base = AssetModule::Get<ConfigAsset>(baseLinkPath);
+				cfgSection->m_BaseAsset = AssetModule::Get<ConfigAsset>(baseLinkPath);
+				cfgSection->m_Base = cfgSection->m_BaseAsset->Get();
+			}
+			else
+			{
+				//! TODO:
 			}
 
 			Insert(cfgSection);
@@ -176,7 +186,7 @@ bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 	if (m_Parent || !typeAndName.empty())
 	{
 		indent = true;
-		output << prefix << typeAndName << (m_Base ? m_Base->GetPath() + " " : "") << "{" << std::endl;
+		output << prefix << typeAndName << (m_BaseAsset ? m_BaseAsset->GetPath() + " " : "") << "{" << std::endl;
 		std::cout << std::endl;
 	}
 
