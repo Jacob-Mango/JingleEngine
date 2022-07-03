@@ -25,7 +25,6 @@ struct ConfigTypeInfo
 {
 	std::string m_Type;
 	std::string m_Name;
-	bool m_DirectlyLinked = true;
 };
 
 class Config : public JingleScript::ManagedObject
@@ -60,16 +59,13 @@ public:
 	void SetName(std::string name);
 	std::string GetName() const;
 
-	std::string GetLinkedType() const;
-	
 	void SetLinkedType(std::string type);
-	void SetLinkedType(std::string type, bool directly);
+	std::string GetLinkedType() const;
 
 	virtual std::string ToString() const override;
 	virtual void Debug() {}
 
 	std::string GetTypeAndName() const;
-	bool IsLinkedDirectly() const;
 
 public:
 	virtual void SetArray(bool isArray) {}

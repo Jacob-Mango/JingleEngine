@@ -66,9 +66,18 @@ bool ObjectProperty::OnSerialize(Config* cfgRoot, void*& data)
 		cfg->SetName(GetName());
 	}
 
-	std::string typeName = type != GetPropertyType() ? type->Name() : "";
-	bool directlyLinked = GetAttribute<ClassProperty>(type) == nullptr;
-	cfg->SetLinkedType(typeName, directlyLinked);
+	if (type != GetPropertyType())
+	{
+		cfg->SetLinkedType(type->Name());
+	}
+	else if (GetPropertyType())
+	{
+		cfg->SetLinkedType(GetPropertyType()->Name());
+	}
+	else
+	{
+		cfg->SetLinkedType("");
+	}
 
 	for (auto& [varName, property] : m_Properties)
 	{

@@ -20,7 +20,7 @@ bool ConfigAsset::OnLoad()
 {
 	JS_TRACE(Tracers::Asset);
 
-	if (m_Config->IsLinkedDirectly())
+	if (GetType() != ConfigAsset::StaticType())
 	{
 		ObjectProperty::Deserialize(m_Config);
 	}
@@ -32,7 +32,7 @@ bool ConfigAsset::OnSave()
 {
 	JS_TRACE(Tracers::Asset);
 
-	if (m_Config->IsLinkedDirectly())
+	if (GetType() != ConfigAsset::StaticType())
 	{
 		if (!OnConfigUpdate(ObjectProperty::Serialize()))
 		{
@@ -42,8 +42,6 @@ bool ConfigAsset::OnSave()
 	}
 
 	std::string path = GetPath();
-	JS_INFO("Writing to {}", path);
-
 	std::ofstream file(path, std::ios::trunc);
 
 	std::stringstream ss;

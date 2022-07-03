@@ -68,27 +68,15 @@ Asset* AssetModule::Get(AssetID id, Type* type)
 				return nullptr;
 			}
 
-			if (cfg->IsLinkedDirectly() && !cfg->GetLinkedType().empty())
+			std::string cfgTypeName = cfg->GetLinkedType();
+			if (!cfgTypeName.empty())
 			{
-				Type* cfgType = TypeManager::Get(cfg->GetLinkedType());
-				if (!cfgType)
-				{
-					JS_ERROR("Failed to load asset '{}', invalid root type.", path);
-					return nullptr;
-				}
-
-				if (!cfgType->IsInherited(type))
-				{
-					JS_ERROR("Failed to load asset '{}', root type '{}' not of same ancestor '{}'.", path, cfgType->Name(), type->Name());
-					return nullptr;
-				}
-
-				type = cfgType;
+				type = TypeManager::Get(cfgTypeName);
 			}
-			else if (type != ConfigAsset::StaticType())
+
+			if (!type->IsInherited(ConfigAsset::StaticType()))
 			{
-				JS_ERROR("Failed to load asset '{}', trying to load unlinked config asset as {} and not directly into a {}.", path, type->Name(), ConfigAsset::StaticName());
-				return nullptr;
+				type = ConfigAsset::StaticType();
 			}
 
 			ConfigAsset* cfgAsset = type->New<ConfigAsset>();

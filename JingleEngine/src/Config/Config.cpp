@@ -48,6 +48,11 @@ void Config::SetName(std::string name)
 	}
 }
 
+void Config::SetLinkedType(std::string type)
+{
+	m_TypeInfo.m_Type = type;
+}
+
 std::string Config::GetLinkedType() const
 {
 	JS_TRACE(Tracers::Property);
@@ -64,17 +69,6 @@ std::string Config::GetLinkedType() const
 	return type;
 }
 
-void Config::SetLinkedType(std::string type)
-{
-	m_TypeInfo.m_Type = type;
-}
-
-void Config::SetLinkedType(std::string type, bool directly)
-{
-	m_TypeInfo.m_Type = type;
-	m_TypeInfo.m_DirectlyLinked = directly;
-}
-
 std::string Config::ToString() const
 {
 	return GetTypeAndName();
@@ -83,11 +77,6 @@ std::string Config::ToString() const
 std::string Config::GetTypeAndName() const
 {
 	return SerializeTypeAndName();
-}
-
-bool Config::IsLinkedDirectly() const
-{
-	return m_TypeInfo.m_DirectlyLinked;
 }
 
 Config* Config::CreateValue(const std::string& name, const std::string& value, JingleScript::Type* type)
@@ -152,7 +141,6 @@ bool Config::DeserializeTypeAndName(JingleScript::Lexer* lexer, ConfigTypeInfo& 
 
 		if (lexer->GetToken() == Tokens::Hash)
 		{
-			result.m_DirectlyLinked = false;
 			lexer->NextToken();
 		}
 
@@ -214,13 +202,12 @@ std::string Config::SerializeTypeAndName() const
 {
 	const std::string& name = m_TypeInfo.m_Name;
 	const std::string& type = m_TypeInfo.m_Type;
-	const std::string directlyLinked = m_TypeInfo.m_DirectlyLinked ? "" : "#";
 
 	if (name.empty() && type.empty()) return "";
 
 	if (type.empty()) return name + ": ";
 
-	if (name.empty()) return "{" + directlyLinked + type + "}: ";
+	if (name.empty()) return "{" + type + "}: ";
 
-	return "{" + directlyLinked + type + ", " + name + "}: ";
+	return "{" + type + ", " + name + "}: ";
 }

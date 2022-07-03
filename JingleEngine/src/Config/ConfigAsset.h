@@ -18,6 +18,7 @@ private:
 	ConfigSection* m_Config;
 
 	std::vector<ConfigSection*> m_Referenced;
+	bool m_IsOwning = false;
 
 public:
 	ConfigAsset();
