@@ -1,5 +1,7 @@
 #include "Config/ConfigValue.h"
 
+#include "Config/ConfigSection.h"
+
 #include <Compiler/Lexer.h>
 
 using namespace JingleScript;
@@ -24,30 +26,30 @@ void ConfigValue::Debug()
 	JS_TINFO("Value: {}", GetValue());
 }
 
-bool ConfigValue::Optimize(Config* source, bool isBaseCheck)
+bool ConfigValue::Optimize()
 {
 	JS_TRACE(Tracers::Config);
 
-	JS_TINFO("Source {}", source ? source->ToString() : "null");
-	JS_TINFO("Destination {}", ToString());
-	JS_TINFO("IsBaseCheck {}", isBaseCheck);
+	JS_TINFO("This {}", ToString());
 
-	ConfigValue* src = dynamic_cast<ConfigValue*>(source);
-	if (!src)
+	Config* parent = GetParent();
+	if (!parent)
 	{
-		// The original was of a different type
 		return true;
 	}
 
-	if (isBaseCheck)
+	ConfigSection* parentBase = parent->GetBase();
+	if (!parentBase)
 	{
-		bool matches = m_Value.compare(src->m_Value) == 0;
-		JS_TINFO("Matches {}", matches);
-
-		return !matches;
+		return true;
 	}
 
-	return true;
+	if (m_Value != parentBase->GetValue(GetName()))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool ConfigValue::Deserialize(JingleScript::Lexer* lexer, Config* parent)

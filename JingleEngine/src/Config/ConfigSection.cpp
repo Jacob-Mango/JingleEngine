@@ -62,6 +62,12 @@ ConfigSection* ConfigSection::GetBase() const
 	return m_Base;
 }
 
+void ConfigSection::SetBaseAsset(ConfigAsset* asset)
+{
+	m_BaseAsset = asset;
+	UpdateBase();
+}
+
 ConfigAsset* ConfigSection::GetBaseAsset() const
 {
 	return m_BaseAsset;
@@ -132,26 +138,14 @@ Config* ConfigSection::Get(std::string name) const
 	return entry;
 }
 
-bool ConfigSection::Optimize(Config* source, bool isBaseCheck)
+bool ConfigSection::Optimize()
 {
 	JS_TRACE(Tracers::Config);
 
-	JS_TINFO("Source {}", source ? source->ToString() : "null");
-	JS_TINFO("Destination {}", ToString());
-	JS_TINFO("IsBaseCheck {}", isBaseCheck);
-
-	ConfigSection* base = nullptr;
-	if (source && !isBaseCheck)
-	{
-		base = dynamic_cast<ConfigSection*>(source->GetBase());
-
-		m_BaseAsset = source->GetBaseAsset();
-		UpdateBase();
-	}
+	JS_TINFO("This {}", ToString());
 
 	JS_TINFO("BaseAsset {}", m_BaseAsset ? m_BaseAsset->GetPath() : "none");
-	JS_TINFO("Base {}", base ? base->ToString() : "null");
-
+	JS_TINFO("Base {}", m_Base ? m_Base->ToString() : "null");
 		
 	auto it = m_Entries.begin();
 	while (it != m_Entries.end())
@@ -160,25 +154,7 @@ bool ConfigSection::Optimize(Config* source, bool isBaseCheck)
 
 		JS_NAMED_TRACE(Tracers::Config, name);
 
-		bool isInBase = isBaseCheck;
-
-		ConfigSection* baseBase = dynamic_cast<ConfigSection*>(source);
-		Config* baseEntry = nullptr;
-		while (baseBase && !baseEntry)
-		{
-			baseEntry = baseBase->m_Entries[name];
-
-			if (!baseEntry)
-			{
-				isInBase = true;
-				baseBase = baseBase->GetBase();
-			}
-
-			JS_TINFO("BaseBase {}", baseBase ? baseBase->ToString() : "null");
-			JS_TINFO("BaseEntry {}", baseEntry ? baseEntry->ToString() : "null");
-		}
-
-		if (cfg->Optimize(baseEntry, isInBase))
+		if (cfg->Optimize())
 		{
 			it++;
 			continue;
@@ -187,7 +163,7 @@ bool ConfigSection::Optimize(Config* source, bool isBaseCheck)
 		it = m_Entries.erase(it);
 	}
 
-	if (base)
+	if (m_Base)
 	{
 		if (m_BaseAsset)
 		{
@@ -195,18 +171,14 @@ bool ConfigSection::Optimize(Config* source, bool isBaseCheck)
 			return true;
 		}
 
-		if (m_TypeInfo.m_Type != base->GetLinkedType())
+		if (m_TypeInfo.m_Type != m_Base->GetLinkedType())
 		{
 			JS_TINFO("Type");
 			return true;
 		}
 	}
-	else if (isBaseCheck)
-	{
-	}
 	else
 	{
-		// If we are checking the head section with no base and we weren't checking a base to begin with
 		// If it isn't an array and the type is set
 		if (!IsArray() && !m_TypeInfo.m_Type.empty())
 		{

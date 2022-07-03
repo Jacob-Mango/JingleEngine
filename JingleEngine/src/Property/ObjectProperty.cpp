@@ -79,6 +79,8 @@ bool ObjectProperty::OnSerialize(Config* cfgRoot, void*& data)
 		cfg->SetLinkedType("");
 	}
 
+	cfg->SetBaseAsset(GetBaseConfig());
+
 	for (auto& [varName, property] : m_Properties)
 	{
 		auto varType = property->GetPropertyType();
@@ -127,6 +129,8 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 	{
 		SetName(GetPropertyAttribute()->GetName());
 	}
+
+	SetBaseConfig(cfg->GetBaseAsset());
 
 	for (auto& variable : type->GetVariables())
 	{
@@ -291,6 +295,16 @@ void ObjectProperty::Editor_OnRender(void*& data)
 
 		ImGui::PopID();
 	}
+}
+
+ConfigAsset* ObjectProperty::GetBaseConfig() const
+{
+	return m_BaseConfig;
+}
+
+void ObjectProperty::SetBaseConfig(ConfigAsset* asset)
+{
+	m_BaseConfig = asset;
 }
 
 const std::string& ObjectProperty::GetName() const

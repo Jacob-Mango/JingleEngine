@@ -49,6 +49,8 @@ public:
 	virtual void UpdateBase() override;
 
 	virtual ConfigSection* GetBase() const override;
+	
+	virtual void SetBaseAsset(ConfigAsset* asset) override;
 	virtual ConfigAsset* GetBaseAsset() const override;
 
 	virtual Config* Set(Config* other) override;
@@ -56,7 +58,7 @@ public:
 
 	virtual Config* Get(std::string name) const override;
 
-	virtual bool Optimize(Config* source, bool isBaseCheck) override;
+	virtual bool Optimize() override;
 
 public:
 	virtual bool Deserialize(JingleScript::Lexer* lexer, Config* parent) override;

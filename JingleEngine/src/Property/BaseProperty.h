@@ -8,10 +8,12 @@
 
 #include <imgui.h>
 
+class ArrayProperty;
 class ObjectProperty;
 
 class BaseProperty
 {
+	friend ArrayProperty;
 	friend ObjectProperty;
 
 protected:

@@ -25,6 +25,8 @@ bool ConfigAsset::OnLoad()
 		ObjectProperty::Deserialize(m_Config);
 	}
 
+	OnSave();
+
 	return true;
 }
 
@@ -68,10 +70,17 @@ bool ConfigAsset::OnConfigUpdate(Config* cfgNew)
 		return false;
 	}
 
-	cfgRoot->Optimize(m_Config, false);
+	JS_INFO("Before {}", PointerToString(m_Config));
+	Output();
+
+	cfgRoot->Optimize();
+
 	m_Config = cfgRoot;
 
-	//! TODO: all classes that use this asset that aren't directly linked will need to be deserialized
+	JS_INFO("After {}", PointerToString(m_Config));
+	Output();
+
+	//! TODO: all classes that use this asset will need to be re-deserialized
 
 	return true;
 }

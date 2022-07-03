@@ -74,6 +74,8 @@ public:
 	virtual void UpdateBase() {}
 
 	virtual ConfigSection* GetBase() const { return nullptr; }
+
+	virtual void SetBaseAsset(ConfigAsset* asset) {}
 	virtual ConfigAsset* GetBaseAsset() const { return nullptr; }
 	
 	virtual Config* GetParent() const { return m_Parent; }
@@ -83,7 +85,7 @@ public:
 
 	virtual Config* Get(std::string name) const { return nullptr; }
 
-	virtual bool Optimize(Config* source, bool isBaseCheck) { return true; }
+	virtual bool Optimize() { return true; }
 
 public:
 	virtual void SetValue(const std::string& value) { }

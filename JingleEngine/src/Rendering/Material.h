@@ -12,7 +12,7 @@
 
 class Material;
 
-class MaterialImage : public JingleScript::Object
+class MaterialImage : public JingleScript::Object, public ObjectProperty
 {
 	DEFINE_CLASS(MaterialImage, JingleScript::Object);
 
@@ -20,7 +20,6 @@ class MaterialImage : public JingleScript::Object
 
 private:
 	Image* m_File = nullptr;
-	std::string m_Name;
 
 public:
 	MaterialImage() {}
@@ -28,7 +27,7 @@ public:
 
 	virtual std::string ToString() const override
 	{
-		return fmt::format("{}: {}", m_Name, m_File ? m_File->GetPath() : "no file");
+		return fmt::format("{}: {}", GetName(), m_File ? m_File->GetPath() : "no file");
 	}
 
 };

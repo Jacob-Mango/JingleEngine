@@ -22,9 +22,6 @@ class MaterialImage
 {
 	@Property
 	Image File;
-
-	@Property
-	string Name;
 }
 
 class Material extends ConfigAsset

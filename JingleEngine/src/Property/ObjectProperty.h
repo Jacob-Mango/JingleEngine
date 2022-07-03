@@ -2,12 +2,17 @@
 
 #include "Property/BaseProperty.h"
 
-//! TODO: If/when interfaces are implemented in JingleScript, this will be one to expose 'Editor_OnRender` and `Editor_OnPropertyChanged`
+class ArrayProperty;
+
+//! TODO: If/when interfaces are implemented in JingleScript, this will be the one to expose 'Editor_OnRender` and `Editor_OnPropertyChanged`
 class ObjectProperty : public BaseProperty
 {
+	friend ArrayProperty;
+
 private:
 	std::map<std::string, BaseProperty*> m_Properties;
 
+	ConfigAsset* m_BaseConfig = nullptr;
 	std::string m_Name;
 
 public:
@@ -26,6 +31,9 @@ public:
 	virtual bool OnDeserialize(Config* cfg, void*& data) override;
 
 	virtual void Editor_OnRender(void*& data) override;
+
+	ConfigAsset* GetBaseConfig() const;
+	void SetBaseConfig(ConfigAsset* asset);
 
 	const std::string& GetName() const;
 	void SetName(const std::string& name);

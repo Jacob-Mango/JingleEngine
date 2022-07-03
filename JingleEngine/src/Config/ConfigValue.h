@@ -25,7 +25,7 @@ public:
 	virtual void Debug() override;
 
 public:
-	virtual bool Optimize(Config* source, bool isBaseCheck) override;
+	virtual bool Optimize() override;
 
 public:
 	virtual void SetValue(const std::string& value) override { m_Value = value; }

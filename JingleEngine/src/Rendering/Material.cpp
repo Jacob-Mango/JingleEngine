@@ -8,7 +8,6 @@
 
 BEGIN_CLASS_LINK(MaterialImage)
 	LINK_NAMED_VARIABLE(File, m_File);
-	LINK_NAMED_VARIABLE(Name, m_Name);
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
@@ -37,7 +36,7 @@ void Material::Bind(Ref<Shader> shader)
 	for (auto& image : *m_Images)
 	{
 		auto& file = image->m_File;
-		auto& name = image->m_Name;
+		auto& name = image->GetName();
 
 		std::string uniform = "u_Material." + name;
 

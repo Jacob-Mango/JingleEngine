@@ -61,26 +61,41 @@ bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 	Thread* thread = Thread::Current();
 	ValueStack* stack = &thread->Stack;
 
-	stack->Push(typeSize);
-	stack->CopyFrom(typeSize, &data, typeSize);
+	if (varSize != typeSize)
+	{
+		return false;
+	}
+
+	uint64_t size = varSize > typeSize ? varSize : typeSize;
+	uint64_t intSize = Integer::StaticType()->GetReferenceSize();
+
+	stack->Push(size);
+	stack->Push(intSize);
 
 	int count = Script_Count[object]();
 	for (int i = 0; i < count; i++)
 	{
-		stack->Push(sizeof(int));
-		stack->CopyFrom(sizeof(int), &i, sizeof(int));
-		Script_Get->Call(thread);
-		stack->Pop(sizeof(int));
+		stack->CopyFrom(size + intSize, &data, typeSize);
+		stack->CopyFrom(intSize, &i, intSize);
 
-		void* data = stack->Get(varSize > typeSize ? varSize : typeSize);
-		
-		if (m_PropertyData->OnSerialize(cfg, data))
+		Script_Get->Call(thread);
+
+		void* dta = *(void**)stack->Get(size + intSize);
+		Object* obj = static_cast<Object*>(dta);
+
+		ObjectProperty* property = dynamic_cast<ObjectProperty*>(obj);
+		if (property)
 		{
-			//cfg->Get(added++)->SetName("");
+			property->OnSerialize(cfg, (void*)dta);
+			continue;
 		}
+
+		m_PropertyData->OnSerialize(cfg, (void*)dta);
 	}
 
-	stack->Pop(typeSize);
+	stack->Pop(intSize);
+	stack->Pop(size);
+
 	return true;
 }
 
@@ -140,10 +155,21 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 
 	for (auto& cfgVariable : *cfg)
 	{
-		//! TODO: structure and asset support
-		void* data = (void*) dynamic_cast<Object*>(varType->New<Object>());
+		Object* object = varType->New<Object>();
 
-		m_PropertyData->OnDeserialize(&cfgVariable, data);
+		//! TODO: structure and asset support
+		void* data = (void*)object;
+
+		ObjectProperty* property = dynamic_cast<ObjectProperty*>(object);
+		if (property)
+		{
+			property->m_VariableProperty = m_PropertyData->GetPropertyAttribute();
+			property->OnDeserialize(&cfgVariable, data);
+		}
+		else
+		{
+			m_PropertyData->OnDeserialize(&cfgVariable, data);
+		}
 
 		stack->Push(varSize);
 		stack->CopyFrom(varSize, &data, varSize);

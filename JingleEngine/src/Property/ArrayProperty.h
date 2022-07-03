@@ -2,8 +2,13 @@
 
 #include "Property/BaseProperty.h"
 
+class ObjectProperty;
+
 class ArrayProperty : public BaseProperty
 {
+	friend ObjectProperty;
+
+private:
 	BaseProperty* m_PropertyData = nullptr;
 
 public:
