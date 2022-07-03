@@ -222,6 +222,14 @@ void ContentBrowserPanel::OnRender(double DeltaTime)
 
 					renderFile(file.path(), [&](const path& path)
 						{
+							auto relativePath = "Assets" / std::filesystem::relative(path, m_RootPath);
+							auto extension = relativePath.extension();
+
+							if (extension.string() == ".ent")
+							{
+								Entity* scene = Entity::Create({relativePath.string()});
+								Application::Get()->SetScene(scene);
+							}
 						});
 				}
 

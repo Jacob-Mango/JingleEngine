@@ -2,6 +2,8 @@
 
 #include "Core/Application.h"
 
+#include "Editor/Editor.h"
+
 #include <imgui.h>
 
 BEGIN_CLASS_LINK(SceneHierarchyPanel);
@@ -13,6 +15,9 @@ void SceneHierarchyPanel::OnBeginRender(double DeltaTime)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 }
 
+int g_Depth = 0;
+float g_DepthIndent = 5.0f;
+
 void SceneHierarchyPanel::OnRender(double DeltaTime)
 {
 	Entity* scene = Application::Get()->GetScene();
@@ -20,6 +25,8 @@ void SceneHierarchyPanel::OnRender(double DeltaTime)
 	{
 		return;
 	}
+
+	g_Depth = 0;
 
 	if (ImGui::BeginTable("Entities", 1, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Hideable))
 	{
@@ -40,6 +47,8 @@ void SceneHierarchyPanel::OnEndRender(double DeltaTime)
 
 void SceneHierarchyPanel::RenderEntity(Entity* entity)
 {
+	ScopedIncrement increment(g_Depth);
+
 	ImGui::PushID(PointerToString(entity).c_str());
 
 	std::string name = entity->GetType()->Name();
@@ -49,7 +58,7 @@ void SceneHierarchyPanel::RenderEntity(Entity* entity)
 	ImGui::TableNextRow(ImGuiTableRowFlags_None);
 	ImGui::TableNextColumn();
 
-	ImGui::SetCursorPosX(5);
+	ImGui::SetCursorPosX(g_Depth * g_DepthIndent);
 
 	ImGui::Selectable(name.c_str(), &selected, ImGuiSelectableFlags_SpanAllColumns);
 

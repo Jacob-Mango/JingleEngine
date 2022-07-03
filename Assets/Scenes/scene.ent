@@ -1,10 +1,10 @@
 {#Entity}: {
- Position: "0 0 0", 
- Children: [
-  {#Entity, anEntityNameOrUUIDHere}: "Assets\Entities\Box\test.ent" {
-   Position: "0 0 5", 
-   Orientation: "0 0 0"
+ Position: "0 0 5", 
+ Orientation: "0 0 0", 
+ Components: [
+  {MeshComponent}: {
+   MaterialOverride: "Assets/Entities/Box/test.material", 
+   Model: "Assets/Entities/Box/test.obj"
   }
- ], 
- Orientation: "0 0 0"
+ ]
 }
