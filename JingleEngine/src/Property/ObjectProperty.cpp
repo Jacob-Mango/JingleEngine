@@ -124,13 +124,14 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 	if (cfg)
 	{
 		SetName(cfg->GetName());
+
+		SetBaseConfig(cfg->GetBaseAsset());
+		SetHasBase(cfg->GetBase() != nullptr);
 	}
-	else
+	else if (GetPropertyAttribute())
 	{
 		SetName(GetPropertyAttribute()->GetName());
 	}
-
-	SetBaseConfig(cfg->GetBaseAsset());
 
 	for (auto& variable : type->GetVariables())
 	{
@@ -245,7 +246,7 @@ void ObjectProperty::Editor_OnRender(void*& data)
 
 	if (GetPropertyAttribute())
 	{
-		Editor::Render_CellHeader(GetPropertyAttribute()->GetName());
+		Editor::Render_CellHeader(GetName());
 
 		ImGui::TableNextColumn();
 		ImGui::TextUnformatted(type->Name().c_str());
@@ -305,6 +306,16 @@ ConfigAsset* ObjectProperty::GetBaseConfig() const
 void ObjectProperty::SetBaseConfig(ConfigAsset* asset)
 {
 	m_BaseConfig = asset;
+}
+
+bool ObjectProperty::HasBase() const
+{
+	return m_HasBase;
+}
+
+void ObjectProperty::SetHasBase(bool has)
+{
+	m_HasBase = has;
 }
 
 const std::string& ObjectProperty::GetName() const

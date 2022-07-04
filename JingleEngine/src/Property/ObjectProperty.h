@@ -13,6 +13,7 @@ private:
 	std::map<std::string, BaseProperty*> m_Properties;
 
 	ConfigAsset* m_BaseConfig = nullptr;
+	bool m_HasBase = false;
 	std::string m_Name;
 
 public:
@@ -34,6 +35,9 @@ public:
 
 	ConfigAsset* GetBaseConfig() const;
 	void SetBaseConfig(ConfigAsset* asset);
+
+	bool HasBase() const;
+	void SetHasBase(bool has);
 
 	const std::string& GetName() const;
 	void SetName(const std::string& name);

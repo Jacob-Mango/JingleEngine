@@ -2,8 +2,12 @@
  Children: [
   {Entity, anEntityNameOrUUIDHere}: "Assets\Entities\Box\test.ent" {
    Components: [
-    {MeshComponent}: {
+    {MeshComponent, MeshComponent}: {
      Material: "Assets\Entities\Box\test copy.material"
+    }, 
+    {MeshComponent, SecondComponent}: {
+     Material: "Assets\Entities\Box\test.material", 
+     Model: "Assets\Entities\Box\test.obj"
     }
    ], 
    Position: "0 0 5"

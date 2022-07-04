@@ -2,11 +2,12 @@
 
 #include <glm/gtx/euler_angles.hpp>
 
-#include "Entities/Component.h"
+#include "Asset/AssetModule.h"
 
 #include "Core/Application.h"
 
-#include "Asset/AssetModule.h"
+#include "Entities/Component.h"
+#include "Entities/Components/MeshComponent.h"
 
 #include "Rendering/Mesh.h"
 #include "Rendering/Material.h"
@@ -143,6 +144,11 @@ void Entity::OnDeserializeComponents(Config* cfgRoot)
 
 		component->Deserialize(&cfgComponent);
 
+		if (component->GetName().empty())
+		{
+			component->SetName(component->GetType()->Name());
+		}
+
 		component->OnCreate();
 
 		AddComponent(component);
@@ -151,17 +157,76 @@ void Entity::OnDeserializeComponents(Config* cfgRoot)
 
 void Entity::Editor_OnRenderComponents()
 {
+	static Component* SelectedComponent = nullptr;
+
 	Editor::Render_CellHeader("Components", true);
+
+	ImGui::TableNextColumn();
+
+	float width = ImGui::GetColumnWidth() * 0.5f;
+	float height = ImGui::GetFrameHeight();
+
+	bool addPressed = ImGui::Button("Add", { width, height });
+	ImGui::SameLine();
+	bool removePressed = ImGui::Button("Remove", { width, height });
+	size_t count = GetComponents().size();
+	size_t removeIndex = count;
 
 	size_t index = 0;
 	for (auto& component : GetComponents())
 	{
+		ImGui::PushID(std::to_string(index).c_str());
+
+		std::string componentName = component->GetName();
+
 		Editor::Render_CellHeader(fmt::format("[{}]", index).c_str(), true, true);
 
 		ImGui::TableNextColumn();
-		ImGui::TextUnformatted(component->GetType()->Name().c_str());
+		
+		ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags_None;
+
+		//! We aren't editting the root config so we can't change it's name
+		if (component->HasBase())
+		{
+			inputFlags = ImGuiInputTextFlags_ReadOnly;
+		}
+
+		//ImGuiInputTextFlags_EnterReturnsTrue
+		bool selected = SelectedComponent == component;
+		if (Editor::Render_SelectableInput(selected, ImGuiSelectableFlags_SpanAllColumns, inputFlags, componentName))
+		{
+			SelectedComponent = component;
+
+			component->SetName(componentName);
+		}
 
 		component->Editor_Render();
+
+		ImGui::PopID();
+
+		if (SelectedComponent == component && !component->HasBase())
+		{
+			removeIndex = index;
+		}
+
+		index++;
+	}
+
+	if (addPressed)
+	{
+		JingleScript::Type* componentType = MeshComponent::StaticType();
+		Component* component = componentType->New<Component>();
+		component->m_Entity = this;
+		component->Deserialize(nullptr);
+		component->SetName(component->GetType()->Name());
+		component->OnCreate();
+
+		AddComponent(component);
+	}
+
+	if (removePressed)
+	{
+		// removeIndex
 	}
 }
 

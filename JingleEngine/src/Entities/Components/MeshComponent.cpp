@@ -11,9 +11,12 @@ END_CLASS_LINK()
 
 void MeshComponent::OnCreate()
 {
-	m_Mesh = new MeshInstance(Model);
+	if (Model)
+	{
+		m_Mesh = new MeshInstance(Model);
+	}
 
-	if (Material != nullptr)
+	if (Material && m_Mesh)
 	{
 		m_Mesh->SetMaterial(Material);
 	}

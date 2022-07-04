@@ -3,6 +3,7 @@
 #include "Core/Core.h"
 
 #include <imgui.h>
+#include <imgui_internal.h>
 
 template<typename T>
 class ScopedIncrement
@@ -39,6 +40,8 @@ namespace Editor
 	void Render_CellHeader(std::string name, bool isHeader = false, bool isRightIndent = false);
 
 	bool Render_CellInputText(std::string& value);
+
+	int Render_SelectableInput(bool selected, ImGuiSelectableFlags selectFlags, ImGuiInputTextFlags inputFlags, std::string& text);
 
 	template<typename T>
 	static bool Render_Value(T& value, float width = -1.0f, const std::string& id = "")

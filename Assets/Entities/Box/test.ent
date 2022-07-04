@@ -1,6 +1,6 @@
 {Entity}: {
  Components: [
-  {MeshComponent}: {
+  {MeshComponent, MeshComponent}: {
    Material: "Assets\Entities\Box\test.material", 
    Model: "Assets\Entities\Box\test.obj"
   }

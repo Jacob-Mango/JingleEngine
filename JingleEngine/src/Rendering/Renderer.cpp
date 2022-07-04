@@ -39,7 +39,17 @@ void Renderer::SubmitEntity(Entity* entity, const glm::dmat4& parentTransform)
 
 void Renderer::SubmitMesh(Ref<MeshInstance> mesh, const glm::dmat4& transform)
 {
+	if (!mesh)
+	{
+		return;
+	}
+
 	Material* material = mesh->GetMaterial();
+	if (!material)
+	{
+		return;
+	}
+
 	Shader* shader = material->GetShader();
 
 	m_Meshes[shader].push_back({ mesh, material, transform });
