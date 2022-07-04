@@ -76,7 +76,9 @@ ConfigAsset* ConfigSection::GetBaseAsset() const
 //! Should not be used during gameplay
 Config* ConfigSection::Set(Config* other)
 {
-	auto it = m_Entries.find(other->GetName());
+	std::string name = other->GetName();
+
+	auto it = m_Entries.find(name);
 	if (it != m_Entries.end())
 	{
 		if (it->second == other)
@@ -91,9 +93,13 @@ Config* ConfigSection::Set(Config* other)
 
 		m_Entries.erase(it);
 	}
+	else
+	{
+		m_EntryOrder.push_back(name);
+	}
 
 	other->m_Parent = this;
-	m_Entries[other->GetName()] = other;
+	m_Entries[name] = other;
 
 	//! TODO: find parent that has ConfigAsset and then call 'UpdateBase'
 
@@ -105,15 +111,20 @@ Config* ConfigSection::Set(Config* other)
 //! Should not be used during gameplay
 Config* ConfigSection::Remove(Config* other)
 {
-	auto it = m_Entries.find(other->GetName());
+	std::string name = other->GetName();
+
+	auto it = m_Entries.find(name);
 	if (it != m_Entries.end())
 	{
 		//! TODO: find parent that has ConfigAsset and then call 'UpdateBase'
 
 		other->m_Parent = nullptr;
+		other->UpdateBase();
+
 		m_Entries.erase(it);
 
-		other->UpdateBase();
+		m_EntryOrder.erase(std::remove(m_EntryOrder.begin(), m_EntryOrder.end(), name), m_EntryOrder.end());
+
 		return other;
 	}
 
@@ -160,6 +171,10 @@ bool ConfigSection::Optimize()
 			continue;
 		}
 
+		cfg->m_Parent = nullptr;
+		cfg->UpdateBase();
+
+		m_EntryOrder.erase(std::remove(m_EntryOrder.begin(), m_EntryOrder.end(), name), m_EntryOrder.end());
 		it = m_Entries.erase(it);
 	}
 
@@ -339,24 +354,21 @@ bool ConfigSection::Serialize(std::stringstream& output, std::string prefix) con
 	}
 
 	int index = 0;
-	for (auto& [k, v] : m_Entries)
+	for (auto& name : m_EntryOrder)
 	{
-		index++;
-
-		if (v == nullptr)
+		auto& entry = m_Entries.at(name);
+		if (!entry)
 		{
 			continue;
 		}
 
-		if (!v->Serialize(output, indent ? prefix + " " : prefix))
-		{
-			continue;
-		}
-
-		if (index < m_Entries.size())
+		if (index != 0)
 		{
 			output << ", " << std::endl;
 		}
+
+		entry->Serialize(output, indent ? prefix + " " : prefix);
+		index++;
 	}
 
 	if (indent)

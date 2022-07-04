@@ -15,7 +15,7 @@ class MeshComponent : public Component
 
 public:
 	Mesh* Model = nullptr;
-	Material* MaterialOverride = nullptr;
+	Material* Material = nullptr;
 
 private:
 	Ref<MeshInstance> m_Mesh;

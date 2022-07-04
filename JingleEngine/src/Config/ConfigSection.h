@@ -25,6 +25,9 @@ class ConfigSection : public Config
 
 protected:
 	ConfigMap m_Entries;
+	
+	//! Editor only
+	std::vector<std::string> m_EntryOrder;
 
 	ConfigSection* m_Base = nullptr;
 	ConfigAsset* m_BaseAsset = nullptr;

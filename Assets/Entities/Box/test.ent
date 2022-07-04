@@ -1,9 +1,10 @@
 {Entity}: {
- Position: "0 0 0", 
  Components: [
   {MeshComponent}: {
-   Model: "Assets\Entities\Box\test.obj", 
-   MaterialOverride: "Assets\Entities\Box\test.material"
+   Material: "Assets\Entities\Box\test.material", 
+   Model: "Assets\Entities\Box\test.obj"
   }
- ]
+ ], 
+ Position: "0 0 0", 
+ Orientation: "0 0 0"
 }

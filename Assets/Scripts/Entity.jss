@@ -40,5 +40,5 @@ class MeshComponent extends Component
 	Mesh Model;
 
 	@Property
-	Material MaterialOverride;
+	Material Material;
 }

@@ -503,7 +503,7 @@ class Mesh extends Asset {
 }
 
 class MeshComponent extends Component {
-   Material MaterialOverride
+   Material Material
    Mesh Model
 
   MeshComponent::ctor() (Native)

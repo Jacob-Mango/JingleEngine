@@ -4,7 +4,7 @@
 
 BEGIN_CLASS_LINK(MeshComponent)
 	LINK_VARIABLE(Model);
-	LINK_VARIABLE(MaterialOverride);
+	LINK_VARIABLE(Material);
 	LINK_CONSTRUCTOR();
 	LINK_CONSTRUCTOR(Entity*);
 END_CLASS_LINK()
@@ -13,9 +13,9 @@ void MeshComponent::OnCreate()
 {
 	m_Mesh = new MeshInstance(Model);
 
-	if (MaterialOverride != nullptr)
+	if (Material != nullptr)
 	{
-		m_Mesh->SetMaterial(MaterialOverride);
+		m_Mesh->SetMaterial(Material);
 	}
 }
 
@@ -30,11 +30,11 @@ void MeshComponent::Editor_OnPropertyChanged(std::string name)
 		return;
 	}
 
-	if (name.compare("MaterialOverride") == 0)
+	if (name.compare("Material") == 0)
 	{
 		if (m_Mesh)
 		{
-			m_Mesh->SetMaterial(MaterialOverride);
+			m_Mesh->SetMaterial(Material);
 		}
 
 		return;
