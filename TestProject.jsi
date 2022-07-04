@@ -1,23 +1,47 @@
 
 class #global extends Object {
 
-  Transform FromString(string) (Native)
-
-  Vector3 FromString(string) (Native)
-
   bool FromString(string) (Native)
 
   byte FromString(string) (Native)
 
+  dmat3 FromString(string) (Native)
+
+  dmat4 FromString(string) (Native)
+
   double FromString(string) (Native)
+
+  dquat FromString(string) (Native)
+
+  dvec1 FromString(string) (Native)
+
+  dvec2 FromString(string) (Native)
+
+  dvec3 FromString(string) (Native)
+
+  dvec4 FromString(string) (Native)
 
   float FromString(string) (Native)
 
   int FromString(string) (Native)
 
+  mat3 FromString(string) (Native)
+
+  mat4 FromString(string) (Native)
+
+  quat FromString(string) (Native)
+
   string FromString(string) (Native)
 
   ulong FromString(string) (Native)
+
+  vec1 FromString(string) (Native)
+
+  vec2 FromString(string) (Native)
+
+  vec3 FromString(string) (Native)
+
+  vec4 FromString(string) (Native)
 
   Application GetApplication() (Native)
 
@@ -340,7 +364,8 @@ class EditorViewportPanel extends EditorPanelBase {
 class Entity extends Object {
    EntityArray Children
    ComponentArray Components
-   Transform Transform
+   dmat4 Transform
+   dmat4 dquat4
 
   void Entity::AddChild(Entity) (Native)
 
@@ -638,27 +663,9 @@ class Texture extends Managed {
   Texture::dtor() (Native)
 }
 
-struct Transform {
-
-  string Transform::ToString() (Native)
-
-  Transform::ctor() (Native)
-
-  Transform::dtor() (Native)
-}
-
 class Type extends Object {
 
   bool Type::IsInherited(Type) (Native)
-}
-
-struct Vector3 {
-
-  string Vector3::ToString() (Native)
-
-  Vector3::ctor() (Native)
-
-  Vector3::dtor() (Native)
 }
 
 struct Vertex {
@@ -923,6 +930,24 @@ struct byte extends Object {
   bool byte::operator>=(ulong) (Native)
 }
 
+struct dmat3 {
+
+  string dmat3::ToString() (Native)
+
+  dmat3::ctor() (Native)
+
+  dmat3::dtor() (Native)
+}
+
+struct dmat4 {
+
+  string dmat4::ToString() (Native)
+
+  dmat4::ctor() (Native)
+
+  dmat4::dtor() (Native)
+}
+
 struct double extends Object {
    double value
 
@@ -1057,6 +1082,51 @@ struct double extends Object {
   bool double::operator>=(int) (Native)
 
   bool double::operator>=(ulong) (Native)
+}
+
+struct dquat {
+
+  string dquat::ToString() (Native)
+
+  dquat::ctor() (Native)
+
+  dquat::dtor() (Native)
+}
+
+struct dvec1 {
+
+  string dvec1::ToString() (Native)
+
+  dvec1::ctor() (Native)
+
+  dvec1::dtor() (Native)
+}
+
+struct dvec2 {
+
+  string dvec2::ToString() (Native)
+
+  dvec2::ctor() (Native)
+
+  dvec2::dtor() (Native)
+}
+
+struct dvec3 {
+
+  string dvec3::ToString() (Native)
+
+  dvec3::ctor() (Native)
+
+  dvec3::dtor() (Native)
+}
+
+struct dvec4 {
+
+  string dvec4::ToString() (Native)
+
+  dvec4::ctor() (Native)
+
+  dvec4::dtor() (Native)
 }
 
 struct float extends Object {
@@ -1337,6 +1407,24 @@ struct int extends Object {
   bool int::operator>=(ulong) (Native)
 }
 
+struct mat3 {
+
+  string mat3::ToString() (Native)
+
+  mat3::ctor() (Native)
+
+  mat3::dtor() (Native)
+}
+
+struct mat4 {
+
+  string mat4::ToString() (Native)
+
+  mat4::ctor() (Native)
+
+  mat4::dtor() (Native)
+}
+
 struct null extends Object {
 
   null::ctor() (Native)
@@ -1346,6 +1434,15 @@ struct null extends Object {
   bool null::operator!=(Object) (Native)
 
   bool null::operator==(Object) (Native)
+}
+
+struct quat {
+
+  string quat::ToString() (Native)
+
+  quat::ctor() (Native)
+
+  quat::dtor() (Native)
 }
 
 struct string extends Object {
@@ -1523,4 +1620,40 @@ struct ulong {
   bool ulong::operator>=(int) (Native)
 
   bool ulong::operator>=(ulong) (Native)
+}
+
+struct vec1 {
+
+  string vec1::ToString() (Native)
+
+  vec1::ctor() (Native)
+
+  vec1::dtor() (Native)
+}
+
+struct vec2 {
+
+  string vec2::ToString() (Native)
+
+  vec2::ctor() (Native)
+
+  vec2::dtor() (Native)
+}
+
+struct vec3 {
+
+  string vec3::ToString() (Native)
+
+  vec3::ctor() (Native)
+
+  vec3::dtor() (Native)
+}
+
+struct vec4 {
+
+  string vec4::ToString() (Native)
+
+  vec4::ctor() (Native)
+
+  vec4::dtor() (Native)
 }

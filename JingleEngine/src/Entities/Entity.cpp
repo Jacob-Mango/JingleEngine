@@ -17,7 +17,7 @@ BEGIN_CLASS_LINK(EntityArray)
 END_CLASS_LINK()
 
 BEGIN_CLASS_LINK(Entity)
-	LINK_NAMED_VARIABLE(Transform, m_Transform);
+	LINK_NAMED_VARIABLE(dquat4, m_Transform);
 	LINK_NAMED_VARIABLE(Components, m_Components);
 	LINK_NAMED_VARIABLE(Children, m_Children);
 	LINK_CONSTRUCTOR();
@@ -91,30 +91,30 @@ void Entity::Editor_OnPropertyChanged(std::string name)
 
 void Entity::OnSerializeTransform(Config* cfg)
 {
-	cfg->CreateValue("Position", m_Transform.GetPosition().ToString());
-	cfg->CreateValue("Orientation", m_Transform.GetOrientation().ToString());
+	cfg->CreateValue("Position", js_dvec3(GetPosition()).ToString());
+	cfg->CreateValue("Orientation", js_vec3(GetOrientation()).ToString());
 }
 
 void Entity::OnDeserializeTransform(Config* cfg)
 {
-	m_Transform.SetPosition(Vector3::FromString(cfg->GetValue("Position")));
-	m_Transform.SetOrientation(Vector3::FromString(cfg->GetValue("Orientation")));
+	SetPosition(js_dvec3::FromString(cfg->GetValue("Position")));
+	SetOrientation(js_vec3::FromString(cfg->GetValue("Orientation")));
 }
 
 void Entity::Editor_OnRenderTransform()
 {
 	Editor::Render_CellHeader("Position");
-	Vector3 position = m_Transform.GetPosition();
+	glm::dvec3 position = GetPosition();
 	if (Editor::Render_Vector3(position))
 	{
-		m_Transform.SetPosition(position);
+		SetPosition(position);
 	}
 
 	Editor::Render_CellHeader("Orientation");
-	Vector3 orientation = m_Transform.GetOrientation();
+	glm::vec3 orientation = GetOrientation();
 	if (Editor::Render_Vector3(orientation))
 	{
-		m_Transform.SetOrientation(orientation);
+		SetOrientation(orientation);
 	}
 }
 

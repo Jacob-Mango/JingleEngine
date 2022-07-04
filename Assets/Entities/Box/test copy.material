@@ -1,25 +1,20 @@
 {Material}: {
-	Shader: "Assets/Shaders/pbr",
-	Images: [
-		{
-			File: "Assets/Entities/Box/normal.png",
-			Name: "ambientMap"
-		},
-		{
-			File: "Assets/Entities/Box/normal.png",
-			Name: "diffuseMap"
-		},
-		{
-			File: "Assets/Entities/Box/metallic.png",
-			Name: "metallicMap"
-		},
-		{
-			File: "Assets/Entities/Box/normal.png",
-			Name: "normalMap"
-		},
-		{
-			File: "Assets/Entities/Box/roughness.png",
-			Name: "roughnessMap"
-		}
-	]
+ {MaterialImageArray, Images}: [
+  {MaterialImage, ambientMap}: {
+   File: "Assets/Entities/Box/normal.png"
+  }, 
+  {MaterialImage, roughnessMap}: {
+   File: "Assets/Entities/Box/normal.png"
+  }, 
+  {MaterialImage, diffuseMap}: {
+   File: "Assets/Entities/Box/normal.png"
+  }, 
+  {MaterialImage, metallicMap}: {
+   File: "Assets/Entities/Box/normal.png"
+  }, 
+  {MaterialImage, normalMap}: {
+   File: "Assets/Entities/Box/normal.png"
+  }
+ ], 
+ Shader: "Assets/Shaders/pbr"
 }

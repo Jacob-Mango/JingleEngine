@@ -2,7 +2,7 @@
 class Entity
 {
 	@Property(true)
-	Transform Transform;
+	dmat4 Transform;
 
 	@Property(true)
 	ComponentArray Components;

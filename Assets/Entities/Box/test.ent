@@ -2,8 +2,8 @@
  Position: "0 0 0", 
  Components: [
   {MeshComponent}: {
-   Model: "Assets/Entities/Box/test.obj", 
-   MaterialOverride: "Assets/Entities/Box/test.material"
+   Model: "Assets\Entities\Box\test.obj", 
+   MaterialOverride: "Assets\Entities\Box\test.material"
   }
  ]
 }

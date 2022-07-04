@@ -87,9 +87,9 @@ Config* ConfigSection::Set(Config* other)
 		//! TODO: find parent that has ConfigAsset and then call 'UpdateBase'
 		
 		it->second->m_Parent = nullptr;
-		m_Entries.erase(it);
-
 		it->second->UpdateBase();
+
+		m_Entries.erase(it);
 	}
 
 	other->m_Parent = this;

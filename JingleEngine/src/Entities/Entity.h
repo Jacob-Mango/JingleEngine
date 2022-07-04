@@ -4,9 +4,6 @@
 
 #include "Config/ConfigAsset.h"
 
-#include "Math/Transform.h"
-#include "Math/Vector3.h"
-
 #include "Rendering/Material.h"
 #include "Rendering/MeshInstance.h"
 
@@ -36,7 +33,7 @@ private:
 	Entity* m_Parent = nullptr;
 	EntityArray* m_Children;
 
-	Transform m_Transform = glm::dmat4(1.0);
+	glm::dmat4 m_Transform = glm::dmat4(1.0);
 	glm::vec3 m_BoundingBox[2];
 
 	ComponentArray* m_Components;
