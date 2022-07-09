@@ -346,7 +346,7 @@ class EditorPanel extends Object {
 
   void EditorPanel::Close() (Native)
 
-  EditorModule EditorPanel::GetEditor() (Native)
+  EditorModule EditorPanel::GetEditorModule() (Native)
 
   void EditorPanel::OnBeginRender(double) (Native)
 

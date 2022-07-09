@@ -17,9 +17,6 @@ public:
 		auto bindingModule = ModuleManager::Get<BindingModule>();
 		Binding_Exit = bindingModule->GetByName("exit");
 		Binding_Focus = bindingModule->GetByName("focus");
-
-		Entity* scene = Entity::Create({"Assets/Scenes/scene.ent"});
-		Application::Get()->SetScene(scene);
 	}
 
 	virtual void OnTick(double DeltaTime) override

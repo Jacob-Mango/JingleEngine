@@ -45,6 +45,8 @@ long WndWindow::s_MouseDeltaY;
 long WndWindow::s_LastMouseDeltaX;
 long WndWindow::s_LastMouseDeltaY;
 
+bool g_HasTitleBar = true;
+
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int WndWindow::Create(const WindowDesc& desc)
@@ -71,13 +73,16 @@ int WndWindow::Create(const WindowDesc& desc)
 
 	std::wstring title = std::wstring(desc.Title.begin(), desc.Title.end());
 
-	DWORD dwStyle = 0;
+	DWORD dwStyle = g_HasTitleBar ? WS_OVERLAPPEDWINDOW : 0;
 	DWORD dwExStyle = 0;
 
 	m_Window = CreateWindowExW(dwExStyle, wc.lpszClassName, title.c_str(), dwStyle, 0, 0, m_Width, m_Height, 0, 0, m_Instance, 0);
 	
-    SetWindowLong(m_Window, GWL_STYLE, dwStyle);
-    SetWindowLong(m_Window, GWL_EXSTYLE, dwExStyle);
+	if (!g_HasTitleBar)
+	{
+    	SetWindowLong(m_Window, GWL_STYLE, dwStyle);
+    	SetWindowLong(m_Window, GWL_EXSTYLE, dwExStyle);
+	}
 
 	ShowWindow(m_Window, SW_SHOW);
 	m_DeviceContext = GetDC(m_Window);
@@ -453,26 +458,48 @@ void WndWindow::Begin()
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 
-	io.ConfigWindowsResizeFromEdges = io.BackendFlags & ImGuiBackendFlags_HasMouseCursors;
+	io.ConfigWindowsResizeFromEdges = !g_HasTitleBar || io.BackendFlags & ImGuiBackendFlags_HasMouseCursors;
 
-	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking;
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 	ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
 
+	const char* windowName = "JingleEngine Editor";
+	const ImGuiWindow* window = ImGui::FindWindowByName(windowName);
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->WorkPos);
-	ImGui::SetNextWindowSize(viewport->WorkSize);
-	ImGui::SetNextWindowViewport(viewport->ID);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	
-	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-	if (ImGui::Begin("DockSpace Demo", nullptr, windowFlags))
+	if (window && !g_HasTitleBar)
+	{
+		ImVec2 size = window->Size;
+		ImVec2 pos = window->Pos;
+
+		SetWindowPos(m_Window, NULL, pos.x, pos.y, size.x, size.y, SWP_NOREDRAW | SWP_NOZORDER);
+	}
+	else
+	{
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+	}
+
+	ImGui::SetNextWindowViewport(viewport->ID);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+	if (g_HasTitleBar)
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+
+		windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+		windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	}
+
+	if (ImGui::Begin(windowName, nullptr, windowFlags))
 	{
 		ImGui::PopStyleVar();
-		ImGui::PopStyleVar(2);
+		
+		if (g_HasTitleBar)
+		{
+			ImGui::PopStyleVar(2);
+		}
 
 		ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
 		ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
@@ -480,6 +507,13 @@ void WndWindow::Begin()
 		auto editor = ModuleManager::Get<EditorModule>();
 		if (editor)
 		{
+			if (ImGui::BeginMenuBar())
+			{
+				editor->RenderMenu();
+			
+				ImGui::EndMenuBar();
+			}
+
 			if (!editor->RenderEditors(1.0 / 144.0, dockspaceId))
 			{
 				WindowCloseEventArgs args;

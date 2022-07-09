@@ -7,13 +7,13 @@ BEGIN_CLASS_LINK(EditorPanel);
 	LINK_METHOD(OnBeginRender);
 	LINK_METHOD(OnRender);
 	LINK_METHOD(OnEndRender);
-	LINK_METHOD(GetEditor);
+	LINK_METHOD(GetEditorModule);
 	LINK_METHOD(Close);
 END_CLASS_LINK();
 
 EditorPanel::EditorPanel()
 {
-	m_Editor = ModuleManager::Get<EditorModule>();
+	m_Module = ModuleManager::Get<EditorModule>();
 }
 
 EditorPanel::~EditorPanel()
@@ -29,10 +29,6 @@ void EditorPanel::OnRender(double DeltaTime)
 }
 
 void EditorPanel::OnEndRender(double DeltaTime)
-{
-}
-
-void EditorPanel::OnEvent(BaseClass* sender, const EventArgs& args)
 {
 }
 

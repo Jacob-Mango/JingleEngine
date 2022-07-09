@@ -18,20 +18,23 @@ class EditorPanel : public JingleScript::Object
 private:
 	bool m_ShouldClose = false;
 
-	EditorModule* m_Editor;
+	EditorModule* m_Module;
+	Editor* m_Editor;
 
 public:
 	EditorPanel();
 	~EditorPanel();
 
+public:
 	virtual void OnBeginRender(double DeltaTime);
 	virtual void OnRender(double DeltaTime);
 	virtual void OnEndRender(double DeltaTime);
 
-	virtual void OnEvent(BaseClass* sender, const EventArgs& args);
-
-	EditorModule* GetEditor() const { return m_Editor; }
+public:
+	EditorModule* GetEditorModule() const { return m_Module; }
+	Editor* GetEditor() const { return m_Editor; }
 	
+public:
 	void Close();
 
 };

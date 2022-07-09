@@ -23,7 +23,7 @@ void EntityPropertiesPanel::OnEndRender(double DeltaTime)
 
 void EntityPropertiesPanel::OnRender(double DeltaTime)
 {
-	Entity* entity = GetEditor()->GetSelectedEntity();
+	Entity* entity = GetEditorModule()->GetSelectedEntity();
 	if (entity == nullptr)
 	{
 		return;

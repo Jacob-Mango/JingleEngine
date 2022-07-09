@@ -10,7 +10,7 @@ END_CLASS_LINK();
 
 Editor::Editor()
 {
-	m_Editor = ModuleManager::Get<EditorModule>();
+	m_Module = ModuleManager::Get<EditorModule>();
 
 	using namespace JingleScript;
 
@@ -51,15 +51,15 @@ STATIC_FUNCTION(EditorPanel, OnEndRender, void, double);
 
 bool Editor::OnRender(double DeltaTime, ImGuiID DockspaceId)
 {
-	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar;
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_None;
 	ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	
-	//windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-	//windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
     ImGui::SetNextWindowDockID(DockspaceId, true ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
 
@@ -76,13 +76,6 @@ bool Editor::OnRender(double DeltaTime, ImGuiID DockspaceId)
 
 	ImGuiID editorDockspaceId = ImGui::GetID(GetID().c_str());
 	ImGui::DockSpace(editorDockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
-	
-	if (ImGui::BeginMenuBar())
-	{
-		OnRenderMenu();
-	
-		ImGui::EndMenuBar();
-	}
 	
 	//! TODO: Add a popup here to cancel close if needed.
 	
@@ -201,6 +194,7 @@ EditorPanel* Editor::OpenPanel(const std::string& typeName)
 	if (data.Instances.empty())
 	{
 		EditorPanel* panel = type->New<EditorPanel>();
+		panel->m_Editor = this;
 		data.Instances.push_back(panel);
 	}
 

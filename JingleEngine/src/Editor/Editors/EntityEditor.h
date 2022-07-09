@@ -8,6 +8,9 @@ class EntityEditor : public Editor
 {
 	DEFINE_CLASS(EntityEditor, Editor);
 
+private:
+	Entity* m_Entity = nullptr;
+
 public:
 	EntityEditor();
 	~EntityEditor();
@@ -17,5 +20,8 @@ public:
 	virtual void Open(AssetID id) override;
 	virtual void SaveAs(AssetID id) override;
 	virtual void Save() override;
+
+public:
+	virtual Entity* GetEntity() { return m_Entity; }
 
 };

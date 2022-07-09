@@ -20,6 +20,7 @@ class EditorModule : public Module
 public:
 	virtual void OnInitialize() override;
 
+	bool RenderMenu();
 	bool RenderEditors(double DeltaTime, ImGuiID DockspaceId);
 
 	Editor* Open(std::string typeName);

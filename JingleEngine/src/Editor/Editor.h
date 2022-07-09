@@ -8,6 +8,8 @@
 #include "Editor/EditorAttribute.h"
 #include "Editor/EditorPanel.h"
 
+#include "Entities/Entity.h"
+
 class EditorModule;
 
 class Editor : public JingleScript::Object
@@ -22,7 +24,7 @@ private:
 	AssetID m_AssetID;
 	std::string m_FileName;
 
-	EditorModule* m_Editor;
+	EditorModule* m_Module;
 
 	std::map<JingleScript::Type*, EditorPanelData> m_Panels;
 
@@ -33,7 +35,7 @@ public:
 	bool OnRender(double DeltaTime, ImGuiID DockspaceId);
 	void Close();
 
-	EditorModule* GetEditorModule() const { return m_Editor; }
+	EditorModule* GetEditorModule() const { return m_Module; }
 	const AssetID& GetAssetID() const { return m_AssetID; }
 	std::string GetID() const { return m_AssetID.GetPath() + "-" + m_FileName; }
 	
@@ -45,6 +47,11 @@ public:
 
 public:
 	virtual void OnRenderMenu();
+
+public:
+	// Generic functions across editors for panels
+
+	virtual Entity* GetEntity() { return nullptr; }
 
 public:
 	EditorPanel* OpenPanel(const std::string& typeName);

@@ -2,6 +2,8 @@
 
 #include "Core/Application.h"
 
+#include "Editor/Editor.h"
+
 #include "Input/Binding.h"
 #include "Input/BindingModule.h"
 #include "Input/Input.h"
@@ -134,7 +136,9 @@ void EditorViewportPanel::OnRender(double DeltaTime)
 	ImVec2 windowSize = ImGui::GetWindowSize();
 	ImVec2 position = ImGui::GetWindowPos();
 
-	m_Viewport->SetScene(Application::Get()->GetScene());
+	Entity* entity = GetEditor()->GetEntity();
+
+	m_Viewport->SetScene(entity);
 
 	m_Viewport->Resize((unsigned int)viewportSize.x, (unsigned int)viewportSize.y);
 

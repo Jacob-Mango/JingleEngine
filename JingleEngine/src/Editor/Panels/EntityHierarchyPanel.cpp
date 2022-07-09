@@ -2,6 +2,7 @@
 
 #include "Core/Application.h"
 
+#include "Editor/Editor.h"
 #include "Editor/EditorModule.h"
 #include "Editor/EditorUI.h"
 
@@ -21,11 +22,7 @@ float g_DepthIndent = 5.0f;
 
 void EntityHierarchyPanel::OnRender(double DeltaTime)
 {
-	Entity* scene = Application::Get()->GetScene();
-	if (!scene)
-	{
-		return;
-	}
+	Entity* entity = GetEditor()->GetEntity();
 
 	g_Depth = 0;
 
@@ -35,7 +32,7 @@ void EntityHierarchyPanel::OnRender(double DeltaTime)
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("Entities");
 
-		RenderEntity(scene);
+		RenderEntity(entity);
 
 		ImGui::EndTable();
 	}
@@ -48,12 +45,17 @@ void EntityHierarchyPanel::OnEndRender(double DeltaTime)
 
 void EntityHierarchyPanel::RenderEntity(Entity* entity)
 {
+	if (!entity)
+	{
+		return;
+	}
+
 	ScopedIncrement increment(g_Depth);
 
 	ImGui::PushID(PointerToString(entity).c_str());
 
 	std::string name = entity->GetType()->Name();
-	bool selected = GetEditor()->GetSelectedEntity() == entity;
+	bool selected = GetEditorModule()->GetSelectedEntity() == entity;
 	bool wasSelected = selected;
 
 	ImGui::TableNextRow(ImGuiTableRowFlags_None);
@@ -65,7 +67,7 @@ void EntityHierarchyPanel::RenderEntity(Entity* entity)
 
 	if (selected && !wasSelected)
 	{
-		GetEditor()->SelectEntity(entity);
+		GetEditorModule()->SelectEntity(entity);
 	}
 
 	ImGui::PopID();

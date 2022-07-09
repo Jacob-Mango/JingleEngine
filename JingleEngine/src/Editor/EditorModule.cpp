@@ -44,6 +44,20 @@ void EditorModule::OnInitialize()
 	Open("EntityEditor");
 }
 
+Editor* g_LastActiveEditor = nullptr;
+
+bool EditorModule::RenderMenu()
+{
+	if (!g_LastActiveEditor)
+	{
+		return false;
+	}
+
+	g_LastActiveEditor->OnRenderMenu();
+
+	return true;
+}
+
 bool EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
 {
 	bool remainOpen = false;
@@ -55,6 +69,8 @@ bool EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
 		for (int i = instances.size() - 1; i >= 0; i--)
 		{
 			Editor* editor = instances[i];
+
+			g_LastActiveEditor = editor;
 
 			if (editor->OnRender(DeltaTime, DockspaceId))
 			{
