@@ -501,12 +501,18 @@ void WndWindow::Begin()
 			ImGui::PopStyleVar(2);
 		}
 
-		ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
-		ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
-
 		auto editor = ModuleManager::Get<EditorModule>();
 		if (editor)
 		{
+			bool hasEditorsOpen = editor->PrepareRender();
+
+			ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
+			
+			if (hasEditorsOpen)
+			{
+				ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
+			}
+
 			if (ImGui::BeginMenuBar())
 			{
 				editor->RenderMenu();
@@ -514,12 +520,9 @@ void WndWindow::Begin()
 				ImGui::EndMenuBar();
 			}
 
-			if (!editor->RenderEditors(1.0 / 144.0, dockspaceId))
+			if (hasEditorsOpen)
 			{
-				WindowCloseEventArgs args;
-
-				Application::Get()->OnWindowClose.Invoke(this, args);
-				Application::Get()->OnEvent(this, args);
+				editor->RenderEditors(1.0 / 144.0, dockspaceId);
 			}
 		}
 	}

@@ -4,6 +4,8 @@
 
 #include "Editor/EditorModule.h"
 
+using namespace JingleScript;
+
 BEGIN_CLASS_LINK(EntityEditor);
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK();
@@ -25,6 +27,9 @@ void EntityEditor::New()
 {
 	SetAssetID({});
 
+	m_Entity = NewObject<Entity>("Entity");
+	m_Config = m_Entity->Serialize();
+
 	GetEditorModule()->SetFileName(this);
 }
 
@@ -32,24 +37,26 @@ void EntityEditor::Open(AssetID id)
 {
 	SetAssetID(id);
 
+	ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(GetAssetID());
+	m_Config = cfgAsset->Get();
+
+	m_Entity = JingleScript::NewObject<Entity>(m_Config->GetLinkedType());
+	if (m_Entity)
+	{
+		cfgAsset->Deserialize(m_Entity);
+	}
+
 	GetEditorModule()->SetFileName(this);
-}
-
-bool SaveTo(AssetID id, Entity* entity)
-{
-	ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(id);
-	ConfigSection* cfg = cfgAsset->Get();
-
-	cfgAsset->Serialize(entity);
-
-	return cfgAsset->OnSave();
 }
 
 void EntityEditor::SaveAs(AssetID id)
 {
-	Entity* entity = Application::Get()->GetScene();
-	
-	if (SaveTo(id, entity))
+	ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(id);
+
+	cfgAsset->Serialize(m_Entity);
+	m_Config = cfgAsset->Get();
+
+	if (cfgAsset->OnSave())
 	{
 		SetAssetID(id);
 	}
@@ -59,9 +66,12 @@ void EntityEditor::SaveAs(AssetID id)
 
 void EntityEditor::Save()
 {
-	Entity* entity = Application::Get()->GetScene();
+	ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(GetAssetID());
 
-	SaveTo(GetAssetID(), entity);
+	cfgAsset->Serialize(m_Entity);
+	m_Config = cfgAsset->Get();
+
+	cfgAsset->OnSave();
 
 	GetEditorModule()->SetFileName(this);
 }

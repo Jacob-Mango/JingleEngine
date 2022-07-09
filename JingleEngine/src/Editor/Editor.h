@@ -37,6 +37,7 @@ public:
 
 	EditorModule* GetEditorModule() const { return m_Module; }
 	const AssetID& GetAssetID() const { return m_AssetID; }
+	std::string GetFileName() const { return m_FileName; }
 	std::string GetID() const { return m_AssetID.GetPath() + "-" + m_FileName; }
 	
 public:

@@ -10,6 +10,7 @@ class EntityEditor : public Editor
 
 private:
 	Entity* m_Entity = nullptr;
+	Config* m_Config = nullptr; //! TODO: Reference
 
 public:
 	EntityEditor();

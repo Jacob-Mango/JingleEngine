@@ -46,22 +46,45 @@ void EditorModule::OnInitialize()
 
 Editor* g_LastActiveEditor = nullptr;
 
-bool EditorModule::RenderMenu()
+bool EditorModule::PrepareRender()
 {
-	if (!g_LastActiveEditor)
+	g_LastActiveEditor = nullptr;
+
+	for (auto& [type, data] : m_Editors)
 	{
-		return false;
+		for (auto& editor : data.Instances)
+		{
+			std::string windowTitle = fmt::format("{}###{}", editor->GetFileName(), PointerToString(editor));
+
+			ImGuiWindow* window = ImGui::FindWindowByName(windowTitle.c_str());
+			if (!window)
+			{
+				g_LastActiveEditor = editor;
+				continue;
+			}
+
+			if (window->DockNode->TabBar->SelectedTabId == window->TabId)
+			{
+				g_LastActiveEditor = editor;
+			}
+		}
 	}
 
-	g_LastActiveEditor->OnRenderMenu();
-
-	return true;
+	return g_LastActiveEditor != nullptr;
 }
 
-bool EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
+void EditorModule::RenderMenu()
 {
-	bool remainOpen = false;
+	if (g_LastActiveEditor)
+	{
+		g_LastActiveEditor->OnRenderMenu();
+		return;
+	}
 
+}
+
+void EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
+{
 	for (auto& [type, data] : m_Editors)
 	{
 		auto& instances = data.Instances;
@@ -70,20 +93,29 @@ bool EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
 		{
 			Editor* editor = instances[i];
 
-			g_LastActiveEditor = editor;
+			ImGui::PushID(editor);
 
-			if (editor->OnRender(DeltaTime, DockspaceId))
-			{
-				remainOpen = true;
-			}
-			else
+			if (!editor->OnRender(DeltaTime, DockspaceId))
 			{
 				//TODO: handle close
 			}
+
+			ImGui::PopID();
 		}
 	}
+}
 
-	return remainOpen;
+void EditorModule::OpenAsset(AssetID id)
+{
+	std::filesystem::path path = id.GetPath();
+
+	if (path.extension().string() == ".ent")
+	{
+		Editor* editor = Open("EntityEditor");
+		editor->Open(id);
+
+		return;
+	}
 }
 
 Editor* EditorModule::Open(std::string typeName)
@@ -101,7 +133,6 @@ Editor* EditorModule::Open(std::string typeName)
 	auto& data = it->second;
 
 	Editor* editor = type->New<Editor>();
-	editor->New();
 	data.Instances.push_back(editor);
 
 	return editor;

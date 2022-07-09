@@ -20,9 +20,11 @@ class EditorModule : public Module
 public:
 	virtual void OnInitialize() override;
 
-	bool RenderMenu();
-	bool RenderEditors(double DeltaTime, ImGuiID DockspaceId);
+	bool PrepareRender();
+	void RenderMenu();
+	void RenderEditors(double DeltaTime, ImGuiID DockspaceId);
 
+	void OpenAsset(AssetID id);
 	Editor* Open(std::string typeName);
 
 	void SetFileName(Editor* editor);

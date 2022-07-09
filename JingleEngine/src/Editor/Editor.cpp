@@ -59,12 +59,14 @@ bool Editor::OnRender(double DeltaTime, ImGuiID DockspaceId)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	
 	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	windowFlags |= ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
     ImGui::SetNextWindowDockID(DockspaceId, true ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
 
+	std::string windowTitle = fmt::format("{}###{}", GetFileName(), PointerToString(this));
+
 	bool remainOpen = true;
-	bool isOpen = ImGui::Begin(m_FileName.c_str(), &remainOpen, windowFlags);
+	bool isOpen = ImGui::Begin(windowTitle.c_str(), &remainOpen, windowFlags);
 
 	ImGui::PopStyleVar();
 	ImGui::PopStyleVar(2);
@@ -89,15 +91,21 @@ bool Editor::OnRender(double DeltaTime, ImGuiID DockspaceId)
 
 			std::string title = data.Attribute->GetTitle();
 
+			std::string windowTitle = fmt::format("{}###{}", title, PointerToString(panel));
+
 			bool isOpen = true;
 			bool canClose = true;
 
 			Script_OnBeginRender[panel](DeltaTime);
 
             ImGui::SetNextWindowDockID(editorDockspaceId, false ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
-			if (ImGui::Begin(title.c_str(), &isOpen))
+			if (ImGui::Begin(windowTitle.c_str(), &isOpen))
 			{
+				ImGui::PushID(panel);
+
 				Script_OnRender[panel](DeltaTime);
+				
+				ImGui::PopID();
 			}
 
 			Script_OnEndRender[panel](DeltaTime);
