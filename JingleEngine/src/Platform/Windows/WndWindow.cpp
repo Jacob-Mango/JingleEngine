@@ -501,13 +501,15 @@ void WndWindow::Begin()
 			ImGui::PopStyleVar(2);
 		}
 
+		double DeltaTime = 1.0 / 144.0;
+
 		auto editor = ModuleManager::Get<EditorModule>();
 		if (editor)
 		{
 			bool hasEditorsOpen = editor->PrepareRender();
 
 			ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
-			
+
 			if (hasEditorsOpen)
 			{
 				ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
@@ -522,7 +524,11 @@ void WndWindow::Begin()
 
 			if (hasEditorsOpen)
 			{
-				editor->RenderEditors(1.0 / 144.0, dockspaceId);
+				editor->RenderEditors(DeltaTime, dockspaceId);
+			}
+			else
+			{
+				editor->RenderMain(DeltaTime, dockspaceId);
 			}
 		}
 	}

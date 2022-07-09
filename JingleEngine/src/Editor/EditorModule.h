@@ -21,7 +21,10 @@ public:
 	virtual void OnInitialize() override;
 
 	bool PrepareRender();
+
 	void RenderMenu();
+	
+	void RenderMain(double DeltaTime, ImGuiID DockspaceId);
 	void RenderEditors(double DeltaTime, ImGuiID DockspaceId);
 
 	void OpenAsset(AssetID id);

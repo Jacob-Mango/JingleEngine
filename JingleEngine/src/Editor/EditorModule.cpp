@@ -6,6 +6,8 @@
 #include "Editor/EditorAttribute.h"
 #include "Editor/EditorPanel.h"
 
+#include "Editor/Panels/ContentBrowserPanel.h"
+
 #include <filesystem>
 
 BEGIN_MODULE_LINK(EditorModule);
@@ -40,8 +42,6 @@ void EditorModule::OnInitialize()
 
 		m_Editors.insert({ type, data });
 	}
-
-	Open("EntityEditor");
 }
 
 Editor* g_LastActiveEditor = nullptr;
@@ -75,12 +75,50 @@ bool EditorModule::PrepareRender()
 
 void EditorModule::RenderMenu()
 {
+	if (ImGui::BeginMenu("Editor"))
+	{
+		ImGui::EndMenu();
+	}
+
 	if (g_LastActiveEditor)
 	{
 		g_LastActiveEditor->OnRenderMenu();
 		return;
 	}
 
+}
+
+ContentBrowserPanel* g_ContentBrowser = nullptr;
+
+void EditorModule::RenderMain(double DeltaTime, ImGuiID DockspaceId)
+{
+	if (!g_ContentBrowser)
+	{
+		g_ContentBrowser = JingleScript::NewObject<ContentBrowserPanel>("ContentBrowserPanel");
+	}
+
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking;
+
+	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+	
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+	ImVec2 pos = viewport->WorkPos;
+	ImVec2 size = viewport->WorkSize;
+
+	ImGuiWindow* window = ImGui::FindWindowByName("JingleEngine Editor");
+	if (window)
+	{
+		pos.y += window->MenuBarHeight();
+		size.y -= window->MenuBarHeight();
+	}
+
+	ImGui::SetNextWindowPos(pos);
+	ImGui::SetNextWindowSize(size);
+	ImGui::SetNextWindowViewport(viewport->ID);
+
+	EditorPanel::Render(g_ContentBrowser, DeltaTime, "", DockspaceId, windowFlags);
 }
 
 void EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
@@ -97,7 +135,7 @@ void EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
 
 			if (!editor->OnRender(DeltaTime, DockspaceId))
 			{
-				//TODO: handle close
+				instances.erase(instances.begin() + i);
 			}
 
 			ImGui::PopID();

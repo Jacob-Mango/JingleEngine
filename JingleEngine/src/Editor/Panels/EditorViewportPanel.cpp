@@ -157,6 +157,8 @@ void EditorViewportPanel::OnRender(double DeltaTime)
 	ImRect rect(min, max);
 	cursorInViewport &= rect.Contains(mousePosition);
 
+	cursorInViewport = false;
+
 	if (cursorInViewport)
 	{
 		std::pair<int, int> viewportMiddle = { position.x + (windowSize.x / 2), position.y + (windowSize.y / 2) };

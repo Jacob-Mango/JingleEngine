@@ -45,10 +45,6 @@ Editor::~Editor()
 {
 }
 
-STATIC_FUNCTION(EditorPanel, OnBeginRender, void, double);
-STATIC_FUNCTION(EditorPanel, OnRender, void, double);
-STATIC_FUNCTION(EditorPanel, OnEndRender, void, double);
-
 bool Editor::OnRender(double DeltaTime, ImGuiID DockspaceId)
 {
 	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_None;
@@ -89,39 +85,10 @@ bool Editor::OnRender(double DeltaTime, ImGuiID DockspaceId)
 		{
 			EditorPanel* panel = instances[i];
 
-			std::string title = data.Attribute->GetTitle();
-
-			std::string windowTitle = fmt::format("{}###{}", title, PointerToString(panel));
-
-			bool isOpen = true;
-			bool canClose = true;
-
-			Script_OnBeginRender[panel](DeltaTime);
-
-            ImGui::SetNextWindowDockID(editorDockspaceId, false ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
-			if (ImGui::Begin(windowTitle.c_str(), &isOpen))
-			{
-				ImGui::PushID(panel);
-
-				Script_OnRender[panel](DeltaTime);
-				
-				ImGui::PopID();
-			}
-
-			Script_OnEndRender[panel](DeltaTime);
-
-			panel->m_ShouldClose |= !isOpen;
-			if (panel->m_ShouldClose)
-			{
-				//! TODO: Handle logic that prevents closing such as "Unsaved data" prompt. Will set 'canClose' to 'false'
-			}
-
-			ImGui::End();
-
-			if (panel->m_ShouldClose && canClose)
+			if (!EditorPanel::Render(panel, DeltaTime, data.Attribute->GetTitle(), editorDockspaceId, 0))
 			{
 				//JingleScript::DeleteObject(instances[i]);
-
+				
 				instances.erase(instances.begin() + i);
 			}
 		}

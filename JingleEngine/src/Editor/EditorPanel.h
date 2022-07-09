@@ -8,6 +8,8 @@
 class Editor;
 class EditorModule;
 
+struct EditorPanelData;
+
 class EditorPanel : public JingleScript::Object
 {
 	DEFINE_CLASS(EditorPanel, JingleScript::Object);
@@ -26,6 +28,8 @@ public:
 	~EditorPanel();
 
 public:
+	static bool Render(EditorPanel* panel, double DeltaTime, const std::string& title, ImGuiID dockspaceId, ImGuiWindowFlags flags);
+
 	virtual void OnBeginRender(double DeltaTime);
 	virtual void OnRender(double DeltaTime);
 	virtual void OnEndRender(double DeltaTime);

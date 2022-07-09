@@ -20,6 +20,49 @@ EditorPanel::~EditorPanel()
 {
 }
 
+STATIC_FUNCTION(EditorPanel, OnBeginRender, void, double);
+STATIC_FUNCTION(EditorPanel, OnRender, void, double);
+STATIC_FUNCTION(EditorPanel, OnEndRender, void, double);
+
+bool EditorPanel::Render(EditorPanel* panel, double DeltaTime, const std::string& title, ImGuiID dockspaceId, ImGuiWindowFlags flags)
+{
+	std::string windowTitle = fmt::format("{}###{}", title, PointerToString(panel));
+
+	bool isOpen = true;
+	bool canClose = true;
+
+	Script_OnBeginRender[panel](DeltaTime);
+
+    ImGui::SetNextWindowDockID(dockspaceId, false ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
+
+	bool* isOpenPtr = &isOpen;
+	if ((flags & ImGuiWindowFlags_NoTitleBar) != 0)
+	{
+		isOpenPtr = nullptr;
+	}
+	
+	if (ImGui::Begin(windowTitle.c_str(), isOpenPtr))
+	{
+		ImGui::PushID(panel);
+
+		Script_OnRender[panel](DeltaTime);
+		
+		ImGui::PopID();
+	}
+
+	Script_OnEndRender[panel](DeltaTime);
+
+	panel->m_ShouldClose |= !isOpen;
+	if (panel->m_ShouldClose)
+	{
+		//! TODO: Handle logic that prevents closing such as "Unsaved data" prompt. Will set 'canClose' to 'false'
+	}
+
+	ImGui::End();
+
+	return !(panel->m_ShouldClose && canClose);
+}
+
 void EditorPanel::OnBeginRender(double DeltaTime)
 {
 }
