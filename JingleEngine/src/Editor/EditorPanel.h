@@ -3,17 +3,20 @@
 #include "Core/Core.h"
 #include "Core/Module.h"
 
-#include "Editor/EditorModule.h"
+#include "Editor/EditorAttribute.h"
+
+class Editor;
+class EditorModule;
 
 class EditorPanel : public JingleScript::Object
 {
 	DEFINE_CLASS(EditorPanel, JingleScript::Object);
 
+	friend Editor;
 	friend EditorModule;
 
 private:
 	bool m_ShouldClose = false;
-	int m_OpenedIndex = 0;
 
 	EditorModule* m_Editor;
 
@@ -31,4 +34,11 @@ public:
 	
 	void Close();
 
+};
+
+struct EditorPanelData
+{
+	EditorAttribute* Attribute;
+
+	std::vector<EditorPanel*> Instances;
 };

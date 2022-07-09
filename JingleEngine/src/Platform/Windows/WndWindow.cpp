@@ -71,8 +71,15 @@ int WndWindow::Create(const WindowDesc& desc)
 
 	std::wstring title = std::wstring(desc.Title.begin(), desc.Title.end());
 
-	m_Window = CreateWindowW(wc.lpszClassName, title.c_str(), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, m_Width, m_Height, 0, 0, m_Instance, 0);
-	ShowWindow(m_Window, SW_RESTORE);
+	DWORD dwStyle = 0;
+	DWORD dwExStyle = 0;
+
+	m_Window = CreateWindowExW(dwExStyle, wc.lpszClassName, title.c_str(), dwStyle, 0, 0, m_Width, m_Height, 0, 0, m_Instance, 0);
+	
+    SetWindowLong(m_Window, GWL_STYLE, dwStyle);
+    SetWindowLong(m_Window, GWL_EXSTYLE, dwExStyle);
+
+	ShowWindow(m_Window, SW_SHOW);
 	m_DeviceContext = GetDC(m_Window);
 
 	RAWINPUTDEVICE rid[1];
@@ -323,6 +330,10 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 	switch (message)
 	{
+	case WM_ERASEBKGND:
+	{
+		//return 0; // Prevent flickering on window invalidation
+	}
 	case WM_SIZE:
 	{
 		window->m_Maximized = wParam == SIZE_MAXIMIZED;
@@ -444,7 +455,7 @@ void WndWindow::Begin()
 
 	io.ConfigWindowsResizeFromEdges = io.BackendFlags & ImGuiBackendFlags_HasMouseCursors;
 
-	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking;
 	ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
 
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -453,37 +464,29 @@ void WndWindow::Begin()
 	ImGui::SetNextWindowViewport(viewport->ID);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	
 	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 	if (ImGui::Begin("DockSpace Demo", nullptr, windowFlags))
 	{
 		ImGui::PopStyleVar();
 		ImGui::PopStyleVar(2);
 
-		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspaceFlags);
-		
-		if (ImGui::BeginMenuBar())
+		ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
+		ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
+
+		auto editor = ModuleManager::Get<EditorModule>();
+		if (editor)
 		{
-			if (ImGui::BeginMenu("Options"))
+			if (!editor->RenderEditors(1.0 / 144.0, dockspaceId))
 			{
-				if (ImGui::MenuItem("Close", NULL))
-				{
-					
-				}
+				WindowCloseEventArgs args;
 
-				ImGui::EndMenu();
+				Application::Get()->OnWindowClose.Invoke(this, args);
+				Application::Get()->OnEvent(this, args);
 			}
-
-			auto editor = ModuleManager::Get<EditorModule>();
-			if (editor)
-			{
-				editor->RenderMenuBar();
-			}
-
-			ImGui::EndMenuBar();
 		}
 	}
 

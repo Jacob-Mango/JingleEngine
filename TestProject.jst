@@ -1018,6 +1018,33 @@ Global {
    Base: "EditorPanel"
   }
   Class {
+   Name: "Editor"
+   Base: "Object"
+  }
+  Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Entity Editor"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+     ForceExact: "0"
+    }
+   }
+   Name: "EntityEditor"
+   Base: "Editor"
+  }
+  Class {
    Name: "MeshComponent"
    Base: "Component"
    Variables: {

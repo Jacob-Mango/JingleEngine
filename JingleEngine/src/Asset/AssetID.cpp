@@ -4,7 +4,8 @@
 
 AssetID::AssetID()
 {
-
+	m_Value = 0;
+	m_Path = "";
 }
 
 AssetID::AssetID(AssetIDv id) : m_Value(id)

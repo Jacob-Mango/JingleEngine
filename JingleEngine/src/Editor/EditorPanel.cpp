@@ -1,5 +1,7 @@
 #include "Editor/EditorPanel.h"
 
+#include "Editor/EditorModule.h"
+
 BEGIN_CLASS_LINK(EditorPanel);
 	LINK_CONSTRUCTOR();
 	LINK_METHOD(OnBeginRender);

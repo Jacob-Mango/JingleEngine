@@ -41,7 +41,7 @@ std::string StructureProperty::ToString(void*& data)
 	if (!function)
 	{
 		JS_ERROR("Failed to find '{}'", signature.ToString());
-		return false;
+		return "";
 	}
 
 	Thread* thread = Thread::Current();

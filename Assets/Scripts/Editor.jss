@@ -65,3 +65,12 @@ class ScriptTestPanel extends EditorPanel
 		ImGui_Text("WantCaptureMouse: " + b2);
 	}
 }
+
+class Editor
+{
+}
+
+@EditorAttribute("Entity Editor")
+class EntityEditor extends Editor
+{
+}

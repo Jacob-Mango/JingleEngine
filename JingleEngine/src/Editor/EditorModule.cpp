@@ -2,8 +2,11 @@
 
 #include "Core/Application.h"
 
+#include "Editor/Editor.h"
 #include "Editor/EditorAttribute.h"
 #include "Editor/EditorPanel.h"
+
+#include <filesystem>
 
 BEGIN_MODULE_LINK(EditorModule);
 END_MODULE_LINK();
@@ -12,9 +15,9 @@ void EditorModule::OnInitialize()
 {
 	using namespace JingleScript;
 
-	m_Panels.clear();
+	m_Editors.clear();
 
-	Type* baseType = EditorPanel::StaticType();
+	Type* baseType = Editor::StaticType();
 
 	for (auto& type : TypeManager::Iterator())
 	{
@@ -23,7 +26,7 @@ void EditorModule::OnInitialize()
 			continue;
 		}
 
-		EditorPanelData data;
+		EditorData data;
 
 		for (auto& attributeBase : type->Attributes)
 		{
@@ -35,147 +38,82 @@ void EditorModule::OnInitialize()
 			data.Attribute = static_cast<EditorAttribute*>(attributeBase);
 		}
 
-		m_Panels.insert({ type, data});
+		m_Editors.insert({ type, data });
 	}
 
-	Open("EditorViewportPanel");
-	Open("EntityPropertiesPanel");
-	Open("EntityHierarchyPanel");
-	Open("ContentBrowserPanel");
+	Open("EntityEditor");
 }
 
-STATIC_FUNCTION(EditorPanel, OnBeginRender, void, double);
-STATIC_FUNCTION(EditorPanel, OnRender, void, double);
-STATIC_FUNCTION(EditorPanel, OnEndRender, void, double);
-
-void EditorModule::OnEvent(BaseClass* sender, const EventArgs& args)
+bool EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
 {
-	switch (args.GetType())
+	bool remainOpen = false;
+
+	for (auto& [type, data] : m_Editors)
 	{
-		case EventTypeImGuiRender:
-			double deltaTime = args.As<ImGuiRenderEventArgs>().DeltaTime;
+		auto& instances = data.Instances;
 
-			for (auto& [type, data] : m_Panels)
-			{
-				auto& instances = data.Instances;
-
-				for (int i = instances.size() - 1; i >= 0; i--)
-				{
-					EditorPanel* panel = instances[i];
-
-					std::string title = data.Attribute->GetTitle();
-
-					if (panel->m_OpenedIndex > 0)
-					{
-						title = title + " #" + std::to_string(panel->m_OpenedIndex);
-					}
-
-					bool isOpen = true;
-					bool canClose = true;
-
-					Script_OnBeginRender[panel](deltaTime);
-
-					if (ImGui::Begin(title.c_str(), &isOpen))
-					{
-						Script_OnRender[panel](deltaTime);
-					}
-
-					Script_OnEndRender[panel](deltaTime);
-
-					panel->m_ShouldClose |= !isOpen;
-					if (panel->m_ShouldClose)
-					{
-						//! TODO: Handle logic that prevents closing such as "Unsaved data" prompt. Will set 'canClose' to 'false'
-					}
-
-					ImGui::End();
-
-					if (panel->m_ShouldClose && canClose)
-					{
-						//JingleScript::DeleteObject(instances[i]);
-
-						instances.erase(instances.begin() + i);
-					}
-				}
-			}
-			
-			break;
-	}
-}
-
-void EditorModule::RenderMenuBar()
-{
-	if (ImGui::BeginMenu("Panels"))
-	{
-		for (auto& [type, data] : m_Panels)
+		for (int i = instances.size() - 1; i >= 0; i--)
 		{
-			std::string title = data.Attribute->GetTitle();
+			Editor* editor = instances[i];
 
-			if (ImGui::MenuItem(title.c_str(), NULL))
+			if (editor->OnRender(DeltaTime, DockspaceId))
 			{
-				Open(type->Name());
+				remainOpen = true;
+			}
+			else
+			{
+				//TODO: handle close
 			}
 		}
-
-		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Scene"))
-	{
-		if (ImGui::MenuItem("Save", NULL))
-		{
-			Entity* entity = Application::Get()->GetScene();
-
-			AssetID id = { "Assets/Scenes/scene.ent" };
-			ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(id);
-			ConfigSection* cfg = cfgAsset->Get();
-
-			cfgAsset->Serialize(entity);
-
-			cfgAsset->OnSave();
-		}
-
-		ImGui::EndMenu();
-	}
+	return remainOpen;
 }
 
-int EditorModule::FindLowestNumber(std::vector<EditorPanel*> panels, int start, int end)
-{
-	if (start > end)
-		return end + 1;
-
-	if (start != panels[start]->m_OpenedIndex)
-		return start;
-
-	int mid = (start + end) / 2;
-
-	// Left half has all elements from 0 to mid
-	if (panels[mid]->m_OpenedIndex == mid)
-		return FindLowestNumber(panels, mid + 1, end);
-
-	return FindLowestNumber(panels, start, mid);
-}
-
-EditorPanel* EditorModule::Open(std::string typeName)
+Editor* EditorModule::Open(std::string typeName)
 {
 	using namespace JingleScript;
 
 	Type* type = TypeManager::Get(typeName);
 
-	auto it = m_Panels.find(type);
-	if (it == m_Panels.end())
+	auto it = m_Editors.find(type);
+	if (it == m_Editors.end())
 	{
 		return nullptr;
 	}
 
 	auto& data = it->second;
 
-	int lowest = FindLowestNumber(data.Instances, 0, data.Instances.size() - 1);
+	Editor* editor = type->New<Editor>();
+	editor->New();
+	data.Instances.push_back(editor);
 
-	EditorPanel* panel = type->New<EditorPanel>();
-	panel->m_OpenedIndex = lowest;
-	data.Instances.push_back(panel);
-	return panel;
+	return editor;
+}
+
+void EditorModule::SetFileName(Editor* editor)
+{
+	using namespace JingleScript;
+
+	if (!editor->m_AssetID.GetPath().empty())
+	{
+		std::filesystem::path p = editor->m_AssetID.GetPath();
+		editor->m_FileName = p.filename().string();
+		return;
+	}
+
+	Type* type = TypeManager::Get(editor->GetType()->Name());
+
+	auto it = m_Editors.find(type);
+	if (it == m_Editors.end())
+	{
+		editor->m_FileName = "Not Registered";
+		return;
+	}
+
+	auto& data = it->second;
+
+	editor->m_FileName = fmt::format("Unsaved {}", data.Instances.size());
 }
 
 void EditorModule::SelectEntity(Entity* entity)

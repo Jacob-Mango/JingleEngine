@@ -5,37 +5,29 @@
 
 #include "Entities/Entity.h"
 
-class EditorPanel;
-class EditorAttribute;
+#include "Editor/Editor.h"
+#include "Editor/EditorAttribute.h"
+#include "Editor/EditorPanel.h"
 
 class EditorModule : public Module
 {
 	DEFINE_MODULE(EditorModule, Module);
 
-	struct EditorPanelData
-	{
-		EditorAttribute* Attribute;
-
-		std::vector<EditorPanel*> Instances;
-	};
-
-	std::map<JingleScript::Type*, EditorPanelData> m_Panels;
+	std::map<JingleScript::Type*, EditorData> m_Editors;
 
 	Entity* m_SelectedEntity = nullptr;
 
 public:
 	virtual void OnInitialize() override;
-	virtual void OnEvent(BaseClass* sender, const EventArgs& args) override;
 
-	void RenderMenuBar();
+	bool RenderEditors(double DeltaTime, ImGuiID DockspaceId);
 
-	EditorPanel* Open(std::string typeName);
+	Editor* Open(std::string typeName);
+
+	void SetFileName(Editor* editor);
 
 	void SelectEntity(Entity* entity);
 	Entity* GetSelectedEntity();
 	void ClearSelection();
-
-private:
-	int FindLowestNumber(std::vector<EditorPanel*> panels, int start, int end);
 
 };

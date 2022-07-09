@@ -2,6 +2,7 @@
 
 #include "Core/Application.h"
 
+#include "Editor/EditorModule.h"
 #include "Editor/EditorUI.h"
 
 #include <imgui.h>

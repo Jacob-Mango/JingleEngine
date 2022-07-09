@@ -2,6 +2,8 @@
 
 #include "Editor/EditorPanel.h"
 
+#include "Entities/Entity.h"
+
 class EntityHierarchyPanel : public EditorPanel
 {
 	DEFINE_CLASS(EntityHierarchyPanel, EditorPanel);

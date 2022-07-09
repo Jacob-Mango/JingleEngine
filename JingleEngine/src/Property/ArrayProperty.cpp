@@ -86,11 +86,11 @@ bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 		ObjectProperty* property = dynamic_cast<ObjectProperty*>(obj);
 		if (property)
 		{
-			property->OnSerialize(cfg, (void*)dta);
+			property->OnSerialize(cfg, dta);
 			continue;
 		}
 
-		m_PropertyData->OnSerialize(cfg, (void*)dta);
+		m_PropertyData->OnSerialize(cfg, dta);
 	}
 
 	stack->Pop(intSize);
