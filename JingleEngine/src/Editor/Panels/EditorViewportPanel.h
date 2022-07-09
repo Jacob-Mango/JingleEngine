@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Editor/EditorPanelBase.h"
+#include "Editor/EditorPanel.h"
 
-class EditorViewportPanel : public EditorPanelBase
+class EditorViewportPanel : public EditorPanel
 {
-	DEFINE_CLASS(EditorViewportPanel, EditorPanelBase);
+	DEFINE_CLASS(EditorViewportPanel, EditorPanel);
 
 	class Viewport* m_Viewport;
 

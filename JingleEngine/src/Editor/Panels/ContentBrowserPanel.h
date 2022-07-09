@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Editor/EditorPanelBase.h"
+#include "Editor/EditorPanel.h"
 
 #include <filesystem>
 
-class ContentBrowserPanel : public EditorPanelBase
+class ContentBrowserPanel : public EditorPanel
 {
-	DEFINE_CLASS(ContentBrowserPanel, EditorPanelBase);
+	DEFINE_CLASS(ContentBrowserPanel, EditorPanel);
 
 private:
 	std::filesystem::path m_CurrentDirectory;

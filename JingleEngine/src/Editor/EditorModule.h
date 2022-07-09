@@ -5,7 +5,7 @@
 
 #include "Entities/Entity.h"
 
-class EditorPanelBase;
+class EditorPanel;
 class EditorAttribute;
 
 class EditorModule : public Module
@@ -16,7 +16,7 @@ class EditorModule : public Module
 	{
 		EditorAttribute* Attribute;
 
-		std::vector<EditorPanelBase*> Instances;
+		std::vector<EditorPanel*> Instances;
 	};
 
 	std::map<JingleScript::Type*, EditorPanelData> m_Panels;
@@ -29,13 +29,13 @@ public:
 
 	void RenderMenuBar();
 
-	EditorPanelBase* Open(std::string typeName);
+	EditorPanel* Open(std::string typeName);
 
 	void SelectEntity(Entity* entity);
 	Entity* GetSelectedEntity();
 	void ClearSelection();
 
 private:
-	int FindLowestNumber(std::vector<EditorPanelBase*> panels, int start, int end);
+	int FindLowestNumber(std::vector<EditorPanel*> panels, int start, int end);
 
 };

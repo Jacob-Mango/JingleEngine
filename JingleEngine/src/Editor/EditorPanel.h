@@ -5,9 +5,9 @@
 
 #include "Editor/EditorModule.h"
 
-class EditorPanelBase : public JingleScript::Object
+class EditorPanel : public JingleScript::Object
 {
-	DEFINE_CLASS(EditorPanelBase, JingleScript::Object);
+	DEFINE_CLASS(EditorPanel, JingleScript::Object);
 
 	friend EditorModule;
 
@@ -18,8 +18,8 @@ private:
 	EditorModule* m_Editor;
 
 public:
-	EditorPanelBase();
-	~EditorPanelBase();
+	EditorPanel();
+	~EditorPanel();
 
 	virtual void OnBeginRender(double DeltaTime);
 	virtual void OnRender(double DeltaTime);

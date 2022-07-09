@@ -246,7 +246,7 @@ void ObjectProperty::Editor_OnRender(void*& data)
 
 	if (GetPropertyAttribute())
 	{
-		Editor::Render_CellHeader(GetName());
+		EditorUI::Render_CellHeader(GetName());
 
 		ImGui::TableNextColumn();
 		ImGui::TextUnformatted(type->Name().c_str());
@@ -264,7 +264,7 @@ void ObjectProperty::Editor_OnRender(void*& data)
 
 		auto property = it->second;
 
-		ScopedIncrement increment(Editor::Context.Depth);
+		ScopedIncrement increment(EditorUI::Context.Depth);
 
 		auto varType = property->GetPropertyType();
 		auto varOffset = property->GetPropertyOffset();

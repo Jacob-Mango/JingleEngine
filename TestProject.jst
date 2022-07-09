@@ -651,7 +651,7 @@ Global {
     }
    }
    Name: "ScriptTestPanel"
-   Base: "EditorPanelBase"
+   Base: "EditorPanel"
    Methods: {
     Method {
      Children: {
@@ -840,7 +840,7 @@ Global {
     }
    }
    Name: "EditorViewportPanel"
-   Base: "EditorPanelBase"
+   Base: "EditorPanel"
   }
   Class {
    Name: "EditorAttribute"
@@ -879,37 +879,7 @@ Global {
    Base: "Object"
   }
   Class {
-   Name: "MeshComponent"
-   Base: "Component"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "Mesh"
-     Name: "Model"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "Material"
-     Name: "Material"
-    }
-   }
-  }
-  Class {
-   Name: "EditorPanelBase"
+   Name: "EditorPanel"
    Base: "Object"
    Methods: {
     Method {
@@ -975,27 +945,8 @@ Global {
    }
   }
   Class {
-   Attributes: {
-    Attribute {
-     Value: "EditorAttribute"
-     Arguments: {
-      [0]: {
-       Expression {
-        Right: {
-         Constant {
-          Value: "Content Browser"
-         }
-        }
-       }
-      }
-     }
-     IsConstructor: "1"
-     IsSuper: "0"
-     ForceExact: "0"
-    }
-   }
-   Name: "ContentBrowserPanel"
-   Base: "EditorPanelBase"
+   Name: "Module"
+   Base: "Object"
   }
   Class {
    Attributes: {
@@ -1017,8 +968,8 @@ Global {
      ForceExact: "0"
     }
    }
-   Name: "SceneHierarchyPanel"
-   Base: "EditorPanelBase"
+   Name: "EntityHierarchyPanel"
+   Base: "EditorPanel"
   }
   Class {
    Attributes: {
@@ -1041,11 +992,60 @@ Global {
     }
    }
    Name: "EntityPropertiesPanel"
-   Base: "EditorPanelBase"
+   Base: "EditorPanel"
   }
   Class {
-   Name: "Module"
-   Base: "Object"
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Content Browser"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+     ForceExact: "0"
+    }
+   }
+   Name: "ContentBrowserPanel"
+   Base: "EditorPanel"
+  }
+  Class {
+   Name: "MeshComponent"
+   Base: "Component"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "Mesh"
+     Name: "Model"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "Material"
+     Name: "Material"
+    }
+   }
   }
   Class {
    Name: "Renderer"

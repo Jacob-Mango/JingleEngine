@@ -11,7 +11,7 @@ class EditorAttribute extends Attribute
 	EditorAttribute(string title);
 }
 
-class EditorPanelBase
+class EditorPanel
 {
 	@Native
 	void OnBeginRender(double DeltaTime);
@@ -24,31 +24,31 @@ class EditorPanelBase
 }
 
 @EditorAttribute("Viewport")
-class EditorViewportPanel extends EditorPanelBase
+class EditorViewportPanel extends EditorPanel
 {
 
 }
 
 @EditorAttribute("Scene Hierarchy")
-class SceneHierarchyPanel extends EditorPanelBase
+class EntityHierarchyPanel extends EditorPanel
 {
 
 }
 
 @EditorAttribute("Entity Properties")
-class EntityPropertiesPanel extends EditorPanelBase
+class EntityPropertiesPanel extends EditorPanel
 {
 
 }
 
 @EditorAttribute("Content Browser")
-class ContentBrowserPanel extends EditorPanelBase
+class ContentBrowserPanel extends EditorPanel
 {
 
 }
 
 @EditorAttribute("Script Test")
-class ScriptTestPanel extends EditorPanelBase
+class ScriptTestPanel extends EditorPanel
 {
 	void OnRender(double DeltaTime)
 	{

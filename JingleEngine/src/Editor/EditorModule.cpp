@@ -3,7 +3,7 @@
 #include "Core/Application.h"
 
 #include "Editor/EditorAttribute.h"
-#include "Editor/EditorPanelBase.h"
+#include "Editor/EditorPanel.h"
 
 BEGIN_MODULE_LINK(EditorModule);
 END_MODULE_LINK();
@@ -14,7 +14,7 @@ void EditorModule::OnInitialize()
 
 	m_Panels.clear();
 
-	Type* baseType = EditorPanelBase::StaticType();
+	Type* baseType = EditorPanel::StaticType();
 
 	for (auto& type : TypeManager::Iterator())
 	{
@@ -40,13 +40,13 @@ void EditorModule::OnInitialize()
 
 	Open("EditorViewportPanel");
 	Open("EntityPropertiesPanel");
-	Open("SceneHierarchyPanel");
+	Open("EntityHierarchyPanel");
 	Open("ContentBrowserPanel");
 }
 
-STATIC_FUNCTION(EditorPanelBase, OnBeginRender, void, double);
-STATIC_FUNCTION(EditorPanelBase, OnRender, void, double);
-STATIC_FUNCTION(EditorPanelBase, OnEndRender, void, double);
+STATIC_FUNCTION(EditorPanel, OnBeginRender, void, double);
+STATIC_FUNCTION(EditorPanel, OnRender, void, double);
+STATIC_FUNCTION(EditorPanel, OnEndRender, void, double);
 
 void EditorModule::OnEvent(BaseClass* sender, const EventArgs& args)
 {
@@ -61,7 +61,7 @@ void EditorModule::OnEvent(BaseClass* sender, const EventArgs& args)
 
 				for (int i = instances.size() - 1; i >= 0; i--)
 				{
-					EditorPanelBase* panel = instances[i];
+					EditorPanel* panel = instances[i];
 
 					std::string title = data.Attribute->GetTitle();
 
@@ -139,7 +139,7 @@ void EditorModule::RenderMenuBar()
 	}
 }
 
-int EditorModule::FindLowestNumber(std::vector<EditorPanelBase*> panels, int start, int end)
+int EditorModule::FindLowestNumber(std::vector<EditorPanel*> panels, int start, int end)
 {
 	if (start > end)
 		return end + 1;
@@ -156,7 +156,7 @@ int EditorModule::FindLowestNumber(std::vector<EditorPanelBase*> panels, int sta
 	return FindLowestNumber(panels, start, mid);
 }
 
-EditorPanelBase* EditorModule::Open(std::string typeName)
+EditorPanel* EditorModule::Open(std::string typeName)
 {
 	using namespace JingleScript;
 
@@ -172,7 +172,7 @@ EditorPanelBase* EditorModule::Open(std::string typeName)
 
 	int lowest = FindLowestNumber(data.Instances, 0, data.Instances.size() - 1);
 
-	EditorPanelBase* panel = type->New<EditorPanelBase>();
+	EditorPanel* panel = type->New<EditorPanel>();
 	panel->m_OpenedIndex = lowest;
 	data.Instances.push_back(panel);
 	return panel;

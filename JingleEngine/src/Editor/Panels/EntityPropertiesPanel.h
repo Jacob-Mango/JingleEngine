@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Editor/EditorPanelBase.h"
+#include "Editor/EditorPanel.h"
 
-class EntityPropertiesPanel : public EditorPanelBase
+class EntityPropertiesPanel : public EditorPanel
 {
-	DEFINE_CLASS(EntityPropertiesPanel, EditorPanelBase);
+	DEFINE_CLASS(EntityPropertiesPanel, EditorPanel);
 
 public:
 	EntityPropertiesPanel() {}

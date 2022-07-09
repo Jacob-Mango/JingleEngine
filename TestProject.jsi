@@ -73,17 +73,17 @@ class #global extends Object {
     [0000000C]   pop 40                                                                                JingleScript::ValueItem::Pop
     [0000000D]   copy_address 0                                                                        
     [0000000E]   push 40                                                                               JingleScript::ValueItem::Push
-    [0000000F]    copy_data string [Content Browser] 40                                                JingleScript::Compiler::CompileConstant
+    [0000000F]    copy_data string [Scene Hierarchy] 40                                                JingleScript::Compiler::CompileConstant
     [00000010]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [00000011]   pop 40                                                                                JingleScript::ValueItem::Pop
     [00000012]   copy_address 0                                                                        
     [00000013]   push 40                                                                               JingleScript::ValueItem::Push
-    [00000014]    copy_data string [Scene Hierarchy] 40                                                JingleScript::Compiler::CompileConstant
+    [00000014]    copy_data string [Entity Properties] 40                                              JingleScript::Compiler::CompileConstant
     [00000015]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [00000016]   pop 40                                                                                JingleScript::ValueItem::Pop
     [00000017]   copy_address 0                                                                        
     [00000018]   push 40                                                                               JingleScript::ValueItem::Push
-    [00000019]    copy_data string [Entity Properties] 40                                              JingleScript::Compiler::CompileConstant
+    [00000019]    copy_data string [Content Browser] 40                                                JingleScript::Compiler::CompileConstant
     [0000001A]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [0000001B]   pop 40                                                                                JingleScript::ValueItem::Pop
     [0000001C]   copy_address 0                                                                        
@@ -302,7 +302,7 @@ class ConfigValue extends Config {
   ConfigValue::dtor() (Native)
 }
 
-class ContentBrowserPanel extends EditorPanelBase {
+class ContentBrowserPanel extends EditorPanel {
 
   ContentBrowserPanel::ctor() (Native)
 
@@ -313,6 +313,13 @@ class Debug extends Object {
 }
 
 class DebugType extends Object {
+}
+
+class Editor extends Object {
+
+  Editor::ctor() (Native)
+
+  Editor::dtor() (Native)
 }
 
 class EditorAttribute extends Attribute {
@@ -330,21 +337,21 @@ class EditorModule extends Module {
   EditorModule::dtor() (Native)
 }
 
-class EditorPanelBase extends Object {
+class EditorPanel extends Object {
 
-  void EditorPanelBase::Close() (Native)
+  void EditorPanel::Close() (Native)
 
-  EditorModule EditorPanelBase::GetEditor() (Native)
+  EditorModule EditorPanel::GetEditor() (Native)
 
-  void EditorPanelBase::OnBeginRender(double) (Native)
+  void EditorPanel::OnBeginRender(double) (Native)
 
-  void EditorPanelBase::OnEndRender(double) (Native)
+  void EditorPanel::OnEndRender(double) (Native)
 
-  void EditorPanelBase::OnRender(double) (Native)
+  void EditorPanel::OnRender(double) (Native)
 
-  EditorPanelBase::ctor() (Native)
+  EditorPanel::ctor() (Native)
 
-  EditorPanelBase::dtor() (Native)
+  EditorPanel::dtor() (Native)
 }
 
 class EditorViewport extends Viewport {
@@ -354,7 +361,7 @@ class EditorViewport extends Viewport {
   EditorViewport::dtor() (Native)
 }
 
-class EditorViewportPanel extends EditorPanelBase {
+class EditorViewportPanel extends EditorPanel {
 
   EditorViewportPanel::ctor() (Native)
 
@@ -427,7 +434,14 @@ class EntityArray extends Array {
   EntityArray::dtor() (Native)
 }
 
-class EntityPropertiesPanel extends EditorPanelBase {
+class EntityHierarchyPanel extends EditorPanel {
+
+  EntityHierarchyPanel::ctor() (Native)
+
+  EntityHierarchyPanel::dtor() (Native)
+}
+
+class EntityPropertiesPanel extends EditorPanel {
 
   EntityPropertiesPanel::ctor() (Native)
 
@@ -561,14 +575,7 @@ class Renderer extends Module {
   Renderer::dtor() (Native)
 }
 
-class SceneHierarchyPanel extends EditorPanelBase {
-
-  SceneHierarchyPanel::ctor() (Native)
-
-  SceneHierarchyPanel::dtor() (Native)
-}
-
-class ScriptTestPanel extends EditorPanelBase {
+class ScriptTestPanel extends EditorPanel {
 
   void ScriptTestPanel::OnRender(double) {
     [00000000]  push 8                                                                                 JingleScript::ValueItem::Push

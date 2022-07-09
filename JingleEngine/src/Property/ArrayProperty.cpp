@@ -230,7 +230,7 @@ void ArrayProperty::Editor_OnRender(void*& data)
 	int count = Script_Count[object]();
 	for (int i = 0; i < count; i++)
 	{
-		ScopedIncrement increment(Editor::Context.Depth);
+		ScopedIncrement increment(EditorUI::Context.Depth);
 
 		stack->Push(sizeof(int));
 		stack->CopyFrom(sizeof(int), &i, sizeof(int));

@@ -104,16 +104,16 @@ void Entity::OnDeserializeTransform(Config* cfg)
 
 void Entity::Editor_OnRenderTransform()
 {
-	Editor::Render_CellHeader("Position");
+	EditorUI::Render_CellHeader("Position");
 	glm::dvec3 position = GetPosition();
-	if (Editor::Render_Vector3(position))
+	if (EditorUI::Render_Vector3(position))
 	{
 		SetPosition(position);
 	}
 
-	Editor::Render_CellHeader("Orientation");
+	EditorUI::Render_CellHeader("Orientation");
 	glm::vec3 orientation = GetOrientation();
-	if (Editor::Render_Vector3(orientation))
+	if (EditorUI::Render_Vector3(orientation))
 	{
 		SetOrientation(orientation);
 	}
@@ -159,7 +159,7 @@ void Entity::Editor_OnRenderComponents()
 {
 	static Component* SelectedComponent = nullptr;
 
-	Editor::Render_CellHeader("Components", true);
+	EditorUI::Render_CellHeader("Components", true);
 
 	ImGui::TableNextColumn();
 
@@ -179,7 +179,7 @@ void Entity::Editor_OnRenderComponents()
 
 		std::string componentName = component->GetName();
 
-		Editor::Render_CellHeader(fmt::format("[{}]", index).c_str(), true, true);
+		EditorUI::Render_CellHeader(fmt::format("[{}]", index).c_str(), true, true);
 
 		ImGui::TableNextColumn();
 		
@@ -193,7 +193,7 @@ void Entity::Editor_OnRenderComponents()
 
 		//ImGuiInputTextFlags_EnterReturnsTrue
 		bool selected = SelectedComponent == component;
-		if (Editor::Render_SelectableInput(selected, ImGuiSelectableFlags_SpanAllColumns, inputFlags, componentName))
+		if (EditorUI::Render_SelectableInput(selected, ImGuiSelectableFlags_SpanAllColumns, inputFlags, componentName))
 		{
 			SelectedComponent = component;
 

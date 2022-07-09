@@ -15,7 +15,7 @@ class Application;
 class Renderer;
 
 class EntityPropertiesPanel;
-class SceneHierarchyPanel;
+class EntityHierarchyPanel;
 
 class EntityArray;
 class ComponentArray;
@@ -27,7 +27,7 @@ class Entity : public JingleScript::Object, public ObjectProperty
 	friend Renderer;
 
 	friend EntityPropertiesPanel;
-	friend SceneHierarchyPanel;
+	friend EntityHierarchyPanel;
 
 private:
 	Entity* m_Parent = nullptr;

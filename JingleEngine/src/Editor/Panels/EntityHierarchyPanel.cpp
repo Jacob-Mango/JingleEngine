@@ -1,16 +1,16 @@
-#include "Editor/SceneHierarchyPanel.h"
+#include "Editor/Panels/EntityHierarchyPanel.h"
 
 #include "Core/Application.h"
 
-#include "Editor/Editor.h"
+#include "Editor/EditorUI.h"
 
 #include <imgui.h>
 
-BEGIN_CLASS_LINK(SceneHierarchyPanel);
+BEGIN_CLASS_LINK(EntityHierarchyPanel);
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK();
 
-void SceneHierarchyPanel::OnBeginRender(double DeltaTime)
+void EntityHierarchyPanel::OnBeginRender(double DeltaTime)
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 }
@@ -18,7 +18,7 @@ void SceneHierarchyPanel::OnBeginRender(double DeltaTime)
 int g_Depth = 0;
 float g_DepthIndent = 5.0f;
 
-void SceneHierarchyPanel::OnRender(double DeltaTime)
+void EntityHierarchyPanel::OnRender(double DeltaTime)
 {
 	Entity* scene = Application::Get()->GetScene();
 	if (!scene)
@@ -40,12 +40,12 @@ void SceneHierarchyPanel::OnRender(double DeltaTime)
 	}
 }
 
-void SceneHierarchyPanel::OnEndRender(double DeltaTime)
+void EntityHierarchyPanel::OnEndRender(double DeltaTime)
 {
 	ImGui::PopStyleVar();
 }
 
-void SceneHierarchyPanel::RenderEntity(Entity* entity)
+void EntityHierarchyPanel::RenderEntity(Entity* entity)
 {
 	ScopedIncrement increment(g_Depth);
 

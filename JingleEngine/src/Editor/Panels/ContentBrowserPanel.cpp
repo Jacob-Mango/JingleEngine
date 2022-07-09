@@ -1,4 +1,4 @@
-#include "Editor/ContentBrowserPanel.h"
+#include "Editor/Panels/ContentBrowserPanel.h"
 
 #include "Core/Application.h"
 

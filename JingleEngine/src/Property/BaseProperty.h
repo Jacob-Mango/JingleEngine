@@ -2,7 +2,7 @@
 
 #include "Core/Core.h"
 
-#include "Editor/Editor.h"
+#include "Editor/EditorUI.h"
 
 #include "Property/Property.h"
 

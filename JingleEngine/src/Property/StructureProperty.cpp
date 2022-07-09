@@ -111,11 +111,11 @@ bool StructureProperty::FromString(std::string& value, void*& data)
 void StructureProperty::Editor_OnRender(void*& data)
 {
 	std::string name = GetPropertyAttribute()->GetName();
-	Editor::Render_CellHeader(name);
+	EditorUI::Render_CellHeader(name);
 
 	std::string value = ToString(data);;
 	std::string previous = value;
-	if (Editor::Render_CellInputText(value))
+	if (EditorUI::Render_CellInputText(value))
 	{
 		JS_INFO("Value changed from {} to {}", previous, value);
 

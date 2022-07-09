@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Editor/EditorPanelBase.h"
+#include "Editor/EditorPanel.h"
 
-class SceneHierarchyPanel : public EditorPanelBase
+class EntityHierarchyPanel : public EditorPanel
 {
-	DEFINE_CLASS(SceneHierarchyPanel, EditorPanelBase);
+	DEFINE_CLASS(EntityHierarchyPanel, EditorPanel);
 
 public:
-	SceneHierarchyPanel() {}
+	EntityHierarchyPanel() {}
 
 	virtual void OnBeginRender(double DeltaTime) override;
 	virtual void OnRender(double DeltaTime) override;

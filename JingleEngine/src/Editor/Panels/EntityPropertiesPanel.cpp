@@ -1,8 +1,8 @@
-#include "Editor/EntityPropertiesPanel.h"
+#include "Editor/Panels/EntityPropertiesPanel.h"
 
 #include "Core/Application.h"
 
-#include "Editor/Editor.h"
+#include "Editor/EditorUI.h"
 
 #include "Entities/Components/MeshComponent.h"
 
@@ -28,7 +28,7 @@ void EntityPropertiesPanel::OnRender(double DeltaTime)
 		return;
 	}
 
-	Editor::ResetContext();
+	EditorUI::ResetContext();
 
 	if (!ImGui::BeginTable("EntityPropertiesPanel", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings))
 	{

@@ -1,4 +1,4 @@
-#include "Editor/EditorViewportPanel.h"
+#include "Editor/Panels/EditorViewportPanel.h"
 
 #include "Core/Application.h"
 

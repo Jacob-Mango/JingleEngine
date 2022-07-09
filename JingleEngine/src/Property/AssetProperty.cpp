@@ -58,7 +58,7 @@ void AssetProperty::Editor_OnRender(void*& data)
 	}
 
 	std::string name = GetPropertyAttribute()->GetName();
-	Editor::Render_CellHeader(name);
+	EditorUI::Render_CellHeader(name);
 
 	ImGui::TableNextColumn();
 
