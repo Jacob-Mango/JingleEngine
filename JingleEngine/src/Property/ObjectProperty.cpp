@@ -13,7 +13,7 @@
 using namespace JingleScript;
 
 template<typename T>
-T* GetAttribute(Type::VariableDefinition* variable)
+static T* GetAttribute(Type::VariableDefinition* variable)
 {
 	JS_TRACE(Tracers::Property);
 

@@ -7,16 +7,25 @@
 #include "Graph/Pin.h"
 
 class Graph;
+class GraphPanel;
+
+class NodeConnectionArray;
 
 class Node : public JingleScript::Object, public ObjectProperty
 {
 	DEFINE_CLASS(Node, JingleScript::Object);
 
+	friend GraphPanel;
 	friend Graph;
-	friend Pin;
 
 private:
 	Graph* m_Graph;
+	NodeConnectionArray* m_ConnectionsData;
+
+	std::unordered_map<OutPin*, std::pair<Node*, InPin*>> m_Connections;
+
+	std::vector<InPin*> m_InPins;
+	std::vector<OutPin*> m_OutPins;
 
 public:
 	Node();
@@ -33,5 +42,28 @@ class NodeArray : public JingleScript::Array<Node*>
 public:
 	NodeArray() {}
 	~NodeArray() {}
+
+};
+
+class NodeConnection : public JingleScript::Object, public ObjectProperty
+{
+	DEFINE_CLASS(NodeConnection, JingleScript::Object);
+
+public:
+	NodeConnection() {}
+	~NodeConnection() {}
+
+	std::string Node;
+	std::string Pin;
+
+};
+
+class NodeConnectionArray : public JingleScript::Array<NodeConnection*>
+{
+	DEFINE_CLASS(NodeConnectionArray, JingleScript::Array<NodeConnection*>);
+
+public:
+	NodeConnectionArray() {}
+	~NodeConnectionArray() {}
 
 };

@@ -11,8 +11,10 @@ class Graph : public JingleScript::Object, public ObjectProperty
 {
 	DEFINE_CLASS(Graph, JingleScript::Object);
 
+	friend Node;
+
 private:
-	NodeArray* m_Nodes;
+	NodeArray* m_Nodes = nullptr;
 
 public:
 	Graph();
@@ -22,5 +24,7 @@ public:
 	void OnSerializeNodes(Config* cfg);
 	void OnDeserializeNodes(Config* cfg);
 	void Editor_OnRenderNodes();
+
+	NodeArray& GetNodes() const { return *m_Nodes; }
 
 };

@@ -4,22 +4,39 @@
 
 #include "Config/ConfigAsset.h"
 
+#include "Property/Property.h"
+
 class Node;
 class Graph;
 
-class Pin : public JingleScript::Object, public ObjectProperty
+class Pin : public JingleScript::Attribute
 {
-	DEFINE_CLASS(Pin, JingleScript::Object);
+	DEFINE_CLASS(Pin, JingleScript::Attribute);
 
 	friend Graph;
-	friend ::Node;
-
-private:
-	::Node* m_Node;
-	Pin* m_Linked;
 
 public:
 	Pin();
 	~Pin();
+
+};
+
+class InPin : public Pin
+{
+	DEFINE_CLASS(InPin, Pin);
+
+public:
+	InPin();
+	~InPin();
+
+};
+
+class OutPin : public Pin
+{
+	DEFINE_CLASS(OutPin, Pin);
+
+public:
+	OutPin();
+	~OutPin();
 
 };

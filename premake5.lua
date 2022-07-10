@@ -22,6 +22,7 @@ IncludeDir["Assimp"] = "%{wks.location}/libs/assimp/include"
 IncludeDir["glm"] = "%{wks.location}/libs/glm"
 IncludeDir["glew"] = "%{wks.location}/libs/glew/include"
 IncludeDir["imgui"] = "%{wks.location}/libs/imgui"
+IncludeDir["imnodes"] = "%{wks.location}/libs/imnodes"
 IncludeDir["uuid_v4"] = "%{wks.location}/libs/uuid_v4"
 
 Library = {}

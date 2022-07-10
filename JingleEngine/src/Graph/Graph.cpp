@@ -1,8 +1,11 @@
 #include "Graph/Graph.h"
 
 BEGIN_CLASS_LINK(Graph)
-	LINK_NAMED_VARIABLE(Node, m_Nodes);
+	LINK_NAMED_VARIABLE(Nodes, m_Nodes);
 	LINK_CONSTRUCTOR();
+	LINK_METHOD(OnSerializeNodes);
+	LINK_METHOD(OnDeserializeNodes);
+	LINK_METHOD(Editor_OnRenderNodes);
 END_CLASS_LINK()
 
 Graph::Graph()
@@ -31,6 +34,8 @@ void Graph::OnDeserializeNodes(Config* cfgRoot)
 		return;
 	}
 
+	m_Nodes->Clear();
+
 	for (auto& cfgNode : *cfg)
 	{
 		Node* node = JingleScript::NewObject<Node>(cfgNode.GetLinkedType());
@@ -48,9 +53,12 @@ void Graph::OnDeserializeNodes(Config* cfgRoot)
 			node->SetName(node->GetType()->Name());
 		}
 
-		node->OnCreate();
-
 		m_Nodes->Insert(node);
+	}
+
+	for (auto& node : *m_Nodes)
+	{
+		node->OnCreate();
 	}
 }
 

@@ -103,6 +103,11 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 {
 	JS_TRACE(Tracers::Property);
 
+	if (!cfg)
+	{
+		return true;
+	}
+
 	Object* object = static_cast<Object*>(data);
 	if (object == nullptr)
 	{

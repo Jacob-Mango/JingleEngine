@@ -25,6 +25,7 @@ includedirs
 	"%{IncludeDir.fmt}",
 	"%{IncludeDir.JingleScript}",
 	"%{IncludeDir.imgui}",
+	"%{IncludeDir.imnodes}",
 	"%{IncludeDir.stb}",
 	"%{IncludeDir.Assimp}",
 	"%{IncludeDir.glm}",

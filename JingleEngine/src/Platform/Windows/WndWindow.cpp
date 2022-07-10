@@ -1,6 +1,7 @@
 #include "Platform/Windows/WndWindow.h"
 
 #include <imgui.h>
+#include <imnodes.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_win32.h>
 
@@ -169,9 +170,12 @@ int WndWindow::Create(const WindowDesc& desc)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;			// Enable Docking
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;			// Enable Multi-Viewport / Platform Windows
 
+	ImNodes::CreateContext();
+
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	//ImGui::StyleColorsClassic();
+	ImNodes::StyleColorsDark();
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -203,6 +207,7 @@ WndWindow::~WndWindow()
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplWin32_Shutdown();
+	ImNodes::DestroyContext();
 	ImGui::DestroyContext();
 
 	DestroyWindow(m_Window);

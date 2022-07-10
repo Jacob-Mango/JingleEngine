@@ -289,14 +289,6 @@ Global {
    Base: "Config"
   }
   Class {
-   Attributes: {
-    Attribute {
-     Value: "ClassProperty"
-     IsConstructor: "1"
-     IsSuper: "0"
-     ForceExact: "0"
-    }
-   }
    Name: "Entity"
    Base: "Object"
    Variables: {
@@ -551,6 +543,20 @@ Global {
   Class {
    Name: "Node"
    Base: "Object"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "NodeConnectionArray"
+     Name: "ConnectionsData"
+    }
+   }
   }
   Class {
    Name: "Type"
@@ -1076,6 +1082,36 @@ Global {
    Base: "Editor"
   }
   Class {
+   Name: "NodeConnection"
+   Base: "Object"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Node"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Pin"
+    }
+   }
+  }
+  Class {
    Attributes: {
     Attribute {
      Value: "EditorAttribute"
@@ -1136,6 +1172,17 @@ Global {
      Attributes: {
       Attribute {
        Value: "Property"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "true"
+           }
+          }
+         }
+        }
+       }
        IsConstructor: "1"
        IsSuper: "0"
        ForceExact: "0"
@@ -1143,6 +1190,42 @@ Global {
      }
      Type: "NodeArray"
      Name: "Nodes"
+    }
+   }
+  }
+  Class {
+   Name: "TestNode"
+   Base: "Node"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "OutPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Variable"
+    }
+   }
+  }
+  Class {
+   Name: "PrintNode"
+   Base: "Node"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "InPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Message"
     }
    }
   }
