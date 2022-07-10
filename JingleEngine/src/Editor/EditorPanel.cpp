@@ -24,7 +24,7 @@ STATIC_FUNCTION(EditorPanel, OnBeginRender, void, double);
 STATIC_FUNCTION(EditorPanel, OnRender, void, double);
 STATIC_FUNCTION(EditorPanel, OnEndRender, void, double);
 
-bool EditorPanel::Render(EditorPanel* panel, double DeltaTime, const std::string& title, ImGuiID dockspaceId, ImGuiWindowFlags flags)
+bool EditorPanel::Render(EditorPanel* panel, double DeltaTime, const std::string& title, ImGuiWindowFlags flags)
 {
 	std::string windowTitle = fmt::format("{}###{}", title, PointerToString(panel));
 
@@ -32,8 +32,6 @@ bool EditorPanel::Render(EditorPanel* panel, double DeltaTime, const std::string
 	bool canClose = true;
 
 	Script_OnBeginRender[panel](DeltaTime);
-
-    ImGui::SetNextWindowDockID(dockspaceId, false ? ImGuiCond_Always : ImGuiCond_FirstUseEver);
 
 	bool* isOpenPtr = &isOpen;
 	if ((flags & ImGuiWindowFlags_NoTitleBar) != 0)

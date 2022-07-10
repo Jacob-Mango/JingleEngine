@@ -549,6 +549,10 @@ Global {
    }
   }
   Class {
+   Name: "Node"
+   Base: "Object"
+  }
+  Class {
    Name: "Type"
    Base: "Object"
    Methods: {
@@ -980,6 +984,29 @@ Global {
        Expression {
         Right: {
          Constant {
+          Value: "Graph"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+     ForceExact: "0"
+    }
+   }
+   Name: "GraphPanel"
+   Base: "EditorPanel"
+  }
+  Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
           Value: "Entity Properties"
          }
         }
@@ -993,6 +1020,10 @@ Global {
    }
    Name: "EntityPropertiesPanel"
    Base: "EditorPanel"
+  }
+  Class {
+   Name: "Pin"
+   Base: "Object"
   }
   Class {
    Attributes: {
@@ -1045,6 +1076,29 @@ Global {
    Base: "Editor"
   }
   Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Shader Editor"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+     ForceExact: "0"
+    }
+   }
+   Name: "ShaderEditor"
+   Base: "Editor"
+  }
+  Class {
    Name: "MeshComponent"
    Base: "Component"
    Variables: {
@@ -1071,6 +1125,24 @@ Global {
      }
      Type: "Material"
      Name: "Material"
+    }
+   }
+  }
+  Class {
+   Name: "Graph"
+   Base: "Object"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "NodeArray"
+     Name: "Nodes"
     }
    }
   }

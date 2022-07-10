@@ -10,6 +10,8 @@
 
 #include "Entities/Entity.h"
 
+#include "Graph/Graph.h"
+
 class EditorModule;
 
 class Editor : public JingleScript::Object
@@ -53,6 +55,7 @@ public:
 	// Generic functions across editors for panels
 
 	virtual Entity* GetEntity() { return nullptr; }
+	virtual Graph* GetGraph() { return nullptr; }
 
 public:
 	EditorPanel* OpenPanel(const std::string& typeName);

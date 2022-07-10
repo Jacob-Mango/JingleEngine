@@ -510,10 +510,7 @@ void WndWindow::Begin()
 
 			ImGuiID dockspaceId = ImGui::GetID("MyDockSpace");
 
-			if (hasEditorsOpen)
-			{
-				ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
-			}
+			ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
 
 			if (ImGui::BeginMenuBar())
 			{
@@ -522,14 +519,9 @@ void WndWindow::Begin()
 				ImGui::EndMenuBar();
 			}
 
-			if (hasEditorsOpen)
-			{
-				editor->RenderEditors(DeltaTime, dockspaceId);
-			}
-			else
-			{
-				editor->RenderMain(DeltaTime, dockspaceId);
-			}
+			editor->RenderMain(DeltaTime, dockspaceId);
+
+			editor->RenderEditors(DeltaTime, dockspaceId);
 		}
 	}
 

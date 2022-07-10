@@ -28,7 +28,7 @@ public:
 	~EditorPanel();
 
 public:
-	static bool Render(EditorPanel* panel, double DeltaTime, const std::string& title, ImGuiID dockspaceId, ImGuiWindowFlags flags);
+	static bool Render(EditorPanel* panel, double DeltaTime, const std::string& title, ImGuiWindowFlags flags);
 
 	virtual void OnBeginRender(double DeltaTime);
 	virtual void OnRender(double DeltaTime);

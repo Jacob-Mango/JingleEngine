@@ -13,6 +13,8 @@ class Property : public JingleScript::Attribute
 
 private:
 	bool m_OwnSerialization;
+	bool m_IsDefaultNull;
+	std::string m_DefaultValue;
 
 public:
 	JingleScript::Function<void, Config*> OnSerialize;
@@ -33,10 +35,24 @@ public:
 
 		m_OwnSerialization = useOwnSerialization;
 	}
+	
+	Property(std::string defaultValue)
+	{
+		JS_TRACE(Tracers::Property);
+
+		m_OwnSerialization = false;
+		m_DefaultValue = defaultValue;
+		m_IsDefaultNull = !m_DefaultValue.empty();
+	}
 
 	bool IsUsingOwnSerialization() const
 	{
 		return m_OwnSerialization;
+	}
+
+	bool IsDefaultNull() const
+	{
+		return m_IsDefaultNull;
 	}
 	
 	bool IsValid() const

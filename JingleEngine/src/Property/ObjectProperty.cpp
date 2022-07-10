@@ -194,7 +194,7 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 				property = new ObjectProperty(this, varType, varProperty);
 			}
 
-			if (cfgVariable || isArray)
+			if (cfgVariable || isArray || !varProperty->IsDefaultNull())
 			{
 				Type* type = varType;
 				std::string cfgVarType = cfgVariable->GetLinkedType();

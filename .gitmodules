@@ -1,3 +1,6 @@
 [submodule "libs/uuid_v4"]
 	path = libs/uuid_v4
 	url = http://github.com/crashoz/uuid_v4
+[submodule "libs/imnodes"]
+	path = libs/imnodes
+	url = https://github.com/Nelarius/imnodes.git

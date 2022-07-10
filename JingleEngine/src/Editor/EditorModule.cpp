@@ -102,23 +102,9 @@ void EditorModule::RenderMain(double DeltaTime, ImGuiID DockspaceId)
 	windowFlags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	windowFlags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	
-	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowDockID(DockspaceId, ImGuiCond_Always);
 
-	ImVec2 pos = viewport->WorkPos;
-	ImVec2 size = viewport->WorkSize;
-
-	ImGuiWindow* window = ImGui::FindWindowByName("JingleEngine Editor");
-	if (window)
-	{
-		pos.y += window->MenuBarHeight();
-		size.y -= window->MenuBarHeight();
-	}
-
-	ImGui::SetNextWindowPos(pos);
-	ImGui::SetNextWindowSize(size);
-	ImGui::SetNextWindowViewport(viewport->ID);
-
-	EditorPanel::Render(g_ContentBrowser, DeltaTime, "", DockspaceId, windowFlags);
+	EditorPanel::Render(g_ContentBrowser, DeltaTime, "Content Browser", windowFlags);
 }
 
 void EditorModule::RenderEditors(double DeltaTime, ImGuiID DockspaceId)
@@ -150,6 +136,14 @@ void EditorModule::OpenAsset(AssetID id)
 	if (path.extension().string() == ".ent")
 	{
 		Editor* editor = Open("EntityEditor");
+		editor->Open(id);
+
+		return;
+	}
+
+	if (path.extension().string() == ".shader")
+	{
+		Editor* editor = Open("ShaderEditor");
 		editor->Open(id);
 
 		return;

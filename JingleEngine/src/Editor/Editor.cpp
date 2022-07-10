@@ -85,7 +85,10 @@ bool Editor::OnRender(double DeltaTime, ImGuiID DockspaceId)
 		{
 			EditorPanel* panel = instances[i];
 
-			if (!EditorPanel::Render(panel, DeltaTime, data.Attribute->GetTitle(), editorDockspaceId, 0))
+			//ImGui::SetNextWindowDockID(editorDockspaceId, ImGuiCond_Always);
+			ImGui::SetNextWindowDockID(editorDockspaceId, ImGuiCond_FirstUseEver);
+
+			if (!EditorPanel::Render(panel, DeltaTime, data.Attribute->GetTitle(), 0))
 			{
 				//JingleScript::DeleteObject(instances[i]);
 				

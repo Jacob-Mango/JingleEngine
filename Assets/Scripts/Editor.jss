@@ -47,6 +47,12 @@ class ContentBrowserPanel extends EditorPanel
 
 }
 
+@EditorAttribute("Graph")
+class GraphPanel extends EditorPanel
+{
+
+}
+
 @EditorAttribute("Script Test")
 class ScriptTestPanel extends EditorPanel
 {
@@ -72,5 +78,10 @@ class Editor
 
 @EditorAttribute("Entity Editor")
 class EntityEditor extends Editor
+{
+}
+
+@EditorAttribute("Shader Editor")
+class ShaderEditor extends Editor
 {
 }

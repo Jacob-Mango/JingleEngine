@@ -27,10 +27,14 @@ files
 	"backends/imgui_impl_opengl3_loader.h",
 	"backends/imgui_impl_win32.cpp",
 	"backends/imgui_impl_win32.h",
+	"../imnodes/imnodes.h",
+	"../imnodes/imnodes.cpp",
+	"../imnodes/imnodes_internal.h",
 }
 
 includedirs
 {
+	"%{IncludeDir.imgui}"
 }
 
 defines
