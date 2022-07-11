@@ -22,6 +22,7 @@ void Graph::OnSerializeNodes(Config* cfgRoot)
 
 	for (auto& node : *m_Nodes)
 	{
+		node->OnSerialize();
 		cfg->Set(node->Serialize());
 	}
 }

@@ -32,6 +32,7 @@ public:
 	~Node();
 
 	void OnCreate();
+	void OnSerialize();
 
 };
 

@@ -103,3 +103,18 @@ void Node::OnCreate()
 		m_Connections.insert({ outPin, { inNode, inPin } });
 	}
 }
+
+void Node::OnSerialize()
+{
+	//! TODO: mem leak, delete connections
+	m_ConnectionsData->Clear();
+	
+	for (auto& connection : m_Connections)
+	{
+		NodeConnection* connectionData = JingleScript::NewObject<NodeConnection>("NodeConnection");
+		connectionData->SetName(connection.first->GetName());
+		connectionData->Node = connection.second.first->GetName();
+		connectionData->Pin = connection.second.second->GetName();
+		m_ConnectionsData->Insert(connectionData);
+	}
+}
