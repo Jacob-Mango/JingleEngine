@@ -1,14 +1,12 @@
-{Graph}: {
+{ShaderGraph}: {
  Nodes: [
-  {TestNode, nodeA}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Variable}: {
-     Node: "nodeB", 
-     Pin: "Message"
-    }
-   ]
+  {ShaderNode_Output, Output}: {
+
   }, 
-  {PrintNode, nodeB}: {
+  {ShaderNode_Texture, Roughness}: {
+
+  }, 
+  {ShaderNode_Texture, Diffuse}: {
 
   }
  ]

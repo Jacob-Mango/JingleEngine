@@ -1,4 +1,4 @@
-#include "Editor/Editors/ShaderEditor.h"
+#include "Editor/Editors/Shader/ShaderEditor.h"
 
 #include "Core/Application.h"
 
@@ -25,7 +25,7 @@ void ShaderEditor::New()
 {
 	SetAssetID({});
 
-	m_Graph = NewObject<Graph>("Graph");
+	m_Graph = NewObject<ShaderGraph>("ShaderGraph");
 	m_Config = m_Graph->Serialize();
 
 	GetEditorModule()->SetFileName(this);
@@ -38,7 +38,7 @@ void ShaderEditor::Open(AssetID id)
 	ConfigAsset* cfgAsset = AssetModule::Get<ConfigAsset>(GetAssetID());
 	m_Config = cfgAsset->Get();
 
-	m_Graph = JingleScript::NewObject<Graph>(m_Config->GetLinkedType());
+	m_Graph = JingleScript::NewObject<ShaderGraph>(m_Config->GetLinkedType());
 	if (m_Graph)
 	{
 		cfgAsset->Deserialize(m_Graph);
@@ -57,6 +57,8 @@ void ShaderEditor::SaveAs(AssetID id)
 	if (cfgAsset->OnSave())
 	{
 		SetAssetID(id);
+
+		OnSave();
 	}
 
 	GetEditorModule()->SetFileName(this);
@@ -69,7 +71,15 @@ void ShaderEditor::Save()
 	cfgAsset->Serialize(m_Graph);
 	m_Config = cfgAsset->Get();
 
-	cfgAsset->OnSave();
+	if (cfgAsset->OnSave())
+	{
+		OnSave();
+	}
 
 	GetEditorModule()->SetFileName(this);
+}
+
+void ShaderEditor::OnSave()
+{
+	
 }

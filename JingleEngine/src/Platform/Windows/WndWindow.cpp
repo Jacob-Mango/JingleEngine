@@ -163,29 +163,37 @@ int WndWindow::Create(const WindowDesc& desc)
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;		// Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;		// Enable Gamepad Controls
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;			// Enable Docking
-	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;			// Enable Multi-Viewport / Platform Windows
 
-	ImNodes::CreateContext();
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsClassic();
-	ImNodes::StyleColorsDark();
-
-	ImGuiStyle& style = ImGui::GetStyle();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
-		style.WindowRounding = 0.0f;
-		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-	}
-	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.15f, 0.15f, 0.15f, style.Colors[ImGuiCol_WindowBg].w);
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;		// Enable Keyboard Controls
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;		// Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;			// Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;			// Enable Multi-Viewport / Platform Windows
 
-	style.WindowMenuButtonPosition = ImGuiDir_None; // ImGuiDir_Right; // Causes crash
+		ImGui::StyleColorsDark();
+
+		ImGuiStyle& style = ImGui::GetStyle();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
+
+		style.Colors[ImGuiCol_WindowBg] = ImVec4(0.15f, 0.15f, 0.15f, style.Colors[ImGuiCol_WindowBg].w);
+
+		style.WindowMenuButtonPosition = ImGuiDir_None; // ImGuiDir_Right; // Causes crash
+	}
+
+	{
+		ImNodes::CreateContext();
+		ImNodesIO& io = ImNodes::GetIO();
+		io.LinkDetachWithModifierClick.Modifier = &ImGui::GetIO().KeyCtrl;
+		io.EmulateThreeButtonMouse.Modifier =&ImGui::GetIO().KeyAlt;
+
+		ImNodes::StyleColorsDark();
+	}
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(m_Window, m_GLContext);

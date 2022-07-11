@@ -80,8 +80,3 @@ class Editor
 class EntityEditor extends Editor
 {
 }
-
-@EditorAttribute("Shader Editor")
-class ShaderEditor extends Editor
-{
-}

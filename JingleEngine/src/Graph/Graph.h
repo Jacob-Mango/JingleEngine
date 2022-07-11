@@ -27,4 +27,6 @@ public:
 
 	NodeArray& GetNodes() const { return *m_Nodes; }
 
+	virtual JingleScript::Type* GetNodeType() const { return Node::StaticType(); }
+
 };

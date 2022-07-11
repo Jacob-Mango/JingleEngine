@@ -23,15 +23,3 @@ class Graph
 	@Property(true)
 	NodeArray Nodes;
 }
-
-class TestNode extends Node
-{
-	@OutPin
-	string Variable;
-}
-
-class PrintNode extends Node
-{
-	@InPin
-	string Message;
-}

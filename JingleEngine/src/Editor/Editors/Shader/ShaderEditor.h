@@ -2,14 +2,14 @@
 
 #include "Editor/Editor.h"
 
-#include "Graph/Graph.h"
+#include "Editor/Editors/Shader/ShaderGraph.h"
 
 class ShaderEditor : public Editor
 {
 	DEFINE_CLASS(ShaderEditor, Editor);
 
 private:
-	Graph* m_Graph = nullptr;
+	ShaderGraph* m_Graph = nullptr;
 	Config* m_Config = nullptr; //! TODO: Reference
 
 public:
@@ -21,6 +21,9 @@ public:
 	virtual void Open(AssetID id) override;
 	virtual void SaveAs(AssetID id) override;
 	virtual void Save() override;
+
+protected:
+	void OnSave();
 
 public:
 	virtual Graph* GetGraph() { return m_Graph; }

@@ -133,7 +133,8 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 		SetName(GetPropertyAttribute()->GetName());
 	}
 
-	for (auto& variable : type->GetVariables())
+	auto variables = type->GetVariables();
+	for (auto& variable : variables)
 	{
 		auto varName = variable->Name;
 		auto varType = variable->Type;

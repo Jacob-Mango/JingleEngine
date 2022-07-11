@@ -231,6 +231,24 @@ Global {
    Base: "Asset"
   }
   Class {
+   Name: "ShaderNode_UV"
+   Base: "ShaderNode"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "OutPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec2"
+     Name: "UV"
+    }
+   }
+  }
+  Class {
    Name: "Camera"
    Base: "Entity"
    Variables: {
@@ -1028,6 +1046,10 @@ Global {
    Base: "EditorPanel"
   }
   Class {
+   Name: "ShaderNode"
+   Base: "Node"
+  }
+  Class {
    Name: "Pin"
    Base: "Object"
   }
@@ -1055,6 +1077,72 @@ Global {
    Base: "EditorPanel"
   }
   Class {
+   Name: "ShaderNode_Output"
+   Base: "ShaderNode"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "InPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Diffuse"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "InPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Normal"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "InPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Metallic"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "InPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Roughness"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "InPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Ambient"
+    }
+   }
+  }
+  Class {
    Name: "Editor"
    Base: "Object"
   }
@@ -1079,59 +1167,6 @@ Global {
     }
    }
    Name: "EntityEditor"
-   Base: "Editor"
-  }
-  Class {
-   Name: "NodeConnection"
-   Base: "Object"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "string"
-     Name: "Node"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "string"
-     Name: "Pin"
-    }
-   }
-  }
-  Class {
-   Attributes: {
-    Attribute {
-     Value: "EditorAttribute"
-     Arguments: {
-      [0]: {
-       Expression {
-        Right: {
-         Constant {
-          Value: "Shader Editor"
-         }
-        }
-       }
-      }
-     }
-     IsConstructor: "1"
-     IsSuper: "0"
-     ForceExact: "0"
-    }
-   }
-   Name: "ShaderEditor"
    Base: "Editor"
   }
   Class {
@@ -1165,6 +1200,59 @@ Global {
    }
   }
   Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Shader Editor"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+     ForceExact: "0"
+    }
+   }
+   Name: "ShaderEditor"
+   Base: "Editor"
+  }
+  Class {
+   Name: "NodeConnection"
+   Base: "Object"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Node"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Pin"
+    }
+   }
+  }
+  Class {
    Name: "Graph"
    Base: "Object"
    Variables: {
@@ -1194,8 +1282,16 @@ Global {
    }
   }
   Class {
-   Name: "TestNode"
-   Base: "Node"
+   Name: "Renderer"
+   Base: "Module"
+  }
+  Class {
+   Name: "BindingModule"
+   Base: "Module"
+  }
+  Class {
+   Name: "ShaderNode_ColorVariable"
+   Base: "ShaderNode_Variable"
    Variables: {
     Variable {
      Attributes: {
@@ -1206,14 +1302,22 @@ Global {
        ForceExact: "0"
       }
      }
-     Type: "string"
-     Name: "Variable"
+     Type: "vec4"
+     Name: "Color"
     }
    }
   }
   Class {
-   Name: "PrintNode"
-   Base: "Node"
+   Name: "ShaderGraph"
+   Base: "Graph"
+  }
+  Class {
+   Name: "ShaderNode_Variable"
+   Base: "ShaderNode"
+  }
+  Class {
+   Name: "ShaderNode_TextureVariable"
+   Base: "ShaderNode_Variable"
    Variables: {
     Variable {
      Attributes: {
@@ -1224,18 +1328,70 @@ Global {
        ForceExact: "0"
       }
      }
-     Type: "string"
-     Name: "Message"
+     Type: "vec2"
+     Name: "UV"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "OutPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Output"
     }
    }
   }
   Class {
-   Name: "Renderer"
-   Base: "Module"
+   Name: "ShaderNode_Texture"
+   Base: "ShaderNode"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "InPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec2"
+     Name: "UV"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "OutPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Output"
+    }
+   }
   }
   Class {
-   Name: "BindingModule"
-   Base: "Module"
+   Name: "ShaderNode_Color"
+   Base: "ShaderNode"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "OutPin"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "vec4"
+     Name: "Color"
+    }
+   }
   }
  }
  Structures: {
