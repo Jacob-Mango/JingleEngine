@@ -61,11 +61,6 @@ bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 	Thread* thread = Thread::Current();
 	ValueStack* stack = &thread->Stack;
 
-	if (varSize != typeSize)
-	{
-		return false;
-	}
-
 	uint64_t size = varSize > typeSize ? varSize : typeSize;
 	uint64_t intSize = Integer::StaticType()->GetReferenceSize();
 
@@ -86,7 +81,8 @@ bool ArrayProperty::OnSerialize(Config* cfgRoot, void*& data)
 		ObjectProperty* property = dynamic_cast<ObjectProperty*>(obj);
 		if (property)
 		{
-			property->OnSerialize(cfg, dta);
+			Config* cfgItem = cfg->CreateSection(property->GetName());
+			property->OnSerialize(cfgItem, dta);
 			continue;
 		}
 

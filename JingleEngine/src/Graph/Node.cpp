@@ -112,9 +112,13 @@ void Node::OnSerialize()
 	for (auto& connection : m_Connections)
 	{
 		NodeConnection* connectionData = JingleScript::NewObject<NodeConnection>("NodeConnection");
+		void* dta = (void*)connectionData;
+		connectionData->OnDeserialize(nullptr, dta);
+
 		connectionData->SetName(connection.first->GetName());
 		connectionData->Node = connection.second.first->GetName();
 		connectionData->Pin = connection.second.second->GetName();
+
 		m_ConnectionsData->Insert(connectionData);
 	}
 }

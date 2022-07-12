@@ -24,6 +24,11 @@ bool StructureProperty::OnDeserialize(Config* cfg, void*& data)
 {
 	JS_TRACE(Tracers::Property);
 
+	if (!cfg)
+	{
+		return true;
+	}
+
 	std::string& value = *cfg->GetValuePtr();
 	return FromString(value, data);
 }
