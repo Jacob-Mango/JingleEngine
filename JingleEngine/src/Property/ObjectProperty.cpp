@@ -87,11 +87,7 @@ bool ObjectProperty::OnSerialize(Config* cfgRoot, void*& data)
 		auto varOffset = property->GetPropertyOffset();
 		auto varProperty = property->GetPropertyAttribute();
 
-		void*& data = *(void**)((char*)object + property->m_Offset);
-		if (varType->IsStructure())
-		{
-			data = (void*)((char*)object + property->m_Offset);
-		}
+		varOffset = property->m_Offset;
 
 		if (varProperty->IsUsingOwnSerialization())
 		{
@@ -99,7 +95,16 @@ bool ObjectProperty::OnSerialize(Config* cfgRoot, void*& data)
 		}
 		else
 		{
-			property->OnSerialize(cfg, data);
+			if (varType->IsStructure())
+			{
+				void* data = (void*)((char*)object + varOffset);
+				property->OnSerialize(cfg, data);
+			}
+			else
+			{
+				void*& data = *(void**)((char*)object + varOffset);
+				property->OnSerialize(cfg, data);
+			}
 		}
 	}
 
@@ -220,13 +225,16 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 		}
 		else
 		{
-			void*& data = *(void**)((char*)object + varOffset);
 			if (varType->IsStructure())
 			{
-				data = (void*)((char*)object + varOffset);
+				void* data = (void*)((char*)object + varOffset);
+				property->OnDeserialize(cfgVariable, data);
 			}
-			
-			property->OnDeserialize(cfgVariable, data);
+			else
+			{
+				void*& data = *(void**)((char*)object + varOffset);
+				property->OnDeserialize(cfgVariable, data);
+			}
 		}
 
 		m_Properties.insert({ varName, property });

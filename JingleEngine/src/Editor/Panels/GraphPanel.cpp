@@ -3,6 +3,7 @@
 #include "Editor/Editor.h"
 
 #include <imnodes.h>
+#include <imnodes_internal.h>
 
 BEGIN_CLASS_LINK(GraphPanel);
 	LINK_CONSTRUCTOR();
@@ -119,13 +120,22 @@ void GraphPanel::OnRender(double DeltaTime)
 
 	const float nodeWidth = 250.f;
 
+	ImNodesContext* nodesCtx = ImNodes::GetCurrentContext();
+	ImNodesEditorContext* nodeEditorCtx = nodesCtx->EditorCtx;
+	ImObjectPool<ImNodeData>& nodes = nodeEditorCtx->Nodes;
+
 	for (auto& node : graph->GetNodes())
 	{
-		size_t nodeId = reinterpret_cast<size_t>(node);
+		ImGuiGraphID nodeId = reinterpret_cast<size_t>(node);
 
 		ImNodes::PushColorStyle(ImNodesCol_TitleBar, IM_COL32(11, 109, 191, 255));
 		ImNodes::PushColorStyle(ImNodesCol_TitleBarHovered, IM_COL32(45, 126, 194, 255));
 		ImNodes::PushColorStyle(ImNodesCol_TitleBarSelected, IM_COL32(81, 148, 204, 255));
+
+		int nodeIdx = nodes.IdMap.GetInt(static_cast<ImGuiID>((int)nodeId), -1);
+
+		ImVec2 position = { (float)node->m_EditorPositionX, (float)node->m_EditorPositionY };
+		ImNodes::SetNodeGridSpacePos((int)nodeId, position);
 
 		ImNodes::BeginNode((int)nodeId);
 
@@ -222,6 +232,15 @@ void GraphPanel::OnRender(double DeltaTime)
 	}
 
 	ImNodes::EndNodeEditor();
+
+	for (auto& node : graph->GetNodes())
+	{
+		ImGuiGraphID nodeId = reinterpret_cast<size_t>(node);
+
+		ImVec2 position = ImNodes::GetNodeGridSpacePos((int)nodeId);
+		node->m_EditorPositionX = position.x;
+		node->m_EditorPositionY = position.y;
+	}
 
 	int linkId;
 	if (ImNodes::IsLinkDestroyed(&linkId))

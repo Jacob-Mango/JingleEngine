@@ -27,6 +27,7 @@ public:
 		JS_TRACE(Tracers::Property);
 
 		m_OwnSerialization = false;
+		m_IsDefaultNull = false;
 	}
 	
 	Property(bool useOwnSerialization)
@@ -34,6 +35,7 @@ public:
 		JS_TRACE(Tracers::Property);
 
 		m_OwnSerialization = useOwnSerialization;
+		m_IsDefaultNull = false;
 	}
 	
 	Property(std::string defaultValue)

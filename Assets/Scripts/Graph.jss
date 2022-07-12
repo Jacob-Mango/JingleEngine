@@ -16,6 +16,12 @@ class Node
 {
 	@Property
 	NodeConnectionArray ConnectionsData;
+
+	@Property
+	float EditorPositionX;
+	
+	@Property
+	float EditorPositionY;
 }
 
 class Graph

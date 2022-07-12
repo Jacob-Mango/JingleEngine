@@ -22,6 +22,9 @@ private:
 	Graph* m_Graph;
 	NodeConnectionArray* m_ConnectionsData;
 
+	float m_EditorPositionX;
+	float m_EditorPositionY;
+
 	std::unordered_map<OutPin*, std::pair<Node*, InPin*>> m_Connections;
 
 	std::vector<InPin*> m_InPins;

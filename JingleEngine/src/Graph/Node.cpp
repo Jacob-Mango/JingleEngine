@@ -5,6 +5,8 @@
 
 BEGIN_CLASS_LINK(Node)
 	LINK_NAMED_VARIABLE(ConnectionsData, m_ConnectionsData);
+	LINK_NAMED_VARIABLE(EditorPositionX, m_EditorPositionX);
+	LINK_NAMED_VARIABLE(EditorPositionY, m_EditorPositionY);
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
@@ -50,6 +52,8 @@ static T* GetAttribute(Node* node, const std::string& name)
 
 Node::Node()
 {
+	m_EditorPositionX = 0;
+	m_EditorPositionY = 0;
 }
 
 Node::~Node()
@@ -77,6 +81,11 @@ void Node::OnCreate()
 	for (auto& connection : *m_ConnectionsData)
 	{
 		OutPin* outPin = GetAttribute<OutPin>(this, connection->GetName());
+		if (!outPin)
+		{
+			continue;
+		}
+
 		Node* inNode = nullptr;
 
 		for (auto& node : *m_Graph->m_Nodes)
@@ -100,7 +109,9 @@ void Node::OnCreate()
 			continue;
 		}
 
-		m_Connections.insert({ outPin, { inNode, inPin } });
+		std::pair<Node*, InPin*> in = { inNode, inPin };
+		JS_INFO("Offset {}", offsetof(Node, m_Connections));
+		m_Connections[outPin] = in;
 	}
 }
 

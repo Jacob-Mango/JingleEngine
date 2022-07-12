@@ -81,7 +81,7 @@ bool StructureProperty::FromString(std::string& value, void*& data)
 
 	if (GetPropertyType() == String::StaticType())
 	{
-		memcpy(data, &value, size);
+		memcpy(data, (void*)&value, size);
 		return true;
 	}
 
@@ -89,7 +89,7 @@ bool StructureProperty::FromString(std::string& value, void*& data)
 	signature.Name = "FromString";
 	signature.Owner = nullptr;
 	signature.ReturnType = GetPropertyType();
-	signature.Parameters[0] = { String::StaticType() };
+	signature.Parameters.emplace_back(String::StaticType());
 
 	auto function = signature.Find();
 	if (!function)
