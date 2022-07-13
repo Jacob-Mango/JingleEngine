@@ -16,6 +16,11 @@ ShaderGraph::~ShaderGraph()
 	
 }
 
+void ShaderGraph::Compile()
+{
+
+}
+
 JingleScript::Type* ShaderGraph::GetNodeType() const
 {
 	return ShaderNode::StaticType();

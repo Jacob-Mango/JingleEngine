@@ -1,28 +1,28 @@
 {ShaderGraph}: {
  Nodes: [
   {ShaderNode_Output, Output}: {
-   EditorPositionX: "503.000000", 
+   EditorPositionX: "559.000000", 
    EditorPositionY: "160.000000"
   }, 
-  {ShaderNode_Texture, Roughness}: {
+  {ShaderNode_Image, Roughness}: {
    {NodeConnectionArray, ConnectionsData}: [
     {NodeConnection, Output}: {
      Node: "Output", 
      Pin: "Roughness"
     }
    ], 
-   EditorPositionX: "74.000000", 
-   EditorPositionY: "37.000000"
+   EditorPositionX: "95.000000", 
+   EditorPositionY: "48.000000"
   }, 
-  {ShaderNode_Texture, Diffuse}: {
+  {ShaderNode_Image, Diffuse}: {
    {NodeConnectionArray, ConnectionsData}: [
     {NodeConnection, Output}: {
      Node: "Output", 
      Pin: "Diffuse"
     }
    ], 
-   EditorPositionX: "71.000000", 
-   EditorPositionY: "172.000000"
+   EditorPositionX: "87.000000", 
+   EditorPositionY: "248.000000"
   }
  ]
 }

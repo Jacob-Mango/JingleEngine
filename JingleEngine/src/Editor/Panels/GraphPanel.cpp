@@ -161,14 +161,14 @@ void GraphPanel::OnRender(double DeltaTime)
 			ImNodes::EndNodeTitleBar();
 		}
 
-		size_t inSize = node->m_InPins.size();
-		size_t outSize = node->m_OutPins.size();
+		size_t inSize = node->m_temp_InPins.size();
+		size_t outSize = node->m_temp_OutPins.size();
 		size_t size = std::max(inSize, outSize);
 		for (size_t index = 0; index < size; index++)
 		{
 			if (index < inSize)
 			{
-				auto& pin = node->m_InPins[index];
+				auto& pin = node->m_temp_InPins[index];
 				std::string name = pin->GetName();
 				size_t pinId = UpdatePin(node, pin);
 				if (pinId == 0)
@@ -188,7 +188,7 @@ void GraphPanel::OnRender(double DeltaTime)
 
 			if (index < outSize)
 			{
-				auto& pin = node->m_OutPins[index];
+				auto& pin = node->m_temp_OutPins[index];
 				std::string name = pin->GetName();
 				size_t pinId = UpdatePin(node, pin);
 				if (pinId == 0)
@@ -207,7 +207,7 @@ void GraphPanel::OnRender(double DeltaTime)
 
 		ImNodes::EndNode();
 
-		for (auto& connection : node->m_Connections)
+		for (auto& connection : node->m_OutConnections)
 		{
 			auto& nodeA = node;
 			auto& nodeB = connection.second.first;
@@ -248,7 +248,7 @@ void GraphPanel::OnRender(double DeltaTime)
 		Node* node = g_Links[linkId].first;
 		OutPin* pin = g_Links[linkId].second;
 
-		node->m_Connections.erase(node->m_Connections.find(pin));
+		node->DeleteConnection(pin);
 	}
 
 	int inPinId;
@@ -263,7 +263,7 @@ void GraphPanel::OnRender(double DeltaTime)
 			PinInfo& out = outIt->second;
 			PinInfo& in = inIt->second;
 
-			out.outNode->m_Connections[out.outPin] = { in.inNode, in.inPin };
+			out.outNode->CreateConnection(out.outPin, { in.inNode, in.inPin });
 		}
 	}
 }

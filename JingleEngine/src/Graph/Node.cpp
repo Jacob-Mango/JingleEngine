@@ -67,14 +67,22 @@ void Node::OnCreate()
 		InPin* inPin = GetAttribute<InPin>(variable);
 		OutPin* outPin = GetAttribute<OutPin>(variable);
 
+		if (inPin && outPin)
+		{
+			JS_ERROR("Variable {} set as both in and out, skipping.", variable->Name);
+			continue;
+		}
+
 		if (inPin)
 		{
-			m_InPins.push_back(inPin);
+			m_InPins[variable->Name] = inPin;
+			m_temp_InPins.push_back(inPin);
 		}
 
 		if (outPin)
 		{
-			m_OutPins.push_back(outPin);
+			m_OutPins[variable->Name] = outPin;
+			m_temp_OutPins.push_back(outPin);
 		}
 	}
 
@@ -109,9 +117,7 @@ void Node::OnCreate()
 			continue;
 		}
 
-		std::pair<Node*, InPin*> in = { inNode, inPin };
-		JS_INFO("Offset {}", offsetof(Node, m_Connections));
-		m_Connections[outPin] = in;
+		CreateConnection(outPin, { inNode, inPin });
 	}
 }
 
@@ -120,7 +126,7 @@ void Node::OnSerialize()
 	//! TODO: mem leak, delete connections
 	m_ConnectionsData->Clear();
 	
-	for (auto& connection : m_Connections)
+	for (auto& connection : m_OutConnections)
 	{
 		NodeConnection* connectionData = JingleScript::NewObject<NodeConnection>("NodeConnection");
 		void* dta = (void*)connectionData;
@@ -132,4 +138,40 @@ void Node::OnSerialize()
 
 		m_ConnectionsData->Insert(connectionData);
 	}
+}
+
+void Node::CreateConnection(OutPin* out, std::pair<Node*, InPin*> in)
+{
+	m_OutConnections[out] = { in.first, in.second };
+	in.first->m_InConnections[in.second] = { this, out };
+}
+
+void Node::DeleteConnection(OutPin* out)
+{
+	auto itOut = m_OutConnections.find(out);
+	if (itOut == m_OutConnections.end())
+	{
+		return;
+	}
+
+	Node* inNode = itOut->second.first;
+	InPin* in = itOut->second.second;
+
+	auto itIn = inNode->m_InConnections.find(in);
+	if (itIn != inNode->m_InConnections.end())
+	{
+		inNode->m_InConnections.erase(itIn);
+	}
+
+	m_OutConnections.erase(itOut);
+}
+
+bool Node::InPinSet(const char* name) const
+{
+	return m_InPins.find(name) != m_InPins.end();
+}
+
+bool Node::OutPinSet(const char* name) const
+{
+	return m_OutPins.find(name) != m_OutPins.end();
 }

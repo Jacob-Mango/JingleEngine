@@ -1,0 +1,20 @@
+#include "ShaderNode_Output.h"
+
+BEGIN_CLASS_LINK(ShaderNode_Output)
+	ADD_ATTRIBUTE(InPin);
+	LINK_VARIABLE(Diffuse);
+	
+	ADD_ATTRIBUTE(InPin);
+	LINK_VARIABLE(Normal);
+
+	ADD_ATTRIBUTE(InPin);
+	LINK_VARIABLE(Metallic);
+
+	ADD_ATTRIBUTE(InPin);
+	LINK_VARIABLE(Roughness);
+
+	ADD_ATTRIBUTE(InPin);
+	LINK_VARIABLE(Ambient);
+
+	LINK_CONSTRUCTOR();
+END_CLASS_LINK()

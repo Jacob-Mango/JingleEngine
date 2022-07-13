@@ -10,6 +10,8 @@ public:
 	ShaderGraph();
 	~ShaderGraph();
 
+	void Compile();
+
 public:
 	virtual JingleScript::Type* GetNodeType() const override;
 

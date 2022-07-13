@@ -25,10 +25,14 @@ private:
 	float m_EditorPositionX;
 	float m_EditorPositionY;
 
-	std::unordered_map<OutPin*, std::pair<Node*, InPin*>> m_Connections;
+	std::unordered_map<OutPin*, std::pair<Node*, InPin*>> m_OutConnections;
+	std::unordered_map<InPin*, std::pair<Node*, OutPin*>> m_InConnections;
 
-	std::vector<InPin*> m_InPins;
-	std::vector<OutPin*> m_OutPins;
+	std::unordered_map<std::string, InPin*> m_InPins;
+	std::unordered_map<std::string, OutPin*> m_OutPins;
+
+	std::vector<InPin*> m_temp_InPins;
+	std::vector<OutPin*> m_temp_OutPins;
 
 public:
 	Node();
@@ -36,6 +40,12 @@ public:
 
 	void OnCreate();
 	void OnSerialize();
+
+	void CreateConnection(OutPin* out, std::pair<Node*, InPin*> in);
+	void DeleteConnection(OutPin* out);
+
+	bool InPinSet(const char* name) const;
+	bool OutPinSet(const char* name) const;
 
 };
 

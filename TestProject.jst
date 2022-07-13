@@ -231,24 +231,6 @@ Global {
    Base: "Asset"
   }
   Class {
-   Name: "ShaderNode_UV"
-   Base: "ShaderNode"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "OutPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec2"
-     Name: "UV"
-    }
-   }
-  }
-  Class {
    Name: "Camera"
    Base: "Entity"
    Variables: {
@@ -1101,72 +1083,6 @@ Global {
    Base: "EditorPanel"
   }
   Class {
-   Name: "ShaderNode_Output"
-   Base: "ShaderNode"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "InPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Diffuse"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "InPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Normal"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "InPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Metallic"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "InPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Roughness"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "InPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Ambient"
-    }
-   }
-  }
-  Class {
    Name: "Editor"
    Base: "Object"
   }
@@ -1314,108 +1230,8 @@ Global {
    Base: "Module"
   }
   Class {
-   Name: "ShaderNode_ColorVariable"
-   Base: "ShaderNode_Variable"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "OutPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Color"
-    }
-   }
-  }
-  Class {
    Name: "ShaderGraph"
    Base: "Graph"
-  }
-  Class {
-   Name: "ShaderNode_Variable"
-   Base: "ShaderNode"
-  }
-  Class {
-   Name: "ShaderNode_TextureVariable"
-   Base: "ShaderNode_Variable"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "InPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec2"
-     Name: "UV"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "OutPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Output"
-    }
-   }
-  }
-  Class {
-   Name: "ShaderNode_Texture"
-   Base: "ShaderNode"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "InPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec2"
-     Name: "UV"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "OutPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Output"
-    }
-   }
-  }
-  Class {
-   Name: "ShaderNode_Color"
-   Base: "ShaderNode"
-   Variables: {
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "OutPin"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "vec4"
-     Name: "Color"
-    }
-   }
   }
  }
  Structures: {
