@@ -57,13 +57,64 @@ void Graph::OnDeserializeNodes(Config* cfgRoot)
 		m_Nodes->Insert(node);
 	}
 
-	for (auto& node : *m_Nodes)
+	int index = 0;
+	while (index < m_Nodes->Count())
 	{
-		node->OnCreate();
+		Node* node = m_Nodes->Get(index);
+		
+		if (OnInsertNode(node))
+		{
+			node->OnCreate();
+
+			index++;
+		}
+		else
+		{
+			m_Nodes->Remove(index);
+		}
 	}
 }
 
 void Graph::Editor_OnRenderNodes()
 {
 
+}
+
+bool Graph::OnInsertNode(Node* node)
+{
+	return true;
+}
+
+bool Graph::OnRemoveNode(Node* node)
+{
+	return true;
+}
+
+bool Graph::RemoveNode(Node* node)
+{
+	int index = 0;
+	int count = m_Nodes->Count();
+	while (index < count)
+	{
+		Node* other = m_Nodes->Get(index);
+		if (node == other)
+		{
+			break;
+		}
+
+		index++;
+	}
+
+	if (index == count)
+	{
+		return false;
+	}
+
+	if (!OnRemoveNode(node))
+	{
+		return false;
+	}
+
+	m_Nodes->Remove(index);
+	return true;
 }

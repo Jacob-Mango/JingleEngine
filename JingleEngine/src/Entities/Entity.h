@@ -31,12 +31,12 @@ class Entity : public JingleScript::Object, public ObjectProperty
 
 private:
 	Entity* m_Parent = nullptr;
-	EntityArray* m_Children;
+	EntityArray* m_Children = nullptr;
 
 	glm::dmat4 m_Transform = glm::dmat4(1.0);
 	glm::vec3 m_BoundingBox[2];
 
-	ComponentArray* m_Components;
+	ComponentArray* m_Components = nullptr;
 
 	bool m_IsDeleting = false;
 	bool m_IsVisible = true;

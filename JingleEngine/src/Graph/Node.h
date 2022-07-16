@@ -19,8 +19,8 @@ class Node : public JingleScript::Object, public ObjectProperty
 	friend Graph;
 
 private:
-	Graph* m_Graph;
-	NodeConnectionArray* m_ConnectionsData;
+	Graph* m_Graph = nullptr;
+	NodeConnectionArray* m_ConnectionsData = nullptr;
 
 	float m_EditorPositionX;
 	float m_EditorPositionY;

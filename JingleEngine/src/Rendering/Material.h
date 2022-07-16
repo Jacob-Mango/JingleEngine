@@ -49,7 +49,7 @@ class Material : public ConfigAsset
 
 public: //! temp vis
 	Shader* m_Shader = nullptr;
-	MaterialImageArray* m_Images;
+	MaterialImageArray* m_Images = nullptr;
 
 public:
 	Material();

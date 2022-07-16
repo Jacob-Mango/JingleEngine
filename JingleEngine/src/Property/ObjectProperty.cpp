@@ -184,6 +184,15 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 
 		if (!property)
 		{
+			std::string cfgVariableType = cfgVariable ? cfgVariable->GetLinkedType() : "";
+			Type* type = cfgVariableType.empty() ? varType : TypeManager::Get(cfgVariableType);
+
+			if (!type || !type->IsInherited(varType))
+			{
+				JS_WARNING("Config type '{}' doesn't inherit from variable type '{}' for '{}'.", type ? type->Name() : "", varType->Name(), varName);
+				continue;
+			}
+
 			bool isArray = varType->IsInherited(ArrayBase::StaticType());
 			bool isType = varType->IsInherited(Type::StaticType());
 
@@ -200,21 +209,31 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 			{
 				//! Prevents crash, though this should really be treated as a seperate Property type, maybe 'TypeProperty'?
 			}
-			else if (cfgVariable || isArray || !varProperty->IsDefaultNull())
-			{
-				Type* type = varType;
-
-				if (cfgVariable)
-				{
-					std::string cfgVariableType = cfgVariable->GetLinkedType();
-					type = cfgVariableType.empty() ? varType : TypeManager::Get(cfgVariableType);
-				}
-				
-				*(Object**)((char*)object + varOffset) = type->New<Object>();
-			}
 			else
 			{
-				*(Object**)((char*)object + varOffset) = nullptr;
+				Object*& varObject = *(Object**)((char*)object + varOffset);
+
+				if (varObject && !isArray)
+				{
+					if (varObject->GetType() != type)
+					{
+						//! TODO: delete
+						varObject = nullptr;
+					}
+				}
+
+				if (varObject && isArray)
+				{
+					//! Prevents recreating the object if it is an array
+				}
+				else if (cfgVariable || isArray || !varProperty->IsDefaultNull())
+				{				
+					varObject = type->New<Object>();
+				}
+				else
+				{
+					varObject = nullptr;
+				}
 			}
 		}
 

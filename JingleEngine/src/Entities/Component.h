@@ -14,7 +14,7 @@ class Component : public JingleScript::Object, public ObjectProperty
 	friend Entity;
 
 private:
-	Entity* m_Entity;
+	Entity* m_Entity = nullptr;
 
 public:
 	Component() {}
