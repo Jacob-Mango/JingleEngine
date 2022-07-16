@@ -18,5 +18,7 @@ public:
 	
 public:
 	virtual bool IsFunction() const override { return true; }
+
+	virtual void Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output) override;
 	
 };

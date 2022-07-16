@@ -13,3 +13,8 @@ ShaderNode::~ShaderNode()
 {
 
 }
+
+void ShaderNode::Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output)
+{
+
+}
