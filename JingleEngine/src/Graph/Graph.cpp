@@ -115,6 +115,7 @@ bool Graph::RemoveNode(Node* node)
 		return false;
 	}
 
+	node->OnDelete();
 	m_Nodes->Remove(index);
 	return true;
 }

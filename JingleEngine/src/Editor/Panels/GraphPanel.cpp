@@ -33,8 +33,13 @@ struct PinInfo
 
 typedef int ImGuiGraphID;
 
-std::vector<std::pair<std::pair<Node*, OutPin*>, std::pair<Node*, InPin*>>> g_Links;
+std::vector<Edge> g_Links;
+
+std::unordered_map<ImGuiGraphID, Node*> g_Nodes;
 std::unordered_map<ImGuiGraphID, PinInfo> g_Pins;
+
+std::vector<int> g_SelectedLinks;
+std::vector<int> g_SelectedNodes;
 
 size_t UpdatePin(Node* node, Pin* pin)
 {
@@ -78,9 +83,6 @@ size_t UpdatePin(Node* node, Pin* pin)
 
 void GraphPanel::OnRender(double DeltaTime)
 {
-	g_Links.clear();
-	g_Pins.clear();
-
 	ImNodes::BeginNodeEditor();
 
 	Graph* graph = GetEditor()->GetGraph();
@@ -101,33 +103,57 @@ void GraphPanel::OnRender(double DeltaTime)
 	{
 		ImVec2 position = ImGui::GetMousePosOnOpeningCurrentPopup();
 
-		for (auto& type : JingleScript::TypeManager::Iterator())
+		if (ImGui::BeginMenu("Insert"))
 		{
-			if (!type->IsInherited(graph->GetNodeType()) || type == graph->GetNodeType())
+			for (auto& type : JingleScript::TypeManager::Iterator())
 			{
-				continue;
+				if (!type->IsInherited(graph->GetNodeType()) || type == graph->GetNodeType())
+				{
+					continue;
+				}
+
+				std::string title = fmt::format("{}", type->Name());
+
+				if (ImGui::MenuItem(title.c_str()))
+				{
+					Node* node = graph->CreateNode<Node>(type);
+
+					ImVec2 pos = position - (nodesCtx->CanvasOriginScreenSpace - nodeEditorCtx->Panning);
+
+					node->m_EditorPositionX = pos.x;
+					node->m_EditorPositionY = pos.y;
+				}
 			}
 
-			std::string title = fmt::format("Insert {}", type->Name());
+			ImGui::EndMenu();
+		}
 
-			if (ImGui::MenuItem(title.c_str()))
+		if (ImGui::MenuItem("Delete"))
+		{
+			for (auto& [out, in] : m_SelectedEdges)
 			{
-				Node* node = graph->CreateNode<Node>(type);
+				out.first->DeleteConnection(out.second, in);
+			}
 
-
-				ImVec2 pos = position - (nodesCtx->CanvasOriginScreenSpace - nodeEditorCtx->Panning);
-
-				node->m_EditorPositionX = pos.x;
-				node->m_EditorPositionY = pos.y;
+			for (auto& node : m_SelectedNodes)
+			{
+				graph->RemoveNode(node);
 			}
 		}
+
 		ImGui::EndPopup();
 	}
-    ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
 
+	g_Links.clear();
+	g_Nodes.clear();
+	g_Pins.clear();
+
+	ImGuiGraphID linkId = 0;
 	for (auto& node : graph->GetNodes())
 	{
 		ImGuiGraphID nodeId = reinterpret_cast<size_t>(node);
+		g_Nodes[nodeId] = node;
 
 		ImNodes::PushColorStyle(ImNodesCol_TitleBar, IM_COL32(11, 109, 191, 255));
 		ImNodes::PushColorStyle(ImNodesCol_TitleBarHovered, IM_COL32(45, 126, 194, 255));
@@ -223,10 +249,13 @@ void GraphPanel::OnRender(double DeltaTime)
 
 				size_t nodeBId = reinterpret_cast<size_t>(nodeB);
 				size_t pinBId = nodeBId + std::hash<std::string>()(pinB->GetName());
-			
-				ImNodes::Link(g_Links.size(), (ImGuiGraphID)pinAId, (ImGuiGraphID)pinBId);
 
-				g_Links.push_back({{ nodeA, pinA }, { nodeB, pinB }});
+				ImNodes::Link(linkId, (ImGuiGraphID)pinAId, (ImGuiGraphID)pinBId);
+
+				g_Links.resize(static_cast<size_t>(linkId + 1));
+				g_Links[linkId] = { { nodeA, pinA }, { nodeB, pinB } };
+
+				linkId++;
 			}
 		}
 
@@ -246,10 +275,11 @@ void GraphPanel::OnRender(double DeltaTime)
 		node->m_EditorPositionY = position.y;
 	}
 
-	int linkId;
 	if (ImNodes::IsLinkDestroyed(&linkId))
 	{
-		g_Links[linkId].first.first->DeleteConnection(g_Links[linkId].first.second, g_Links[linkId].second);
+		Edge& edge = g_Links[linkId];
+
+		edge.first.first->DeleteConnection(edge.first.second, edge.second);
 	}
 
 	int inPinId;
@@ -265,6 +295,39 @@ void GraphPanel::OnRender(double DeltaTime)
 			PinInfo& in = inIt->second;
 
 			out.outNode->CreateConnection(out.outPin, { in.inNode, in.inPin });
+		}
+	}
+
+	{
+		size_t count = static_cast<size_t>(ImNodes::NumSelectedLinks());
+		g_SelectedLinks.resize(count);
+		m_SelectedEdges.resize(count);
+		if (count != 0)
+		{
+			ImNodes::GetSelectedLinks(g_SelectedLinks.data());
+		}
+		
+		size_t index = 0;
+		for (auto id : g_SelectedLinks)
+		{
+			if (id >= g_Links.size()) continue;
+			m_SelectedEdges[index++] = g_Links[id];
+		}
+	}
+
+	{
+		size_t count = static_cast<size_t>(ImNodes::NumSelectedNodes());
+		g_SelectedNodes.resize(count);
+		m_SelectedNodes.resize(count);
+		if (count != 0)
+		{
+			ImNodes::GetSelectedNodes(g_SelectedNodes.data());
+		}
+
+		size_t index = 0;
+		for (auto id : g_SelectedNodes)
+		{
+			m_SelectedNodes[index++] = g_Nodes[id];
 		}
 	}
 }
