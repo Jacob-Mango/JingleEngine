@@ -829,15 +829,6 @@ class ShaderNode_Color extends ShaderNode {
   ShaderNode_Color::dtor() (Native)
 }
 
-class ShaderNode_Image extends ShaderNode {
-   vec4 Output
-   vec2 UV
-
-  ShaderNode_Image::ctor() (Native)
-
-  ShaderNode_Image::dtor() (Native)
-}
-
 class ShaderNode_Output extends ShaderNode {
    vec4 Ambient
    vec4 Diffuse
@@ -850,6 +841,16 @@ class ShaderNode_Output extends ShaderNode {
   ShaderNode_Output::dtor() (Native)
 }
 
+class ShaderNode_Sample extends ShaderNode {
+   Image Image
+   vec4 Output
+   vec2 UV
+
+  ShaderNode_Sample::ctor() (Native)
+
+  ShaderNode_Sample::dtor() (Native)
+}
+
 class ShaderNode_UV extends ShaderNode {
    vec2 UV
 
@@ -859,6 +860,14 @@ class ShaderNode_UV extends ShaderNode {
 }
 
 class ShaderNode_Variable extends ShaderNode {
+   string Name
+   Type Output
+
+  void ShaderNode_Variable::Editor_OnRenderVariableType() (Native)
+
+  void ShaderNode_Variable::OnDeserializeVariableType(Config) (Native)
+
+  void ShaderNode_Variable::OnSerializeVariableType(Config) (Native)
 
   ShaderNode_Variable::ctor() (Native)
 

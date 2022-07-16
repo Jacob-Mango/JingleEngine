@@ -3,8 +3,10 @@ architecture "x86_64"
 startproject "TestProject"
 configurations
 {
-	"Debug",
-	"Release"
+	"DebugProject",
+	"DebugEditor",
+	"DevelopmentProject",
+	"DevelopmentEditor"
 }
 flags
 {
@@ -39,7 +41,7 @@ include "libs/imgui"
 
 group "Core"
 include "JingleEngine"
-include "../JingleScript/JingleScript"
+include "libs/JingleScript"
 
 group ""
 include "TestProject"

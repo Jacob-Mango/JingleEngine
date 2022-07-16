@@ -63,7 +63,26 @@ filter "system:windows"
 		"WINDOWS"
 	}
 	
-filter "configurations:Debug"
+filter "configurations:DebugProject"
+	runtime "Debug"
+	symbols "on"
+
+	links
+	{
+		"%{Library.Assimp_Debug}"
+	}
+
+	defines
+	{
+		"JE_EDITOR"
+	}
+
+	postbuildcommands 
+	{
+		'{COPY} "%{Binaries.Assimp_Debug}" "%{cfg.targetdir}"'
+	}
+	
+filter "configurations:DebugEditor"
 	runtime "Debug"
 	symbols "on"
 
@@ -77,13 +96,32 @@ filter "configurations:Debug"
 		'{COPY} "%{Binaries.Assimp_Debug}" "%{cfg.targetdir}"'
 	}
 	
-filter "configurations:Release"
+filter "configurations:DevelopmentProject"
 	runtime "Release"
 	optimize "on"
 
 	links
 	{
 		"%{Library.Assimp_Release}"
+	}
+
+	postbuildcommands 
+	{
+		'{COPY} "%{Binaries.Assimp_Release}" "%{cfg.targetdir}"'
+	}
+	
+filter "configurations:ReleaseEditort"
+	runtime "Release"
+	optimize "on"
+
+	links
+	{
+		"%{Library.Assimp_Release}"
+	}
+
+	defines
+	{
+		"JE_EDITOR"
 	}
 
 	postbuildcommands 

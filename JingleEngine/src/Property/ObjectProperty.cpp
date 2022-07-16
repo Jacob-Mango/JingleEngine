@@ -184,29 +184,30 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 
 		if (!property)
 		{
-			bool isArray = false;
+			bool isArray = varType->IsInherited(ArrayBase::StaticType());
+			bool isType = varType->IsInherited(Type::StaticType());
 
-			if (varType->IsInherited(ArrayBase::StaticType()))
+			if (isArray)
 			{
-				JS_TINFO("Array");
-
 				property = new ArrayProperty(this, varType, varProperty);
-				isArray = true;
 			}
 			else
 			{
-				JS_TINFO("Object");
-
 				property = new ObjectProperty(this, varType, varProperty);
 			}
 
-			if (cfgVariable || isArray || !varProperty->IsDefaultNull())
+			if (isType)
+			{
+				//! Prevents crash, though this should really be treated as a seperate Property type, maybe 'TypeProperty'?
+			}
+			else if (cfgVariable || isArray || !varProperty->IsDefaultNull())
 			{
 				Type* type = varType;
-				std::string cfgVarType = cfgVariable->GetLinkedType();
-				if (!cfgVarType.empty())
+
+				if (cfgVariable)
 				{
-					type = TypeManager::Get(cfgVarType);
+					std::string cfgVariableType = cfgVariable->GetLinkedType();
+					type = cfgVariableType.empty() ? varType : TypeManager::Get(cfgVariableType);
 				}
 				
 				*(Object**)((char*)object + varOffset) = type->New<Object>();

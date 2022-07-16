@@ -6,8 +6,8 @@ class ShaderNode_Variable : public ShaderNode
 {
 	DEFINE_CLASS(ShaderNode_Variable, ShaderNode);
 
-	std::string VariableName;
-	Type* VariableType;
+	std::string Name;
+	JingleScript::Type* Output;
 
 public:
 	ShaderNode_Variable() {}
@@ -15,8 +15,12 @@ public:
 public:
 	virtual bool IsVariable() const override { return true; }
 
-	virtual std::string& GetVariableName() const override { return VariableName; }
+	virtual const std::string& GetVariableName() const override { return Name; }
 
 	virtual void Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output) override;
 	
+	void OnSerializeVariableType(Config* cfg);
+	void OnDeserializeVariableType(Config* cfg);
+	void Editor_OnRenderVariableType();
+
 };

@@ -15,7 +15,7 @@ public:
 public:
 	virtual bool IsVariable() const override { return true; }
 
-	virtual std::string& GetVariableName() const override { return "uv"; }
+	virtual const std::string& GetVariableName() const override { return "uv"; }
 
 	virtual void Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output) override;
 	

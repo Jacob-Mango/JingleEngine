@@ -5,9 +5,22 @@
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 
-#include "Rendering/Image.h"
-
+class Image;
 class Shader;
+
+enum class ImageFormat
+{
+	RGBA8,
+	RGBA16,
+	RGBA32,
+	DEPTH
+};
+
+enum class ImageType
+{
+	NORMAL,
+	CUBEMAP
+};
 
 class Texture : public JingleScript::ManagedObject
 {

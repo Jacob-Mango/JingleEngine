@@ -46,10 +46,28 @@ defines
 filter "system:windows"
 	systemversion "latest"
 	
-filter "configurations:Debug"
+filter "configurations:DebugProject"
 	runtime "Debug"
 	symbols "on"
 	
-filter "configurations:Release"
+filter "configurations:DebugEditor"
+	runtime "Debug"
+	symbols "on"
+
+	defines
+	{
+		"JE_EDITOR"
+	}
+	
+filter "configurations:DevelopmentProject"
 	runtime "Release"
 	optimize "on"
+	
+filter "configurations:DevelopmentEditor"
+	runtime "Release"
+	optimize "on"
+
+	defines
+	{
+		"JE_EDITOR"
+	}

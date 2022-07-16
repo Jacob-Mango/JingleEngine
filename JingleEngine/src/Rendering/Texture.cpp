@@ -1,5 +1,6 @@
 #include "Rendering/Texture.h"
 
+#include "Rendering/Image.h"
 #include "Rendering/Shader.h"
 
 #include <imgui.h>

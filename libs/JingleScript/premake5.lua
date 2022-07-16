@@ -1,4 +1,4 @@
-project "JingleEngine"
+project "JingleScript"
 kind "StaticLib"
 language "C++"
 cppdialect "C++20"
@@ -11,40 +11,30 @@ flags { "NoPCH" }
 
 files
 {
-	"src/**.h", 
-	"src/**.c", 
-	"src/**.hpp", 
-	"src/**.cpp" 
+	"%{IncludeDir.JingleScript}/**.h", 
+	"%{IncludeDir.JingleScript}/**.c", 
+	"%{IncludeDir.JingleScript}/**.hpp", 
+	"%{IncludeDir.JingleScript}/**.cpp" 
 }
 
 includedirs
 {
-	"src",
-	"%{IncludeDir.fmt}",
 	"%{IncludeDir.JingleScript}",
-	"%{IncludeDir.imgui}",
-	"%{IncludeDir.imnodes}",
-	"%{IncludeDir.stb}",
-	"%{IncludeDir.Assimp}",
-	"%{IncludeDir.glm}",
-	"%{IncludeDir.glew}",
-	"%{IncludeDir.uuid_v4}"
+	"%{IncludeDir.fmt}",
+}
+
+links 
+{
 }
 
 defines
 {
 	"_CRT_SECURE_NO_WARNINGS",
-	"FMT_HEADER_ONLY",
-	"GLEW_STATIC"
+	"FMT_HEADER_ONLY"
 }
 
 filter "system:windows"
 	systemversion "latest"
-
-	defines
-	{
-		"WINDOWS"
-	}
 	
 filter "configurations:DebugProject"
 	runtime "Debug"
@@ -53,11 +43,6 @@ filter "configurations:DebugProject"
 filter "configurations:DebugEditor"
 	runtime "Debug"
 	symbols "on"
-
-	defines
-	{
-		"JE_EDITOR"
-	}
 	
 filter "configurations:DevelopmentProject"
 	runtime "Release"
@@ -66,8 +51,3 @@ filter "configurations:DevelopmentProject"
 filter "configurations:DevelopmentEditor"
 	runtime "Release"
 	optimize "on"
-
-	defines
-	{
-		"JE_EDITOR"
-	}

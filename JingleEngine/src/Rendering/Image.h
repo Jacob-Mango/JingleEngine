@@ -5,22 +5,9 @@
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 
+#include "Rendering/Texture.h"
+
 class Shader;
-class Texture;
-
-enum class ImageFormat
-{
-	RGBA8,
-	RGBA16,
-	RGBA32,
-	DEPTH
-};
-
-enum class ImageType
-{
-	NORMAL,
-	CUBEMAP
-};
 
 class Image : public Asset
 {
