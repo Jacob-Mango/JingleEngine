@@ -4,9 +4,10 @@
 #include "Graph/Graph.h"
 
 BEGIN_CLASS_LINK(Node)
-	LINK_NAMED_VARIABLE(ConnectionsData, m_ConnectionsData);
+	LINK_NAMED_VARIABLE(Out, m_OutData);
 	LINK_NAMED_VARIABLE(EditorPositionX, m_EditorPositionX);
 	LINK_NAMED_VARIABLE(EditorPositionY, m_EditorPositionY);
+
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
@@ -15,15 +16,27 @@ BEGIN_CLASS_LINK(NodeArray)
 	Array<Node*>::ScriptRegister(type);
 END_CLASS_LINK()
 
-BEGIN_CLASS_LINK(NodeConnection)
-	LINK_VARIABLE(Node);
-	LINK_VARIABLE(Pin);
+BEGIN_CLASS_LINK(NodeOutConnection)
+	LINK_NAMED_VARIABLE(In, m_InData);
+
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-BEGIN_CLASS_LINK(NodeConnectionArray)
+BEGIN_CLASS_LINK(NodeOutConnectionArray)
 	LINK_CONSTRUCTOR();
-	Array<NodeConnection*>::ScriptRegister(type);
+	Array<NodeOutConnection*>::ScriptRegister(type);
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(NodeInConnection)
+	LINK_VARIABLE(Node);
+	LINK_VARIABLE(Pin);
+
+	LINK_CONSTRUCTOR();
+END_CLASS_LINK()
+
+BEGIN_CLASS_LINK(NodeInConnectionArray)
+	LINK_CONSTRUCTOR();
+	Array<NodeInConnection*>::ScriptRegister(type);
 END_CLASS_LINK()
 
 template<typename T>
@@ -86,67 +99,129 @@ void Node::OnCreate()
 		}
 	}
 
-	for (auto& connection : *m_ConnectionsData)
+	for (auto& out : *m_OutData)
 	{
-		OutPin* outPin = GetAttribute<OutPin>(this, connection->GetName());
+		OutPin* outPin = GetAttribute<OutPin>(this, out->GetName());
 		if (!outPin)
 		{
 			continue;
 		}
 
-		Node* inNode = nullptr;
-
-		for (auto& node : *m_Graph->m_Nodes)
+		for (auto& in : *out->m_InData)
 		{
-			if (node->GetName() == connection->Node)
+			Node* inNode = nullptr;
+
+			for (auto& node : *m_Graph->m_Nodes)
 			{
-				inNode = node;
+				if (node->GetName() == in->Node)
+				{
+					inNode = node;
+				}
 			}
-		}
 
-		if (!inNode)
+			if (!inNode)
+			{
+				JS_ERROR("{}: Failed to find node '{}'", GetName(), in->Node);
+				continue;
+			}
+
+			InPin* inPin = GetAttribute<InPin>(inNode, in->Pin);
+			if (!inPin)
+			{
+				JS_ERROR("{}: Failed to find pin '{}' in node '{}'", GetName(), in->Pin, in->Node);
+				continue;
+			}
+
+			CreateConnection(outPin, { inNode, inPin });
+		}
+	}
+}
+
+void Node::OnDelete()
+{
+	for (auto& connection : m_OutConnections)
+	{
+		for (auto& inConnection : connection.second)
 		{
-			JS_ERROR("{}: Failed to find node '{}'", GetName(), connection->Node);
-			continue;
+			DeleteConnection(connection.first, inConnection);
 		}
+	}
 
-		InPin* inPin = GetAttribute<InPin>(inNode, connection->Pin);
-		if (!inPin)
-		{
-			JS_ERROR("{}: Failed to find pin '{}' in node '{}'", GetName(), connection->Pin, connection->Node);
-			continue;
-		}
+	for (auto& connection : m_InConnections)
+	{
+		std::pair<Node*, InPin*> inPin;
 
-		CreateConnection(outPin, { inNode, inPin });
+		inPin.first = this;
+		inPin.second = connection.first;
+
+		Node* node = connection.second.first;
+		OutPin* pin = connection.second.second;
+
+		node->DeleteConnection(pin, inPin);
 	}
 }
 
 void Node::OnSerialize()
 {
 	//! TODO: mem leak, delete connections
-	m_ConnectionsData->Clear();
-	
-	for (auto& connection : m_OutConnections)
+	m_OutData->Clear();
+
+	for (auto& outConnections : m_OutConnections)
 	{
-		NodeConnection* connectionData = JingleScript::NewObject<NodeConnection>("NodeConnection");
-		void* dta = (void*)connectionData;
-		connectionData->OnDeserialize(nullptr, dta);
+		NodeOutConnection* out = JingleScript::NewObject<NodeOutConnection>("NodeOutConnection");
 
-		connectionData->SetName(connection.first->GetName());
-		connectionData->Node = connection.second.first->GetName();
-		connectionData->Pin = connection.second.second->GetName();
+		void* dta = (void*)out;
+		out->OnDeserialize(nullptr, dta);
 
-		m_ConnectionsData->Insert(connectionData);
+		out->SetName(outConnections.first->GetName());
+
+		int index = 0;
+
+		for (auto& inConnection : outConnections.second)
+		{
+			NodeInConnection* in = JingleScript::NewObject<NodeInConnection>("NodeInConnection");
+
+			void* dta = (void*)in;
+			in->OnDeserialize(nullptr, dta);
+
+			in->Node = inConnection.first->GetName();
+			in->Pin = inConnection.second->GetName();
+			in->SetName(fmt::format("{}", index++));
+
+			out->m_InData->Insert(in);
+		}
+
+		m_OutData->Insert(out);
 	}
 }
 
 void Node::CreateConnection(OutPin* out, std::pair<Node*, InPin*> in)
 {
-	m_OutConnections[out] = { in.first, in.second };
+	Node* inNode = in.first;
+	InPin* inPin = in.second;
+
+	auto itIn = inNode->m_InConnections.find(inPin);
+	if (itIn != inNode->m_InConnections.end())
+	{
+		Node* otherNode = itIn->second.first;
+		OutPin* otherOutPin = itIn->second.second;
+
+		if (otherNode == in.first && otherOutPin == out)
+		{
+			//! Already connected
+			return;
+		}
+		else if (otherNode)
+		{
+			otherNode->DeleteConnection(otherOutPin, { inNode, inPin });
+		}
+	}
+
+	m_OutConnections[out].push_back({ in.first, in.second });
 	in.first->m_InConnections[in.second] = { this, out };
 }
 
-void Node::DeleteConnection(OutPin* out)
+void Node::DeleteConnection(OutPin* out, std::pair<Node*, InPin*> in)
 {
 	auto itOut = m_OutConnections.find(out);
 	if (itOut == m_OutConnections.end())
@@ -154,16 +229,20 @@ void Node::DeleteConnection(OutPin* out)
 		return;
 	}
 
-	Node* inNode = itOut->second.first;
-	InPin* in = itOut->second.second;
-
-	auto itIn = inNode->m_InConnections.find(in);
-	if (itIn != inNode->m_InConnections.end())
+	auto itIn = std::find(itOut->second.begin(), itOut->second.end(), in);
+	if (itIn == itOut->second.end())
 	{
-		inNode->m_InConnections.erase(itIn);
+		return;
 	}
 
-	m_OutConnections.erase(itOut);
+	Node* inNode = itIn->first;
+	auto inOutIn = inNode->m_InConnections.find(in.second);
+	if (inOutIn != inNode->m_InConnections.end())
+	{
+		inNode->m_InConnections.erase(inOutIn);
+	}
+
+	itOut->second.erase(itIn);
 }
 
 bool Node::InPinSet(const char* name) const

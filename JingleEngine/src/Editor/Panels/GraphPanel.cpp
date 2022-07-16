@@ -33,7 +33,7 @@ struct PinInfo
 
 typedef int ImGuiGraphID;
 
-std::vector<std::pair<Node*, OutPin*>> g_Links;
+std::vector<std::pair<std::pair<Node*, OutPin*>, std::pair<Node*, InPin*>>> g_Links;
 std::unordered_map<ImGuiGraphID, PinInfo> g_Pins;
 
 size_t UpdatePin(Node* node, Pin* pin)
@@ -208,23 +208,26 @@ void GraphPanel::OnRender(double DeltaTime)
 
 		ImNodes::EndNode();
 
-		for (auto& connection : node->m_OutConnections)
+		for (auto& outConnection : node->m_OutConnections)
 		{
 			auto& nodeA = node;
-			auto& nodeB = connection.second.first;
-
-			auto& pinA = connection.first;
-			auto& pinB = connection.second.second;
+			auto& pinA = outConnection.first;
 
 			size_t nodeAId = reinterpret_cast<size_t>(nodeA);
-			size_t nodeBId = reinterpret_cast<size_t>(nodeB);
-
 			size_t pinAId = nodeAId + std::hash<std::string>()(pinA->GetName());
-			size_t pinBId = nodeBId + std::hash<std::string>()(pinB->GetName());
-			
-			ImNodes::Link(g_Links.size(), (ImGuiGraphID)pinAId, (ImGuiGraphID)pinBId);
 
-			g_Links.push_back({ nodeA, pinA });
+			for (auto& inConnection : outConnection.second)
+			{
+				auto& nodeB = inConnection.first;
+				auto& pinB = inConnection.second;
+
+				size_t nodeBId = reinterpret_cast<size_t>(nodeB);
+				size_t pinBId = nodeBId + std::hash<std::string>()(pinB->GetName());
+			
+				ImNodes::Link(g_Links.size(), (ImGuiGraphID)pinAId, (ImGuiGraphID)pinBId);
+
+				g_Links.push_back({{ nodeA, pinA }, { nodeB, pinB }});
+			}
 		}
 
 		ImNodes::PopColorStyle();
@@ -246,10 +249,7 @@ void GraphPanel::OnRender(double DeltaTime)
 	int linkId;
 	if (ImNodes::IsLinkDestroyed(&linkId))
 	{
-		Node* node = g_Links[linkId].first;
-		OutPin* pin = g_Links[linkId].second;
-
-		node->DeleteConnection(pin);
+		g_Links[linkId].first.first->DeleteConnection(g_Links[linkId].first.second, g_Links[linkId].second);
 	}
 
 	int inPinId;

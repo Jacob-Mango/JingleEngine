@@ -3,7 +3,7 @@ class Pin
 
 }
 
-class NodeConnection
+class NodeInConnection
 {
 	@Property
 	string Node;
@@ -12,10 +12,16 @@ class NodeConnection
 	string Pin;
 }
 
+class NodeOutConnection
+{
+	@Property
+	NodeInConnectionArray In;
+}
+
 class Node
 {
 	@Property
-	NodeConnectionArray ConnectionsData;
+	NodeOutConnectionArray Out;
 
 	@Property
 	float EditorPositionX;

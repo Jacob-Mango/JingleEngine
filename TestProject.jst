@@ -281,6 +281,36 @@ Global {
    Base: "Managed"
   }
   Class {
+   Name: "NodeInConnection"
+   Base: "Object"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Node"
+    }
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "string"
+     Name: "Pin"
+    }
+   }
+  }
+  Class {
    Name: "ConfigSection"
    Base: "Config"
   }
@@ -553,8 +583,8 @@ Global {
        ForceExact: "0"
       }
      }
-     Type: "NodeConnectionArray"
-     Name: "ConnectionsData"
+     Type: "NodeOutConnectionArray"
+     Name: "Out"
     }
     Variable {
      Attributes: {
@@ -1140,30 +1170,7 @@ Global {
    }
   }
   Class {
-   Attributes: {
-    Attribute {
-     Value: "EditorAttribute"
-     Arguments: {
-      [0]: {
-       Expression {
-        Right: {
-         Constant {
-          Value: "Shader Editor"
-         }
-        }
-       }
-      }
-     }
-     IsConstructor: "1"
-     IsSuper: "0"
-     ForceExact: "0"
-    }
-   }
-   Name: "ShaderEditor"
-   Base: "Editor"
-  }
-  Class {
-   Name: "NodeConnection"
+   Name: "NodeOutConnection"
    Base: "Object"
    Variables: {
     Variable {
@@ -1175,20 +1182,8 @@ Global {
        ForceExact: "0"
       }
      }
-     Type: "string"
-     Name: "Node"
-    }
-    Variable {
-     Attributes: {
-      Attribute {
-       Value: "Property"
-       IsConstructor: "1"
-       IsSuper: "0"
-       ForceExact: "0"
-      }
-     }
-     Type: "string"
-     Name: "Pin"
+     Type: "NodeInConnectionArray"
+     Name: "In"
     }
    }
   }
@@ -1228,6 +1223,29 @@ Global {
   Class {
    Name: "BindingModule"
    Base: "Module"
+  }
+  Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "Shader Editor"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+     ForceExact: "0"
+    }
+   }
+   Name: "ShaderEditor"
+   Base: "Editor"
   }
   Class {
    Name: "ShaderGraph"

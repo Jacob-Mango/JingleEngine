@@ -124,7 +124,9 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 		return false;
 	}
 
-	Type* varType = TypeManager::Get(Script_GetDataType[object]());
+	std::string dataType = Script_GetDataType[object]();
+
+	Type* varType = TypeManager::Get(dataType);
 	uint64_t varSize = varType->GetReferenceSize();
 
 	m_PropertyData = new ObjectProperty(this, varType, GetPropertyAttribute());

@@ -9,7 +9,8 @@
 class Graph;
 class GraphPanel;
 
-class NodeConnectionArray;
+class NodeOutConnectionArray;
+class NodeInConnectionArray;
 
 class Node : public JingleScript::Object, public ObjectProperty
 {
@@ -20,12 +21,12 @@ class Node : public JingleScript::Object, public ObjectProperty
 
 private:
 	Graph* m_Graph = nullptr;
-	NodeConnectionArray* m_ConnectionsData = nullptr;
+	NodeOutConnectionArray* m_OutData = nullptr;
 
 	float m_EditorPositionX;
 	float m_EditorPositionY;
 
-	std::unordered_map<OutPin*, std::pair<Node*, InPin*>> m_OutConnections;
+	std::unordered_map<OutPin*, std::vector<std::pair<Node*, InPin*>>> m_OutConnections;
 	std::unordered_map<InPin*, std::pair<Node*, OutPin*>> m_InConnections;
 
 	std::unordered_map<std::string, InPin*> m_InPins;
@@ -39,10 +40,12 @@ public:
 	~Node();
 
 	void OnCreate();
+	void OnDelete();
+
 	void OnSerialize();
 
 	void CreateConnection(OutPin* out, std::pair<Node*, InPin*> in);
-	void DeleteConnection(OutPin* out);
+	void DeleteConnection(OutPin* out, std::pair<Node*, InPin*> in);
 
 	bool InPinSet(const char* name) const;
 	bool OutPinSet(const char* name) const;
@@ -59,25 +62,47 @@ public:
 
 };
 
-class NodeConnection : public JingleScript::Object, public ObjectProperty
+class NodeOutConnection : public JingleScript::Object, public ObjectProperty
 {
-	DEFINE_CLASS(NodeConnection, JingleScript::Object);
+	DEFINE_CLASS(NodeOutConnection, JingleScript::Object);
 
 public:
-	NodeConnection() {}
-	~NodeConnection() {}
+	NodeOutConnection() {}
+	~NodeOutConnection() {}
+
+	NodeInConnectionArray* m_InData = nullptr;
+
+};
+
+class NodeOutConnectionArray : public JingleScript::Array<NodeOutConnection*>
+{
+	DEFINE_CLASS(NodeOutConnectionArray, JingleScript::Array<NodeOutConnection*>);
+
+public:
+	NodeOutConnectionArray() {}
+	~NodeOutConnectionArray() {}
+
+};
+
+class NodeInConnection : public JingleScript::Object, public ObjectProperty
+{
+	DEFINE_CLASS(NodeInConnection, JingleScript::Object);
+
+public:
+	NodeInConnection() {}
+	~NodeInConnection() {}
 
 	std::string Node;
 	std::string Pin;
 
 };
 
-class NodeConnectionArray : public JingleScript::Array<NodeConnection*>
+class NodeInConnectionArray : public JingleScript::Array<NodeInConnection*>
 {
-	DEFINE_CLASS(NodeConnectionArray, JingleScript::Array<NodeConnection*>);
+	DEFINE_CLASS(NodeInConnectionArray, JingleScript::Array<NodeInConnection*>);
 
 public:
-	NodeConnectionArray() {}
-	~NodeConnectionArray() {}
+	NodeInConnectionArray() {}
+	~NodeInConnectionArray() {}
 
 };

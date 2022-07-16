@@ -5,108 +5,148 @@
    EditorPositionY: "346.000000"
   }, 
   {ShaderNode_Sample, Sample_Roughness}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Output", 
-     Pin: "Roughness"
-    }
-   ], 
    EditorPositionX: "400.000000", 
-   EditorPositionY: "220.000000"
+   EditorPositionY: "220.000000", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Output", 
+       Pin: "Roughness"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Variable, Image_Roughness}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Sample_Roughness", 
-     Pin: "UV"
-    }
-   ], 
    EditorPositionX: "50.000000", 
    EditorPositionY: "220.000000", 
-   Name: ""
+   Name: "", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Sample_Roughness", 
+       Pin: "Image"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Sample, Sample_Normal}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Output", 
-     Pin: "Normal"
-    }
-   ], 
    EditorPositionX: "400.000000", 
-   EditorPositionY: "380.000000"
+   EditorPositionY: "380.000000", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Output", 
+       Pin: "Normal"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_UV, Image_Metallic}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, UV}: {
-     Node: "Sample_Metallic", 
-     Pin: "UV"
-    }
-   ], 
    EditorPositionX: "50.000000", 
-   EditorPositionY: "460.000000"
+   EditorPositionY: "460.000000", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, UV}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Sample_Metallic", 
+       Pin: "Image"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Sample, Sample_Diffuse}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Output", 
-     Pin: "Diffuse"
-    }
-   ], 
    EditorPositionX: "400.000000", 
-   EditorPositionY: "300.000000"
+   EditorPositionY: "300.000000", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Output", 
+       Pin: "Diffuse"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Variable, Image_Diffuse}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Sample_Diffuse", 
-     Pin: "UV"
-    }
-   ], 
    EditorPositionX: "50.000000", 
    EditorPositionY: "300.000000", 
-   Name: ""
+   Name: "", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Sample_Diffuse", 
+       Pin: "Image"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Variable, Image_Normal}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Sample_Normal", 
-     Pin: "UV"
-    }
-   ], 
    EditorPositionX: "50.000000", 
    EditorPositionY: "380.000000", 
-   Name: ""
+   Name: "", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Sample_Normal", 
+       Pin: "Image"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Sample, Sample_Metallic}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Output", 
-     Pin: "Metallic"
-    }
-   ], 
    EditorPositionX: "400.000000", 
-   EditorPositionY: "460.000000"
+   EditorPositionY: "460.000000", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Output", 
+       Pin: "Metallic"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Sample, Sample_Ambient}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Output", 
-     Pin: "Ambient"
-    }
-   ], 
    EditorPositionX: "400.000000", 
-   EditorPositionY: "540.000000"
+   EditorPositionY: "540.000000", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Output", 
+       Pin: "Ambient"
+      }
+     ]
+    }
+   ]
   }, 
   {ShaderNode_Variable, Image_Ambient}: {
-   {NodeConnectionArray, ConnectionsData}: [
-    {NodeConnection, Output}: {
-     Node: "Sample_Ambient", 
-     Pin: "UV"
-    }
-   ], 
    EditorPositionX: "50.000000", 
    EditorPositionY: "540.000000", 
-   Name: ""
+   Name: "", 
+   {NodeOutConnectionArray, Out}: [
+    {NodeOutConnection, Output}: {
+     {NodeInConnectionArray, In}: [
+      {NodeInConnection, 0}: {
+       Node: "Sample_Ambient", 
+       Pin: "Image"
+      }
+     ]
+    }
+   ]
   }
  ]
 }
