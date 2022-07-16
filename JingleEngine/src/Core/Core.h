@@ -9,8 +9,6 @@
 #include <GL/wglew.h>
 //#include <GL/glxew.h>
 
-#include <imgui.h>
-
 #include <iostream>
 #include <string>
 #include <vector>

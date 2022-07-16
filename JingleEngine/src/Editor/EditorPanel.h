@@ -1,9 +1,13 @@
 #pragma once
 
+#ifdef JE_EDITOR
+
 #include "Core/Core.h"
 #include "Core/Module.h"
 
 #include "Editor/EditorAttribute.h"
+
+#include <imgui.h>
 
 class Editor;
 class EditorModule;
@@ -49,3 +53,5 @@ struct EditorPanelData
 
 	std::vector<EditorPanel*> Instances;
 };
+
+#endif

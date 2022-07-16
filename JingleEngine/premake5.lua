@@ -49,6 +49,11 @@ filter "system:windows"
 filter "configurations:DebugProject"
 	runtime "Debug"
 	symbols "on"
+
+	removefiles 
+	{
+		"src/Editor/**"
+	}
 	
 filter "configurations:DebugEditor"
 	runtime "Debug"
@@ -62,6 +67,11 @@ filter "configurations:DebugEditor"
 filter "configurations:DevelopmentProject"
 	runtime "Release"
 	optimize "on"
+	
+	removefiles 
+	{
+		"src/Editor/**"
+	}
 	
 filter "configurations:DevelopmentEditor"
 	runtime "Release"

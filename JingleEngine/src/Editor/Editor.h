@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef JE_EDITOR
+
 #include "Core/Core.h"
 #include "Core/Module.h"
 
@@ -71,3 +73,5 @@ struct EditorData
 
 	std::vector<Editor*> Instances;
 };
+
+#endif

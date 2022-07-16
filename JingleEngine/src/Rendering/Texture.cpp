@@ -113,7 +113,9 @@ void Texture::Unbind()
 	GL(glBindTexture(m_ImageType == ImageType::CUBEMAP ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D, 0));
 }
 
+#ifdef JE_EDITOR
 void Texture::ImGui(const ImVec2& size)
 {
 	ImGui::Image((ImTextureID)m_ID, size, { 0, 1 }, { 1, 0 });
 }
+#endif

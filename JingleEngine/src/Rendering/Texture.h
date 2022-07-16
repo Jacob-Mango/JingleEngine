@@ -5,6 +5,10 @@
 #include "Asset/Asset.h"
 #include "Asset/AssetModule.h"
 
+#ifdef JE_EDITOR
+	#include <imgui.h>
+#endif
+
 class Image;
 class Shader;
 
@@ -48,6 +52,8 @@ public:
 	void Bind(int index);
 	void Unbind();
 
+#ifdef JE_EDITOR
 	void ImGui(const ImVec2& size);
+#endif
 
 };

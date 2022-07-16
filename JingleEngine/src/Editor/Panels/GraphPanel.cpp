@@ -1,3 +1,7 @@
+#ifndef IMGUI_DEFINE_MATH_OPERATORS
+	#define IMGUI_DEFINE_MATH_OPERATORS
+#endif
+
 #include "Editor/Panels/GraphPanel.h"
 
 #include "Editor/Editor.h"
@@ -81,6 +85,12 @@ void GraphPanel::OnRender(double DeltaTime)
 
 	Graph* graph = GetEditor()->GetGraph();
 
+	const float nodeWidth = 250.f;
+
+	ImNodesContext* nodesCtx = ImNodes::GetCurrentContext();
+	ImNodesEditorContext* nodeEditorCtx = nodesCtx->EditorCtx;
+	ImObjectPool<ImNodeData>& nodes = nodeEditorCtx->Nodes;
+
 	if (ImGui::GetIO().MouseClicked[1])
 	{
 		ImGui::OpenPopup("GraphPanelContextMenu");
@@ -89,7 +99,7 @@ void GraphPanel::OnRender(double DeltaTime)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.f, 8.f));
 	if (ImGui::BeginPopup("GraphPanelContextMenu"))
 	{
-		const ImVec2 position = ImGui::GetMousePosOnOpeningCurrentPopup();
+		ImVec2 position = ImGui::GetMousePosOnOpeningCurrentPopup();
 
 		for (auto& type : JingleScript::TypeManager::Iterator())
 		{
@@ -102,27 +112,18 @@ void GraphPanel::OnRender(double DeltaTime)
 
 			if (ImGui::MenuItem(title.c_str()))
 			{
-				Node* node = type->New<Node>();
-				if (node->Deserialize(nullptr))
-				{
-					node->OnCreate();
-					graph->GetNodes().Insert(node);
-				}
-				else
-				{
-					//todo: delete node, mem leak
-				}
+				Node* node = graph->CreateNode<Node>(type);
+
+
+				ImVec2 pos = position - (nodesCtx->CanvasOriginScreenSpace - nodeEditorCtx->Panning);
+
+				node->m_EditorPositionX = pos.x;
+				node->m_EditorPositionY = pos.y;
 			}
 		}
 		ImGui::EndPopup();
 	}
     ImGui::PopStyleVar();
-
-	const float nodeWidth = 250.f;
-
-	ImNodesContext* nodesCtx = ImNodes::GetCurrentContext();
-	ImNodesEditorContext* nodeEditorCtx = nodesCtx->EditorCtx;
-	ImObjectPool<ImNodeData>& nodes = nodeEditorCtx->Nodes;
 
 	for (auto& node : graph->GetNodes())
 	{

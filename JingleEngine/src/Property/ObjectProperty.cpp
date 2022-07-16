@@ -265,6 +265,7 @@ bool ObjectProperty::OnDeserialize(Config* cfg, void*& data)
 
 void ObjectProperty::Editor_OnRender(void*& data)
 {
+#ifdef JE_EDITOR
 	Object* object = static_cast<Object*>(data);
 	if (object == nullptr)
 	{
@@ -325,6 +326,7 @@ void ObjectProperty::Editor_OnRender(void*& data)
 
 		ImGui::PopID();
 	}
+#endif
 }
 
 ConfigAsset* ObjectProperty::GetBaseConfig() const

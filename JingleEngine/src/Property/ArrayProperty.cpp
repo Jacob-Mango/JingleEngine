@@ -184,6 +184,7 @@ bool ArrayProperty::OnDeserialize(Config* cfg, void*& data)
 
 void ArrayProperty::Editor_OnRender(void*& data)
 {
+#ifdef JE_EDITOR
 	Object* object = static_cast<Object*>(data);
 	if (object == nullptr)
 	{
@@ -242,4 +243,5 @@ void ArrayProperty::Editor_OnRender(void*& data)
 
 		m_PropertyData->Editor_OnRender(data);
 	}
+#endif
 }

@@ -6,8 +6,6 @@
 
 #include "Property/Property.h"
 
-#include <imgui.h>
-
 class ArrayProperty;
 class ObjectProperty;
 

@@ -2,6 +2,8 @@
 
 #include "Core/Core.h"
 
+#ifdef JE_EDITOR
+
 #include <imgui.h>
 #include <imgui_internal.h>
 
@@ -94,3 +96,5 @@ namespace EditorUI
 		return updated;
 	}
 };
+
+#endif

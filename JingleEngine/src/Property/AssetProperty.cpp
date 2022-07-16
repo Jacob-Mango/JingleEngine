@@ -49,6 +49,7 @@ bool AssetProperty::OnDeserialize(Config* cfg, void*& data)
 
 void AssetProperty::Editor_OnRender(void*& data)
 {
+#ifdef JE_EDITOR
 	std::string path;
 
 	Asset* asset = static_cast<Asset*>(data);
@@ -88,4 +89,5 @@ void AssetProperty::Editor_OnRender(void*& data)
 
 		ImGui::EndDragDropTarget();
 	}
+#endif
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef JE_EDITOR
+
 #include "Core/Core.h"
 
 class EditorAttribute : public JingleScript::Attribute
@@ -16,3 +18,5 @@ public:
 	std::string GetTitle() const { return m_Title; }
 
 };
+
+#endif

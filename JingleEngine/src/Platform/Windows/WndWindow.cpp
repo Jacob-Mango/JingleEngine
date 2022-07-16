@@ -1,9 +1,11 @@
 #include "Platform/Windows/WndWindow.h"
 
+#ifdef JE_EDITOR
 #include <imgui.h>
 #include <imnodes.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_win32.h>
+#endif
 
 #include "Core/Application.h"
 #include "Core/ModuleManager.h"
@@ -161,6 +163,8 @@ int WndWindow::Create(const WindowDesc& desc)
 		GL(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
 	}
 
+#ifdef JE_EDITOR
+
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 
@@ -199,6 +203,8 @@ int WndWindow::Create(const WindowDesc& desc)
 	ImGui_ImplWin32_Init(m_Window, m_GLContext);
 	ImGui_ImplOpenGL3_Init("#version 120");
 
+#endif
+
 	//SetVsync(false);
 
 	return 0;
@@ -213,10 +219,12 @@ WndWindow::~WndWindow()
 	/* stop event queue thread */
 	PostQuitMessage(0);
 
+#ifdef JE_EDITOR
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImNodes::DestroyContext();
 	ImGui::DestroyContext();
+#endif
 
 	DestroyWindow(m_Window);
 	UnregisterClass(L"openglversioncheck", m_Instance);
@@ -329,7 +337,9 @@ bool WndWindow::IsMaximized()
 	return m_Maximized;
 }
 
+#ifdef JE_EDITOR
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+#endif
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -339,12 +349,14 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 
+#ifdef JE_EDITOR
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
 	{
 		return true;
 	}
 
 	ImGuiIO& io = ImGui::GetIO();
+#endif
 
 	switch (message)
 	{
@@ -464,6 +476,7 @@ void WndWindow::Begin()
 		DispatchMessage(&event);
 	}
 
+#ifdef JE_EDITOR
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplWin32_NewFrame(Input::IsCursorInViewport());
 	ImGui::NewFrame();
@@ -539,10 +552,12 @@ void WndWindow::Begin()
 	}
 
 	ImGui::End();
+#endif
 }
 
 void WndWindow::End()
 {
+#ifdef JE_EDITOR
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 
@@ -550,9 +565,12 @@ void WndWindow::End()
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+#endif
+
 	wglMakeCurrent(m_DeviceContext, m_GLContext);
 	SwapBuffers(m_DeviceContext);
 
+#ifdef JE_EDITOR
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 	{
 		auto backUpDC = m_DeviceContext;
@@ -561,4 +579,5 @@ void WndWindow::End()
 		m_DeviceContext = backUpDC;
 		wglMakeCurrent(m_DeviceContext, m_GLContext);
 	}
+#endif
 }

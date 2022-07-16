@@ -104,6 +104,7 @@ void Entity::OnDeserializeTransform(Config* cfg)
 
 void Entity::Editor_OnRenderTransform()
 {
+#ifdef JE_EDITOR
 	EditorUI::Render_CellHeader("Position");
 	glm::dvec3 position = GetPosition();
 	if (EditorUI::Render_Vector3(position))
@@ -117,6 +118,7 @@ void Entity::Editor_OnRenderTransform()
 	{
 		SetOrientation(orientation);
 	}
+#endif
 }
 
 void Entity::OnSerializeComponents(Config* cfgRoot)
@@ -157,6 +159,7 @@ void Entity::OnDeserializeComponents(Config* cfgRoot)
 
 void Entity::Editor_OnRenderComponents()
 {
+#ifdef JE_EDITOR
 	static Component* SelectedComponent = nullptr;
 
 	EditorUI::Render_CellHeader("Components", true);
@@ -228,6 +231,7 @@ void Entity::Editor_OnRenderComponents()
 	{
 		// removeIndex
 	}
+#endif
 }
 
 void Entity::OnSerializeChildren(Config* cfgRoot)

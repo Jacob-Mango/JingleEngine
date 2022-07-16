@@ -115,6 +115,7 @@ bool StructureProperty::FromString(std::string& value, void*& data)
 
 void StructureProperty::Editor_OnRender(void*& data)
 {
+#ifdef JE_EDITOR
 	std::string name = GetPropertyAttribute()->GetName();
 	EditorUI::Render_CellHeader(name);
 
@@ -128,4 +129,5 @@ void StructureProperty::Editor_OnRender(void*& data)
 		//Script_Editor_OnPropertyChanged[GetPropertyOwner()](name);
 		GetPropertyOwner()->Editor_OnPropertyChanged(name);
 	}
+#endif
 }
