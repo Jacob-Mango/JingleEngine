@@ -52,6 +52,8 @@ public:
 
 };
 
+typedef std::pair<std::pair<Node*, OutPin*>, std::pair<Node*, InPin*>> Edge;
+
 class NodeArray : public JingleScript::Array<Node*>
 {
 	DEFINE_CLASS(NodeArray, JingleScript::Array<Node*>);

@@ -142,7 +142,7 @@ void Editor::OnRenderMenu()
 
 			if (ImGui::MenuItem(title.c_str(), NULL))
 			{
-				Open(type->Name());
+				OpenPanel(type->Name());
 			}
 		}
 

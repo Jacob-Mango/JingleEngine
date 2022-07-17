@@ -2,16 +2,12 @@
 
 #include "Editor/EditorPanel.h"
 
-#include "Graph/Node.h"
-
-class GraphPanel : public EditorPanel
+class GraphPropertiesPanel : public EditorPanel
 {
-	DEFINE_CLASS(GraphPanel, EditorPanel);
-
-	class Viewport* m_Viewport;
+	DEFINE_CLASS(GraphPropertiesPanel, EditorPanel);
 
 public:
-	GraphPanel();
+	GraphPropertiesPanel() {}
 
 	virtual void OnBeginRender(double DeltaTime) override;
 	virtual void OnRender(double DeltaTime) override;

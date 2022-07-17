@@ -53,6 +53,12 @@ class GraphPanel extends EditorPanel
 
 }
 
+@EditorAttribute("Graph Properties")
+class GraphPropertiesPanel extends EditorPanel
+{
+
+}
+
 @EditorAttribute("Script Test")
 class ScriptTestPanel extends EditorPanel
 {

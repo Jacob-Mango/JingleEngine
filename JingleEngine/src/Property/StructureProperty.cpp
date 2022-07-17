@@ -119,15 +119,18 @@ void StructureProperty::Editor_OnRender(void*& data)
 	std::string name = GetPropertyAttribute()->GetName();
 	EditorUI::Render_CellHeader(name);
 
-	std::string value = ToString(data);;
+	std::string value = ToString(data);
 	std::string previous = value;
 	if (EditorUI::Render_CellInputText(value))
 	{
-		JS_INFO("Value changed from {} to {}", previous, value);
+		if (FromString(value, data))
+		{
+			JS_INFO("Value changed from {} to {}", previous, value);
 
-		//JingleScript::Function<void, std::string> Script_Editor_OnPropertyChanged = { "Editor_OnPropertyChanged", GetPropertyOwner()->GetPropertyType() };
-		//Script_Editor_OnPropertyChanged[GetPropertyOwner()](name);
-		GetPropertyOwner()->Editor_OnPropertyChanged(name);
+			//JingleScript::Function<void, std::string> Script_Editor_OnPropertyChanged = { "Editor_OnPropertyChanged", GetPropertyOwner()->GetPropertyType() };
+			//Script_Editor_OnPropertyChanged[GetPropertyOwner()](name);
+			GetPropertyOwner()->Editor_OnPropertyChanged(name);
+		}
 	}
 #endif
 }

@@ -228,22 +228,34 @@ void ArrayProperty::Editor_OnRender(void*& data)
 	Thread* thread = Thread::Current();
 	ValueStack* stack = &thread->Stack;
 
-	stack->Push(typeSize);
-	stack->CopyFrom(typeSize, &data, typeSize);
+	uint64_t size = varSize > typeSize ? varSize : typeSize;
+	uint64_t intSize = Integer::StaticType()->GetReferenceSize();
+
+	stack->Push(size);
+	stack->Push(intSize);
 
 	int count = Script_Count[object]();
 	for (int i = 0; i < count; i++)
 	{
-		ScopedIncrement increment(EditorUI::Context.Depth);
+		stack->CopyFrom(size + intSize, &data, typeSize);
+		stack->CopyFrom(intSize, &i, intSize);
 
-		stack->Push(sizeof(int));
-		stack->CopyFrom(sizeof(int), &i, sizeof(int));
 		Script_Get->Call(thread);
-		stack->Pop(sizeof(int));
 
-		void* data = stack->Get(varSize > typeSize ? varSize : typeSize);
+		void* dta = *(void**)stack->Get(size + intSize);
+		Object* obj = static_cast<Object*>(dta);
 
-		m_PropertyData->Editor_OnRender(data);
+		ObjectProperty* property = dynamic_cast<ObjectProperty*>(obj);
+		if (property)
+		{
+			property->Editor_OnRender(dta);
+			continue;
+		}
+
+		m_PropertyData->Editor_OnRender(dta);
 	}
+
+	stack->Pop(intSize);
+	stack->Pop(size);
 #endif
 }

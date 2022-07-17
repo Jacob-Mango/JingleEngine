@@ -4,7 +4,7 @@
 
 #include "Editor/Panels/GraphPanel.h"
 
-#include "Editor/Editor.h"
+#include "Editor/Editors/GraphEditor.h"
 
 #include <imnodes.h>
 #include <imnodes_internal.h>
@@ -83,9 +83,15 @@ size_t UpdatePin(Node* node, Pin* pin)
 
 void GraphPanel::OnRender(double DeltaTime)
 {
-	ImNodes::BeginNodeEditor();
+	GraphEditor* editor = dynamic_cast<GraphEditor*>(GetEditor());
+	if (!editor)
+	{
+		return;
+	}
 
-	Graph* graph = GetEditor()->GetGraph();
+	Graph* graph = editor->GetGraph();
+
+	ImNodes::BeginNodeEditor();
 
 	const float nodeWidth = 250.f;
 
@@ -130,12 +136,12 @@ void GraphPanel::OnRender(double DeltaTime)
 
 		if (ImGui::MenuItem("Delete"))
 		{
-			for (auto& [out, in] : m_SelectedEdges)
+			for (auto& [out, in] : editor->SelectedEdges)
 			{
 				out.first->DeleteConnection(out.second, in);
 			}
 
-			for (auto& node : m_SelectedNodes)
+			for (auto& node : editor->SelectedNodes)
 			{
 				graph->RemoveNode(node);
 			}
@@ -301,7 +307,7 @@ void GraphPanel::OnRender(double DeltaTime)
 	{
 		size_t count = static_cast<size_t>(ImNodes::NumSelectedLinks());
 		g_SelectedLinks.resize(count);
-		m_SelectedEdges.resize(count);
+		editor->SelectedEdges.resize(count);
 		if (count != 0)
 		{
 			ImNodes::GetSelectedLinks(g_SelectedLinks.data());
@@ -311,14 +317,14 @@ void GraphPanel::OnRender(double DeltaTime)
 		for (auto id : g_SelectedLinks)
 		{
 			if (id >= g_Links.size()) continue;
-			m_SelectedEdges[index++] = g_Links[id];
+			editor->SelectedEdges[index++] = g_Links[id];
 		}
 	}
 
 	{
 		size_t count = static_cast<size_t>(ImNodes::NumSelectedNodes());
 		g_SelectedNodes.resize(count);
-		m_SelectedNodes.resize(count);
+		editor->SelectedNodes.resize(count);
 		if (count != 0)
 		{
 			ImNodes::GetSelectedNodes(g_SelectedNodes.data());
@@ -327,7 +333,7 @@ void GraphPanel::OnRender(double DeltaTime)
 		size_t index = 0;
 		for (auto id : g_SelectedNodes)
 		{
-			m_SelectedNodes[index++] = g_Nodes[id];
+			editor->SelectedNodes[index++] = g_Nodes[id];
 		}
 	}
 }

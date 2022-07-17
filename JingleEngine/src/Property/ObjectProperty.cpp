@@ -300,18 +300,12 @@ void ObjectProperty::Editor_OnRender(void*& data)
 		auto varOffset = property->GetPropertyOffset();
 		auto varProperty = property->GetPropertyAttribute();
 
-		void*& data = *(void**)((char*)object + varOffset);
-		std::string id = PointerToString(data);
-
-		if (varType->IsStructure())
-		{
-			data = (void*)((char*)object + varOffset);
-		}
-
 		if (!varProperty->IsValid())
 		{
 			continue;
 		}
+		
+		std::string id = fmt::format("{}", (void*)((char*)object + varOffset));
 
 		ImGui::PushID(id.c_str());
 
@@ -321,7 +315,16 @@ void ObjectProperty::Editor_OnRender(void*& data)
 		}
 		else
 		{
-			property->Editor_OnRender(data);
+			if (varType->IsStructure())
+			{
+				void* data = (void*)((char*)object + varOffset);
+				property->Editor_OnRender(data);
+			}
+			else
+			{
+				void*& data = *(void**)((char*)object + varOffset);
+				property->Editor_OnRender(data);
+			}
 		}
 
 		ImGui::PopID();

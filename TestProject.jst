@@ -315,6 +315,29 @@ Global {
    Base: "Config"
   }
   Class {
+   Attributes: {
+    Attribute {
+     Value: "EditorAttribute"
+     Arguments: {
+      [0]: {
+       Expression {
+        Right: {
+         Constant {
+          Value: "G Properties"
+         }
+        }
+       }
+      }
+     }
+     IsConstructor: "1"
+     IsSuper: "0"
+     ForceExact: "0"
+    }
+   }
+   Name: "GraphPropertiesPanel"
+   Base: "EditorPanel"
+  }
+  Class {
    Name: "ConfigValue"
    Base: "Config"
   }
@@ -1067,7 +1090,7 @@ Global {
        Expression {
         Right: {
          Constant {
-          Value: "Entity Properties"
+          Value: "E Properties"
          }
         }
        }

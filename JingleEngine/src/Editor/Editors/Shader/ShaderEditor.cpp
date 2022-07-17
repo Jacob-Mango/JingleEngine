@@ -10,10 +10,10 @@ BEGIN_CLASS_LINK(ShaderEditor);
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK();
 
-ShaderEditor::ShaderEditor() : Editor()
+ShaderEditor::ShaderEditor() : GraphEditor()
 {
 	OpenPanel("GraphPanel");
-	//OpenPanel("GraphVariablesPanel");
+	OpenPanel("GraphPropertiesPanel");
 }
 
 ShaderEditor::~ShaderEditor()

@@ -2,11 +2,13 @@
 
 #include "Editor/Editor.h"
 
+#include "Editor/Editors/GraphEditor.h"
+
 #include "Editor/Editors/Shader/ShaderGraph.h"
 
-class ShaderEditor : public Editor
+class ShaderEditor : public GraphEditor
 {
-	DEFINE_CLASS(ShaderEditor, Editor);
+	DEFINE_CLASS(ShaderEditor, GraphEditor);
 
 private:
 	ShaderGraph* m_Graph = nullptr;
