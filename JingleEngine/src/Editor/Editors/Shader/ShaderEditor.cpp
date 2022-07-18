@@ -138,6 +138,8 @@ static ShaderCompileNode* AddNode(ShaderNode* node)
 		compiled = new ShaderCompileNode();
 		compiled->m_Node = node;
 
+		m_CompiledNodes[node] = compiled;
+
 		if (m_RootNode == nullptr)
 		{
 			m_RootNode = compiled;
@@ -151,6 +153,8 @@ static ShaderCompileNode* AddNode(ShaderNode* node)
 	}
 	else
 	{
+		//! Moves the node to be processed earlier as it is depended on earlier
+
 		compiled = it->second;
 
 		if (m_RootNode)
@@ -160,6 +164,7 @@ static ShaderCompileNode* AddNode(ShaderNode* node)
 		}
 
 		m_RootNode = compiled->m_Root;
+		m_RootNode->m_Previous = nullptr;
 	}
 
 	auto& inputs = node->GetInConnections();
@@ -191,18 +196,24 @@ void ShaderEditor::Compile()
 		return;
 	}
 
-	JS_INFO("Compiling with {}", m_OutputNode->GetName());
-
 	m_RootNode = nullptr;
 	AddNode(m_OutputNode);
+
+	std::stringstream stream;
 
 	ShaderCompileNode* node = m_RootNode;
 	while (node != nullptr)
 	{
-		JS_INFO("Node {}", node->m_Node->GetName());
+		if (!node->m_Node->Compile(node->m_Inputs, stream))
+		{
+			JS_INFO("Failed to compile shader.");
+			break;
+		}
 
 		node = node->m_Next;
 	}
+
+	JS_INFO("Shader:\n{}", stream.str());
 }
 
 void ShaderEditor::OnSave()

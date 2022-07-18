@@ -858,7 +858,7 @@ class ShaderNode extends Node {
 }
 
 class ShaderNode_Color extends ShaderNode {
-   vec4 Output
+   vec4 Color
 
   ShaderNode_Color::ctor() (Native)
 

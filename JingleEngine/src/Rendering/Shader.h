@@ -4,6 +4,10 @@
 
 #include "Asset/Asset.h"
 
+#ifdef JE_EDITOR
+#include "Editor/Editors/Shader/ShaderGraph.h"
+#endif
+
 class Shader : public Asset
 {
 	SETUP_ASSET(Shader, Asset)
@@ -12,6 +16,10 @@ class Shader : public Asset
 	GLuint m_VertexShaderID;
 	GLuint m_FragmentShaderID;
 	GLuint m_GeometryShaderID;
+
+#ifdef JE_EDITOR
+	ShaderGraph* m_Graph = nullptr;
+#endif
 
 public:
 	Shader();

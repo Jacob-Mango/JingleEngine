@@ -47,11 +47,11 @@
     }
    ]
   }, 
-  {ShaderNode_UV, Image_Metallic}: {
+  {ShaderNode_Variable, Image_Metallic}: {
    EditorPositionX: "50.000000", 
    EditorPositionY: "460.000000", 
    {NodeOutConnectionArray, Out}: [
-    {NodeOutConnection, UV}: {
+    {NodeOutConnection, Output}: {
      {NodeInConnectionArray, In}: [
       {NodeInConnection, 0}: {
        Node: "Sample_Metallic", 

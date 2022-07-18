@@ -14,7 +14,7 @@ ShaderNode::~ShaderNode()
 
 }
 
-void ShaderNode::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
+bool ShaderNode::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
 {
-
+	return false;
 }

@@ -15,9 +15,9 @@ BEGIN_CLASS_LINK(ShaderNode_Variable)
 	LINK_METHOD(Editor_OnRenderVariableType);
 END_CLASS_LINK()
 
-void ShaderNode_Variable::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
+bool ShaderNode_Variable::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
 {
-
+	return true;
 }
 
 void ShaderNode_Variable::OnSerializeVariableType(Config* cfg)

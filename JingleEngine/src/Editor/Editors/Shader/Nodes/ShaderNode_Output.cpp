@@ -19,7 +19,7 @@ BEGIN_CLASS_LINK(ShaderNode_Output)
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-void ShaderNode_Output::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
+bool ShaderNode_Output::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
 {
 	auto& diffuse = inputs["Diffuse"];
 	auto& normal = inputs["Normal"];
@@ -40,4 +40,6 @@ void ShaderNode_Output::Compile(std::unordered_map<std::string, std::pair<Shader
 			getVariable(roughness, "vec4(0.0)"), 
 			getVariable(ambient, "vec4(0.0)")
 		) << std::endl;
+
+	return true;
 }
