@@ -6,6 +6,8 @@ class ShaderNode : public Node
 {
 	DEFINE_CLASS(ShaderNode, Node);
 
+	friend class ShaderCompileNode* AddNode(ShaderNode* node);
+
 public:
 	ShaderNode();
 	~ShaderNode();
@@ -15,9 +17,9 @@ public:
 	virtual bool IsFunction() const { return false; }
 	virtual bool IsBlock() const { return false; }
 
-	virtual const std::string& GetVariableName() const { return GetName(); }
+	virtual const std::string& GetVariableName(const std::string& pin) const { return GetName(); }
 
 	// When processed as variable, inputs is empty
-	virtual void Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output);
+	virtual void Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output);
 
 };

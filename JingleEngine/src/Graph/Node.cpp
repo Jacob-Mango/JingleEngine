@@ -195,6 +195,16 @@ void Node::OnSerialize()
 	}
 }
 
+OutConnections& Node::GetOutConnections()
+{
+	return m_OutConnections;
+}
+
+InConnections& Node::GetInConnections()
+{
+	return m_InConnections;
+}
+
 void Node::CreateConnection(OutPin* out, std::pair<Node*, InPin*> in)
 {
 	Node* inNode = in.first;

@@ -7,7 +7,7 @@ BEGIN_CLASS_LINK(ShaderNode_Color)
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-void ShaderNode_Color::Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output)
+void ShaderNode_Color::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
 {
 
 }

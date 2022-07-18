@@ -12,6 +12,16 @@ class GraphPanel;
 class NodeOutConnectionArray;
 class NodeInConnectionArray;
 
+class Node;
+
+//! TODO: Addtional support for 'OutPin' to also be 'one-to-one'
+typedef std::unordered_map<OutPin*, std::vector<std::pair<Node*, InPin*>>> OutConnections;
+
+//! TODO: Addtional support for 'InPin' to also be 'many-to-many'. 
+typedef std::unordered_map<InPin*, std::pair<Node*, OutPin*>> InConnections;
+
+typedef std::pair<std::pair<Node*, OutPin*>, std::pair<Node*, InPin*>> Edge;
+
 class Node : public JingleScript::Object, public ObjectProperty
 {
 	DEFINE_CLASS(Node, JingleScript::Object);
@@ -26,12 +36,13 @@ private:
 	float m_EditorPositionX;
 	float m_EditorPositionY;
 
-	std::unordered_map<OutPin*, std::vector<std::pair<Node*, InPin*>>> m_OutConnections;
-	std::unordered_map<InPin*, std::pair<Node*, OutPin*>> m_InConnections;
+	OutConnections m_OutConnections;
+	InConnections m_InConnections;
 
 	std::unordered_map<std::string, InPin*> m_InPins;
 	std::unordered_map<std::string, OutPin*> m_OutPins;
 
+	//! TODO: Remove this
 	std::vector<InPin*> m_temp_InPins;
 	std::vector<OutPin*> m_temp_OutPins;
 
@@ -44,6 +55,9 @@ public:
 
 	void OnSerialize();
 
+	OutConnections& GetOutConnections();
+	InConnections& GetInConnections();
+
 	void CreateConnection(OutPin* out, std::pair<Node*, InPin*> in);
 	void DeleteConnection(OutPin* out, std::pair<Node*, InPin*> in);
 
@@ -51,8 +65,6 @@ public:
 	bool OutPinSet(const char* name) const;
 
 };
-
-typedef std::pair<std::pair<Node*, OutPin*>, std::pair<Node*, InPin*>> Edge;
 
 class NodeArray : public JingleScript::Array<Node*>
 {

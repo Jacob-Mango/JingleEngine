@@ -6,13 +6,19 @@
 
 #include "Editor/Editors/Shader/ShaderGraph.h"
 
+class ShaderNode_Output;
+
 class ShaderEditor : public GraphEditor
 {
 	DEFINE_CLASS(ShaderEditor, GraphEditor);
 
+	friend class ShaderGraph;
+
 private:
 	ShaderGraph* m_Graph = nullptr;
 	Config* m_Config = nullptr; //! TODO: Reference
+
+	ShaderNode_Output* m_OutputNode = nullptr;
 
 public:
 	ShaderEditor();
@@ -23,6 +29,12 @@ public:
 	virtual void Open(AssetID id) override;
 	virtual void SaveAs(AssetID id) override;
 	virtual void Save() override;
+
+public:
+	virtual void OnRenderMenu() override;
+
+public:
+	void Compile();
 
 protected:
 	void OnSave();

@@ -7,7 +7,7 @@ BEGIN_CLASS_LINK(ShaderNode_UV)
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-void ShaderNode_UV::Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output)
+void ShaderNode_UV::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
 {
 
 }

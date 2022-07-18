@@ -109,7 +109,7 @@ class #global extends Object {
     [00000030]   pop 1                                                                                 JingleScript::ValueItem::Pop
     [00000031]   copy_address 0                                                                        
     [00000032]   push 40                                                                               JingleScript::ValueItem::Push
-    [00000033]    copy_data string [G Properties] 40                                                   JingleScript::Compiler::CompileConstant
+    [00000033]    copy_data string [Graph Properties] 40                                               JingleScript::Compiler::CompileConstant
     [00000034]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [00000035]   pop 40                                                                                JingleScript::ValueItem::Pop
     [00000036]   copy_address 0                                                                        
@@ -134,7 +134,7 @@ class #global extends Object {
     [00000049]   pop 40                                                                                JingleScript::ValueItem::Pop
     [0000004A]   copy_address 0                                                                        
     [0000004B]   push 40                                                                               JingleScript::ValueItem::Push
-    [0000004C]    copy_data string [E Properties] 40                                                   JingleScript::Compiler::CompileConstant
+    [0000004C]    copy_data string [Entity Properties] 40                                              JingleScript::Compiler::CompileConstant
     [0000004D]    call_method [EditorAttribute::ctor(string)] 6                                        JingleScript::Compiler::CompileFunctionCall
     [0000004E]   pop 40                                                                                JingleScript::ValueItem::Pop
     [0000004F]   copy_address 0                                                                        

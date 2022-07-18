@@ -19,20 +19,25 @@ BEGIN_CLASS_LINK(ShaderNode_Output)
 	LINK_CONSTRUCTOR();
 END_CLASS_LINK()
 
-void ShaderNode_Output::Compile(std::unordered_map<std::string, ShaderNode*> inputs, std::stringstream& output)
+void ShaderNode_Output::Compile(std::unordered_map<std::string, std::pair<ShaderNode*, std::string>>& inputs, std::stringstream& output)
 {
-	ShaderNode* diffuse = inputs["Diffuse"];
-	ShaderNode* normal = inputs["Normal"];
-	ShaderNode* metallic = inputs["Metallic"];
-	ShaderNode* roughness = inputs["Roughness"];
-	ShaderNode* ambient = inputs["Ambient"];
+	auto& diffuse = inputs["Diffuse"];
+	auto& normal = inputs["Normal"];
+	auto& metallic = inputs["Metallic"];
+	auto& roughness = inputs["Roughness"];
+	auto& ambient = inputs["Ambient"];
+
+	auto getVariable = [](std::pair<ShaderNode*, std::string>& p, std::string def)
+		{
+			return p.first ? p.first->GetVariableName(p.second) : def;
+		};
 
 	output << fmt::format(
 			"PBR({}, {}, {}, {}, {});", 
-			diffuse ? diffuse->GetVariableName() : "vec4(0.0)", 
-			normal ? normal->GetVariableName() : "vec4(0.0)", 
-			metallic ? metallic->GetVariableName() : "vec4(0.0)", 
-			roughness ? roughness->GetVariableName() : "vec4(0.0)", 
-			ambient ? ambient->GetVariableName() : "vec4(0.0)"
+			getVariable(diffuse, "vec4(0.0)"), 
+			getVariable(normal, "vec4(0.0)"), 
+			getVariable(metallic, "vec4(0.0)"), 
+			getVariable(roughness, "vec4(0.0)"), 
+			getVariable(ambient, "vec4(0.0)")
 		) << std::endl;
 }
