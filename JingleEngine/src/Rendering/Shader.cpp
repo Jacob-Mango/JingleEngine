@@ -1,5 +1,9 @@
 #include "Shader.h"
 
+#ifdef JE_EDITOR
+#include "Editor/Editors/Shader/ShaderGraph.h"
+#endif
+
 #include <Compiler/Lexer.h>
 
 #include <fstream>

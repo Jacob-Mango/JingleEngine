@@ -1273,6 +1273,31 @@ Global {
   Class {
    Name: "ShaderGraph"
    Base: "Graph"
+   Variables: {
+    Variable {
+     Attributes: {
+      Attribute {
+       Value: "Property"
+       Arguments: {
+        [0]: {
+         Expression {
+          Right: {
+           Constant {
+            Value: "true"
+           }
+          }
+         }
+        }
+       }
+       IsConstructor: "1"
+       IsSuper: "0"
+       ForceExact: "0"
+      }
+     }
+     Type: "ShaderVariableArray"
+     Name: "Variables"
+    }
+   }
   }
  }
  Structures: {

@@ -6,7 +6,13 @@
 #include "Editor/Editors/Shader/Nodes/ShaderNode_Output.h"
 
 BEGIN_CLASS_LINK(ShaderGraph)
+	LINK_NAMED_VARIABLE(Variables, m_Variables);
+
 	LINK_CONSTRUCTOR();
+
+	LINK_METHOD(OnSerializeVariables);
+	LINK_METHOD(OnDeserializeVariables);
+	LINK_METHOD(Editor_OnRenderVariables);
 END_CLASS_LINK()
 
 ShaderGraph::ShaderGraph()
@@ -47,6 +53,119 @@ bool ShaderGraph::OnRemoveNode(Node* node)
 	}
 
 	return Super::OnRemoveNode(node);
+}
+
+void ShaderGraph::OnSerializeVariables(Config* cfgRoot)
+{
+	auto cfg = cfgRoot->CreateArray("Variables");
+
+	for (auto& variable : *m_Variables)
+	{
+		cfg->Set(variable->Serialize());
+	}
+}
+
+void ShaderGraph::OnDeserializeVariables(Config* cfgRoot)
+{
+	auto cfg = cfgRoot->Get("Variables");
+	if (!cfg)
+	{
+		return;
+	}
+
+	m_Variables->Clear();
+
+	for (auto& cfgVariable : *cfg)
+	{
+		ShaderVariable* variable = JingleScript::NewObject<ShaderVariable>(cfgVariable.GetLinkedType());
+		if (!variable)
+		{
+			JS_ERROR("Invalid variable type {}", cfgVariable.GetLinkedType());
+			continue;
+		}
+
+		variable->Deserialize(&cfgVariable);
+
+		if (variable->GetName().empty())
+		{
+			variable->SetName(variable->GetType()->Name());
+		}
+
+		m_Variables->Insert(variable);
+	}
+}
+
+void ShaderGraph::Editor_OnRenderVariables()
+{
+#ifdef JE_EDITOR
+	static ShaderVariable* Selected = nullptr;
+
+	EditorUI::Render_CellHeader("Variables", true);
+
+	ImGui::TableNextColumn();
+
+	float width = ImGui::GetColumnWidth() * 0.5f;
+	float height = ImGui::GetFrameHeight();
+
+	bool addPressed = ImGui::Button("Add", { width, height });
+	ImGui::SameLine();
+	bool removePressed = ImGui::Button("Remove", { width, height });
+	size_t count = m_Variables->Count();
+	size_t removeIndex = count;
+
+	size_t index = 0;
+	for (auto& variable : *m_Variables)
+	{
+		ImGui::PushID(std::to_string(index).c_str());
+
+		std::string variableName = variable->GetName();
+
+		EditorUI::Render_CellHeader(fmt::format("[{}]", index).c_str(), true, true);
+
+		ImGui::TableNextColumn();
+
+		ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags_None;
+
+		//! We aren't editting the root config so we can't change it's name
+		if (variable->HasBase())
+		{
+			inputFlags = ImGuiInputTextFlags_ReadOnly;
+		}
+
+		//ImGuiInputTextFlags_EnterReturnsTrue
+		bool selected = Selected == variable;
+		if (EditorUI::Render_SelectableInput(selected, ImGuiSelectableFlags_SpanAllColumns, inputFlags, variableName))
+		{
+			Selected = variable;
+
+			variable->SetName(variableName);
+		}
+
+		variable->Editor_Render();
+
+		ImGui::PopID();
+
+		if (Selected == variable && !variable->HasBase())
+		{
+			removeIndex = index;
+		}
+
+		index++;
+	}
+
+	if (addPressed)
+	{
+		JingleScript::Type* variableType = ShaderVariable::StaticType();
+		ShaderVariable* variable = variableType->New<ShaderVariable>();
+
+		m_Variables->Insert(variable);
+	}
+
+	if (removePressed)
+	{
+		// removeIndex
+	}
+#endif
 }
 
 //! NOTE: Portions of this will be moved to the actual shader asset. 

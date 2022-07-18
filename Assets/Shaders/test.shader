@@ -21,7 +21,7 @@
   {ShaderNode_Variable, Image_Roughness}: {
    EditorPositionX: "50.000000", 
    EditorPositionY: "220.000000", 
-   Name: "", 
+   Name: "Roughness", 
    {NodeOutConnectionArray, Out}: [
     {NodeOutConnection, Output}: {
      {NodeInConnectionArray, In}: [
@@ -50,6 +50,7 @@
   {ShaderNode_Variable, Image_Metallic}: {
    EditorPositionX: "50.000000", 
    EditorPositionY: "460.000000", 
+   Name: "Metallic", 
    {NodeOutConnectionArray, Out}: [
     {NodeOutConnection, Output}: {
      {NodeInConnectionArray, In}: [
@@ -78,7 +79,7 @@
   {ShaderNode_Variable, Image_Diffuse}: {
    EditorPositionX: "50.000000", 
    EditorPositionY: "300.000000", 
-   Name: "", 
+   Name: "Diffuse", 
    {NodeOutConnectionArray, Out}: [
     {NodeOutConnection, Output}: {
      {NodeInConnectionArray, In}: [
@@ -93,7 +94,7 @@
   {ShaderNode_Variable, Image_Normal}: {
    EditorPositionX: "50.000000", 
    EditorPositionY: "380.000000", 
-   Name: "", 
+   Name: "Normal", 
    {NodeOutConnectionArray, Out}: [
     {NodeOutConnection, Output}: {
      {NodeInConnectionArray, In}: [
@@ -136,7 +137,7 @@
   {ShaderNode_Variable, Image_Ambient}: {
    EditorPositionX: "50.000000", 
    EditorPositionY: "540.000000", 
-   Name: "", 
+   Name: "Ambient", 
    {NodeOutConnectionArray, Out}: [
     {NodeOutConnection, Output}: {
      {NodeInConnectionArray, In}: [
@@ -147,6 +148,23 @@
      ]
     }
    ]
+  }
+ ], 
+ Variables: [
+  {ShaderVariable, Diffuse}: {
+
+  }, 
+  {ShaderVariable, Roughness}: {
+
+  }, 
+  {ShaderVariable, Normal}: {
+
+  }, 
+  {ShaderVariable, Metallic}: {
+
+  }, 
+  {ShaderVariable, Ambient}: {
+
   }
  ]
 }

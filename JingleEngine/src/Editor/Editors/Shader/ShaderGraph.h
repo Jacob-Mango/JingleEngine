@@ -2,6 +2,8 @@
 
 #include "Graph/Graph.h"
 
+#include "Editor/Editors/Shader/ShaderVariable.h"
+
 class ShaderEditor;
 
 class ShaderNode_Output;
@@ -14,6 +16,7 @@ class ShaderGraph : public Graph
 
 private:
 	ShaderNode_Output* m_OutputNode = nullptr;
+	ShaderVariableArray* m_Variables = nullptr;
 
 public:
 	ShaderGraph();
@@ -24,6 +27,11 @@ public:
 
 	virtual bool OnInsertNode(Node* node) override;
 	virtual bool OnRemoveNode(Node* node) override;
+
+public:
+	void OnSerializeVariables(Config* cfg);
+	void OnDeserializeVariables(Config* cfg);
+	void Editor_OnRenderVariables();
 
 public:
 	void Compile();

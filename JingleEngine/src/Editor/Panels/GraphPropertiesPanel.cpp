@@ -29,6 +29,12 @@ void GraphPropertiesPanel::OnRender(double DeltaTime)
 		return;
 	}
 
+	Graph* graph = editor->GetGraph();
+	if (!graph)
+	{
+		return;
+	}
+
 	EditorUI::ResetContext();
 
 	if (!ImGui::BeginTable("GraphPropertiesPanel", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings))
@@ -36,16 +42,13 @@ void GraphPropertiesPanel::OnRender(double DeltaTime)
 		return;
 	}
 
-	if (!(editor->SelectedEdges.size() > 1 || editor->SelectedNodes.size() > 1))
+	if (editor->SelectedNodes.empty())
 	{
-		if (!editor->SelectedEdges.empty())
-		{
-			//editor->SelectedEdges[0]
-		}
-		else if (!editor->SelectedNodes.empty())
-		{
-			editor->SelectedNodes[0]->Editor_Render();
-		}
+		graph->Editor_Render();
+	}
+	else
+	{
+		editor->SelectedNodes[0]->Editor_Render();
 	}
 
 	ImGui::EndTable();

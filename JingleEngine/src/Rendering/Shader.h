@@ -4,10 +4,6 @@
 
 #include "Asset/Asset.h"
 
-#ifdef JE_EDITOR
-#include "Editor/Editors/Shader/ShaderGraph.h"
-#endif
-
 class Shader : public Asset
 {
 	SETUP_ASSET(Shader, Asset)
@@ -18,8 +14,8 @@ class Shader : public Asset
 	GLuint m_GeometryShaderID;
 
 #ifdef JE_EDITOR
-	ShaderGraph* m_Graph = nullptr;
-	Config* m_Config = nullptr;
+	class ShaderGraph* m_Graph = nullptr;
+	class Config* m_Config = nullptr;
 #endif
 
 public:
@@ -59,7 +55,7 @@ private:
 
 #ifdef JE_EDITOR
 public:
-	ShaderGraph* GetGraph() const;
+	class ShaderGraph* GetGraph() const;
 
 private:
 	bool LoadGraph(const std::string& path);
