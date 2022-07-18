@@ -90,6 +90,10 @@ void GraphPanel::OnRender(double DeltaTime)
 	}
 
 	Graph* graph = editor->GetGraph();
+	if (!graph)
+	{
+		return;
+	}
 
 	ImNodes::BeginNodeEditor();
 

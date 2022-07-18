@@ -6,7 +6,7 @@ class ShaderNode : public Node
 {
 	DEFINE_CLASS(ShaderNode, Node);
 
-	friend class ShaderCompileNode* AddNode(ShaderNode* node);
+	friend struct ShaderCompileNode* AddNode(ShaderNode* node);
 
 public:
 	ShaderNode();

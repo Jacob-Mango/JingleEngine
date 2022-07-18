@@ -1,5 +1,7 @@
 #include "Shader.h"
 
+#include <Compiler/Lexer.h>
+
 #include <fstream>
 #include <iostream>
 #include <filesystem>
@@ -38,9 +40,21 @@ bool Shader::OnLoad()
 	JS_TRACE(Tracers::Rendering);
 
 	if (GetPath() == "")
+	{
 		return false;
+	}
 
 	std::string path = GetPath();
+
+#ifdef JE_EDITOR
+	bool graphSuccess = LoadGraph(path + ".shader");
+
+	//! Temporary
+	if (graphSuccess)
+	{
+		return true;
+	}
+#endif
 
 	int vertex = LoadShader(path + ".vs", GL_VERTEX_SHADER, m_VertexShaderID);
 	int fragment = LoadShader(path + ".fs", GL_FRAGMENT_SHADER, m_FragmentShaderID);
@@ -52,16 +66,20 @@ bool Shader::OnLoad()
 	{
 		return false;
 	}
-	else
+
+	if (vertex == 1)
 	{
-		if (vertex == 1)
-			GL(glAttachShader(m_ID, m_VertexShaderID));
+		GL(glAttachShader(m_ID, m_VertexShaderID));
+	}
 
-		if (fragment == 1)
-			GL(glAttachShader(m_ID, m_FragmentShaderID));
+	if (fragment == 1)
+	{
+		GL(glAttachShader(m_ID, m_FragmentShaderID));
+	}
 
-		if (geometry == 1)
-			GL(glAttachShader(m_ID, m_GeometryShaderID));
+	if (geometry == 1)
+	{
+		GL(glAttachShader(m_ID, m_GeometryShaderID));
 	}
 
 	GL(glLinkProgram(m_ID));
@@ -80,6 +98,67 @@ bool Shader::OnLoad()
 
 	return true;
 }
+
+bool Shader::OnSave()
+{
+	JS_TRACE(Tracers::Rendering);
+
+	if (GetPath() == "")
+	{
+		return false;
+	}
+
+	std::string path = GetPath();
+
+#ifdef JE_EDITOR
+	SaveGraph(path + ".shader");
+#endif
+
+	return true;
+}
+
+#ifdef JE_EDITOR
+ShaderGraph* Shader::GetGraph() const
+{
+	return m_Graph;
+}
+
+bool Shader::LoadGraph(const std::string& path)
+{
+	Ref<JingleScript::Lexer> lexer = JingleScript::Lexer::ParseFile(path);
+	if (!lexer->HasNext())
+	{
+		JS_ERROR("Failed to load shader config '{}', empty file.", path);
+		return false;
+	}
+
+	m_Config = JingleScript::NewObject<Config>("ConfigSection");
+	if (!m_Config->Deserialize(lexer, nullptr))
+	{
+		JS_ERROR("Failed to load shader config '{}', deserialization failed.", path);
+		return false;
+	}
+
+	m_Graph = JingleScript::NewObject<ShaderGraph>(m_Config->GetLinkedType());
+	m_Graph->Deserialize(m_Config);
+}
+
+bool Shader::SaveGraph(const std::string& path)
+{
+	m_Config = m_Graph->Serialize();
+	m_Config->Optimize();
+
+	std::ofstream file(path, std::ios::trunc);
+
+	std::stringstream ss;
+	m_Config->Serialize(ss);
+
+	file << ss.rdbuf();
+	file.close();
+
+	return true;
+}
+#endif
 
 int Shader::LoadShader(std::string path, GLuint type, GLuint& id)
 {

@@ -19,6 +19,7 @@ class Shader : public Asset
 
 #ifdef JE_EDITOR
 	ShaderGraph* m_Graph = nullptr;
+	Config* m_Config = nullptr;
 #endif
 
 public:
@@ -26,6 +27,7 @@ public:
 	virtual ~Shader();
 
 	virtual bool OnLoad() override;
+	virtual bool OnSave() override;
 
 	void Bind();
 	void Unbind();
@@ -54,4 +56,14 @@ public:
 
 private:
 	int LoadShader(std::string path, GLuint type, GLuint& id);
+
+#ifdef JE_EDITOR
+public:
+	ShaderGraph* GetGraph() const;
+
+private:
+	bool LoadGraph(const std::string& path);
+	bool SaveGraph(const std::string& path);
+#endif
+
 };

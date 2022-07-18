@@ -6,8 +6,6 @@
 
 #include "Editor/Editors/Shader/ShaderGraph.h"
 
-class ShaderNode_Output;
-
 class ShaderEditor : public GraphEditor
 {
 	DEFINE_CLASS(ShaderEditor, GraphEditor);
@@ -15,10 +13,7 @@ class ShaderEditor : public GraphEditor
 	friend class ShaderGraph;
 
 private:
-	ShaderGraph* m_Graph = nullptr;
-	Config* m_Config = nullptr; //! TODO: Reference
-
-	ShaderNode_Output* m_OutputNode = nullptr;
+	Shader* m_Shader = nullptr;
 
 public:
 	ShaderEditor();
@@ -33,13 +28,10 @@ public:
 public:
 	virtual void OnRenderMenu() override;
 
-public:
-	void Compile();
-
 protected:
 	void OnSave();
 
 public:
-	virtual Graph* GetGraph() { return m_Graph; }
+	virtual Graph* GetGraph() { return m_Shader ? m_Shader->GetGraph() : nullptr; }
 
 };

@@ -4,6 +4,8 @@
 
 class ShaderEditor;
 
+class ShaderNode_Output;
+
 class ShaderGraph : public Graph
 {
 	DEFINE_CLASS(ShaderGraph, Graph);
@@ -11,7 +13,7 @@ class ShaderGraph : public Graph
 	friend ShaderEditor;
 
 private:
-	ShaderEditor* m_Editor = nullptr;
+	ShaderNode_Output* m_OutputNode = nullptr;
 
 public:
 	ShaderGraph();
@@ -22,5 +24,8 @@ public:
 
 	virtual bool OnInsertNode(Node* node) override;
 	virtual bool OnRemoveNode(Node* node) override;
+
+public:
+	void Compile();
 
 };
